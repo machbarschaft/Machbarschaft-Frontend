@@ -1,11 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import { Typography } from 'antd';
+
 import './index.css'
+import "antd/dist/antd.css";
+
+const { Title } = Typography;
 
 function App() {
     return (
-        <h1>Hello World!</h1>
+        <Title>Hello World!</Title>
     )
 }
 
