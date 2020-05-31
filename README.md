@@ -1,2 +1,2 @@
 # Machbarschaft-Frontend
-ReactJS Frontend vor Machbarschaft
+ReactJS Frontend for Machbarschaft
