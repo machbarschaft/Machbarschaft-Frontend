@@ -1,7 +1,8 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import ThemeContext, {ThemeProvider} from "../../contexts/examples/theme";
-import {Typography} from "antd";
+import {Divider, Typography} from "antd";
+import NavigationExample from "./navigation-example";
 
 const {Text} = Typography;
 
@@ -20,13 +21,17 @@ export default function Examples() {
     return (
         <Router>
             <ThemeProvider value={theme}>
+                <NavigationExample/>
+                <Divider/>
+
                 <React.Suspense fallback={<Text>Lädt...</Text>}>
                     <Switch>
                         <Route exact path={"/examples/use-state"} component={UseStateExample}/>
                         <Route exact path={"/examples/use-effect"} component={UseEffectExample}/>
                         <Route exact path={"/examples/use-reducer"} component={UseReducerExample}/>
                         <Route exact path={"/examples/api-call"} component={APICallExample}/>
-                        <Route exact path={"/examples/consumer-provider"} render={() => <ConsumerProviderExample toggleTheme={toggleTheme}/>}/>
+                        <Route exact path={"/examples/consumer-provider"}
+                               render={() => <ConsumerProviderExample toggleTheme={toggleTheme}/>}/>
                         <Route exact path={"/examples/custom-hook"} component={CustomHookExample}/>
                         <Route exact path={"/examples/form"} component={FormExample}/>
                     </Switch>
