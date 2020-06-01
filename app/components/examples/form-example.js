@@ -1,16 +1,29 @@
 import React from 'react'
 import {useForm} from "react-hook-form";
-import {Input, Button, Typography} from 'antd';
+import {Input, Typography} from 'antd';
+import * as yup from "yup";
 
-const {Paragraph, Title, Text} = Typography
+const {Title} = Typography
+
+const formSchema = yup.object().shape({
+    input1: yup.string().required(),
+    input2: yup
+        .number()
+        .required()
+        .positive()
+        .integer(),
+});
 
 export default function FormExample() {
-    const {register, errors, handleSubmit, setValue} = useForm()
+    const {register, errors, handleSubmit, setValue} = useForm({
+        validationSchema: formSchema
+    })
 
     const onSubmit = (data) => console.log(data)
 
     React.useEffect(() => {
-        register({name: "Input1", required: true})
+        register({name: "input1"})
+        register({name: "input2"})
     }, [register])
 
     return (
@@ -18,8 +31,10 @@ export default function FormExample() {
             <Title level={3}>Form Validation</Title>
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Input name={"Input1"} onChange={(e) => setValue("Input1", e.target.value)}/>
-                {errors.Input1 && "Gib Input1 ein"}
+                <Input name={"input1"} onChange={(e) => setValue("input1", e.target.value)}/>
+                {errors.input1 && <p>{errors.input1.message}</p>}
+                <Input name={"input2"} onChange={(e) => setValue("input2", e.target.value)}/>
+                {errors.input2 && <p>{errors.input2.message}</p>}
                 <input type={"submit"}/>
             </form>
         </React.Fragment>
