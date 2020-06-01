@@ -1,6 +1,6 @@
 import React from 'react'
 import ThemeContext from "../../contexts/examples/theme";
-import {Typography, Button, Divider, Space} from 'antd';
+import {Typography, Button} from 'antd';
 
 const {Title, Text, Paragraph} = Typography;
 

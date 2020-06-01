@@ -1,6 +1,6 @@
 import React from 'react'
 import useHover from "../../hooks/examples/useHover";
-import {Typography, Button, Divider, Space} from 'antd';
+import {Typography} from 'antd';
 
 const {Paragraph, Title, Text} = Typography
 
