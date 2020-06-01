@@ -1,0 +1,29 @@
+.nav-logo-container {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	float: left;
+}
+.nav-logo {
+  height: 80%;
+  width: auto;
+}
+.site-layout {
+	display: flex;
+	flex-direction: column;
+	margin-top: 64px;
+	min-height: calc(100vh - 64px);
+}
+.main-content {
+	background: white;
+	flex-grow: 1;
+	padding-top: 2em;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+.site-layout footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 3em;
+}
