@@ -1,16 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Typography } from 'antd';
+import {Typography, Divider} from 'antd';
 
 import './index.css'
 import "antd/dist/antd.css";
 
-const { Title } = Typography;
+import Examples from "./components/examples/examples";
+
+const {Title} = Typography;
 
 function App() {
     return (
-        <Title>Hello World!</Title>
+        <React.Fragment>
+            <Examples />
+        </React.Fragment>
     )
 }
 
