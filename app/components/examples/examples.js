@@ -10,6 +10,7 @@ const UseReducerExample = React.lazy(() => import("./use-reducer-example"))
 const APICallExample = React.lazy(() => import("./api-call-example"))
 const ConsumerProviderExample = React.lazy(() => import("./consumer-provider-example"))
 const CustomHookExample = React.lazy(() => import("./custom-hook-example"))
+const FormExample = React.lazy(() => import("./form-example"))
 
 export default function Examples() {
     const [theme, setTheme] = React.useState('light')
@@ -29,6 +30,8 @@ export default function Examples() {
                 <ConsumerProviderExample toggleTheme={toggleTheme}/>
                 <Divider/>
                 <CustomHookExample/>
+                <Divider/>
+                <FormExample/>
             </React.Suspense>
         </ThemeProvider>
     )
