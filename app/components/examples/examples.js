@@ -1,8 +1,9 @@
 import React from 'react'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import ThemeContext, {ThemeProvider} from "../../contexts/examples/theme";
-import {Divider, Typography} from "antd";
+import {Typography} from "antd";
 
-const {Title, Text, Paragraph} = Typography;
+const {Text} = Typography;
 
 const UseStateExample = React.lazy(() => import("./use-state-example"))
 const UseEffectExample = React.lazy(() => import("./use-effect-example"))
@@ -17,22 +18,20 @@ export default function Examples() {
     const toggleTheme = () => setTheme((theme) => theme === 'light' ? 'dark' : 'light')
 
     return (
-        <ThemeProvider value={theme}>
-            <React.Suspense fallback={<Text>Lädt...</Text>}>
-                <UseStateExample/>
-                <Divider/>
-                <UseEffectExample/>
-                <Divider/>
-                <UseReducerExample/>
-                <Divider/>
-                <APICallExample/>
-                <Divider/>
-                <ConsumerProviderExample toggleTheme={toggleTheme}/>
-                <Divider/>
-                <CustomHookExample/>
-                <Divider/>
-                <FormExample/>
-            </React.Suspense>
-        </ThemeProvider>
+        <Router>
+            <ThemeProvider value={theme}>
+                <React.Suspense fallback={<Text>Lädt...</Text>}>
+                    <Switch>
+                        <Route exact path={"/examples/use-state"} component={UseStateExample}/>
+                        <Route exact path={"/examples/use-effect"} component={UseEffectExample}/>
+                        <Route exact path={"/examples/use-reducer"} component={UseReducerExample}/>
+                        <Route exact path={"/examples/api-call"} component={APICallExample}/>
+                        <Route exact path={"/examples/consumer-provider"} render={() => <ConsumerProviderExample toggleTheme={toggleTheme}/>}/>
+                        <Route exact path={"/examples/custom-hook"} component={CustomHookExample}/>
+                        <Route exact path={"/examples/form"} component={FormExample}/>
+                    </Switch>
+                </React.Suspense>
+            </ThemeProvider>
+        </Router>
     )
 }
