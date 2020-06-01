@@ -5,6 +5,7 @@ import * as yup from "yup";
 
 const {Title} = Typography
 
+/* For each form, a form schema has to be built. This is used for client-side validation. */
 const formSchema = yup.object().shape({
     input1: yup.string().required(),
     input2: yup
@@ -15,16 +16,20 @@ const formSchema = yup.object().shape({
 });
 
 export default function FormExample() {
+    /* useForm is a custom hook to build forms. It uses a defined validationSchema.
+    * It gives a register function (to register fields in the form), errors (that happened during validation), a handleSubmit handler (that does the validation)
+    * and a setValue function to manually set values of a form (and thereby make it work with any UI library) */
     const {register, errors, handleSubmit, setValue} = useForm({
         validationSchema: formSchema
     })
 
     const onSubmit = (data) => console.log(data)
 
+    /* As we are using Ant-Design, we need to register form fields manually during first build of a component. This can be done in a useEffect hook. */
     React.useEffect(() => {
         register({name: "input1"})
         register({name: "input2"})
-    }, [register])
+    }, [])
 
     return (
         <React.Fragment>

@@ -6,6 +6,7 @@ export default function NavigationExample() {
     return (
         <React.Fragment>
             <Space>
+                {/* NavLink is given by React Router and used to route to a specified (exact) path. */}
                 <NavLink to={"/examples/use-state"} exact={true}>React.useState</NavLink>
                 <NavLink to={"/examples/use-effect"} exact={true}>React.useEffect</NavLink>
                 <NavLink to={"/examples/use-reducer"} exact={true}>React.useReducer</NavLink>

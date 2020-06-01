@@ -35,6 +35,7 @@ export default function APICallExample() {
 
     const isLoading = () => !state[selectedMenu] && state.error === null
 
+    /* This effect checks, whether the result has already been fetched (caching). If not, it fetches the result. */
     React.useEffect(() => {
         if (fetchedUsers.current.includes(selectedMenu) === false) {
             fetchedUsers.current.push(selectedMenu)
