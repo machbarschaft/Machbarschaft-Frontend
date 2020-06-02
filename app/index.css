@@ -36,22 +36,83 @@ h4 {
 	height: 3.5rem;
 	border-radius: 0.5rem;
 	font-weight: bold !important;
-	color: #5F00FB;
+	color: #5F00FB !important;
 	border: 0.2rem solid #5F00FB;
 	padding: 0 1rem;
-	font-size: 120%;
+}
+.nav-bar li:hover {
+	border-bottom: none !important;
+}
+.nav-bar li:hover a {
+	color: #5F00FB !important;
+}
+.nav-bar .ant-menu-item-selected a {
+	background: #5F00FB !important;
+	color: white !important;
+}
+.nav-bar .ant-menu-item-selected {
+	border-bottom: none !important;
 }
 .nav-logo {
 	height: 80%;
 	width: auto;
-	margin-left: 5em;
+}
+.nav-menu-mobile-icon {
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+	margin-left: 3em;
+	height: 100%;
 	margin-right: auto;
+	cursor: pointer;
+}
+.nav-menu-mobile-icon svg {
+	height: 25%;
+	width: auto;
+}
+@media (min-width: 1450px) {
+	.nav-menu-mobile-icon {
+		display: none !important;
+	}
+	.nav-logo {
+		margin-right: auto;
+		margin-left: 3em;
+	}
+	.nav-menu-mobile {
+		display: none;
+		overflow: hidden;
+	}
+}
+@media (max-width: 1450px) {
+	.nav-menu-desktop {
+		display: none !important;
+	}
+}
+.nav-menu-mobile-content {
+	position: fixed;
+	margin-top: 6em;
+	width: 100%;
+	background: white;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 3em 10em;
+	z-index: 1;
+}
+.nav-menu-mobile-content-close {
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity 0.5s 0s, visibility 0s 0.5s;
+}
+.nav-menu-mobile-content-open {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity 0.5s 0s, visibility 0s 0s;
 }
 .site-layout {
 	display: flex;
 	flex-direction: column;
-	margin-top: 6em;
 	min-height: calc(100vh - 6em);
+	margin-top: 6em;
 }
 .main-content {
 	background: white;
@@ -75,4 +136,30 @@ h4 {
 	padding-top: 3em;
 	padding-bottom: 3em;
 	box-sizing: border-box;
+}
+
+
+
+/* landing page */
+.landing-page-container {
+	background: #F4B3A3;
+}
+.landing-page-split-element {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.landing-page-split-element div {
+	width: 38%;
+}
+@media (max-width: 1450px) {
+	.landing-page-split-element {
+		flex-direction: column;
+	}
+	.landing-page-split-element div:nth-child(2) {
+		margin-top: 3em;
+	}
+	.landing-page-split-element div {
+		width: 80% !important;
+	}
 }
