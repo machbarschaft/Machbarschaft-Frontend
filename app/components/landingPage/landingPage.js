@@ -1,7 +1,9 @@
-import React from 'react'
+import React from 'react';
+import './landingPage.css';
+import WelcomeSection from './welcomeSection.js';
 
 export default function LandingPage() {
     return (
-        <p>Hello!</p>
+        <WelcomeSection />
     )
 }

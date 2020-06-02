@@ -1,9 +1,0 @@
-# robots.txt zu https://machbarschaft.jetzt
-User-agent: *
-Disallow: /css/
-Disallow: /device-mockups/
-Disallow: /img
-Disallow: /js
-Disallow: /scss
-Disallow: /vendor
-Disallow: /website_updated_LH

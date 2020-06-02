@@ -1,0 +1,10 @@
+.landing-page-container {
+	background: #F4B3A3;
+}
+.landing-page-split-element {
+	display: flex;
+	justify-content: space-between;
+}
+.landing-page-split-element div {
+	width: 38%;
+}

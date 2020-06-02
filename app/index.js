@@ -6,7 +6,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import {Typography, Layout, Menu, Space} from 'antd';
 
 import './index.css'
-import "antd/dist/antd.css";
+import "antd/dist/antd.less";
 
 import Navigation from "./components/base/navigation";
 import Footer from "./components/base/footer";

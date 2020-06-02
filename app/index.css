@@ -1,29 +1,62 @@
-.nav-logo-container {
+.nav-bar {
 	display: flex;
+	justify-content: center;
 	align-items: center;
-	height: 100%;
-	float: left;
+	position: fixed;
+	z-index: 1;
+	width: 100%;
+	height: 6em;
+	background: #F4B3A3;
+	/*border-bottom: 0.2em solid #C08374;*/
+}
+.nav-bar ul {
+	background: #F4B3A3 !important;
+	border-bottom: none;
+}
+.nav-bar li a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 3.5rem;
+	border-radius: 0.5rem;
+	font-weight: bold !important;
+	color: #5F00FB;
+	border: 0.2rem solid #5F00FB;
+	padding: 0 1rem;
+	font-size: 120%;
 }
 .nav-logo {
-  height: 80%;
-  width: auto;
+	height: 80%;
+	width: auto;
+	margin-left: 5em;
+	margin-right: auto;
 }
 .site-layout {
 	display: flex;
 	flex-direction: column;
-	margin-top: 64px;
-	min-height: calc(100vh - 64px);
+	margin-top: 6em;
+	min-height: calc(100vh - 6em);
 }
 .main-content {
 	background: white;
 	flex-grow: 1;
-	padding-top: 2em;
-	padding-left: 1em;
-	padding-right: 1em;
 }
 .site-layout footer {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 3em;
+}
+.nav-profile-container {
+	margin-right: 3em;
+	margin-left: auto;
+}
+
+.content-container-default {
+	width: 100%;
+	padding-left: 10%;
+	padding-right: 10%;
+	padding-top: 3em;
+	padding-bottom: 3em;
+	box-sizing: border-box;
 }
