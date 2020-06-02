@@ -14,6 +14,7 @@ const APICallExample = React.lazy(() => import("./api-call-example"))
 const ConsumerProviderExample = React.lazy(() => import("./consumer-provider-example"))
 const CustomHookExample = React.lazy(() => import("./custom-hook-example"))
 const FormExample = React.lazy(() => import("./form-example"))
+const FontSizeExample = React.lazy(() => import("./use-font-sizer"))
 
 export default function Examples() {
     const [theme, setTheme] = React.useState('light')
@@ -39,6 +40,7 @@ export default function Examples() {
                                render={() => <ConsumerProviderExample toggleTheme={toggleTheme}/>}/>
                         <Route exact path={"/examples/custom-hook"} component={CustomHookExample}/>
                         <Route exact path={"/examples/form"} component={FormExample}/>
+                        <Route exact path={"/examples/use-font-sizer"} component={FontSizeExample}/>
                     </Switch>
                 </React.Suspense>
             </ThemeProvider>

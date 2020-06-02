@@ -12,28 +12,3 @@ export default function useFontSizer() {
 
     return [fontSize, {increaseFontSize, decreaseFontSize}]
 }
-
-/**
- * Usage Example. Has to be embedded at top level.
- */
-function FontSizerExample() {
-    const [fontSize, attrs] = useFontSizer()
-
-    return (
-        <React.Fragment>
-            <div style={{
-                'font-size': `${fontSize}em`
-            }}>
-                <Title>Hello World!</Title>
-                <Title level={2}>Hello World!</Title>
-                <Title level={3}>Hello World!</Title>
-                <Title level={4}>Hello World!</Title>
-                <Text>Hello World!</Text>
-                <Paragraph>Hello World!</Paragraph>
-                <p>Test</p>
-            </div>
-            <Button onClick={attrs.increaseFontSize}>+</Button>
-            <Button onClick={attrs.decreaseFontSize}>-</Button>
-        </React.Fragment>
-    )
-}
