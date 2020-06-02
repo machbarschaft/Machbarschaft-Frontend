@@ -8,7 +8,7 @@ const { Header, Content, Footer } = Layout;
 
 function NavigationMenuDefault(props) {
     return (
-        <Menu mode={props.mode} defaultSelectedKeys={['1']}>
+        <Menu mode={props.mode} defaultSelectedKeys={['1']} onClick={props.menuClicked}>
             <Menu.Item key="1"><NavLink to={"/"} exact={true}>DAS PROJEKT</NavLink></Menu.Item>
             <Menu.Item key="2"><NavLink to={"/"} exact={true}>SO FUNKTIONIERT'S</NavLink></Menu.Item>
             <Menu.Item key="3"><NavLink to={"/"} exact={true}>ÜBER UNS</NavLink></Menu.Item>
@@ -21,7 +21,7 @@ function NavigationMenuDefault(props) {
 }
 function NavigationMenuLoggedIn(props) {
     return (
-        <Menu mode={props.mode} defaultSelectedKeys={['1']}>
+        <Menu mode={props.mode} defaultSelectedKeys={['1']} onClick={props.menuClicked}>
             <Menu.Item key="1"><NavLink to={"/"} exact={true}>DASHBOARD</NavLink></Menu.Item>
             <Menu.Item key="2"><NavLink to={"/"} exact={true}>AUFTRAG AUFGEBEN</NavLink></Menu.Item>
             <Menu.Item key="3"><NavLink to={"/"} exact={true}>BRAUCHEN SIE HILFE?</NavLink></Menu.Item>
@@ -46,13 +46,13 @@ export default function Navigation() {
                 <MenuOutlined className="nav-menu-mobile-icon" onClick={() => setState(!mobileNavState)} />
                 <img className="nav-logo" src={MachbarschaftLogo} />
                 <div className="nav-menu-desktop">
-                    <NavigationMenuDefault mode="horizontal" />
+                    <NavigationMenuDefault mode="horizontal" menuClicked={() => setState(false)} />
                 </div>
                 <NavigationProfileIndicator />
             </div>
             <div className="nav-menu-mobile">
                 <div className={"nav-menu-mobile-content " + (mobileNavState ? "nav-menu-mobile-content-open" : "nav-menu-mobile-content-close")}>
-                    <NavigationMenuDefault mode="vertical" />
+                    <NavigationMenuDefault mode="vertical" menuClicked={() => setState(false)} />
                 </div>
             </div>
         </>
