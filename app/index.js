@@ -17,7 +17,7 @@ function App() {
             {/* Trick from https://stackoverflow.com/a/45669262 */}
             <div ref={(node) => {
                 if (node) {
-                    node.style.setProperty("font-size", `${fontSize}%`, "important");
+                    node.style.setProperty("font-size", `${fontSize}em`, "important");
                 }
             }}>
                 <Title>Hello World!</Title>
