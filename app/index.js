@@ -1,12 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-
-import {Typography, Layout, Menu, Space} from 'antd';
-
 import './index.css'
 import "antd/dist/antd.less";
+
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import {Typography, Layout, Menu, Space} from 'antd';
 
 import Navigation from "./components/base/navigation";
 import Footer from "./components/base/footer";
@@ -17,8 +15,15 @@ const {Header, Content} = Layout;
 const LandingPage = React.lazy(() => import("./components/landingPage/landingPage"))
 const Dashboard = React.lazy(() => import("./components/dashboard/dashboard"))
 
+//import Examples from "./components/examples/examples";
+
 function App() {
-    //
+    // for viewing examples:
+    /*
+        <React.Fragment>
+            <Examples />
+        </React.Fragment>
+    */
     return (
         <Router>
             <Layout>
@@ -42,7 +47,6 @@ function App() {
 
             </Layout>
         </Router>
-
     )
 }
 
