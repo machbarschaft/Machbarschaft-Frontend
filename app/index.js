@@ -1,12 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import {Typography, Button} from 'antd';
+import {Typography, Button, Divider} from 'antd';
 
 import './index.css'
 import "antd/dist/antd.css";
-import useFontSizer from "./hooks/useFontSizer";
 
+import Examples from "./components/examples/examples";
 const {Title} = Typography;
 
 function App() {
@@ -14,17 +14,7 @@ function App() {
 
     return (
         <React.Fragment>
-            {/* Trick from https://stackoverflow.com/a/45669262 */}
-            <div ref={(node) => {
-                if (node) {
-                    node.style.setProperty("font-size", `${fontSize}em`, "important");
-                }
-            }}>
-                <Title>Hello World!</Title>
-                <p>Test</p>
-            </div>
-            <Button onClick={attrs.increaseFontSize}>+</Button>
-            <Button onClick={attrs.decreaseFontSize}>-</Button>
+            <Examples />
         </React.Fragment>
     )
 }
