@@ -33,20 +33,20 @@ h4 {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 3.5rem;
+	height: 2.5rem;
 	border-radius: 0.5rem;
 	font-weight: bold !important;
 	color: #5F00FB !important;
-	border: 0.2rem solid #5F00FB;
+	border: 0.15rem solid #5F00FB;
 	padding: 0 1rem;
 }
-.nav-bar li:hover {
+.nav-bar .ant-menu-item, .nav-bar .ant-menu-item:hover {
 	border-bottom: none !important;
 }
 .nav-bar li:hover a {
 	color: #5F00FB !important;
 }
-.nav-bar .ant-menu-item-selected a {
+.nav-bar .ant-menu-item-selected a, .nav-bar .ant-menu-item-selected a:hover {
 	background: #5F00FB !important;
 	color: white !important;
 }
