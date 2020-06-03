@@ -108,6 +108,9 @@ h4 {
 	opacity: 1;
 	transition: opacity 0.5s 0s, visibility 0s 0s;
 }
+.nav-menu-mobile .ant-menu-item-selected a, .nav-menu-mobile .ant-menu-item-active a:active {
+	color: white !important;
+}
 .site-layout {
 	display: flex;
 	flex-direction: column;
