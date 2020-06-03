@@ -22,9 +22,7 @@ module.exports = {
                         options: {
                             lessOptions: {
                                 modifyVars: {
-                                    /*'btn-primary-bg': 'green',
-                                    'link-color': '#1DA57A',
-                                    'border-radius-base': '20px',*/
+                                    'primary-color': '#2D3047',
                                 },
                                 javascriptEnabled: true,
                             }

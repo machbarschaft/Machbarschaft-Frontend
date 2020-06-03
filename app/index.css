@@ -33,21 +33,21 @@ h4 {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 2.5rem;
+	height: 2.3rem;
 	border-radius: 0.5rem;
 	font-weight: bold !important;
-	color: #5F00FB !important;
-	border: 0.15rem solid #5F00FB;
+	color: #2D3047 !important;
+	border: 0.15rem solid #2D3047;
 	padding: 0 1rem;
 }
 .nav-bar .ant-menu-item, .nav-bar .ant-menu-item:hover {
 	border-bottom: none !important;
 }
 .nav-bar li:hover a {
-	color: #5F00FB !important;
+	color: #2D3047 !important;
 }
 .nav-bar .ant-menu-item-selected a, .nav-bar .ant-menu-item-selected a:hover {
-	background: #5F00FB !important;
+	background: #2D3047 !important;
 	color: white !important;
 }
 .nav-bar .ant-menu-item-selected {
