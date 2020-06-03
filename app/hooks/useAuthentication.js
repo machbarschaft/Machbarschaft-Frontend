@@ -54,7 +54,7 @@ export default function useAuthentication() {
         // ToDo: Make API call to check, if there's a user for a JWT cookie
 
         dispatch({
-            type: "authenticateSuccess"
+            type: "authenticationFailure" // To test authenticated state: pass "authenticateSuccess"
         })
     }
 
