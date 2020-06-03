@@ -1,3 +1,4 @@
+/* Overwrite Font-Sizes for headings to enable font resizing via a parent element */
 h1 {
     font-size: 2.71em !important;
 }
@@ -125,7 +126,7 @@ h4 {
 }
 .nav-profile-container {
 	margin-right: 3em;
-	margin-left: auto;
+	margin-left: 3em;
 }
 
 .content-container-default {
