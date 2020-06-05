@@ -15,6 +15,7 @@ export default function NavigationExample() {
                 <NavLink to={"/examples/custom-hook"} exact={true}>Custom Hooks</NavLink>
                 <NavLink to={"/examples/form"} exact={true}>Forms</NavLink>
                 <NavLink to={"/examples/use-font-sizer"} exact={true}>Font Size Adjust</NavLink>
+                <NavLink to={"/examples/basic-components"} exact={true}>Basic Components</NavLink>
 
             </Space>
         </React.Fragment>
