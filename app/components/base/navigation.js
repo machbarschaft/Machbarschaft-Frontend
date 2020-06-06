@@ -1,6 +1,6 @@
 import React from 'react'
-import {Col, Row, Button, Layout, Menu, Space} from "antd";
-import {MenuOutlined} from '@ant-design/icons';
+import {Col, Row, Button, Layout, Menu, Space, Avatar, Popover} from "antd";
+import {MenuOutlined, UserOutlined} from '@ant-design/icons';
 import MachbarschaftLogo from "../../assets/img/logo/machbarschaft-logo.png";
 import {NavLink} from "react-router-dom";
 import useAuthentication from "../../hooks/useAuthentication";
@@ -8,7 +8,7 @@ import useAuthentication from "../../hooks/useAuthentication";
 const {Header, Content, Footer} = Layout;
 
 function NavigationMenu(props) {
-    const {authenticationState} = props
+    const {authenticationState} = props;
 
     if (authenticationState.user_id == null) {
         // No User
@@ -37,10 +37,25 @@ function NavigationMenu(props) {
 
 }
 
-function NavigationProfileIndicator() {
+function NavigationProfileIndicator(props) {
+    const {authenticationState} = props;
+    authenticationState.user_id = "test";
+
+    const popoverContent = <>
+        <Space direction="vertical">
+            <NavLink to={"/"} exact={true}>Settings</NavLink>
+            <NavLink to={"/"} exact={true}>Logout</NavLink>
+        </Space>
+    </>;
+
     return (
         <div className="nav-profile-container">
-            <NavLink to={"/login"} exact={true}>Login</NavLink>
+            {authenticationState.user_id == null ?
+                <NavLink to={"/login"} exact={true}>Login</NavLink> :
+                <Popover content={popoverContent} placement="topRight" title="" trigger="click">
+                    <Button shape="circle" size="large" icon={<UserOutlined />} />
+                </Popover>
+            }
         </div>
     );
 }
@@ -61,7 +76,7 @@ export default function Navigation() {
                 <div className="nav-menu-desktop">
                     <NavigationMenu mode="horizontal" menuClicked={() => setState(false)} authenticationState={authenticationState}/>
                 </div>
-                <NavigationProfileIndicator/>
+                <NavigationProfileIndicator authenticationState={authenticationState} />
             </div>
             <div className="nav-menu-mobile">
                 <div className={"nav-menu-mobile-content " + (mobileNavState ? "nav-menu-mobile-content-open" : "nav-menu-mobile-content-close")}>

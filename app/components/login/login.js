@@ -18,7 +18,7 @@ const formSchema = yup.object().shape({
 function LoginWindow() {
     const {register, errors, handleSubmit, setValue, formState} = useForm({
         validationSchema: formSchema
-    })
+    });
 
     function onSubmit(data) {
         return new Promise(resolve => {
