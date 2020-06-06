@@ -11,7 +11,7 @@ import Footer from "./components/base/footer";
 
 const LandingPage = React.lazy(() => import("./components/landingPage/landingPage"))
 const Dashboard = React.lazy(() => import("./components/dashboard/dashboard"))
-import Examples from "./components/examples/examples"
+const Examples = React.lazy(() => import("./components/examples/examples"))
 
 function App() {
     return (
@@ -37,11 +37,6 @@ function App() {
             </Layout>
         </Router>
     )
-    /*return (
-        <div style={{marginLeft: "2em", marginTop: "2em"}}>
-            <Examples />
-        </div>
-    );*/
 }
 
 ReactDOM.render(
