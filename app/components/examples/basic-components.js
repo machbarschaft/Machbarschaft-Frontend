@@ -1,6 +1,7 @@
 import React from 'react'
 import {useForm} from "react-hook-form";
 import {
+    Menu,
     Space,
     Button, Tooltip,
     Typography,
@@ -21,7 +22,7 @@ import {
 import { SearchOutlined, InfoCircleOutlined, UserOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 const FormExample = React.lazy(() => import("./form-example"))
 
-const {Title, Text, Paragraph} = Typography
+const {Link, Title, Text, Paragraph} = Typography
 
 // Basic Layout
 function BasicComponentsExampleGrid() {
@@ -41,13 +42,14 @@ function BasicComponentsExampleGrid() {
                     <div style={{background: "#0092ff", color: "white"}}>col-4</div>
                 </Col>
             </Row>
-            CSS3 Grid might be a good alternative
+            CSS3 Grid might be a good alternative, especially for being responsive
+            (<a href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank">More information on CSS Grid</a>)!
         </>
     );
 }
 function BasicComponentsExampleSpace() {
     return (
-        <Space direction={"vertical"}>
+        <Space direction="vertical">
             <Space size={"small"}>
                 space small:
                 <Button type="primary">Button 1</Button>
@@ -125,7 +127,7 @@ function BasicComponentsExampleTypography() {
 function BasicComponentsExampleIcon() {
     return (
         <>
-            Example: <InfoCircleOutlined /><br />
+            Example: <InfoCircleOutlined style={{fontSize: "2em"}} /><br />
             More icons: <a href="https://ant.design/components/icon/" target="_blank">ant.design/components/icon/</a>
         </>
     );
@@ -153,67 +155,44 @@ function BasicComponentsExampleDivider() {
 }
 
 const { Step } = Steps;
-class BasicComponentsExampleSteps extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          current: 0,
-        };
-      }
+function BasicComponentsExampleSteps() {
+    const [state, setState] = React.useState(0);
+    const steps = [
+        {
+            title: 'First',
+            content: 'First-content',
+        },
+        {
+            title: 'Second',
+            content: 'Second-content',
+        },
+        {
+            title: 'Last',
+            content: 'Last-content',
+        }
+    ];
 
-    next() {
-    const current = this.state.current + 1;
-    this.setState({ current });
-    }
-
-    prev() {
-    const current = this.state.current - 1;
-    this.setState({ current });
-    }
-    render() {
-        const { current } = this.state;
-        const steps = [
-            {
-                title: 'First',
-                content: 'First-content',
-            },
-            {
-                title: 'Second',
-                content: 'Second-content',
-            },
-            {
-                title: 'Last',
-                content: 'Last-content',
-            },
-        ];
-        return (
-          <div>
-            <Steps current={current}>
-              {steps.map(item => (
-                <Step key={item.title} title={item.title} />
-              ))}
+    return (
+        <Space direction="vertical" size="large" style={{width: "100%"}}>
+            <Steps current={state}>
+                {steps.map(item => (
+                    <Step key={item.title} title={item.title} />
+                ))}
             </Steps>
-            <div className="steps-content">{steps[current].content}</div>
+            <div className="steps-content">{steps[state].content}</div>
             <div className="steps-action">
-              {current < steps.length - 1 && (
-                <Button type="primary" onClick={() => this.next()}>
-                  Next
-                </Button>
-              )}
-              {current === steps.length - 1 && (
-                <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                  Done
-                </Button>
-              )}
-              {current > 0 && (
-                <Button style={{ margin: '0 8px' }} onClick={() => this.prev()}>
-                  Previous
-                </Button>
-              )}
+                {state < steps.length - 1 && (
+                    <Button type="primary" onClick={() => setState((curState) => curState+1)}>Next</Button>
+                )}
+                {state === steps.length - 1 && (
+                    <Button type="primary" onClick={() => message.success('Processing complete!')}>Done</Button>
+                )}
+                {state > 0 && (
+                    <Button style={{ margin: '0 8px' }} onClick={() => setState((curState) => curState-1)}>Previous</Button>
+                )}
             </div>
-          </div>
-        );
-    };
+        </Space>
+    );
 }
 function BasicComponentsExampleAvatar() {
     return (
@@ -370,36 +349,97 @@ function BasicComponentsExampleTooltip() {
     );
 }
 
-const ReachableContext = React.createContext();
 function BasicComponentsExampleModal() {
-    const [modal, contextHolder] = Modal.useModal();
-    const config = {
-        title: 'Title',
+    const [state, setState] = React.useState({loading: false, visible: false});
+
+    function info() {
+        Modal.info({
+            title: 'This is a notification message',
             content: (
                 <div>
-                    <ReachableContext.Consumer>{name => `Main text, name of context: ${name}.`}</ReachableContext.Consumer>
+                    <p>some messages...some messages...</p>
+                    <p>some messages...some messages...</p>
                 </div>
             ),
-    };
-    return (
-        <ReachableContext.Provider value="12345">
-            <Space>
-                <Button onClick={() => {modal.confirm(config)}}>
-                    Confirm
-                </Button>
+            onOk() {},
+        });
+    }
+    function success() {
+        Modal.success({
+            content: 'some messages...some messages...',
+        });
+    }
+    function error() {
+        Modal.error({
+            title: 'This is an error message',
+            content: 'some messages...some messages...',
+        });
+    }
+    function warning() {
+        Modal.warning({
+            title: 'This is a warning message',
+            content: 'some messages...some messages...',
+        });
+    }
 
-                <Button onClick={() => {modal.warning(config);}}>
-                    Warning
-                </Button>
-                <Button onClick={() => {modal.info(config);}}>
-                    Info
-                </Button>
-                <Button onClick={() => {modal.error(config);}}>
-                    Error
-                </Button>
-            </Space>
-            {contextHolder}
-        </ReachableContext.Provider>
+    function showModal() {
+        setState({...state, visible: true});
+    }
+    function handleOk() {
+        setState({...state, loading: true});
+        setTimeout(() => setState({loading: true, visible: false}), 3000);
+    }
+    function handleCancel() {
+        setState({...state, visible: false});
+    }
+
+    return (
+        <Space>
+            <Button onClick={info}>Info</Button>
+            <Button onClick={success}>Success</Button>
+            <Button onClick={error}>Error</Button>
+            <Button onClick={warning}>Warning</Button>
+
+            <Button type="primary" onClick={showModal}>
+                Delete
+            </Button>
+            <Modal
+                visible={state.visible}
+                title="Really delete this?"
+                onOk={handleOk}
+                onCancel={handleCancel}
+                footer={[
+                    <Button key="back" onClick={handleCancel}>
+                        Abort
+                    </Button>,
+                    <Button key="submit" type="primary" loading={state.loading} onClick={handleOk}>
+                        Delete
+                    </Button>,
+                ]}
+            >
+                <p>The data will be lost permanently</p>
+            </Modal>
+        </Space>
+    );
+}
+function BasicComponentsExampleMessage() {
+    const key = "updatable";
+
+    function openMessage() {
+        message.loading({ content: 'Loading...', key });
+        setTimeout(() => {
+            message.success({ content: 'Loaded!', key, duration: 2 });
+        }, 1000);
+    }
+    return (
+        <Space>
+            <Button type="primary" onClick={() => message.info('This is a normal message')}>Display normal message</Button>
+            <Button type="primary" onClick={() => message.info('This is a normal message, 10s', 10)}>Display normal message for 10s</Button>
+            <Button type="primary" onClick={() => message.info('This is a success message')}>Success</Button>
+            <Button type="primary" onClick={() => message.info('This is an error message')}>Error</Button>
+            <Button type="primary" onClick={() => message.info('This is a warning message')}>Warning</Button>
+            <Button type="primary" onClick={openMessage}>Loading</Button>
+        </Space>
     );
 }
 
@@ -427,16 +467,15 @@ function BasicComponentsExampleSkeleton() {
         <Skeleton />
     );
 }
-function BasicComponentsExampleConfigProvider() {
-    return (
-        <>ConfigProvider</>
-    );
-}
 
 // Form elements
 function BasicComponentsExampleButton() {
     const [state, setState] = React.useState(false);
 
+    function enableLoading() {
+        setState(true);
+        setTimeout(() => setState(false), 4000);
+    }
     return (
         <>
             <Space>
@@ -455,7 +494,7 @@ function BasicComponentsExampleButton() {
                 <Button type="primary" size={"default"}>Default</Button>
                 <Button type="primary" size={"small"}>Small</Button>
             </Space><br /><br />
-            <Button type="primary" loading={state} onClick={() => setState((curState) => !curState)}>
+            <Button type="primary" loading={state} onClick={() => enableLoading()}>
                 Click me!
             </Button>
         </>
@@ -464,11 +503,6 @@ function BasicComponentsExampleButton() {
 function BasicComponentsExampleCheckbox() {
     return (
         <Checkbox onChange={(e) => console.log(`checked = ${e.target.checked}`)}>Checkbox</Checkbox>
-    );
-}
-function BasicComponentsExampleForm() {
-    return (
-        <FormExample />
     );
 }
 function BasicComponentsExampleInputNumber() {
@@ -512,6 +546,7 @@ function BasicComponentsExampleSwitch() {
         <Switch />
     );
 }
+const { Option } = Select;
 function BasicComponentsExampleSelect() {
     return (
         <Select defaultValue="lucy" style={{ width: 120 }} onChange={(value) => console.log(`selected ${value}`)}>
@@ -550,65 +585,79 @@ function BasicComponentsExampleUpload() {
 }
 
 export default function BasicComponentsExample() {
+    const [state, setState] = React.useState("basic");
+
+    const content = {
+        "basic":
+        <>
+            <Title level={3}>Space</Title>
+            <BasicComponentsExampleSpace />
+            <Title level={3}>Typography</Title>
+            <BasicComponentsExampleTypography />
+            <Title level={3}>Grid</Title>
+            <BasicComponentsExampleGrid />
+        </>
+        ,"visual":
+        <>
+            <Title level={3}>Icon</Title>
+            <BasicComponentsExampleIcon />
+            <Title level={3}>Divider</Title>
+            <BasicComponentsExampleDivider />
+            <Title level={3}>Steps</Title>
+            <BasicComponentsExampleSteps />
+            <Title level={3}>Avatar</Title>
+            <BasicComponentsExampleAvatar />
+            <Title level={3}>Collapse</Title>
+            <BasicComponentsExampleCollapse />
+            <Title level={3}>Card</Title>
+            <BasicComponentsExampleCard />
+            <Title level={3}>Descriptions</Title>
+            <BasicComponentsExampleDescriptions />
+            <Title level={3}>Popover</Title>
+            <BasicComponentsExamplePopover />
+            <Title level={3}>Tooltip</Title>
+            <BasicComponentsExampleTooltip />
+            <Title level={3}>Modal</Title>
+            <BasicComponentsExampleModal />
+            <Title level={3}>Message</Title>
+            <BasicComponentsExampleMessage />
+            <Title level={3}>Spin</Title>
+            <BasicComponentsExampleSpin />
+            <Title level={3}>Skeleton</Title>
+            <BasicComponentsExampleSkeleton />
+        </>
+        ,"form":
+        <>
+            <Title level={3}>Button</Title>
+            <BasicComponentsExampleButton />
+            <Title level={3}>Checkbox</Title>
+            <BasicComponentsExampleCheckbox />
+            <Title level={3}>InputNumber</Title>
+            <BasicComponentsExampleInputNumber />
+            <Title level={3}>Input</Title>
+            <BasicComponentsExampleInput />
+            <Title level={3}>Radio</Title>
+            <BasicComponentsExampleRadio />
+            <Title level={3}>Switch</Title>
+            <BasicComponentsExampleSwitch />
+            <Title level={3}>Select</Title>
+            <BasicComponentsExampleSelect />
+            <Title level={3}>Upload</Title>
+            <BasicComponentsExampleUpload />
+        </>
+    };
+    function handleClick(e) {
+        setState(e.key);
+    }
+
     return (
         <div style={{width: "90%"}}>
-            <Space direction={"vertical"} size={"large"}>
-                <Title>Basic Components</Title>
-                <Title level={4}>Grid</Title>
-                <BasicComponentsExampleGrid />
-                <Title level={4}>Space</Title>
-                <BasicComponentsExampleSpace />
-                <Title level={4}>Typography</Title>
-                <BasicComponentsExampleTypography />
-
-                <Title>Visual Components</Title>
-                <Title level={4}>Icon</Title>
-                <BasicComponentsExampleIcon />
-                <Title level={4}>Divider</Title>
-                <BasicComponentsExampleDivider />
-                <Title level={4}>Steps</Title>
-                <BasicComponentsExampleSteps />
-                <Title level={4}>Avatar</Title>
-                <BasicComponentsExampleAvatar />
-                <Title level={4}>Collapse</Title>
-                <BasicComponentsExampleCollapse />
-                <Title level={4}>Card</Title>
-                <BasicComponentsExampleCard />
-                <Title level={4}>Descriptions</Title>
-                <BasicComponentsExampleDescriptions />
-                <Title level={4}>Popover</Title>
-                <BasicComponentsExamplePopover />
-                <Title level={4}>Tooltip</Title>
-                <BasicComponentsExampleTooltip />
-                <Title level={4}>Modal</Title>
-                <BasicComponentsExampleModal />
-                <Title level={4}>Spin</Title>
-                <BasicComponentsExampleSpin />
-                <Title level={4}>Skeleton</Title>
-                <BasicComponentsExampleSkeleton />
-                <Title level={4}>ConfigProvider</Title>
-                <BasicComponentsExampleConfigProvider />
-
-                <Title>Form Elements</Title>
-                <Title level={4}>Button</Title>
-                <BasicComponentsExampleButton />
-                <Title level={4}>Checkbox</Title>
-                <BasicComponentsExampleCheckbox />
-                <Title level={4}>Form</Title>
-                <BasicComponentsExampleForm />
-                <Title level={4}>InputNumber</Title>
-                <BasicComponentsExampleInputNumber />
-                <Title level={4}>Input</Title>
-                <BasicComponentsExampleInput />
-                <Title level={4}>Radio</Title>
-                <BasicComponentsExampleRadio />
-                <Title level={4}>Switch</Title>
-                <BasicComponentsExampleSwitch />
-                <Title level={4}>Select</Title>
-                <BasicComponentsExampleSelect />
-                <Title level={4}>Upload</Title>
-                <BasicComponentsExampleUpload />
-            </Space>
+            <Menu onClick={handleClick} selectedKeys={[state]} mode="horizontal">
+                <Menu.Item key="basic">Basic Components</Menu.Item>
+                <Menu.Item key="visual">Visual Components</Menu.Item>
+                <Menu.Item key="form">Form Elements</Menu.Item>
+            </Menu><br />
+            <Space direction="vertical" size="large">{content[state]}</Space>
 
             <br /><br /><br />
             More information on: <a href="https://ant.design/components/overview/" target="_blank">ant.design/components/overview/</a>
