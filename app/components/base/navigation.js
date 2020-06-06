@@ -40,7 +40,7 @@ function NavigationMenu(props) {
 function NavigationProfileIndicator() {
     return (
         <div className="nav-profile-container">
-            <NavLink to={"/"} exact={true}>Login</NavLink>
+            <NavLink to={"/login"} exact={true}>Login</NavLink>
         </div>
     );
 }

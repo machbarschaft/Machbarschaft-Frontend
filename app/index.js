@@ -12,6 +12,7 @@ import Footer from "./components/base/footer";
 const LandingPage = React.lazy(() => import("./components/landingPage/landingPage"))
 const Dashboard = React.lazy(() => import("./components/dashboard/dashboard"))
 const Examples = React.lazy(() => import("./components/examples/examples"))
+const Login = React.lazy(() => import("./components/login/login"))
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                                 <Route exact path='/' component={LandingPage}/>
                                 <Route exact path='/dashboard' component={Dashboard}/>
                                 <Route exact path='/examples' component={Examples}/>
+                                <Route exact path='/login' component={Login}/>
                                 <Route render={() => <h1>404</h1>}/>
                             </Switch>
                         </React.Suspense>
