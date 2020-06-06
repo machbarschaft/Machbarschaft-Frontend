@@ -14,7 +14,7 @@ const Dashboard = React.lazy(() => import("./components/dashboard/dashboard"))
 import Examples from "./components/examples/examples"
 
 function App() {
-    /*return (
+    return (
         <Router>
             <Layout>
                 <Navigation/>
@@ -36,12 +36,12 @@ function App() {
 
             </Layout>
         </Router>
-    )*/
-    return (
+    )
+    /*return (
         <div style={{marginLeft: "2em", marginTop: "2em"}}>
             <Examples />
         </div>
-    );
+    );*/
 }
 
 ReactDOM.render(
