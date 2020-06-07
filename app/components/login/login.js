@@ -3,16 +3,13 @@ import ReactDOM from 'react-dom';
 import {Card, Input, Space, Button, Typography} from 'antd';
 import {useForm} from "react-hook-form";
 import * as yup from "yup";
+import {MailOutlined, EyeInvisibleOutlined} from '@ant-design/icons';
 
 const {Text} = Typography;
 
 const formSchema = yup.object().shape({
-    user: yup.string().required(),
-    password: yup
-        .number()
-        .required()
-        .positive()
-        .integer(),
+    user: yup.string().email().required(),
+    password: yup.string().required()
 });
 
 function LoginWindow() {
@@ -45,10 +42,10 @@ function LoginWindow() {
                 <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
                     <Space direction="vertical" size="small">
                         <Text strong>Telefonnummer oder E-Mail Adresse</Text>
-                        <Input name={"user"} onChange={(e) => setValue("user", e.target.value)}/>
+                        <Input size="large" name={"user"} prefix={<MailOutlined/>} onChange={(e) => setValue("user", e.target.value)}/>
                         {errors.user && <p>{errors.user.message}</p>}
                         <Text strong>Passwort</Text>
-                        <Input name={"password"} onChange={(e) => setValue("password", e.target.value)}/>
+                        <Input size="large" name={"password"} prefix={<EyeInvisibleOutlined/>} onChange={(e) => setValue("password", e.target.value)}/>
                         {errors.password && <p>{errors.password.message}</p>}
                         <Button type="primary" htmlType="submit" loading={formState.isSubmitting}>Anmelden</Button>
                     </Space>
