@@ -37,11 +37,11 @@ function App() {
                     <div className="main-content">
                         <React.Suspense fallback={<p>Lädt...</p>}>
                             <Switch>
-                                <Route exact path='/' render={() => <LandingPage {...authProps} />} />
-                                <Route exact path='/dashboard' render={() => <Dashboard {...authProps} />} />
+                                <Route exact path='/' render={(props) => <LandingPage {...authProps} {...props} />} />
+                                <Route exact path='/dashboard' render={(props) => <Dashboard {...authProps} {...props} />} />
                                 <Route exact path='/examples' component={Examples}/>
-                                <Route exact path='/login' render={() => <Login {...authProps} />} />
-                                <Route render={() => <h1>404</h1>}/>
+                                <Route exact path='/login' render={(props) => <Login {...authProps} {...props} />} />
+                                <Route render={(props) => <h1>404</h1>}/>
                             </Switch>
                         </React.Suspense>
                     </div>

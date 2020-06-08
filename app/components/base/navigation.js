@@ -1,10 +1,11 @@
 import React from 'react'
-import {Col, Row, Button, Layout, Menu, Space, Avatar, Popover} from "antd";
+import {Col, Row, Button, Layout, Menu, Space, Avatar, Popover, Typography} from "antd";
 import {MenuOutlined, UserOutlined} from '@ant-design/icons';
 import MachbarschaftLogo from "../../assets/img/logo/machbarschaft-logo.png";
 import {NavLink} from "react-router-dom";
 
 const {Header, Content, Footer} = Layout;
+const {Text} = Typography;
 
 function NavigationMenu(props) {
     const {authenticationState} = props;
@@ -45,12 +46,11 @@ function NavigationProfileIndicator(props) {
             <NavLink to={"/"} onClick={() => invalidateAuthentication()} exact={true}>Logout</NavLink>
         </Space>
     </>;
-    console.log("profileindicator: ", authenticationState);
 
     return (
         <div className="nav-profile-container">
             {authenticationState.user_id == null ?
-                <NavLink to={"/login"} exact={true}>Login</NavLink> :
+                <NavLink to={"/login"} exact={true}><Text strong style={{fontSize: "120%"}}>Login</Text></NavLink> :
                 <Popover content={popoverContent} placement="topRight" title="" trigger="click">
                     <Button shape="circle" size="large" icon={<UserOutlined />} />
                 </Popover>

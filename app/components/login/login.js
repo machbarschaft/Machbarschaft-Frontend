@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import {Card, Input, Space, Button, Typography} from 'antd';
 import {useForm} from "react-hook-form";
 import * as yup from "yup";
-import {MailOutlined, EyeInvisibleOutlined} from '@ant-design/icons';
+import {MailOutlined, EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 
 const {Text} = Typography;
 
@@ -34,22 +34,29 @@ function LoginWindow(props) {
     const {register, errors, handleSubmit, setValue, formState} = useForm({
         validationSchema: formSchema
     });
+    const [credentialsError, setCredentialsError] = React.useState("");
     const history = useHistory();
 
     function onSubmit(data) {
+        setCredentialsError("");
+
         return new Promise(resolve => {
             props.verifyAuthentication(data.user, data.password).then(
                 () => history.push("/")
             ).catch(
-                () => resolve()
+                () => {
+                    setCredentialsError("Bitte überprüfen Sie die eigegebenen Zugangsdaten!");
+                    resolve();
+                }
             );
         });
     }
 
     React.useEffect(() => {
-        register({name: "user"})
-        register({name: "password"})
-    }, [])
+        register({name: "user"});
+        register({name: "password"});
+        if(typeof(props.location.username) !== undefined) setValue("user",  props.location.username);
+    }, []);
 
 
     return (
@@ -63,11 +70,19 @@ function LoginWindow(props) {
                 <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
                     <Space direction="vertical" size="small">
                         <Text strong>Telefonnummer oder E-Mail Adresse</Text>
-                        <Input size="large" name={"user"} prefix={<MailOutlined/>} onChange={(e) => setValue("user", e.target.value)}/>
-                        {errors.user && <p>{errors.user.message}</p>}
+                        <Input size="large"
+                               name={"user"}
+                               suffix={<MailOutlined/>}
+                               onChange={(e) => setValue("user", e.target.value)}
+                               defaultValue={typeof(props.location.username) !== undefined ? props.location.username : ""} />
+                        <Text type="danger">{errors.user && <p>{errors.user.message}</p>}</Text>
                         <Text strong>Passwort</Text>
-                        <Input size="large" name={"password"} prefix={<EyeInvisibleOutlined/>} onChange={(e) => setValue("password", e.target.value)}/>
-                        {errors.password && <p>{errors.password.message}</p>}
+                        <Input.Password size="large"
+                                        name={"password"}
+                                        iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+                                        onChange={(e) => setValue("password", e.target.value)}/>
+                        <Text type="danger">{errors.password && <p>{errors.password.message}</p>}</Text>
+                        <Text type="danger">{credentialsError}</Text>
                         <Button type="primary" htmlType="submit" loading={formState.isSubmitting}>Anmelden</Button>
                     </Space>
                 </form>
