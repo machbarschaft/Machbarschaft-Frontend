@@ -3,7 +3,6 @@ import {Col, Row, Button, Layout, Menu, Space, Avatar, Popover} from "antd";
 import {MenuOutlined, UserOutlined} from '@ant-design/icons';
 import MachbarschaftLogo from "../../assets/img/logo/machbarschaft-logo.png";
 import {NavLink} from "react-router-dom";
-import useAuthentication from "../../hooks/useAuthentication";
 
 const {Header, Content, Footer} = Layout;
 
@@ -38,15 +37,15 @@ function NavigationMenu(props) {
 }
 
 function NavigationProfileIndicator(props) {
-    const {authenticationState} = props;
-    authenticationState.user_id = "test";
+    const {authenticationState, invalidateAuthentication} = props;
 
     const popoverContent = <>
         <Space direction="vertical">
-            <NavLink to={"/"} exact={true}>Settings</NavLink>
-            <NavLink to={"/"} exact={true}>Logout</NavLink>
+            <NavLink to={"/"} exact={true}>Einstellungen</NavLink>
+            <NavLink to={"/"} onClick={() => invalidateAuthentication()} exact={true}>Logout</NavLink>
         </Space>
     </>;
+    console.log("profileindicator: ", authenticationState);
 
     return (
         <div className="nav-profile-container">
@@ -60,13 +59,8 @@ function NavigationProfileIndicator(props) {
     );
 }
 
-export default function Navigation() {
+export default function Navigation(props) {
     const [mobileNavState, setState] = React.useState(false);
-
-    const [authenticationState, {
-        checkAuthentication,
-        invalidateAuthentication
-    }] = useAuthentication()
 
     return (
         <>
@@ -74,13 +68,13 @@ export default function Navigation() {
                 <MenuOutlined className="nav-menu-mobile-icon" onClick={() => setState(!mobileNavState)}/>
                 <img className="nav-logo" src={MachbarschaftLogo}/>
                 <div className="nav-menu-desktop">
-                    <NavigationMenu mode="horizontal" menuClicked={() => setState(false)} authenticationState={authenticationState}/>
+                    <NavigationMenu mode="horizontal" menuClicked={() => setState(false)} authenticationState={props.authenticationState}/>
                 </div>
-                <NavigationProfileIndicator authenticationState={authenticationState} />
+                <NavigationProfileIndicator authenticationState={props.authenticationState} invalidateAuthentication={props.invalidateAuthentication} />
             </div>
             <div className="nav-menu-mobile">
                 <div className={"nav-menu-mobile-content " + (mobileNavState ? "nav-menu-mobile-content-open" : "nav-menu-mobile-content-close")}>
-                    <NavigationMenu mode="vertical" menuClicked={() => setState(false)} authenticationState={authenticationState}/>
+                    <NavigationMenu mode="vertical" menuClicked={() => setState(false)} authenticationState={props.authenticationState}/>
                 </div>
             </div>
         </>

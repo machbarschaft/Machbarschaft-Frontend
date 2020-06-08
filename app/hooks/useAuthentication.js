@@ -48,6 +48,23 @@ export default function useAuthentication() {
         // ToDo: Send credentials to server and wait for response. CheckAuthentication afterwards.
 
         checkAuthentication()
+
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if(email == "0123456789" && password == "password") {
+                    dispatch({
+                        type: "authenticateSuccess"
+                    })
+                    resolve();
+                }
+                    else {
+                        dispatch({
+                            type: "authenticationFailure"
+                        })
+                        reject();
+                    }
+            }, 2000);
+        });
     }
 
     const checkAuthentication = () => {
@@ -67,6 +84,7 @@ export default function useAuthentication() {
     }
 
     return [authenticationState, {
+        verifyAuthentication,
         checkAuthentication,
         invalidateAuthentication
     }]
