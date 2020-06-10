@@ -175,6 +175,27 @@ h4 {
 
 /* login page */
 .login-card {
-	width: 450px;
+	max-width: 450px;
 	box-shadow:rgba(45, 48, 71, 0.2) 0px 0px 15px 0px;
+	flex: 1;
+}
+.login-description-card {
+	display: flex;
+	align-items: center;
+	margin-left: 3em !important;
+}
+.login-description-card .ant-timeline-item {
+	font-size: 110% !important;
+	line-height: 150% !important;
+}
+.login-description-card .ant-timeline-item:last-child {
+	padding-bottom: 0 !important;	
+}
+.login-container {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+}
+.login-description-card-button {
+	margin-top: 0.5em !important;
 }

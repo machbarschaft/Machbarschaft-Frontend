@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useHistory } from "react-router-dom";
-import {Card, Input, Space, Button, Typography} from 'antd';
+import {Card, Input, Space, Button, Typography, Timeline} from 'antd';
 import {useForm} from "react-hook-form";
 import * as yup from "yup";
 import {MailOutlined, EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
@@ -60,7 +60,7 @@ function LoginWindow(props) {
 
 
     return (
-        <div className="content-container-default centered">
+        <div className="content-container-default"><div className="login-container">
             <Card title="Login"
                   headStyle={{textAlign: "center", fontSize: "150%"}}
                   bodyStyle={{textAlign: "center"}}
@@ -87,7 +87,22 @@ function LoginWindow(props) {
                     </Space>
                 </form>
             </Card>
-        </div>
+            <Card className="login-card login-description-card">
+                <Timeline>
+                    <Timeline.Item>
+                        Bitte geben Sie links Ihre Telefonnummer oder E-Mail-Adresse und Ihr Passwort ein.
+                    </Timeline.Item>
+                    <Timeline.Item>
+                        Passwort vergessen? Dann klicken sie bitte hier:<br />
+                        <Button className="login-description-card-button">Passwort zurücksetzen</Button>
+                    </Timeline.Item>
+                    <Timeline.Item>
+                        Wenn Sie noch keinen Account erstellt haben:<br />
+                        <Button className="login-description-card-button" type="primary">Registrieren</Button>
+                    </Timeline.Item>
+                </Timeline>
+            </Card>
+        </div></div>
     );
 }
 
