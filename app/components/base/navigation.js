@@ -65,7 +65,9 @@ export default function Navigation(props) {
     return (
         <>
             <div className="nav-bar">
-                <MenuOutlined className="nav-menu-mobile-icon" onClick={() => setState(!mobileNavState)}/>
+                <div className="nav-menu-mobile-icon-container">
+                    <MenuOutlined className="nav-menu-mobile-icon" onClick={() => setState(!mobileNavState)}/>
+                </div>
                 <img className="nav-logo" src={MachbarschaftLogo}/>
                 <div className="nav-menu-desktop">
                     <NavigationMenu mode="horizontal" menuClicked={() => setState(false)} authenticationState={props.authenticationState}/>

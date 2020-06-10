@@ -90,7 +90,7 @@ function LoginWindow(props) {
             <Card className="login-card login-description-card">
                 <Timeline>
                     <Timeline.Item>
-                        Bitte geben Sie links Ihre Telefonnummer oder E-Mail-Adresse und Ihr Passwort ein.
+                        Bitte geben Sie Ihre Telefonnummer oder E-Mail-Adresse und Ihr Passwort ein.
                     </Timeline.Item>
                     <Timeline.Item>
                         Passwort vergessen? Dann klicken sie bitte hier:<br />
