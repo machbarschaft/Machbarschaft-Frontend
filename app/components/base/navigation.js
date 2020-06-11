@@ -3,14 +3,16 @@ import {Col, Row, Button, Layout, Menu, Space, Avatar, Popover, Typography} from
 import {MenuOutlined, UserOutlined} from '@ant-design/icons';
 import MachbarschaftLogo from "../../assets/img/logo/machbarschaft-logo.png";
 import {NavLink} from "react-router-dom";
+import AuthenticationContext from "../../contexts/authentication";
 
 const {Header, Content, Footer} = Layout;
 const {Text} = Typography;
 
 function NavigationMenu(props) {
-    const {authenticationState} = props;
+    const authProps = React.useContext(AuthenticationContext);
+    const {authenticationState} = authProps;
 
-    if (authenticationState.user_id == null) {
+    if (authenticationState.uid == null) {
         // No User
         return (
             <Menu mode={props.mode} defaultSelectedKeys={['1']} onClick={props.menuClicked}>
@@ -37,22 +39,22 @@ function NavigationMenu(props) {
 
 }
 
-function NavigationProfileIndicator(props) {
-    const {authenticationState, invalidateAuthentication} = props;
+function NavigationProfileIndicator() {
+    const authProps = React.useContext(AuthenticationContext);
 
     const popoverContent = <>
         <Space direction="vertical">
             <NavLink to={"/"} exact={true}>Einstellungen</NavLink>
-            <NavLink to={"/"} onClick={() => invalidateAuthentication()} exact={true}>Logout</NavLink>
+            <NavLink to={"/"} onClick={() => authProps.invalidateAuthentication()} exact={true}>Logout</NavLink>
         </Space>
     </>;
 
     return (
         <div className="nav-profile-container">
-            {authenticationState.user_id == null ?
+            {authProps.authenticationState.uid == null ?
                 <NavLink to={"/login"} exact={true}><Text strong style={{fontSize: "120%"}}>Login</Text></NavLink> :
                 <Popover content={popoverContent} placement="topRight" title="" trigger="click">
-                    <Button shape="circle" size="large" icon={<UserOutlined />} />
+                    <Button shape="circle" size="large" icon={<UserOutlined/>}/>
                 </Popover>
             }
         </div>
@@ -60,6 +62,7 @@ function NavigationProfileIndicator(props) {
 }
 
 export default function Navigation(props) {
+    const authProps = React.useContext(AuthenticationContext);
     const [mobileNavState, setState] = React.useState(false);
 
     return (
@@ -70,13 +73,13 @@ export default function Navigation(props) {
                 </div>
                 <img className="nav-logo" src={MachbarschaftLogo}/>
                 <div className="nav-menu-desktop">
-                    <NavigationMenu mode="horizontal" menuClicked={() => setState(false)} authenticationState={props.authenticationState}/>
+                    <NavigationMenu mode="horizontal" menuClicked={() => setState(false)}/>
                 </div>
-                <NavigationProfileIndicator authenticationState={props.authenticationState} invalidateAuthentication={props.invalidateAuthentication} />
+                <NavigationProfileIndicator/>
             </div>
             <div className="nav-menu-mobile">
                 <div className={"nav-menu-mobile-content " + (mobileNavState ? "nav-menu-mobile-content-open" : "nav-menu-mobile-content-close")}>
-                    <NavigationMenu mode="vertical" menuClicked={() => setState(false)} authenticationState={props.authenticationState}/>
+                    <NavigationMenu mode="vertical" menuClicked={() => setState(false)}/>
                 </div>
             </div>
         </>
