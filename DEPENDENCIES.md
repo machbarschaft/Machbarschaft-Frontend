@@ -1,1 +1,20 @@
 # Dependencies
+- antd: design framework with basic components like buttons etc.
+- babel-plugin-syntax-dynamic-import
+- prop-types:
+- query-string: parse query parameters from URL
+- react: react library
+- react-dom: for accessing the DOM via react library
+- react-router-dom: manage navigation with URLs
+- react-hook-form: manage forms easily
+- yup: form validation
+- react-icons: popular icons (do we really need these?)
+- @babel/core, @babel/preset-env, @babel/preset-react, babel-plugin-transform-class-properties: downward compatibility
+- babel-loader: integration of babel in webpack
+- webpack: bundling the website
+- webpack-cli: command line interface for webpack
+- webpack-dev-server: development server
+- css-loader: needed for loading css files with webpack
+- file-loader: needed for loading standard files with webpack
+- less-loader: needed for loading less files and compiling to css with webpack
+- style-loader: inject css into dom
