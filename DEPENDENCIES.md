@@ -1,7 +1,6 @@
 # Dependencies
 - antd: design framework with basic components like buttons etc.
-- babel-plugin-syntax-dynamic-import
-- prop-types:
+- prop-types: type checking at runtime
 - query-string: parse query parameters from URL
 - react: react library
 - react-dom: for accessing the DOM via react library
@@ -9,7 +8,7 @@
 - react-hook-form: manage forms easily
 - yup: form validation
 - react-icons: popular icons (do we really need these?)
-- @babel/core, @babel/preset-env, @babel/preset-react, babel-plugin-transform-class-properties: downward compatibility
+- @babel/core, @babel/preset-env, @babel/preset-react, babel-plugin-transform-class-properties, babel-plugin-syntax-dynamic-import: downward compatibility
 - babel-loader: integration of babel in webpack
 - webpack: bundling the website
 - webpack-cli: command line interface for webpack
