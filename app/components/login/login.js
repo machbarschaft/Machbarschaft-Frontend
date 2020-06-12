@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {useHistory} from "react-router-dom";
+import {useHistory, Link} from "react-router-dom";
 import {Card, Input, Space, Button, Typography, Timeline} from 'antd';
 import {useForm} from "react-hook-form";
 import * as yup from "yup";
@@ -92,7 +92,7 @@ function LoginWindow(props) {
                         </Timeline.Item>
                         <Timeline.Item>
                             Passwort vergessen? Dann klicken sie bitte hier:<br/>
-                            <Button className="login-description-card-button">Passwort zurücksetzen</Button>
+                            <Link to={"/resetpassword"}><Button className="login-description-card-button">Passwort zurücksetzen</Button></Link>
                         </Timeline.Item>
                         <Timeline.Item>
                             Wenn Sie noch keinen Account erstellt haben:<br/>

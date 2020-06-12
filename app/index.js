@@ -15,6 +15,7 @@ const LandingPage = React.lazy(() => import("./components/landingPage/landingPag
 const Dashboard = React.lazy(() => import("./components/dashboard/dashboard"))
 const Examples = React.lazy(() => import("./components/examples/examples"))
 const Login = React.lazy(() => import("./components/login/login"))
+const ResetPassword = React.lazy(() => import("./components/resetPassword/resetPassword"))
 
 function App() {
     const [authenticationState, {
@@ -43,6 +44,7 @@ function App() {
                                     <Route exact path='/dashboard' render={(props) => <Dashboard {...props} />} />
                                     <Route exact path='/examples' component={Examples}/>
                                     <Route exact path='/login' render={(props) => <Login {...props} />} />
+                                    <Route exact path='/resetpassword' render={(props) => <ResetPassword {...props} />} />
                                     <Route render={(props) => <h1>404</h1>}/>
                                 </Switch>
                             </React.Suspense>
