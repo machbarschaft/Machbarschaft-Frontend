@@ -225,3 +225,10 @@ h4 {
 		margin-top: 3em !important;
 	}
 }
+
+/* reset password */
+.reset-password-container {
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 3em;
+}

@@ -6,32 +6,21 @@ import {useForm} from "react-hook-form";
 import * as yup from "yup";
 import {MailOutlined, EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 import AuthenticationContext from "../../contexts/authentication";
+import PropTypes from 'prop-types';
+import validateDisjunction from "../../utils/inputValidationFunctions/validateDisjunction";
 
 const {Text} = Typography;
 
-// https://github.com/jquense/yup/issues/743
-yup.addMethod(yup.string, "or", function (schemas, msg) {
-    return this.test({
-        name: "or",
-        message: "Die Eingabe ist keine Telefonnummer und keine E-Mail" || msg,
-        test: value => {
-            if (Array.isArray(schemas) && schemas.length > 1) {
-                const resee = schemas.map(schema => schema.isValidSync(value));
-                return resee.some(res => res);
-            } else {
-                throw new TypeError("Schemas is not correct array schema");
-            }
-        },
-        exclusive: false
-    });
-});
-
+yup.addMethod(yup.string, "or", validateDisjunction);
 const formSchema = yup.object().shape({
-    user: yup.string().or([yup.string().email(), yup.number().positive().integer()]).required("Bitte geben Sie Ihre Telefonnummer oder E-Mail Adresse ein"),
+    user: yup.
+          string().
+          or([yup.string().email(), yup.number().positive().integer()], "Die Eingabe ist keine Telefonnummer und keine E-Mail").
+          required("Bitte geben Sie Ihre Telefonnummer oder E-Mail Adresse ein"),
     password: yup.string().required("Bitte geben Sie Ihr Passwort ein")
 });
 
-function LoginWindow(props) {
+function LoginWindow({location: {username} = ""}) {
     const authProps = React.useContext(AuthenticationContext);
 
     const {register, errors, handleSubmit, setValue, formState} = useForm({
@@ -52,7 +41,7 @@ function LoginWindow(props) {
     React.useEffect(() => {
         register({name: "user"});
         register({name: "password"});
-        if (typeof (props.location.username) !== undefined) setValue("user", props.location.username);
+        setValue("user", username);
     }, []);
 
 
@@ -72,7 +61,7 @@ function LoginWindow(props) {
                                    name={"user"}
                                    suffix={<MailOutlined/>}
                                    onChange={(e) => setValue("user", e.target.value)}
-                                   defaultValue={typeof (props.location.username) !== undefined ? props.location.username : ""}/>
+                                   defaultValue={username}/>
                             <Text type="danger">{errors.user && <p>{errors.user.message}</p>}</Text>
                             <Text strong>Passwort</Text>
                             <Input.Password size="large"
@@ -103,6 +92,11 @@ function LoginWindow(props) {
             </div>
         </div>
     );
+}
+LoginWindow.propTypes = {
+    location: PropTypes.shape({
+        username: PropTypes.string
+    })
 }
 
 export default LoginWindow;

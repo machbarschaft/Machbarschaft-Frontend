@@ -4,18 +4,19 @@ import {MenuOutlined, UserOutlined} from '@ant-design/icons';
 import MachbarschaftLogo from "../../assets/img/logo/machbarschaft-logo.png";
 import {NavLink} from "react-router-dom";
 import AuthenticationContext from "../../contexts/authentication";
+import PropTypes from 'prop-types';
 
 const {Header, Content, Footer} = Layout;
 const {Text} = Typography;
 
-function NavigationMenu(props) {
+function NavigationMenu({mode, menuClicked}) {
     const authProps = React.useContext(AuthenticationContext);
     const {authenticationState} = authProps;
 
     if (authenticationState.uid == null) {
         // No User
         return (
-            <Menu mode={props.mode} defaultSelectedKeys={['1']} onClick={props.menuClicked}>
+            <Menu mode={mode} defaultSelectedKeys={['1']} onClick={menuClicked}>
                 <Menu.Item key="1"><NavLink to={"/"} exact={true}>DAS PROJEKT</NavLink></Menu.Item>
                 <Menu.Item key="2"><NavLink to={"/"} exact={true}>SO FUNKTIONIERT'S</NavLink></Menu.Item>
                 <Menu.Item key="3"><NavLink to={"/"} exact={true}>ÜBER UNS</NavLink></Menu.Item>
@@ -28,16 +29,19 @@ function NavigationMenu(props) {
     } else {
         // User
         return (
-            <Menu mode={props.mode} defaultSelectedKeys={['1']} onClick={props.menuClicked}>
+            <Menu mode={mode} defaultSelectedKeys={['1']} onClick={menuClicked}>
                 <Menu.Item key="1"><NavLink to={"/dashboard"} exact={true}>DASHBOARD</NavLink></Menu.Item>
                 <Menu.Item key="2"><NavLink to={"/"} exact={true}>AUFTRAG AUFGEBEN</NavLink></Menu.Item>
                 <Menu.Item key="3"><NavLink to={"/"} exact={true}>BRAUCHEN SIE HILFE?</NavLink></Menu.Item>
             </Menu>
         );
     }
-
-
 }
+NavigationMenu.propTypes = {
+    mode: PropTypes.oneOf(["horizontal", "vertical"]).isRequired,
+    menuClicked: PropTypes.func.isRequired
+};
+
 
 function NavigationProfileIndicator() {
     const authProps = React.useContext(AuthenticationContext);
@@ -61,7 +65,7 @@ function NavigationProfileIndicator() {
     );
 }
 
-export default function Navigation(props) {
+export default function Navigation() {
     const authProps = React.useContext(AuthenticationContext);
     const [mobileNavState, setState] = React.useState(false);
 
