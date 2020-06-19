@@ -8,33 +8,53 @@ import {Typography, Layout} from 'antd';
 
 import Navigation from "./components/base/navigation";
 import Footer from "./components/base/footer";
+import useAuthentication from "./hooks/useAuthentication";
+import AuthenticationContext, {AuthenticationProvider} from "./contexts/authentication";
 
 const LandingPage = React.lazy(() => import("./components/landingPage/landingPage"))
 const Dashboard = React.lazy(() => import("./components/dashboard/dashboard"))
 const Examples = React.lazy(() => import("./components/examples/examples"))
+const Login = React.lazy(() => import("./components/login/login"))
+const ResetPassword = React.lazy(() => import("./components/resetPassword/resetPassword"))
 
 function App() {
+    const [authenticationState, {
+        performAuthentication,
+        checkAuthentication,
+        invalidateAuthentication
+    }] = useAuthentication();
+    const authProps = {
+        authenticationState: authenticationState,
+        performAuthentication: performAuthentication,
+        checkAuthentication: checkAuthentication,
+        invalidateAuthentication: invalidateAuthentication
+    };
+
     return (
         <Router>
-            <Layout>
-                <Navigation/>
+            <AuthenticationProvider value={authProps}>
+                <Layout>
+                    <Navigation/>
 
-                <div className="site-layout">
-                    <div className="main-content">
-                        <React.Suspense fallback={<p>Lädt...</p>}>
-                            <Switch>
-                                <Route exact path='/' component={LandingPage}/>
-                                <Route exact path='/dashboard' component={Dashboard}/>
-                                <Route exact path='/examples' component={Examples}/>
-                                <Route render={() => <h1>404</h1>}/>
-                            </Switch>
-                        </React.Suspense>
+                    <div className="site-layout">
+                        <div className="main-content">
+                            <React.Suspense fallback={<p>Lädt...</p>}>
+                                <Switch>
+                                    <Route exact path='/' render={(props) => <LandingPage {...props} />} />
+                                    <Route exact path='/dashboard' render={(props) => <Dashboard {...props} />} />
+                                    <Route exact path='/examples' component={Examples}/>
+                                    <Route exact path='/login' render={(props) => <Login {...props} />} />
+                                    <Route exact path='/resetpassword' render={(props) => <ResetPassword {...props} />} />
+                                    <Route render={(props) => <h1>404</h1>}/>
+                                </Switch>
+                            </React.Suspense>
+                        </div>
+
+                        <Footer/>
                     </div>
 
-                    <Footer/>
-                </div>
-
-            </Layout>
+                </Layout>
+            </AuthenticationProvider>
         </Router>
     )
 }
