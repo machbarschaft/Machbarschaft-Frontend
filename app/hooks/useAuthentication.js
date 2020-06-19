@@ -35,8 +35,7 @@ function authenticationReducer(state, action) {
         case "authenticationFailure":
             return {
                 ...initialAuthenticationState,
-                isAuthenticating: false,
-                authenticationErrors: "Es ist ein Fehler bei der Authentifzierung aufgetreten."
+                isAuthenticating: false
             }
         case "invalidateSuccess":
             return {
@@ -83,7 +82,7 @@ export default function useAuthentication() {
                 dispatch({
                     type: "loginFailure",
                     data: {
-                        errors: "TBD"
+                        errors: "Zu dieser Kombination konnten wir keinen Benutzer finden."
                     }
                 })
             }

@@ -19,8 +19,8 @@ function ResetPasswordSecurityCodeRightCard({user}) {
     return (
         <>
             Die Anfrage wurde erfolgreich verschickt!<br />
-            Sobald Sie den Code per E-Mail oder Telefon erhalten haben, geben Sie diesen bitte im Eingabefeld ein und klicken
-            <Text strong>Code bestätigen</Text>.<br /><br />
+            Sobald Sie den Code per E-Mail oder Telefon erhalten haben, geben Sie diesen bitte im Eingabefeld ein und
+            klicken <Text strong>Code bestätigen</Text>.<br /><br />
             Wenn keine E-Mail angekommen oder kein Telefonanruf eingegangen ist, dann klicken Sie bitte hier:<br /><br />
             <Button onClick={() => sendRequest()} loading={loadingState}>Anfrage erneut senden</Button>
         </>
