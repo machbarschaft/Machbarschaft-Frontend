@@ -1,37 +1,57 @@
 import React from 'react'
+import {postAuthenticate, postLogin, postLogout} from "../utils/api/authenticationAPI";
 
 // ToDo: Welche Daten wollen wir für den lokalen Nutzer speichern?
 const initialAuthenticationState = {
-    user_id: null
+    // User Data
+    uid: null,
+    email: null,
+
+    // Process Information
+    isAuthenticating: false,
+    authenticationErrors: null,
 }
 
 function authenticationReducer(state, action) {
-    if (action.type === "authenticateSuccess") {
-        return {
-            ...state,
-            user_id: Math.random() * (1000)
-        }
-    } else if (action.type === "authenticationFailure") {
-        return {
-            ...state,
-            user_id: null
-        }
-    } else if (action.type === "invalidateSuccess") {
-        return {
-            ...state,
-            user_id: null
-        }
-    } else {
-        throw new Error("Unsupported Type")
+    switch (action.type) {
+        case "loginInit":
+            return {
+                ...initialAuthenticationState,
+                isAuthenticating: true
+            }
+        case "loginFailure":
+            return {
+                ...initialAuthenticationState,
+                isAuthenticating: false,
+                authenticationErrors: action.data.errors
+            }
+        case "authenticationSuccess":
+            return {
+                ...state,
+                isAuthenticating: false,
+                uid: action.data["uid"],
+                email: action.data["email"]
+            }
+        case "authenticationFailure":
+            return {
+                ...initialAuthenticationState,
+                isAuthenticating: false
+            }
+        case "invalidateSuccess":
+            return {
+                ...initialAuthenticationState,
+            }
+        default:
+            throw new Error("Unsupported Type")
     }
 }
 
 /**
  * The custom hook useAuthentication holds the current authentication data. It provides information about the authenticated user (if any)
  * as well as methods to login (verify), check and invalidate the authentication.
- * Components that need to access any of these data, can just use (e.g.) 'const [authenticatedUser, {checkAuthentication}] = useAuthentication()'.
+ * Information is available to the render tree via AuthenticationContext. Components that need to access any of these data, can just use 'React.useContext(AuthenticationContext)'.
  *
- * @returns {[{user_id: null}, {invalidateAuthentication: (function(): boolean), checkAuthentication: checkAuthentication}]}
+ * @returns {[{uid: null, email: null}, {invalidateAuthentication: (function(): boolean), checkAuthentication: checkAuthentication}]}
  */
 export default function useAuthentication() {
     const [authenticationState, dispatch] = React.useReducer(
@@ -41,32 +61,97 @@ export default function useAuthentication() {
 
     /* Check for authentication on first build */
     React.useEffect(() => {
-        checkAuthentication()
+        checkAuthentication();
     }, [])
 
-    const verifyAuthentication = (email, password) => {
-        // ToDo: Send credentials to server and wait for response. CheckAuthentication afterwards.
+    /**
+     * Makes a request to the backend in order to authenticate a user and modifies state accordingly
+     * @param email the email of the user to be authenticated
+     * @param password the password of the user to be authenticated
+     */
+    const performAuthentication = async (email, password) => {
+        dispatch({
+            type: "loginInit"
+        });
 
-        checkAuthentication()
+        try {
+            let loginResult = await postLogin(email, password);
+            if (loginResult.status === 200) {
+                await checkAuthentication();
+            } else {
+                dispatch({
+                    type: "loginFailure",
+                    data: {
+                        errors: "Zu dieser Kombination konnten wir keinen Benutzer finden."
+                    }
+                })
+            }
+        } catch (error) {
+            // ToDo: Dieser Case ist eig. Server Offline. Wie gehen wir damit um?
+            dispatch({
+                type: "loginFailure",
+                data: {
+                    errors: "TBD"
+                }
+            })
+        }
     }
 
-    const checkAuthentication = () => {
-        // ToDo: Make API call to check, if there's a user for a JWT cookie
+    /**
+     * Makes a request to the backend in order to get information about the authenticated user (if any) and modifies state accordingly
+     */
+    const checkAuthentication = async () => {
+        try {
+            let authenticateResult = await postAuthenticate();
+            if (authenticateResult.status === 200) {
+                authenticateResult = await authenticateResult.json();
 
-        dispatch({
-            type: "authenticationFailure" // To test authenticated state: pass "authenticateSuccess"
-        })
+                dispatch({
+                    type: "authenticationSuccess",
+                    data: {
+                        uid: authenticateResult["uid"],
+                        email: authenticateResult["email"]
+                    }
+                })
+            } else {
+                dispatch({
+                    type: "authenticationFailure",
+                    data: {
+                        errors: "E-Mail Adresse oder Passwort ist nicht korrekt."
+                    }
+                })
+            }
+        } catch (error) {
+            dispatch({
+                type: "authenticationFailure"
+            })
+        }
     }
 
-    const invalidateAuthentication = () => {
-        // ToDo: Invalidate Cookie
-
-        dispatch({
-            type: "invalidateSuccess"
-        })
+    /**
+     * Makes a request to the backend in order to invalidate (logout) a user, i.e. clearing his cookie and modifies state accordingly
+     */
+    const invalidateAuthentication = async () => {
+        try {
+            let logoutResult = await postLogout();
+            if (logoutResult.status === 200) {
+                dispatch({
+                    type: "invalidateSuccess"
+                })
+            } else {
+                dispatch({
+                    type: "invalidateFailure"
+                })
+            }
+        } catch (error) {
+            dispatch({
+                type: "authenticationFailure"
+            })
+        }
     }
 
     return [authenticationState, {
+        performAuthentication,
         checkAuthentication,
         invalidateAuthentication
     }]
