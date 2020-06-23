@@ -55,14 +55,17 @@ h4 {
 	border-bottom: none !important;
 }
 .nav-logo {
-	height: 80%;
+	height: 5em;
 	width: auto;
+}
+.nav-menu-mobile-icon-container {
+	width: 8em;
+	height: 100%;
 }
 .nav-menu-mobile-icon {
 	display: flex !important;
 	justify-content: center;
 	align-items: center;
-	margin-left: 3em;
 	height: 100%;
 	margin-right: auto;
 	cursor: pointer;
@@ -87,6 +90,10 @@ h4 {
 @media (max-width: 1450px) {
 	.nav-menu-desktop {
 		display: none !important;
+	}
+	.nav-logo {
+		margin-right: auto;
+		margin-left: auto;
 	}
 }
 .nav-menu-mobile-content {
@@ -141,7 +148,13 @@ h4 {
 	padding-bottom: 3em;
 	box-sizing: border-box;
 }
-
+.centered {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
 
 /* landing page */
@@ -441,4 +454,57 @@ h4 {
 	z-index: 5;
 	cursor: default !important;
 	animation: geolocation-running 1s infinite !important;
+}
+
+/* login page */
+.login-container {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+}
+.login-card {
+	box-shadow:rgba(45, 48, 71, 0.2) 0px 0px 15px 0px;
+}
+.login-description-card {
+	display: flex;
+	align-items: center;
+}
+.login-description-card .ant-timeline-item {
+	font-size: 110% !important;
+	line-height: 150% !important;
+}
+.login-description-card .ant-timeline-item:last-child {
+	padding-bottom: 0 !important;	
+}
+.login-description-card-button {
+	margin-top: 0.5em !important;
+}
+@media (min-width: 950px) {
+	.login-card {
+		max-width: 450px;
+		box-shadow:rgba(45, 48, 71, 0.2) 0px 0px 15px 0px;
+		flex: 1;
+	}
+	.login-description-card {
+		margin-left: 3em !important;
+	}
+}
+@media (max-width: 950px) {
+	.login-container {
+		flex-direction: column;
+		align-items: center;
+	}
+	.login-card {
+		width: 80%;
+	}
+	.login-description-card {
+		margin-top: 3em !important;
+	}
+}
+
+/* reset password */
+.reset-password-container {
+	width: 80%;
+	margin-left: 10%;
+	margin-top: 3em;
 }
