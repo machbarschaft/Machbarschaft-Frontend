@@ -18,7 +18,7 @@ export default function PlaceRequestWizardValidationError({wizardState}) {
                 </Text>
             </Paragraph>
             <Paragraph>
-                {wizardState.errorMsg}
+                {wizardState.errorMsg} {/* ToDo: Support multiple errors */}
             </Paragraph>
         </>
     )

@@ -3,6 +3,7 @@ import {Result, Row, Col, Typography, Input, Button, Radio, Space, Form} from 'a
 import PropTypes from "prop-types";
 import PlaceRequestWizardNavigation from "./place-request-wizard-navigation";
 import {NavLink} from "react-router-dom";
+import AuthenticationContext from "../../../contexts/authentication";
 
 const {Title} = Typography;
 /**
@@ -11,7 +12,19 @@ const {Title} = Typography;
  * @constructor
  */
 export default function PlaceRequestWizardFinish({handlePreviousPage, handleNextPage, wizardState}) {
-    //const authenticationContext = React.useContext(AuthenticationContext);
+    const authenticationContext = React.useContext(AuthenticationContext);
+
+    const userExistsContent = () => {
+        return (
+            <Title level={4}>Logge dich ein!</Title>
+        )
+    }
+
+    const userNotExistsContent = () => {
+        return (
+            <Title level={4}>Erstellen Sie jetzt ein Benutzerkonto!</Title>
+        )
+    }
 
     return (
         <Result
@@ -19,7 +32,6 @@ export default function PlaceRequestWizardFinish({handlePreviousPage, handleNext
             title={"Ihre Anfrage wurde entgegengenommen."}
             subTitle={"Unser Netzwerk aus freiwilligen Helferinnen und Helfern wurde benachrichtigt. Sie erhalten in Kürze eine Rückmeldung."}
             extra={[
-                <Title level={4}>Erstellen Sie jetzt ein Benutzerkonto!</Title>,
                 <NavLink to={"/"}><Button>Zurück zur Startseite</Button></NavLink>
             ]}
         />

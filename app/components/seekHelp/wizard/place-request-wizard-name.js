@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {Row, Col, Typography, Input, Button, Space, Form} from 'antd';
 import PlaceRequestWizardNavigation from "./place-request-wizard-navigation";
 import PlaceRequestWizardValidationError from "./place-request-wizard-validation-error";
+import AuthenticationContext from "../../../contexts/authentication";
 
 const {Title} = Typography;
 
@@ -12,6 +13,8 @@ const {Title} = Typography;
  * @constructor
  */
 export default function PlaceRequestWizardName({handlePreviousPage, handleNextPage, wizardState}) {
+    const authenticationContext = React.useContext(AuthenticationContext);
+
     const [form] = Form.useForm();
     const formName = "place-request-wizard-name";
 
@@ -22,7 +25,7 @@ export default function PlaceRequestWizardName({handlePreviousPage, handleNextPa
 
     return (
         <Space direction={"vertical"} size={"large"} style={{width: '100%'}}>
-            <Title level={1}>Hallo Max Schmidt,</Title>
+            {authenticationContext.isAuthenticated() ? <Title level={1}>Hallo {authenticationContext.authenticationState.profile.forename} {authenticationContext.authenticationState.profile.surname},</Title> : <Title level={1}>Hallo,</Title>}
             <Title level={4}>Wir möchten gerne wissen, wie wir Sie ansprechen dürfen.</Title>
 
             <Form
@@ -32,10 +35,13 @@ export default function PlaceRequestWizardName({handlePreviousPage, handleNextPa
                 hideRequiredMark={true}
                 onFinish={(formValues) => handleNextPage(formName, formValues)}
                 initialValues={typeof wizardState.formData[formName] != 'undefined' ? {
-                    forename: wizardState.formData[formName]["forename"],
+                    name: wizardState.formData[formName]["name"], // ToDo: Change back to forename after backend change
                     surname: wizardState.formData[formName]["surname"],
-                } : {}}>
-                <Form.Item label={"Vorname"} name={"forename"} rules={[
+                } : (authenticationContext.isAuthenticated() ? {
+                    name: authenticationContext.authenticationState.profile.forename,
+                    surname: authenticationContext.authenticationState.profile.surname
+                } : {})}>
+                <Form.Item label={"Vorname"} name={"name"} rules={[
                     {
                         required: true,
                         message: "Bitte geben Sie Ihren Vornamen ein."

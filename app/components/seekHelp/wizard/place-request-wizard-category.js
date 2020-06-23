@@ -31,11 +31,11 @@ export default function PlaceRequestWizardCategory({handlePreviousPage, handleNe
                 hideRequiredMark={true}
                 onFinish={(formValues) => handleNextPage(formName, formValues)}
                 initialValues={typeof wizardState.formData[formName] != 'undefined' ? {
-                    type: wizardState.formData[formName]["type"],
-                    car: wizardState.formData[formName]["car"],
-                    prescription: wizardState.formData[formName]["prescription"],
-                } : {}}>>
-                <Form.Item label={"Um welche Art von Einkauf geht es?"} name={"type"} rules={[
+                    requestType: wizardState.formData[formName]["requestType"],
+                    carNecessary: wizardState.formData[formName]["carNecessary"],
+                    prescriptionRequired: wizardState.formData[formName]["prescriptionRequired"],
+                } : {}}>
+                <Form.Item label={"Um welche Art von Einkauf geht es?"} name={"requestType"} rules={[
                     {
                         required: true,
                         message: "Bitte geben Sie an, um welche Art Einkauf es geht."
@@ -43,32 +43,32 @@ export default function PlaceRequestWizardCategory({handlePreviousPage, handleNe
                 ]}>
                     <Radio.Group size={"large"}>
                         <Radio.Button value={"groceries"}>Lebensmittel</Radio.Button>
-                        <Radio.Button value={"medicine"}>Medikamente</Radio.Button>
-                        <Radio.Button value={"misc"}>Anderes</Radio.Button>
+                        <Radio.Button value={"medication"}>Medikamente</Radio.Button>
+                        <Radio.Button value={"other"}>Anderes</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
 
-                <Form.Item label={"Wird für die Einkäufe ein Auto benötigt?"} name={"car"} rules={[
+                <Form.Item label={"Wird für die Einkäufe ein Auto benötigt?"} name={"carNecessary"} rules={[
                     {
                         required: true,
                         message: "Bitte geben Sie an, ob ein Auto benötigt wird."
                     }
                 ]}>
                     <Radio.Group size={"large"}>
-                        <Radio.Button value={"car"}>Ja</Radio.Button>
-                        <Radio.Button value={"no-car"}>Nein</Radio.Button>
+                        <Radio.Button value={"true"}>Ja</Radio.Button>
+                        <Radio.Button value={"false"}>Nein</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
 
-                <Form.Item label={"Wird ein ärztliches Rezept benötigt?"} name={"prescription"} rules={[
+                <Form.Item label={"Wird ein ärztliches Rezept benötigt?"} name={"prescriptionRequired"} rules={[
                     {
                         required: true,
                         message: "Bitte geben Sie an, ob ein Rezept benötigt wird."
                     }
                 ]}>
                     <Radio.Group size={"large"}>
-                        <Radio.Button value={"prescription"}>Ja</Radio.Button>
-                        <Radio.Button value={"no-prescription"}>Nein</Radio.Button>
+                        <Radio.Button value={"true"}>Ja</Radio.Button>
+                        <Radio.Button value={"false"}>Nein</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
 

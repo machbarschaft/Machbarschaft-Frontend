@@ -11,8 +11,6 @@ export default function PlaceRequestWizardNavigation({handlePreviousPage, wizard
                     {wizardState.currentStep !== 0 && <Button size={"large"} onClick={handlePreviousPage} htmlType={"button"}>Zum vorherigen Schritt</Button>}
                 </Form.Item>
                 <Form.Item>
-                    {wizardState.hasError && <PlaceRequestWizardValidationError wizardState={wizardState}/>}
-
                     {wizardState.currentStep !== 6 && <Button type={"primary"} size={"large"} htmlType={"submit"}>Zum nächsten Schritt</Button>}
                 </Form.Item>
             </Space>

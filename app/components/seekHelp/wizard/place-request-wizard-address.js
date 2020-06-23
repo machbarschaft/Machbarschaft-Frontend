@@ -3,6 +3,7 @@ import {Row, Col, Typography, Input, Button, Space, Form} from 'antd';
 import PropTypes from "prop-types";
 import PlaceRequestWizardNavigation from "./place-request-wizard-navigation";
 import PlaceRequestWizardValidationError from "./place-request-wizard-validation-error";
+import AuthenticationContext from "../../../contexts/authentication";
 
 const {Title} = Typography;
 
@@ -12,6 +13,8 @@ const {Title} = Typography;
  * @constructor
  */
 export default function PlaceRequestWizardAddress({handlePreviousPage, handleNextPage, wizardState}) {
+    const authenticationContext = React.useContext(AuthenticationContext);
+
     const [form] = Form.useForm();
     const formName = "place-request-wizard-address";
 
@@ -22,7 +25,12 @@ export default function PlaceRequestWizardAddress({handlePreviousPage, handleNex
 
     return (
         <Space direction={"vertical"} size={"large"} style={{width: '100%'}}>
-            <Title level={1}>Ist dies weiterhin Ihre richtige Adresse?</Title>
+            {authenticationContext.isAuthenticated() ?
+                <Title level={1}>Ist dies weiterhin Ihre richtige Adresse?</Title>
+                :
+                <Title level={1}>Geben Sie Ihre Adresse ein</Title>
+            }
+
             <Title level={4}>Damit unsere Helferinnen und Helfer Sie später finden, müssen Sie ihre Adresse angeben.</Title>
 
             <Form
@@ -33,10 +41,15 @@ export default function PlaceRequestWizardAddress({handlePreviousPage, handleNex
                 onFinish={(formValues) => handleNextPage(formName, formValues)}
                 initialValues={typeof wizardState.formData[formName] != 'undefined' ? {
                     street: wizardState.formData[formName]["street"],
-                    number: wizardState.formData[formName]["number"],
-                    postcode: wizardState.formData[formName]["postcode"],
+                    houseNumber: wizardState.formData[formName]["houseNumber"],
+                    zipCode: wizardState.formData[formName]["zipCode"],
                     city: wizardState.formData[formName]["city"],
-                } : {}}
+                } : (authenticationContext.isAuthenticated() ? {
+                    street: authenticationContext.authenticationState.profile.address.street,
+                    houseNumber: authenticationContext.authenticationState.profile.address.houseNumber,
+                    zipCode: authenticationContext.authenticationState.profile.address.zipCode,
+                    city: authenticationContext.authenticationState.profile.address.city
+                } : {})}
             >
                 <Form.Item label={"Straße"} name={"street"} rules={[
                     {
@@ -46,7 +59,7 @@ export default function PlaceRequestWizardAddress({handlePreviousPage, handleNex
                 ]}>
                     <Input size={"large"}/>
                 </Form.Item>
-                <Form.Item label={"Hausnummer"} name={"number"} rules={[
+                <Form.Item label={"Hausnummer"} name={"houseNumber"} rules={[
                     {
                         required: true,
                         message: "Bitte geben Sie Ihre Hausnummer ein."
@@ -54,7 +67,7 @@ export default function PlaceRequestWizardAddress({handlePreviousPage, handleNex
                 ]}>
                     <Input size={"large"}/>
                 </Form.Item>
-                <Form.Item label={"Postleitzahl"} name={"postcode"} rules={[
+                <Form.Item label={"Postleitzahl"} name={"zipCode"} rules={[
                     {
                         required: true,
                         message: "Bitte geben Sie Ihre Postleitzahl ein."

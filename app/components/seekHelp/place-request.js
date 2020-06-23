@@ -1,19 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {useLocation} from "react-router-dom";
-import {Steps, Space, Divider, Button} from "antd";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import {useLocation} from "react-router-dom"
+import {Steps, Space, Divider, Button} from "antd"
+import AuthenticationContext from "../../contexts/authentication"
+import {postPlaceRequest, putPlaceRequest, putPublishRequest} from "../../utils/api/placeRequestAPI"
 
-const queryString = require("query-string");
+const queryString = require("query-string")
 
-const {Step} = Steps;
+const {Step} = Steps
 
-const PlaceRequestWizardAddress = React.lazy(() => import("./wizard/place-request-wizard-address"));
-const PlaceRequestWizardCategory = React.lazy(() => import("./wizard/place-request-wizard-category"));
-const PlaceRequestWizardFinish = React.lazy(() => import("./wizard/place-request-wizard-finish"));
-const PlaceRequestWizardName = React.lazy(() => import("./wizard/place-request-wizard-name"));
-const PlaceRequestWizardTan = React.lazy(() => import("./wizard/place-request-wizard-tan"));
-const PlaceRequestWizardUrgency = React.lazy(() => import("./wizard/place-request-wizard-urgency"));
-const PlaceRequestWizardSummary = React.lazy(() => import("./wizard/place-request-wizard-summary"));
+const PlaceRequestWizardAddress = React.lazy(() => import("./wizard/place-request-wizard-address"))
+const PlaceRequestWizardCategory = React.lazy(() => import("./wizard/place-request-wizard-category"))
+const PlaceRequestWizardFinish = React.lazy(() => import("./wizard/place-request-wizard-finish"))
+const PlaceRequestWizardName = React.lazy(() => import("./wizard/place-request-wizard-name"))
+const PlaceRequestWizardTan = React.lazy(() => import("./wizard/place-request-wizard-tan"))
+const PlaceRequestWizardUrgency = React.lazy(() => import("./wizard/place-request-wizard-urgency"))
+const PlaceRequestWizardSummary = React.lazy(() => import("./wizard/place-request-wizard-summary"))
 
 function PlaceRequestReducer(state, action) {
     switch (action.type) {
@@ -45,21 +47,48 @@ function PlaceRequestReducer(state, action) {
                 currentStep: state.currentStep - 1
             }
         default:
-            throw new Error("Unsupported Type");
+            throw new Error("Unsupported Type")
     }
 }
 
-function PlaceRequestWindow() {
+export default function PlaceRequestWindow(props) {
+    const {phoneNumber} = queryString.parse(props.location.search)
+
     const [wizardState, dispatch] = React.useReducer(PlaceRequestReducer, {
         currentStep: 0,
         formData: [],
         isValidating: false,
+        isLoading: true,
         hasError: false,
         errorMsg: "",
-    });
+    })
 
-    React.useState(() => {
-        // ToDo: Depending on authentication
+    const processID = React.useRef(null)
+
+    const authenticationContext = React.useContext(AuthenticationContext)
+
+    React.useEffect(() => {
+        const isAuthenticated = authenticationContext.isAuthenticated()
+
+        let formValues = {}
+        if (isAuthenticated) {
+            formValues["phoneNumber"] = authenticationContext.authenticationState.phoneNumber
+        } else {
+            if (typeof phoneNumber != 'undefined') {
+                formValues["phoneNumber"] = phoneNumber
+            } else {
+                // ToDo: Throw Error
+            }
+        }
+
+        postPlaceRequest({formValues: formValues, isAuthenticated: isAuthenticated}).then((res) => {
+            processID.current = res
+        }).catch((error) => {
+            dispatch({
+                type: "error",
+                data: error.toString() // ToDo: Pretty Print
+            })
+        })
     }, [])
 
     const handleNextPage = (formName, formValues) => {
@@ -71,50 +100,69 @@ function PlaceRequestWindow() {
             }
 
         })
+
+        // ToDo: Improve Handling
+        wizardSteps = wizardSteps.filter(item => item.title !== "Identität");
+        console.log(wizardSteps);
+
         wizardSteps[wizardState.currentStep].handleBackend(formValues).then((result) => {
             dispatch({
                 type: "nextPage"
-            });
-            /*dispatch({
+            })
+        }).catch((error) => {
+            dispatch({
                 type: "error",
-                data: "Es ist ein Fehler aufgetreten."
-            })*/
-        });
+                data: "" + error
+            })
+        })
     }
 
     const handlePreviousPage = () => {
         dispatch({
             type: "prevPage"
-        });
+        })
+    }
+
+    const handleUpdateRequest = async (formValues) => {
+        await putPlaceRequest({
+            processID: processID.current,
+            phoneNumber: phoneNumber,
+            formValues: formValues,
+            isAuthenticated: authenticationContext.isAuthenticated(),
+        })
     }
 
     const handlePublish = () => {
 
     }
 
-    const wizardSteps = [
+    let wizardSteps = [
         {
             title: 'Name',
             content: <PlaceRequestWizardName handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState}/>,
             handleBackend: async (formValues) => {
+                await handleUpdateRequest(formValues)
             }
         },
         {
             title: 'Addresse',
             content: <PlaceRequestWizardAddress handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState}/>,
             handleBackend: async (formValues) => {
+                // ToDo: Which endpoint?
             }
         },
         {
             title: 'Kategorie',
             content: <PlaceRequestWizardCategory handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState}/>,
             handleBackend: async (formValues) => {
+                await handleUpdateRequest(formValues)
             }
         },
         {
             title: 'Dringlichkeit',
             content: <PlaceRequestWizardUrgency handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState}/>,
             handleBackend: async (formValues) => {
+                await handleUpdateRequest(formValues)
             }
         },
         {
@@ -127,6 +175,11 @@ function PlaceRequestWindow() {
             title: 'Übersicht',
             content: <PlaceRequestWizardSummary handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState}/>,
             handleBackend: async (formValues) => {
+                await putPublishRequest({
+                    processID: processID.current,
+                    phoneNumber: phoneNumber,
+                    isAuthenticated: authenticationContext.isAuthenticated(),
+                })
             }
         },
         {
@@ -140,15 +193,23 @@ function PlaceRequestWindow() {
     return (
         <Space direction="vertical" size="large" className="content-container-default">
             <Steps current={wizardState.currentStep}>
-                {wizardSteps.map(wizardItem => (
+                {wizardSteps.filter(wizardItem => {
+                    if (wizardItem.title === "Identität" && authenticationContext.isAuthenticated()) {
+                        return false
+                    }
+                    return true
+                }).map(wizardItem => (
                     <Step key={wizardItem.title} title={wizardItem.title}/>
                 ))}
             </Steps>
             <div className="steps-content">
-                {wizardSteps[wizardState.currentStep].content}
+                {wizardSteps.filter(wizardItem => {
+                    if (wizardItem.title === "Identität" && authenticationContext.isAuthenticated()) {
+                        return false
+                    }
+                    return true
+                })[wizardState.currentStep].content}
             </div>
         </Space>
-    );
+    )
 }
-
-export default PlaceRequestWindow;

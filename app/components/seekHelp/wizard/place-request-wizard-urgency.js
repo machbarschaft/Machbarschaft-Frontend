@@ -36,9 +36,10 @@ export default function PlaceRequestWizardUrgency({handlePreviousPage, handleNex
                     }
                 ]}>
                     <Radio.Group size={"large"}>
-                        <Radio.Button value={"urgent"}>Sehr dringend</Radio.Button>
+                        <Radio.Button value={"now"}>Sehr dringend</Radio.Button>
                         <Radio.Button value={"today"}>Heute</Radio.Button>
                         <Radio.Button value={"tomorrow"}>Morgen</Radio.Button>
+                        <Radio.Button value={"this-week"}>Diese Woche</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
 

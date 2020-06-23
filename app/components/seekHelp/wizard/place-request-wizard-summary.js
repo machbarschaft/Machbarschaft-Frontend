@@ -25,6 +25,8 @@ export default function PlaceRequestWizardSummary({handlePreviousPage, handleNex
             <Title level={4}>Bitte kontrollieren Sie alle Angaben. Anschließend werden wir unser Netzwerk aus freiwilligen Helferinnen und Helfern benachrichtigen.</Title>
 
             <Form {...formLayout} form={form} name={"place-request-wizard-summary"} hideRequiredMark={true} onFinish={handleNextPage}>
+                {/* ToDo: Summary UI */}
+
                 {wizardState.hasError && <PlaceRequestWizardValidationError wizardState={wizardState}/>}
 
                 <PlaceRequestWizardNavigation handlePreviousPage={handlePreviousPage} wizardState={wizardState}/>
