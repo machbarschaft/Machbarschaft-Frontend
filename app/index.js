@@ -10,6 +10,7 @@ import Navigation from "./components/base/navigation";
 import Footer from "./components/base/footer";
 import useAuthentication from "./hooks/useAuthentication";
 import AuthenticationContext, {AuthenticationProvider} from "./contexts/authentication";
+import Loading from "react-fullscreen-loading";
 
 const LandingPage = React.lazy(() => import("./components/landingPage/landingPage"))
 const Dashboard = React.lazy(() => import("./components/dashboard/dashboard"))
@@ -35,7 +36,7 @@ function App() {
     };
 
     if(authenticationState.isInitialLoading) {
-        return <p>Loading...</p>; // ToDo: UI
+        return <Loading loading={true} background={"#F4B3A3"} loaderColor={"#2D3047"}/>;
     }
 
     return (
