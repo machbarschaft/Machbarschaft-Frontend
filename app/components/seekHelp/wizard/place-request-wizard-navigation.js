@@ -1,6 +1,5 @@
 import React from "react"
 import {Button, Divider, Space, Form} from "antd";
-import PlaceRequestWizardValidationError from "./place-request-wizard-validation-error";
 
 export default function PlaceRequestWizardNavigation({handlePreviousPage, wizardState}) {
     return (
