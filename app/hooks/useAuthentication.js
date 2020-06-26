@@ -1,5 +1,5 @@
 import React from 'react'
-import {postAuthenticate, postLogin, postLogout} from "../utils/api/authenticationAPI";
+import {postAuthenticate, putLogin, postLogout} from "../utils/api/authenticationAPI";
 
 // ToDo: Welche Daten wollen wir für den lokalen Nutzer speichern?
 const initialAuthenticationState = {
@@ -31,12 +31,14 @@ function authenticationReducer(state, action) {
         case "loginInit":
             return {
                 ...initialAuthenticationState,
-                isAuthenticating: true
+                isAuthenticating: true,
+                isInitialLoading: false,
             }
         case "loginFailure":
             return {
                 ...initialAuthenticationState,
                 isAuthenticating: false,
+                isInitialLoading: false,
                 authenticationErrors: action.data.errors
             }
         case "authenticationSuccess":
@@ -67,7 +69,7 @@ function authenticationReducer(state, action) {
         case "invalidateSuccess":
             return {
                 ...initialAuthenticationState,
-                isInitialLoading: false,
+                isInitialLoading: false
             }
         default:
             throw new Error("Unsupported Type")
@@ -108,7 +110,7 @@ export default function useAuthentication() {
         });
 
         try {
-            let loginResult = await postLogin(email, password);
+            let loginResult = await putLogin(email, password);
             if (loginResult.status === 200) {
                 await checkAuthentication();
             } else {
