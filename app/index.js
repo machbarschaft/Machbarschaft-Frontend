@@ -16,19 +16,27 @@ const Dashboard = React.lazy(() => import("./components/dashboard/dashboard"))
 const Examples = React.lazy(() => import("./components/examples/examples"))
 const Login = React.lazy(() => import("./components/login/login"))
 const ResetPassword = React.lazy(() => import("./components/resetPassword/resetPassword"))
+const PlaceRequest = React.lazy(() => import("./components/seekHelp/place-request"))
+
 
 function App() {
     const [authenticationState, {
         performAuthentication,
         checkAuthentication,
-        invalidateAuthentication
+        invalidateAuthentication,
+        isAuthenticated
     }] = useAuthentication();
     const authProps = {
         authenticationState: authenticationState,
         performAuthentication: performAuthentication,
         checkAuthentication: checkAuthentication,
-        invalidateAuthentication: invalidateAuthentication
+        invalidateAuthentication: invalidateAuthentication,
+        isAuthenticated: isAuthenticated
     };
+
+    if(authenticationState.isInitialLoading) {
+        return <p>Loading...</p>; // ToDo: UI
+    }
 
     return (
         <Router>
@@ -40,11 +48,13 @@ function App() {
                         <div className="main-content">
                             <React.Suspense fallback={<p>Lädt...</p>}>
                                 <Switch>
-                                    <Route exact path='/' render={(props) => <LandingPage {...props} />} />
-                                    <Route exact path='/dashboard' render={(props) => <Dashboard {...props} />} />
-                                    <Route exact path='/examples' component={Examples}/>
-                                    <Route exact path='/login' render={(props) => <Login {...props} />} />
-                                    <Route exact path='/resetpassword' render={(props) => <ResetPassword {...props} />} />
+                                    <Route exact path='/' render={(props) => <LandingPage {...props} />}/>
+                                    <Route exact path='/dashboard' render={(props) => <Dashboard {...props} />}/>
+                                    <Route path='/examples' component={Examples}/>
+                                    <Route exact path='/login' render={(props) => <Login {...props} />}/>
+                                    <Route exact path='/resetpassword' render={(props) => <ResetPassword {...props} />}/>
+                                    <Route path='/place-request' render={(props) => <PlaceRequest {...props} />}/>
+
                                     <Route render={(props) => <h1>404</h1>}/>
                                 </Switch>
                             </React.Suspense>
