@@ -1,5 +1,6 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const {googleMapsApiKey} = require("./app/assets/config/google-maps-api.js");
 
 module.exports = {
     entry: './app/index.js',
@@ -29,13 +30,15 @@ module.exports = {
                         }
                     }
                 ]
-            }
+            },
+            {test: /\.(key)$/, use: 'raw-loader'}
         ]
     },
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
     plugins: [
         new HtmlWebpackPlugin({
-            template: "app/index.html"
+            template: "app/index.html",
+            googleMapsApiKey: googleMapsApiKey
         })
     ],
     devServer: {

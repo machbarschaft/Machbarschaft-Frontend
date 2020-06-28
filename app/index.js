@@ -13,7 +13,6 @@ import AuthenticationContext, {AuthenticationProvider} from "./contexts/authenti
 import Loading from "react-fullscreen-loading";
 import RoutesComponent from "./utils/routing/routes-component";
 
-
 function App() {
     const [authenticationState, {
         performAuthentication,
@@ -38,7 +37,6 @@ function App() {
             <AuthenticationProvider value={authProps}>
                 <Layout>
                     <Navigation/>
-
                     <div className="site-layout">
                         <div className="main-content">
                             <React.Suspense fallback={<p>Lädt...</p>}>
