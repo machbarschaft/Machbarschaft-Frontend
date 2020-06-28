@@ -25,9 +25,7 @@ export default function SearchBox({placeholder, onPlacesChanged}) {
     React.useEffect(() => {
         placesHandle = new google.maps.places.SearchBox(inputEl.current);
         placesHandle.addListener("places_changed", placesChanged);
-        return function cleanup() {
-            google.maps.event.clearInstanceListeners(placesHandle);
-        }
+        return google.maps.event.clearInstanceListeners(placesHandle);
     });
     return (
         <>

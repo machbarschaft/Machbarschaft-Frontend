@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 import PlacePin from "../../assets/img/maps/place-pin.svg";
 import MapTooltip from "./mapTooltip";
 
-export default function MapMarker({lat, lng, categories, distance, hover, selected, onMarkerSelect, onMarkerEnter, onMarkerLeave, $hover}) {
+export default function MapMarker({request, distance, hover, selected, onMarkerSelect, onMarkerEnter, onMarkerLeave, $hover}) {
     return (
         <div
-            lat={lat}
-            lng={lng}
             className={"map-place-container" + ($hover || hover ? " map-place-container-hover" : "")}
         >
             <img
@@ -17,14 +15,12 @@ export default function MapMarker({lat, lng, categories, distance, hover, select
                 onMouseLeave={() => onMarkerLeave()}
                 src={PlacePin}
             />
-            {($hover || hover || selected) && <MapTooltip categories={categories} distance={distance} />}
+            {($hover || hover || selected) && <MapTooltip categories={request.requestType} distance={distance} />}
         </div>
     );
 }
 MapMarker.propTypes = {
-    lat: PropTypes.number.isRequired,
-    lng: PropTypes.number.isRequired,
-    categories: PropTypes.array.isRequired,
+    request: PropTypes.object.isRequired,
     distance: PropTypes.string.isRequired,
     hover: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,

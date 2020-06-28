@@ -6,13 +6,14 @@ import RequestTypeGrocery from "../../assets/img/request-category/request-catego
 import RequestTypeMedicine from "../../assets/img/request-category/request-category-medicine.svg";
 import MapMarker from "./mapMarker";
 import CurrentLocationMarker from "./currentLocationMarker";
+import {googleMapsApiKey} from "../../assets/config/google-maps-api.js";
 
 
 export default function MapContainer({currentLocation, onMapClick, markers, selectedMarkerIndex, hoverMarkerIndex, onMarkerSelect, onMarkerEnter, onMarkerLeave}) {
     const [mapCenter, setMapCenter] = React.useState({lat: 48.189280, lng: 11.564758});
 
     React.useEffect(() => {
-        if(currentLocation.lat != 0 || currentLocation.lng != 0) {
+        if(currentLocation.lat !== 0 || currentLocation.lng !== 0) {
             setMapCenter(currentLocation);
         }
     }, [currentLocation]);
@@ -20,22 +21,21 @@ export default function MapContainer({currentLocation, onMapClick, markers, sele
     return (
         <div className="accept-help-map-container">
             <GoogleMapReact
-              bootstrapURLKeys={{ key: "YOUR_KEY" }}
+              bootstrapURLKeys={{ key: googleMapsApiKey }}
               center={mapCenter}
               defaultZoom={11}
               onClick={() => onMapClick()}
             >
                 {markers.map((entry, index) => 
                     <MapMarker
-                        lat={entry.lat}
-                        lng={entry.lng}
+                        {...entry}
+                        lat={entry.request.address.geoLocation.latitude}
+                        lng={entry.request.address.geoLocation.longitude}
                         onMarkerSelect={() => onMarkerSelect(index)}
                         selected={selectedMarkerIndex == index}
                         hover={hoverMarkerIndex == index}
                         onMarkerEnter={() => onMarkerEnter(index)}
                         onMarkerLeave={() => onMarkerLeave()}
-                        categories={entry.categories}
-                        distance={entry.distance}
                         key={index}
                     />
                 )}

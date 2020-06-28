@@ -27,6 +27,6 @@ export default function MapTooltip({categories, distance}) {
     );
 }
 MapTooltip.propTypes = {
-    categories: PropTypes.array.isRequired,
+    categories: PropTypes.string.isRequired,
     distance: PropTypes.string.isRequired
 };

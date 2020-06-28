@@ -19,41 +19,81 @@ export default function AcceptRequestWindow() {
     // test data, should be fetched from backend when endpoint is available
     const listEntries = [
         {
-            address: "Konradstraße, 80801 München",
-            distance: "2,6km",
-            categories: ["general"],
-            lat: 48.189280,
-            lng: 11.564758,
-            urgency: "sehr dringend",
-            carrequired: true,
-            reciperequired: false
+            request: {
+                address: {
+                    street: "Konradstraße",
+                    zipCode: "80801",
+                    city: "München",
+                    geoLocation: {
+                        latitude: 48.189280,
+                        longitude: 11.564758
+                    }
+                },
+                requestType: "general",
+                urgency: "sehr dringend",
+                extras: {
+                    carNecessary: true,
+                    prescriptionRequired: false
+                }
+            },
+            distance: "2,6km"
         },{
-            address: "Konradstraße, 80801 München",
-            distance: "2,6km",
-            categories: ["general", "medicine"],
-            lat: 48.102401,
-            lng:11.682987,
-            urgency: "sehr dringend",
-            carrequired: true,
-            reciperequired: false
+            request: {
+                address: {
+                    street: "Konradstraße",
+                    zipCode: "80801",
+                    city: "München",
+                    geoLocation: {
+                        latitude: 48.102401,
+                        longitude: 11.682987
+                    }
+                },
+                requestType: "general",
+                urgency: "sehr dringend",
+                extras: {
+                    carNecessary: true,
+                    prescriptionRequired: false
+                }
+            },
+            distance: "2,6km"
         },{
-            address: "Konradstraße, 80801 München",
-            distance: "2,6km",
-            categories: ["general", "medicine"],
-            lat: 48.205928,
-            lng: 11.682987,
-            urgency: "sehr dringend",
-            carrequired: true,
-            reciperequired: false
+            request: {
+                address: {
+                    street: "Konradstraße",
+                    zipCode: "80801",
+                    city: "München",
+                    geoLocation: {
+                        latitude: 48.205928,
+                        longitude: 11.682987
+                    }
+                },
+                requestType: "general",
+                urgency: "sehr dringend",
+                extras: {
+                    carNecessary: true,
+                    prescriptionRequired: false
+                }
+            },
+            distance: "2,6km"
         },{
-            address: "Konradstraße, 80801 München",
-            distance: "2,6km",
-            categories: ["general", "medicine"],
-            lat: 48.113395,
-            lng: 11.613363,
-            urgency: "sehr dringend",
-            carrequired: true,
-            reciperequired: false
+            request: {
+                address: {
+                    street: "Konradstraße",
+                    zipCode: "80801",
+                    city: "München",
+                    geoLocation: {
+                        latitude: 48.113395,
+                        longitude: 11.613363
+                    }
+                },
+                requestType: "general",
+                urgency: "sehr dringend",
+                extras: {
+                    carNecessary: true,
+                    prescriptionRequired: false
+                }
+            },
+            distance: "2,6km"
         }
     ];
 
