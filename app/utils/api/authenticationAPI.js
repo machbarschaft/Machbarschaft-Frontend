@@ -4,14 +4,14 @@
  * @param password is the password of the user to be authenticated
  * @returns {Promise<Response>} the unparsed response of the backend
  */
-export const postLogin = (email, password) => {
+export const putLogin = (email, password) => {
     const endpoint = "http://localhost:3000/auth/login";
 
     const tmp = {email, password};
     const formBody = Object.keys(tmp).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(tmp[key])).join('&');
 
     return fetch(endpoint, {
-        method: 'POST',
+        method: 'PUT',
         cache: 'no-cache',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'

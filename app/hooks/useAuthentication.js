@@ -1,13 +1,27 @@
 import React from 'react'
-import {postAuthenticate, postLogin, postLogout} from "../utils/api/authenticationAPI";
+import {postAuthenticate, putLogin, postLogout} from "../utils/api/authenticationAPI";
 
 // ToDo: Welche Daten wollen wir für den lokalen Nutzer speichern?
 const initialAuthenticationState = {
     // User Data
     uid: null,
     email: null,
+    phoneNumber: null,
+
+    // Profile
+    profile: {
+        forename: "Max",
+        surname: "Schmidt",
+        address: {
+            street: "",
+            houseNumber: "",
+            zipCode: "",
+            country: ""
+        }
+    },
 
     // Process Information
+    isInitialLoading: true,
     isAuthenticating: false,
     authenticationErrors: null,
 }
@@ -17,29 +31,45 @@ function authenticationReducer(state, action) {
         case "loginInit":
             return {
                 ...initialAuthenticationState,
-                isAuthenticating: true
+                isAuthenticating: true,
+                isInitialLoading: false,
             }
         case "loginFailure":
             return {
                 ...initialAuthenticationState,
                 isAuthenticating: false,
+                isInitialLoading: false,
                 authenticationErrors: action.data.errors
             }
         case "authenticationSuccess":
             return {
                 ...state,
                 isAuthenticating: false,
+                isInitialLoading: false,
                 uid: action.data["uid"],
-                email: action.data["email"]
+                email: action.data["email"],
+                phoneNumber: "0123", // Todo: Change
+                profile: {
+                    forename: "Max",
+                    surname: "Schmidt",
+                    address: {
+                        street: "",
+                        houseNumber: "",
+                        zipCode: "",
+                        country: ""
+                    }
+                },
             }
         case "authenticationFailure":
             return {
                 ...initialAuthenticationState,
-                isAuthenticating: false
+                isAuthenticating: false,
+                isInitialLoading: false
             }
         case "invalidateSuccess":
             return {
                 ...initialAuthenticationState,
+                isInitialLoading: false
             }
         default:
             throw new Error("Unsupported Type")
@@ -59,9 +89,14 @@ export default function useAuthentication() {
         initialAuthenticationState
     )
 
+    const isAuthenticated = () => {
+        return authenticationState.uid !== null;
+    }
+
     /* Check for authentication on first build */
     React.useEffect(() => {
         checkAuthentication();
+
     }, [])
 
     /**
@@ -75,7 +110,7 @@ export default function useAuthentication() {
         });
 
         try {
-            let loginResult = await postLogin(email, password);
+            let loginResult = await putLogin(email, password);
             if (loginResult.status === 200) {
                 await checkAuthentication();
             } else {
@@ -105,7 +140,6 @@ export default function useAuthentication() {
             let authenticateResult = await postAuthenticate();
             if (authenticateResult.status === 200) {
                 authenticateResult = await authenticateResult.json();
-
                 dispatch({
                     type: "authenticationSuccess",
                     data: {
@@ -153,6 +187,7 @@ export default function useAuthentication() {
     return [authenticationState, {
         performAuthentication,
         checkAuthentication,
-        invalidateAuthentication
+        invalidateAuthentication,
+        isAuthenticated
     }]
 }
