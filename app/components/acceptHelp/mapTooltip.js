@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import RequestTypeGeneral from "../../assets/img/request-category/request-category-general.svg";
-import RequestTypeGrocery from "../../assets/img/request-category/request-category-grocery.svg";
-import RequestTypeMedicine from "../../assets/img/request-category/request-category-medicine.svg";
+import RequestTypeOther from "../../assets/img/request-category/request-category-other.svg";
+import RequestTypeGroceries from "../../assets/img/request-category/request-category-groceries.svg";
+import RequestTypeMedication from "../../assets/img/request-category/request-category-medication.svg";
 
 export default function MapTooltip({categories, distance}) {
     let categoryTitle = "";
@@ -15,9 +15,9 @@ export default function MapTooltip({categories, distance}) {
             <div className="map-tooltip-info">
                 <div>{categoryTitle}</div>
                 <div className="display-flex map-tooltip-centered">
-                    {categories.includes("grocery") && <img src={RequestTypeGrocery} />}
-                    {categories.includes("medicine") && <img src={RequestTypeMedicine} />}
-                    {categories.includes("general") && <img src={RequestTypeGeneral} />}
+                    {categories.includes("groceries") && <img src={RequestTypeGroceries} />}
+                    {categories.includes("medication") && <img src={RequestTypeMedication} />}
+                    {categories.includes("other") && <img src={RequestTypeOther} />}
                 </div>
                 <div>Distanz:</div>
                 <div className="map-tooltip-centered">{distance}</div>

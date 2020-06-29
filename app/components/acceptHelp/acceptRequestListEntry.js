@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import RequestTypeGeneral from "../../assets/img/request-category/request-category-general.svg";
-import RequestTypeGrocery from "../../assets/img/request-category/request-category-grocery.svg";
-import RequestTypeMedicine from "../../assets/img/request-category/request-category-medicine.svg";
+import RequestTypeOther from "../../assets/img/request-category/request-category-other.svg";
+import RequestTypeGroceries from "../../assets/img/request-category/request-category-groceries.svg";
+import RequestTypeMedication from "../../assets/img/request-category/request-category-medication.svg";
 
 export default function AcceptRequestListEntry({request, distance, hover, onClick, onMouseEnter, onMouseLeave}) {
     return (
@@ -17,9 +17,9 @@ export default function AcceptRequestListEntry({request, distance, hover, onClic
                     {request.address.street}, {request.address.zipCode} {request.address.city}
                 </div>
                 <div className="accept-help-request-list-entry-category">
-                    <img src={RequestTypeGrocery} className={request.requestType.includes("grocery") ? "" : "visibility-hidden"} />
-                    <img src={RequestTypeMedicine} className={request.requestType.includes("medicine") ? "" : "visibility-hidden"} />
-                    <img src={RequestTypeGeneral} className={request.requestType.includes("general") ? "" : "visibility-hidden"} />
+                    <img src={RequestTypeGroceries} className={request.requestType.includes("groceries") ? "" : "visibility-hidden"} />
+                    <img src={RequestTypeMedication} className={request.requestType.includes("medication") ? "" : "visibility-hidden"} />
+                    <img src={RequestTypeOther} className={request.requestType.includes("other") ? "" : "visibility-hidden"} />
                 </div>
                 <div className="accept-help-request-list-entry-distance">{distance}</div>
         </div>  

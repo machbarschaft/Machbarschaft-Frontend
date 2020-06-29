@@ -29,8 +29,8 @@ export default function AcceptRequestWindow() {
                         longitude: 11.564758
                     }
                 },
-                requestType: "general",
-                urgency: "sehr dringend",
+                requestType: "groceries",
+                urgency: "now",
                 extras: {
                     carNecessary: true,
                     prescriptionRequired: false
@@ -48,8 +48,8 @@ export default function AcceptRequestWindow() {
                         longitude: 11.682987
                     }
                 },
-                requestType: "general",
-                urgency: "sehr dringend",
+                requestType: "medication",
+                urgency: "tomorrow",
                 extras: {
                     carNecessary: true,
                     prescriptionRequired: false
@@ -67,8 +67,8 @@ export default function AcceptRequestWindow() {
                         longitude: 11.682987
                     }
                 },
-                requestType: "general",
-                urgency: "sehr dringend",
+                requestType: "other",
+                urgency: "today",
                 extras: {
                     carNecessary: true,
                     prescriptionRequired: false
@@ -86,8 +86,8 @@ export default function AcceptRequestWindow() {
                         longitude: 11.613363
                     }
                 },
-                requestType: "general",
-                urgency: "sehr dringend",
+                requestType: "other",
+                urgency: "this-week",
                 extras: {
                     carNecessary: true,
                     prescriptionRequired: false
