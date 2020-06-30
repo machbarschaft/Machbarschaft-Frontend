@@ -1,5 +1,6 @@
 import React from 'react'
-import {postAuthenticate, putLogin, postLogout} from "../utils/api/authenticationAPI";
+import {getAuthenticate, putLogin, postLogout} from "../utils/api/authenticationAPI";
+import {postRegisterRequest} from "../utils/api/registerAPI";
 
 // ToDo: Welche Daten wollen wir für den lokalen Nutzer speichern?
 const initialAuthenticationState = {
@@ -34,12 +35,25 @@ function authenticationReducer(state, action) {
                 isAuthenticating: true,
                 isInitialLoading: false,
             }
+        case "registerInit":
+            return {
+                ...initialAuthenticationState,
+                isInitialLoading: false,
+                isRegistering: true,
+            }
         case "loginFailure":
             return {
                 ...initialAuthenticationState,
                 isAuthenticating: false,
                 isInitialLoading: false,
                 authenticationErrors: action.data.errors
+            }
+        case "registerFailure":
+            return {
+                ...initialAuthenticationState,
+                isInitialLoading: false,
+                isRegistering: false,
+                registerErrors: action.data.errors
             }
         case "authenticationSuccess":
             return {
@@ -59,6 +73,10 @@ function authenticationReducer(state, action) {
                         country: ""
                     }
                 },
+            }
+        case "registerSuccess":
+            return {
+
             }
         case "authenticationFailure":
             return {
@@ -100,6 +118,51 @@ export default function useAuthentication() {
     }, [])
 
     /**
+     * Makes a request to the backend to register a user. If successful, authenticates in one go
+     * @param email the email of the user to be registered
+     * @param phone the phone number of the user to be registered
+     * @param password the password of the user to be registered
+     */
+    const performRegister = async (email, phone, password) => {
+
+        const formValues = {
+            email: email,
+            phone: phone,
+            password: password
+        }
+
+        dispatch({
+            type: "registerInit"
+        });
+
+        try {
+            let registerResult = await postRegisterRequest(formValues)
+            if(registerResult.status !== 201) {
+                // Register: Failure
+                switch(registerResult.status) {
+                    case 422:
+                        // Invalid Request
+                        registerResult = await registerResult.json()
+                        console.log(registerResult)
+                        break;
+                    case 401:
+                        // User exists
+                        break;
+                    case 500:
+                        // Internal server error
+                        break;
+                }
+                return false;
+            }
+
+            // ToDo: Das könnten wir noch verbessern. Register könnte direkt einen gültigen Cookie zurückgeben.
+            await performAuthentication(email, password)
+        } catch (error) {
+
+        }
+    }
+
+    /**
      * Makes a request to the backend in order to authenticate a user and modifies state accordingly
      * @param email the email of the user to be authenticated
      * @param password the password of the user to be authenticated
@@ -126,7 +189,7 @@ export default function useAuthentication() {
             dispatch({
                 type: "loginFailure",
                 data: {
-                    errors: "TBD"
+                    errors: "Die Anmeldung konnte nicht durchgeführt werden."
                 }
             })
         }
@@ -137,7 +200,7 @@ export default function useAuthentication() {
      */
     const checkAuthentication = async () => {
         try {
-            let authenticateResult = await postAuthenticate();
+            let authenticateResult = await getAuthenticate();
             if (authenticateResult.status === 200) {
                 authenticateResult = await authenticateResult.json();
                 dispatch({
@@ -188,6 +251,7 @@ export default function useAuthentication() {
         performAuthentication,
         checkAuthentication,
         invalidateAuthentication,
-        isAuthenticated
+        isAuthenticated,
+        performRegister
     }]
 }

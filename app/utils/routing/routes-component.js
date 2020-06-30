@@ -9,6 +9,7 @@ const Login = React.lazy(() => import("../../components/login/login"))
 const ResetPassword = React.lazy(() => import("../../components/resetPassword/resetPassword"))
 const PlaceRequest = React.lazy(() => import("../../components/seekHelp/place-request"))
 const AcceptRequest = React.lazy(() => import("../../components/acceptHelp/acceptRequest"))
+const RegisterHelper = React.lazy(() => import("../../components/register/register-helper-component"))
 
 export default function RoutesComponent() {
     return (
@@ -20,7 +21,7 @@ export default function RoutesComponent() {
             <Route path='/resetpassword' component={ResetPassword}/>
             <Route path='/place-request' render={() => <RouteAuthenticated component={PlaceRequest} redirectTo={"/login"}/>}/>
             <Route path='/accept-request' render={() => <RouteAuthenticated component={AcceptRequest} redirectTo={"/login"}/>}/>
-
+            <Route path='/registrieren' component={RegisterHelper}/>
             <Route render={() => <h1>404</h1>}/>
         </Switch>
     )
