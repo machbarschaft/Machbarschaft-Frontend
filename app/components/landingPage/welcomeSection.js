@@ -27,7 +27,7 @@ export default function WelcomeSection() {
 
     return (
         <div className="landing-page-container content-container-default">
-            <Row type="flex" style={{"align-items": "center"}}>
+            <Row type="flex" style={{"alignItems": "center"}}>
                 <Col xs={{span: 24}} xxl={{span: 12}}>
                     <div>
                         <h1>MACHBARSCHAFT</h1>

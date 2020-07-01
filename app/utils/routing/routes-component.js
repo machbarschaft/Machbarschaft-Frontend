@@ -18,7 +18,8 @@ export default function RoutesComponent() {
             <Route path='/examples' component={Examples}/>
             <Route path='/login' component={Login}/>
             <Route path='/resetpassword' component={ResetPassword}/>
-            <Route path='/place-request' render={() => <RouteAuthenticated component={PlaceRequest} redirectTo={"/login"}/>}/>
+            <Route path='/place-request' render={(props) => <RouteAuthenticated component={() => <PlaceRequest {...props } />} redirectTo={"/login"}/>}/>
+            <Route path='/place-request2' component={PlaceRequest}/>
             <Route path='/accept-request' render={() => <RouteAuthenticated component={AcceptRequest} redirectTo={"/login"}/>}/>
 
             <Route render={() => <h1>404</h1>}/>
@@ -29,8 +30,9 @@ export default function RoutesComponent() {
 function RouteAuthenticated({component, redirectTo}) {
     const authenticationContext = React.useContext(AuthenticationContext);
 
-    return (
-        authenticationContext.isAuthenticated() ?
-            component : <Redirect to={redirectTo}/>
-    )
+    if(authenticationContext.isAuthenticated()) {
+        return component()
+    } else {
+        return <Redirect to={redirectTo} />
+    }
 }
