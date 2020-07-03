@@ -39,11 +39,11 @@ export const getAuthenticate = () => {
  * HTTP request to invalidate (logout) a user
  * @returns {Promise<Response>} the unparsed response of the backend
  */
-export const postLogout = () => {
+export const putLogout = () => {
     const endpoint = "http://localhost:3000/auth/logout";
 
     return fetch(endpoint, {
-        method: 'POST',
+        method: 'PUT',
         cache: 'no-cache',
         credentials: 'include',
     }).then((res) => res);

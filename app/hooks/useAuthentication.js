@@ -230,7 +230,7 @@ export default function useAuthentication() {
      */
     const invalidateAuthentication = async () => {
         try {
-            let logoutResult = await postLogout();
+            let logoutResult = await putLogout();
             if (logoutResult.status === 200) {
                 dispatch({
                     type: "invalidateSuccess"
