@@ -14,24 +14,24 @@ export default function RoutesComponent() {
     return (
         <Switch>
             <Route exact path='/' component={LandingPage}/>
-            <Route path='/dashboard' render={() => <RouteAuthenticated component={Dashboard} redirectTo={"/login"}/>}/>
-            <Route path='/place-request' render={() => <RouteAuthenticated component={PlaceRequest} redirectTo={"/login"}/>}/>
+            <Route path='/dashboard' render={(props) => <RouteAuthenticated render={() => <Dashboard {...props}/>} redirectTo={"/login"}/>}/>
             <Route path='/examples' component={Examples}/>
             <Route path='/login' component={Login}/>
             <Route path='/resetpassword' component={ResetPassword}/>
-            <Route path='/place-request' render={() => <RouteAuthenticated component={PlaceRequest} redirectTo={"/login"}/>}/>
-            <Route path='/accept-request' render={() => <RouteAuthenticated component={AcceptRequest} redirectTo={"/login"}/>}/>
+            <Route path='/place-request' render={(props) => <RouteAuthenticated render={() => <PlaceRequest {...props} />} redirectTo={"/login"}/>}/>
+            <Route path='/accept-request' render={(props) => <RouteAuthenticated render={() => <AcceptRequest {...props}/>} redirectTo={"/login"}/>}/>
 
             <Route render={() => <h1>404</h1>}/>
         </Switch>
     )
 }
 
-function RouteAuthenticated({component, redirectTo}) {
+function RouteAuthenticated({render, redirectTo}) {
     const authenticationContext = React.useContext(AuthenticationContext);
 
-    return (
-        authenticationContext.isAuthenticated() ?
-            component : <Redirect to={redirectTo}/>
-    )
+    if (authenticationContext.isAuthenticated()) {
+        return render()
+    } else {
+        return <Redirect to={redirectTo}/>
+    }
 }

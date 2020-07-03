@@ -1,5 +1,5 @@
 import React from 'react'
-import {postAuthenticate, putLogin, postLogout} from "../utils/api/authenticationAPI";
+import {postAuthenticate, putLogin, putLogout} from "../utils/api/authenticationAPI";
 
 // ToDo: Welche Daten wollen wir für den lokalen Nutzer speichern?
 const initialAuthenticationState = {
@@ -167,7 +167,7 @@ export default function useAuthentication() {
      */
     const invalidateAuthentication = async () => {
         try {
-            let logoutResult = await postLogout();
+            let logoutResult = await putLogout();
             if (logoutResult.status === 200) {
                 dispatch({
                     type: "invalidateSuccess"
