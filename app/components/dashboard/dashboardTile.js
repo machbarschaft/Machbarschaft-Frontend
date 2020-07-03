@@ -9,8 +9,7 @@ function DashboardTile({title, content}) {
 		<div className={"dashboard-tile"}>
 			{title !== undefined &&
 				<>
-					<Text strong>{title}</Text>
-					<div className={"dashboard-tile-spacing"}></div>
+					<Text strong className={"dashboard-tile-spacing"}>{title}</Text>
 				</>
 			}
 			{content}

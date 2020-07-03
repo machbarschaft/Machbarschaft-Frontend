@@ -4,11 +4,12 @@ import DashboardTileHelperStatus from "./dashboardTileHelperStatus";
 import DashboardTileContact from "./dashboardTileContact";
 import DashboardTileUrgency from "./dashboardTileUrgency";
 import DashboardTileRequestType from "./dashboardTileRequestType";
+import DashboardTileAdditionalInformation from "./dashboardTileAdditionalInformation";
 
 function DashboardHelper() {
 	return (
 		<>
-			<DashboardTile content={<DashboardTileHelperStatus />} />
+			<DashboardTileHelperStatus name={"Max Schmidt"} status={"accepted"} />
 			<div className="dashboard-columns-container">
 				<div className="dashboard-column">
 					<DashboardTileContact
@@ -17,12 +18,12 @@ function DashboardHelper() {
 						street={"Höhenstadter Str."}
 						zipCode={81671}
 						city={"München"}
-					/>
+					/><br />
 					<DashboardTileRequestType requestType={"groceries"} />
 				</div>
 				<div className="dashboard-column">
 					<DashboardTileUrgency urgency={"now"} />
-					<DashboardTile content={<><br/><br/><br/></>} />
+					<DashboardTileAdditionalInformation carNecessary={true} prescriptionRequired={false} timestamp={1593672043} />
 				</div>
 			</div>
 		</>

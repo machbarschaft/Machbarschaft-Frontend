@@ -4,24 +4,22 @@ import DashboardTile from "./dashboardTile";
 import RequestTypeOther from "../../assets/img/request-category/request-category-other.svg";
 import RequestTypeGroceries from "../../assets/img/request-category/request-category-groceries.svg";
 import RequestTypeMedication from "../../assets/img/request-category/request-category-medication.svg";
-import DashboardTileRequestTypeRow from "./dashboardTileRequestTypeRow";
+import DashboardTileImgTextRow from "./dashboardTileImgTextRow";
 
 function DashboardTileRequestType({requestType}) {
     return (
         <DashboardTile title={"Typ des Auftrags"} content={
-            <>
+            <div className={"dashboard-tile-row-container"}>
                 {requestType.includes("medication") &&
-                    <DashboardTileRequestTypeRow imgSrc={RequestTypeMedication} title={"Medikamente einkaufen"} />
+                    <DashboardTileImgTextRow imgSrc={RequestTypeMedication} title={"Medikamente einkaufen"} />
                 }
-                <div className={"dashboard-tile-spacing"}></div>
                 {requestType.includes("groceries") &&
-                    <DashboardTileRequestTypeRow imgSrc={RequestTypeGroceries} title={"Lebensmittel einkaufen"} />
+                    <DashboardTileImgTextRow imgSrc={RequestTypeGroceries} title={"Lebensmittel einkaufen"} className={"dashboard-tile-spacing"} />
                 }
-                <div className={"dashboard-tile-spacing"}></div>
                 {requestType.includes("other") &&
-                    <DashboardTileRequestTypeRow imgSrc={RequestTypeOther} title={"Produkte einkaufen"} />
+                    <DashboardTileImgTextRow imgSrc={RequestTypeOther} title={"Produkte einkaufen"} />
                 }
-            </>
+            </div>
         }/>
     );
 }

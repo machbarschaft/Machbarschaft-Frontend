@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AuthenticationContext from "../../contexts/authentication";
 import DashboardHelper from "./dashboardHelper";
+import AuthenticationContext from "../../contexts/authentication";
 
 function DashboardWindow() {
 	const authProps = React.useContext(AuthenticationContext);

@@ -29,7 +29,7 @@ export const postAuthenticate = () => {
     const endpoint = "http://localhost:3000/auth/authenticate";
 
     return fetch(endpoint, {
-        method: 'POST',
+        method: 'GET',
         cache: 'no-cache',
         credentials: 'include',
     }).then((res) => res);

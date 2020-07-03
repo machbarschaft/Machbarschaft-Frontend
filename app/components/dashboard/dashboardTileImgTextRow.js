@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function DashboardTileRequestTypeRow({imgSrc, title}) {
+function DashboardTileImgTextRow({imgSrc, title}) {
     return (
         <div className={"dashboard-tile-request-type-row"}>
             <img className={"dashboard-tile-request-type-image"} src={imgSrc} />
@@ -9,8 +9,8 @@ function DashboardTileRequestTypeRow({imgSrc, title}) {
         </div>
     );
 }
-DashboardTileRequestTypeRow.propTypes = {
-    imgSrc: PropTypes.isRequired,
+DashboardTileImgTextRow.propTypes = {
+    imgSrc: PropTypes.any.isRequired,
     title: PropTypes.string.isRequired
 };
-export default DashboardTileRequestTypeRow;
+export default DashboardTileImgTextRow;

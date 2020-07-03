@@ -15,6 +15,7 @@ export default function RoutesComponent() {
         <Switch>
             <Route exact path='/' component={LandingPage}/>
             <Route path='/dashboard' render={() => <RouteAuthenticated component={Dashboard} redirectTo={"/login"}/>}/>
+            <Route path='/place-request' render={() => <RouteAuthenticated component={PlaceRequest} redirectTo={"/login"}/>}/>
             <Route path='/examples' component={Examples}/>
             <Route path='/login' component={Login}/>
             <Route path='/resetpassword' component={ResetPassword}/>
