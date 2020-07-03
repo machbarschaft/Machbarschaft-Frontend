@@ -1,6 +1,6 @@
 import React from 'react'
-import {getAuthenticate, putLogin, postLogout} from "../utils/api/authenticationAPI";
-import {postRegisterRequest} from "../utils/api/registerAPI";
+import {getAuthenticate, putLogin, postLogout} from "../utils/api/authenticationAPI"
+import {postRegisterRequest} from "../utils/api/registerAPI"
 
 // ToDo: Welche Daten wollen wir für den lokalen Nutzer speichern?
 const initialAuthenticationState = {
@@ -108,12 +108,12 @@ export default function useAuthentication() {
     )
 
     const isAuthenticated = () => {
-        return authenticationState.uid !== null;
+        return authenticationState.uid !== null
     }
 
     /* Check for authentication on first build */
     React.useEffect(() => {
-        checkAuthentication();
+        checkAuthentication()
 
     }, [])
 
@@ -133,10 +133,11 @@ export default function useAuthentication() {
 
         dispatch({
             type: "registerInit"
-        });
+        })
 
         try {
             let registerResult = await postRegisterRequest(formValues)
+            console.log(registerResult.status)
             if(registerResult.status !== 201) {
                 // Register: Failure
                 switch(registerResult.status) {
@@ -144,19 +145,21 @@ export default function useAuthentication() {
                         // Invalid Request
                         registerResult = await registerResult.json()
                         console.log(registerResult)
-                        break;
+                        return false
                     case 401:
                         // User exists
-                        break;
+                        return false
                     case 500:
                         // Internal server error
-                        break;
+                        return false
+                    default:
+                        // Unknown Error
+                        return false
                 }
-                return false;
             }
 
             // ToDo: Das könnten wir noch verbessern. Register könnte direkt einen gültigen Cookie zurückgeben.
-            await performAuthentication(email, password)
+            return await performAuthentication(email, password)
         } catch (error) {
 
         }
@@ -170,12 +173,12 @@ export default function useAuthentication() {
     const performAuthentication = async (email, password) => {
         dispatch({
             type: "loginInit"
-        });
+        })
 
         try {
-            let loginResult = await putLogin(email, password);
+            let loginResult = await putLogin(email, password)
             if (loginResult.status === 200) {
-                await checkAuthentication();
+                return await checkAuthentication()
             } else {
                 dispatch({
                     type: "loginFailure",
@@ -183,6 +186,7 @@ export default function useAuthentication() {
                         errors: "Zu dieser Kombination konnten wir keinen Benutzer finden."
                     }
                 })
+                return false
             }
         } catch (error) {
             // ToDo: Dieser Case ist eig. Server Offline. Wie gehen wir damit um?
@@ -192,6 +196,7 @@ export default function useAuthentication() {
                     errors: "Die Anmeldung konnte nicht durchgeführt werden."
                 }
             })
+            return false
         }
     }
 
@@ -200,9 +205,9 @@ export default function useAuthentication() {
      */
     const checkAuthentication = async () => {
         try {
-            let authenticateResult = await getAuthenticate();
+            let authenticateResult = await getAuthenticate()
             if (authenticateResult.status === 200) {
-                authenticateResult = await authenticateResult.json();
+                authenticateResult = await authenticateResult.json()
                 dispatch({
                     type: "authenticationSuccess",
                     data: {
@@ -210,6 +215,7 @@ export default function useAuthentication() {
                         email: authenticateResult["email"]
                     }
                 })
+                return true
             } else {
                 dispatch({
                     type: "authenticationFailure",
@@ -217,11 +223,13 @@ export default function useAuthentication() {
                         errors: "E-Mail Adresse oder Passwort ist nicht korrekt."
                     }
                 })
+                return false
             }
         } catch (error) {
             dispatch({
                 type: "authenticationFailure"
             })
+            return false
         }
     }
 
@@ -230,7 +238,7 @@ export default function useAuthentication() {
      */
     const invalidateAuthentication = async () => {
         try {
-            let logoutResult = await putLogout();
+            let logoutResult = await putLogout()
             if (logoutResult.status === 200) {
                 dispatch({
                     type: "invalidateSuccess"

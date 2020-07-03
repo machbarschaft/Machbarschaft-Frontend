@@ -14,11 +14,12 @@ export const postRegisterRequest = async (formValues) => {
         body: formBody
     }).then(async (res) => {
         if(res.status === 201) {
-            return
+            return res
         } else {
-            // ToDo: Throw Error
             res = await res.json()
             console.log(res)
+            // ToDo: Return multiple errors
+            throw new Error("Fehler bei der Regstrierung")
         }
     })
 }
