@@ -64,6 +64,7 @@ export default function PlaceRequestWindow(props) {
     })
 
     const processID = React.useRef(null)
+    const phoneVerified = React.useRef(false)
 
     const authenticationContext = React.useContext(AuthenticationContext)
 
@@ -82,7 +83,10 @@ export default function PlaceRequestWindow(props) {
         }
 
         postPlaceRequest({formValues: formValues, isAuthenticated: isAuthenticated}).then((res) => {
-            processID.current = res
+            processID.current = res["_id"]
+            if (typeof res["phoneVerifiedCookieMatch"] !== 'undefined' && res["phoneVerifiedCookieMatch"] === true) {
+                phoneVerified.current = true
+            }
         }).catch((error) => {
             dispatch({
                 type: "error",
@@ -102,8 +106,9 @@ export default function PlaceRequestWindow(props) {
         })
 
         // ToDo: Improve Handling
-        wizardSteps = wizardSteps.filter(item => item.title !== "Identität");
-        console.log(wizardSteps);
+        if (authenticationContext.isAuthenticated() || phoneVerified.current) {
+            wizardSteps = wizardSteps.filter(item => item.title !== "Identität");
+        }
 
         wizardSteps[wizardState.currentStep].handleBackend(formValues).then((result) => {
             dispatch({
@@ -194,7 +199,7 @@ export default function PlaceRequestWindow(props) {
         <Space direction="vertical" size="large" className="content-container-default">
             <Steps current={wizardState.currentStep}>
                 {wizardSteps.filter(wizardItem => {
-                    if (wizardItem.title === "Identität" && authenticationContext.isAuthenticated()) {
+                    if (wizardItem.title === "Identität" && (authenticationContext.isAuthenticated() || phoneVerified.current)) {
                         return false
                     }
                     return true
@@ -204,7 +209,7 @@ export default function PlaceRequestWindow(props) {
             </Steps>
             <div className="steps-content">
                 {wizardSteps.filter(wizardItem => {
-                    if (wizardItem.title === "Identität" && authenticationContext.isAuthenticated()) {
+                    if (wizardItem.title === "Identität" && (authenticationContext.isAuthenticated() || phoneVerified.current)) {
                         return false
                     }
                     return true

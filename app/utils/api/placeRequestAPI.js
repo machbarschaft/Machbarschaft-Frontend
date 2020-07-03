@@ -22,7 +22,7 @@ export const postPlaceRequest = async ({formValues, isAuthenticated}) => {
     }).then(async (res) => {
         if (res.status === 200) {
             res = await res.json();
-            return res["_id"]; // ToDo: Change to Process ID
+            return res; // ToDo: Change to Process ID
         } else {
             res = await res.json();
             throw Error(res.errors[0]); // ToDo: Throw multiple errors
