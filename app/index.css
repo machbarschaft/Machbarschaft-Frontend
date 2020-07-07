@@ -461,6 +461,7 @@ h4 {
 }
 .login-card {
 	box-shadow:rgba(45, 48, 71, 0.2) 0px 0px 15px 0px;
+	margin: 0.7rem !important;
 }
 .login-description-card {
 	display: flex;

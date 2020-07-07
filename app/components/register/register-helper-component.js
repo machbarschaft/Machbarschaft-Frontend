@@ -1,8 +1,11 @@
 import React from "react"
-import {Form, Input, Button, Select, Typography, Card, Timeline, Space, Col, Row} from 'antd'
+import {
+    Form, Input, Button, Select, Typography, Card, Timeline, Space, Col, Row
+} from 'antd'
 import {Link, useHistory} from "react-router-dom";
 import AuthenticationContext from "../../contexts/authentication";
 
+const {Option} = Select;
 const {Title} = Typography
 
 export default function RegisterHelperComponent() {
@@ -23,16 +26,22 @@ export default function RegisterHelperComponent() {
         }
     }
 
+    const phonePrefixSelector = (
+        <Form.Item name="phonePrefix" noStyle>
+            <Select style={{width: 70}}>
+                <Option value="49">+49</Option>
+            </Select>
+        </Form.Item>
+    );
+
 
     return (
         <>
-            <div style={{textAlign: "center"}}>
-                <Title level={1}>Mach mit uns deine Nachbarschaften zu Machbarschaften.</Title>
-                <Title level={3}>Cool, dass <strong>DU</strong> dabei bist!</Title>
-            </div>
-
-
             <div className="content-container-default">
+                <div style={{textAlign: "center"}}>
+                    <Title level={1}>Mach mit uns deine Nachbarschaften zu Machbarschaften.</Title>
+                    <Title level={3}>Cool, dass <strong>DU</strong> dabei bist!</Title>
+                </div>
                 <div className="login-container">
                     <Row type="flex" style={{"alignItems": "center"}}>
                         <Col xs={{span: 24}} xl={{span: 12}} xxl={{span: 12}}>
@@ -43,26 +52,36 @@ export default function RegisterHelperComponent() {
                                   className="login-card"
                             >
 
-                                <Form {...layout} form={form} name={"register-helper"} style={{width: "100%"}} onFinish={handleForm}>
+                                <Form {...layout} form={form} name={"register-helper"} style={{width: "100%"}} onFinish={handleForm} initialValues={{
+                                    phonePrefix: "49"
+                                }}>
                                     <Form.Item name={"email"} label={"Deine E-Mail Adresse"} rules={[
                                         {
-                                            required: true
+                                            required: true,
+                                            type: "email",
+                                            message: "Gib eine gültige E-Mail Adresse ein."
                                         }
                                     ]}>
                                         <Input/>
                                     </Form.Item>
 
-                                    <Form.Item name={"phone"} label={"Deine Handynummer"} rules={[
-                                        {
-                                            required: true
-                                        }
-                                    ]}>
-                                        <Input/>
+                                    <Form.Item
+                                        name={"phone"}
+                                        label={"Deine Handynummer"}
+                                        rules={[
+                                            {
+                                                required: true,
+                                                type: "number",
+                                                message: "Gib eine gültige Telefonnummer ein."
+                                            }
+                                        ]}>
+                                        <Input addonBefore={phonePrefixSelector} style={{width: '100%'}}/>
                                     </Form.Item>
 
                                     <Form.Item name={"password"} label={"Dein Passwort"} rules={[
                                         {
-                                            required: true
+                                            required: true,
+                                            message: "Gib ein Passwort ein."
                                         }
                                     ]}>
                                         <Input.Password/>
