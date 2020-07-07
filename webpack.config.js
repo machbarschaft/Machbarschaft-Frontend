@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {googleMapsApiKey} = require("./app/assets/config/google-maps-api.js");
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './app/index.js',
@@ -19,7 +20,8 @@ module.exports = {
                 use: [
                     {loader: 'style-loader'},
                     {loader: 'css-loader'},
-                    {loader: 'less-loader',
+                    {
+                        loader: 'less-loader',
                         options: {
                             lessOptions: {
                                 modifyVars: {
@@ -39,7 +41,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "app/index.html",
             googleMapsApiKey: googleMapsApiKey
-        })
+        }),
+        new CopyPlugin({patterns: [{from: '_redirects'}]})
     ],
     devServer: {
         historyApiFallback: true
