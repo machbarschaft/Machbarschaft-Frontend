@@ -1,10 +1,13 @@
 import React from "react";
+import {Typography} from "antd";
 import DashboardTile from "./dashboardTile";
 import DashboardTileHelperStatus from "./dashboardTileHelperStatus";
 import DashboardTileContact from "./dashboardTileContact";
 import DashboardTileUrgency from "./dashboardTileUrgency";
 import DashboardTileRequestType from "./dashboardTileRequestType";
 import DashboardTileAdditionalInformation from "./dashboardTileAdditionalInformation";
+import DashboardHelperOldRequests from "./dashboardHelperOldRequests";
+const {Title} = Typography;
 
 function DashboardHelper() {
 	return (
@@ -26,6 +29,7 @@ function DashboardHelper() {
 					<DashboardTileAdditionalInformation carNecessary={true} prescriptionRequired={false} timestamp={1593672043} />
 				</div>
 			</div>
+			<DashboardHelperOldRequests />
 		</>
 	);
 }
