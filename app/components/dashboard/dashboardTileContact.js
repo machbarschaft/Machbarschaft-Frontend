@@ -8,20 +8,20 @@ function DashboardTileContact({name, phone, street, zipCode, city}) {
             <>
                 <div className={"dashboard-tile-spacing"}></div>
                 <div className={"dashboard-tile-grid"}>
-                    <span>Name:</span><span>{name}</span>
-                    <span>Telefon:</span><span>{phone}</span>
-                    <span>Adresse:</span><span>{street}</span>
-                    <span>Ort:</span><span>{zipCode + " " + city}</span>
+                    {name !== undefined && <><span>Name:</span><span>{name}</span></>}
+                    {phone !== undefined && <><span>Telefon:</span><span>{phone}</span></>}
+                    {street !== undefined && <><span>Adresse:</span><span>{street}</span></>}
+                    {zipCode !== undefined && city !== undefined && <><span>Ort:</span><span>{zipCode + " " + city}</span></>}
                 </div>
             </>
         }/>
     );
 }
 DashboardTileContact.propTypes = {
-    name: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
-    street: PropTypes.string.isRequired,
-    zipCode: PropTypes.number.isRequired,
-    city: PropTypes.string.isRequired
+    name: PropTypes.string,
+    phone: PropTypes.string,
+    street: PropTypes.string,
+    zipCode: PropTypes.number,
+    city: PropTypes.string
 };
 export default DashboardTileContact;

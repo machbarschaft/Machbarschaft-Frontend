@@ -1,6 +1,6 @@
 import React from "react";
 import {Typography, Collapse} from "antd";
-import DashboardHelperOldRequestHeader from "./dashboardHelperOldRequestHeader";
+import DashboardOldRequestHeader from "./dashboardOldRequestHeader";
 import DashboardHelperOldRequestContent from "./dashboardHelperOldRequestContent";
 const {Title} = Typography;
 const {Panel} = Collapse;
@@ -59,7 +59,7 @@ function DashboardHelperOldRequests() {
 	];
 	const panelRender = requestList.map((entry, index) =>
 		<Panel
-			header={<DashboardHelperOldRequestHeader finishedAt={entry.finishedAt} requestType={entry.request.requestType} />}
+			header={<DashboardOldRequestHeader finishedAt={entry.finishedAt} requestType={entry.request.requestType} />}
 			key={index}
 		>
 			<DashboardHelperOldRequestContent
