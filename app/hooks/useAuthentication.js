@@ -1,5 +1,6 @@
 import React from 'react'
-import {postAuthenticate, putLogin, putLogout} from "../utils/api/authenticationAPI";
+import {getAuthenticate, putLogin, postLogout} from "../utils/api/authenticationAPI"
+import {postRegisterRequest} from "../utils/api/registerAPI"
 
 // ToDo: Welche Daten wollen wir für den lokalen Nutzer speichern?
 const initialAuthenticationState = {
@@ -34,12 +35,25 @@ function authenticationReducer(state, action) {
                 isAuthenticating: true,
                 isInitialLoading: false,
             }
+        case "registerInit":
+            return {
+                ...initialAuthenticationState,
+                isInitialLoading: false,
+                isRegistering: true,
+            }
         case "loginFailure":
             return {
                 ...initialAuthenticationState,
                 isAuthenticating: false,
                 isInitialLoading: false,
                 authenticationErrors: action.data.errors
+            }
+        case "registerFailure":
+            return {
+                ...initialAuthenticationState,
+                isInitialLoading: false,
+                isRegistering: false,
+                registerErrors: action.data.errors
             }
         case "authenticationSuccess":
             return {
@@ -59,6 +73,10 @@ function authenticationReducer(state, action) {
                         country: ""
                     }
                 },
+            }
+        case "registerSuccess":
+            return {
+
             }
         case "authenticationFailure":
             return {
@@ -90,14 +108,62 @@ export default function useAuthentication() {
     )
 
     const isAuthenticated = () => {
-        return authenticationState.uid !== null;
+        return authenticationState.uid !== null
     }
 
     /* Check for authentication on first build */
     React.useEffect(() => {
-        checkAuthentication();
+        checkAuthentication()
 
     }, [])
+
+    /**
+     * Makes a request to the backend to register a user. If successful, authenticates in one go
+     * @param email the email of the user to be registered
+     * @param phone the phone number of the user to be registered
+     * @param password the password of the user to be registered
+     */
+    const performRegister = async (email, phone, password) => {
+
+        const formValues = {
+            email: email,
+            phone: phone,
+            password: password
+        }
+
+        dispatch({
+            type: "registerInit"
+        })
+
+        try {
+            let registerResult = await postRegisterRequest(formValues)
+            console.log(registerResult.status)
+            if(registerResult.status !== 201) {
+                // Register: Failure
+                switch(registerResult.status) {
+                    case 422:
+                        // Invalid Request
+                        registerResult = await registerResult.json()
+                        console.log(registerResult)
+                        return false
+                    case 401:
+                        // User exists
+                        return false
+                    case 500:
+                        // Internal server error
+                        return false
+                    default:
+                        // Unknown Error
+                        return false
+                }
+            }
+
+            // ToDo: Das könnten wir noch verbessern. Register könnte direkt einen gültigen Cookie zurückgeben.
+            return await performAuthentication(email, password)
+        } catch (error) {
+
+        }
+    }
 
     /**
      * Makes a request to the backend in order to authenticate a user and modifies state accordingly
@@ -107,12 +173,12 @@ export default function useAuthentication() {
     const performAuthentication = async (email, password) => {
         dispatch({
             type: "loginInit"
-        });
+        })
 
         try {
-            let loginResult = await putLogin(email, password);
+            let loginResult = await putLogin(email, password)
             if (loginResult.status === 200) {
-                await checkAuthentication();
+                return await checkAuthentication()
             } else {
                 dispatch({
                     type: "loginFailure",
@@ -120,15 +186,17 @@ export default function useAuthentication() {
                         errors: "Zu dieser Kombination konnten wir keinen Benutzer finden."
                     }
                 })
+                return false
             }
         } catch (error) {
             // ToDo: Dieser Case ist eig. Server Offline. Wie gehen wir damit um?
             dispatch({
                 type: "loginFailure",
                 data: {
-                    errors: "TBD"
+                    errors: "Die Anmeldung konnte nicht durchgeführt werden."
                 }
             })
+            return false
         }
     }
 
@@ -137,9 +205,9 @@ export default function useAuthentication() {
      */
     const checkAuthentication = async () => {
         try {
-            let authenticateResult = await postAuthenticate();
+            let authenticateResult = await getAuthenticate()
             if (authenticateResult.status === 200) {
-                authenticateResult = await authenticateResult.json();
+                authenticateResult = await authenticateResult.json()
                 dispatch({
                     type: "authenticationSuccess",
                     data: {
@@ -147,6 +215,7 @@ export default function useAuthentication() {
                         email: authenticateResult["email"]
                     }
                 })
+                return true
             } else {
                 dispatch({
                     type: "authenticationFailure",
@@ -154,11 +223,13 @@ export default function useAuthentication() {
                         errors: "E-Mail Adresse oder Passwort ist nicht korrekt."
                     }
                 })
+                return false
             }
         } catch (error) {
             dispatch({
                 type: "authenticationFailure"
             })
+            return false
         }
     }
 
@@ -167,7 +238,7 @@ export default function useAuthentication() {
      */
     const invalidateAuthentication = async () => {
         try {
-            let logoutResult = await putLogout();
+            let logoutResult = await putLogout()
             if (logoutResult.status === 200) {
                 dispatch({
                     type: "invalidateSuccess"
@@ -188,6 +259,7 @@ export default function useAuthentication() {
         performAuthentication,
         checkAuthentication,
         invalidateAuthentication,
-        isAuthenticated
+        isAuthenticated,
+        performRegister
     }]
 }

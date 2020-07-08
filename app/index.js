@@ -18,14 +18,16 @@ function App() {
         performAuthentication,
         checkAuthentication,
         invalidateAuthentication,
-        isAuthenticated
+        isAuthenticated,
+        performRegister
     }] = useAuthentication();
     const authProps = {
         authenticationState: authenticationState,
         performAuthentication: performAuthentication,
         checkAuthentication: checkAuthentication,
         invalidateAuthentication: invalidateAuthentication,
-        isAuthenticated: isAuthenticated
+        isAuthenticated: isAuthenticated,
+        performRegister: performRegister
     };
 
     if (authenticationState.isInitialLoading) {

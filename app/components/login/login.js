@@ -1,10 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {useHistory, Link} from "react-router-dom";
 import {Card, Input, Space, Button, Typography, Timeline} from 'antd';
 import {useForm} from "react-hook-form";
 import * as yup from "yup";
-import {MailOutlined, EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
+import {MailOutlined} from '@ant-design/icons';
 import AuthenticationContext from "../../contexts/authentication";
 import PropTypes from 'prop-types';
 import validateDisjunction from "../../utils/inputValidationFunctions/validateDisjunction";
@@ -21,7 +20,7 @@ const formSchema = yup.object().shape({
 });
 
 function LoginWindow({location: {username} = ""}) {
-    const authProps = React.useContext(AuthenticationContext);
+    const authenticationContext = React.useContext(AuthenticationContext);
 
     const {register, errors, handleSubmit, setValue, formState} = useForm({
         validationSchema: formSchema
@@ -29,14 +28,14 @@ function LoginWindow({location: {username} = ""}) {
     const history = useHistory();
 
     function onSubmit(data) {
-        authProps.performAuthentication(data.user, data.password);
+        authenticationContext.performAuthentication(data.user, data.password);
     }
 
     React.useEffect(() => {
-        if (authProps.authenticationState.uid != null) {
+        if (authenticationContext.authenticationState.uid != null) {
             history.push("/")
         }
-    }, [authProps.authenticationState]);
+    }, [authenticationContext.authenticationState]);
 
     React.useEffect(() => {
         register({name: "user"});
@@ -66,11 +65,10 @@ function LoginWindow({location: {username} = ""}) {
                             <Text strong>Passwort</Text>
                             <Input.Password size="large"
                                             name={"password"}
-                                            /*iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}*/
                                             onChange={(e) => setValue("password", e.target.value)}/>
                             <Text type="danger">{errors.password && <p>{errors.password.message}</p>}</Text>
-                            <Text type={"danger"}>{authProps.authenticationState.authenticationErrors != null && authProps.authenticationState.authenticationErrors}</Text>
-                            <Button type="primary" htmlType="submit" loading={authProps.authenticationState.isAuthenticating}>Anmelden</Button>
+                            <Text type={"danger"}>{authenticationContext.authenticationState.authenticationErrors != null && authenticationContext.authenticationState.authenticationErrors}</Text>
+                            <Button type="primary" htmlType="submit" loading={authenticationContext.authenticationState.isAuthenticating}>Anmelden</Button>
                         </Space>
                     </form>
                 </Card>

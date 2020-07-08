@@ -25,7 +25,7 @@ export const putLogin = (email, password) => {
  * HTTP request to perform user lookup (i.e. 'who is authenticated?')
  * @returns {Promise<Response>} the unparsed response of the backend (contains user information)
  */
-export const postAuthenticate = () => {
+export const getAuthenticate = () => {
     const endpoint = "http://localhost:3000/auth/authenticate";
 
     return fetch(endpoint, {
