@@ -1,29 +1,31 @@
-import React from "react"
-import {Typography} from "antd";
-import PropTypes from "prop-types";
+import React from 'react';
+import { Typography } from 'antd';
+import PropTypes from 'prop-types';
 
-const {Title, Paragraph, Text} = Typography;
+const { Title, Paragraph, Text } = Typography;
 
-export default function PlaceRequestWizardValidationError({wizardState}) {
-    return (
-        <>
-            <Paragraph>
-                <Text
-                    strong
-                    style={{
-                        fontSize: 16,
-                    }}
-                >
-                    Es sind folgende Fehler aufgetreten:
-                </Text>
-            </Paragraph>
-            <Paragraph>
-                {wizardState.errorMsg} {/* ToDo: Support multiple errors */}
-            </Paragraph>
-        </>
-    )
+export default function PlaceRequestWizardValidationError({ wizardState }) {
+  return (
+    <>
+      <Paragraph>
+        <Text
+          strong
+          style={{
+            fontSize: 16,
+          }}
+        >
+          Es sind folgende Fehler aufgetreten:
+        </Text>
+      </Paragraph>
+      <Paragraph>
+        {wizardState.errorMsg}
+        {' '}
+        {/* ToDo: Support multiple errors */}
+      </Paragraph>
+    </>
+  );
 }
 
 PlaceRequestWizardValidationError.propTypes = {
-    wizardState: PropTypes.object.isRequired
-}
+  wizardState: PropTypes.object.isRequired,
+};

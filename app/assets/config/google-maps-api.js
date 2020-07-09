@@ -1,1 +1,1 @@
-module.exports.googleMapsApiKey = "YOUR_KEY";
+module.exports.googleMapsApiKey = 'YOUR_KEY';
