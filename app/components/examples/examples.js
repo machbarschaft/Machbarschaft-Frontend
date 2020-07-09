@@ -13,7 +13,6 @@ const UseReducerExample = React.lazy(() => import("./use-reducer-example"))
 const APICallExample = React.lazy(() => import("./api-call-example"))
 const ConsumerProviderExample = React.lazy(() => import("./consumer-provider-example"))
 const CustomHookExample = React.lazy(() => import("./custom-hook-example"))
-const FormExample = React.lazy(() => import("./form-example"))
 const FontSizeExample = React.lazy(() => import("./use-font-sizer"))
 const BasicComponentsExample = React.lazy(() => import("./basic-components"))
 
@@ -40,7 +39,6 @@ export default function Examples() {
                         <Route exact path={"/examples/consumer-provider"}
                                render={() => <ConsumerProviderExample toggleTheme={toggleTheme}/>}/>
                         <Route exact path={"/examples/custom-hook"} component={CustomHookExample}/>
-                        <Route exact path={"/examples/form"} component={FormExample}/>
                         <Route exact path={"/examples/use-font-sizer"} component={FontSizeExample}/>
                         <Route exact path={"/examples/basic-components"} component={BasicComponentsExample}/>
                     </Switch>

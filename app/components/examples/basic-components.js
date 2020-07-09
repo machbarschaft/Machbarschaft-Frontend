@@ -1,5 +1,4 @@
 import React from 'react'
-import {useForm} from "react-hook-form";
 import {
     Menu,
     Space,
@@ -20,7 +19,6 @@ import {
     InputNumber, Input, Radio, Switch, Select, Upload
 } from 'antd';
 import { SearchOutlined, InfoCircleOutlined, UserOutlined, LoadingOutlined, UploadOutlined } from '@ant-design/icons';
-const FormExample = React.lazy(() => import("./form-example"))
 
 const {Link, Title, Text, Paragraph} = Typography
 
