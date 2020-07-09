@@ -10,24 +10,31 @@ function ResetPasswordCardsComponent({ title, contentLeft, contentRight }) {
           title={title}
           headStyle={{ textAlign: 'center', fontSize: '150%' }}
           bodyStyle={{
-            display: 'flex', height: 'calc(100% - 62px)', justifyContent: 'center', alignItems: 'center', textAlign: 'center',
+            display: 'flex',
+            height: 'calc(100% - 62px)',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center',
           }}
           bordered={false}
           className="login-card"
         >
           {contentLeft}
         </Card>
-        {contentRight !== undefined
-                && (
-                <Card
-                  className="login-card login-description-card"
-                  bodyStyle={{
-                    display: 'flex', height: 'calc(100% - 62px)', justifyContent: 'center', alignItems: 'center', fontSize: '125%',
-                  }}
-                >
-                  <div>{contentRight}</div>
-                </Card>
-                )}
+        {contentRight !== undefined && (
+          <Card
+            className="login-card login-description-card"
+            bodyStyle={{
+              display: 'flex',
+              height: 'calc(100% - 62px)',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '125%',
+            }}
+          >
+            <div>{contentRight}</div>
+          </Card>
+        )}
       </div>
     </div>
   );

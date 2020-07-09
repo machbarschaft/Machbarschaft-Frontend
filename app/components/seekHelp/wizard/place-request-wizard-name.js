@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Form, Input, Space, Typography,
-} from 'antd';
+import { Form, Input, Space, Typography } from 'antd';
 import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
 import AuthenticationContext from '../../../contexts/authentication';
@@ -14,7 +12,11 @@ const { Title } = Typography;
  * @returns {*}
  * @constructor
  */
-export default function PlaceRequestWizardName({ handlePreviousPage, handleNextPage, wizardState }) {
+export default function PlaceRequestWizardName({
+  handlePreviousPage,
+  handleNextPage,
+  wizardState,
+}) {
   const authenticationContext = React.useContext(AuthenticationContext);
 
   const [form] = Form.useForm();
@@ -27,18 +29,18 @@ export default function PlaceRequestWizardName({ handlePreviousPage, handleNextP
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      {authenticationContext.isAuthenticated()
-        ? (
-          <Title level={1}>
-            Hallo
-            {authenticationContext.authenticationState.profile.forename}
-            {' '}
-            {authenticationContext.authenticationState.profile.surname}
-            ,
-          </Title>
-        )
-        : <Title level={1}>Hallo,</Title>}
-      <Title level={4}>Wir möchten gerne wissen, wie wir Sie ansprechen dürfen.</Title>
+      {authenticationContext.isAuthenticated() ? (
+        <Title level={1}>
+          Hallo
+          {authenticationContext.authenticationState.profile.forename}{' '}
+          {authenticationContext.authenticationState.profile.surname},
+        </Title>
+      ) : (
+        <Title level={1}>Hallo,</Title>
+      )}
+      <Title level={4}>
+        Wir möchten gerne wissen, wie wir Sie ansprechen dürfen.
+      </Title>
 
       <Form
         {...formLayout}
@@ -46,13 +48,21 @@ export default function PlaceRequestWizardName({ handlePreviousPage, handleNextP
         name={formName}
         hideRequiredMark
         onFinish={(formValues) => handleNextPage(formName, formValues)}
-        initialValues={typeof wizardState.formData[formName] !== 'undefined' ? {
-          name: wizardState.formData[formName].name, // ToDo: Change back to forename after backend change
-          surname: wizardState.formData[formName].surname,
-        } : (authenticationContext.isAuthenticated() ? {
-          name: authenticationContext.authenticationState.profile.forename,
-          surname: authenticationContext.authenticationState.profile.surname,
-        } : {})}
+        initialValues={
+          typeof wizardState.formData[formName] !== 'undefined'
+            ? {
+                name: wizardState.formData[formName].name, // ToDo: Change back to forename after backend change
+                surname: wizardState.formData[formName].surname,
+              }
+            : authenticationContext.isAuthenticated()
+            ? {
+                name:
+                  authenticationContext.authenticationState.profile.forename,
+                surname:
+                  authenticationContext.authenticationState.profile.surname,
+              }
+            : {}
+        }
       >
         <Form.Item
           label="Vorname"
@@ -79,11 +89,15 @@ export default function PlaceRequestWizardName({ handlePreviousPage, handleNextP
           <Input size="large" />
         </Form.Item>
 
-        {wizardState.hasError && <PlaceRequestWizardValidationError wizardState={wizardState} />}
+        {wizardState.hasError && (
+          <PlaceRequestWizardValidationError wizardState={wizardState} />
+        )}
 
-        <PlaceRequestWizardNavigation handlePreviousPage={handlePreviousPage} wizardState={wizardState} />
+        <PlaceRequestWizardNavigation
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
       </Form>
-
     </Space>
   );
 }

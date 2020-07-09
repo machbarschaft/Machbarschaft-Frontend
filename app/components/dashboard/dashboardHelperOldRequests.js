@@ -7,7 +7,8 @@ const { Title } = Typography;
 const { Panel } = Collapse;
 
 function DashboardHelperOldRequests() {
-  const requestList = [ // ToDo: fetch from backend
+  const requestList = [
+    // ToDo: fetch from backend
     {
       request: {
         name: 'Max Schmidt',
@@ -20,7 +21,8 @@ function DashboardHelperOldRequests() {
       },
       startedAt: 1593774600, // ToDo: in which form do we get it from backend? probably stored in the response model?
       finishedAt: 1593869056, // ToDo: in which form do we get it from backend? probably stored in the process model (finishedAt)?
-    }, {
+    },
+    {
       request: {
         name: 'Max Schmidt',
         requestType: 'medication',
@@ -32,7 +34,8 @@ function DashboardHelperOldRequests() {
       },
       startedAt: 1593774600,
       finishedAt: 1593869056,
-    }, {
+    },
+    {
       request: {
         name: 'Max Schmidt',
         requestType: 'other',
@@ -44,7 +47,8 @@ function DashboardHelperOldRequests() {
       },
       startedAt: 1593774600,
       finishedAt: 1593869056,
-    }, {
+    },
+    {
       request: {
         name: 'Max Schmidt',
         requestType: 'groceries',
@@ -60,7 +64,12 @@ function DashboardHelperOldRequests() {
   ];
   const panelRender = requestList.map((entry, index) => (
     <Panel
-      header={<DashboardOldRequestHeader finishedAt={entry.finishedAt} requestType={entry.request.requestType} />}
+      header={
+        <DashboardOldRequestHeader
+          finishedAt={entry.finishedAt}
+          requestType={entry.request.requestType}
+        />
+      }
       key={index}
     >
       <DashboardHelperOldRequestContent
@@ -77,18 +86,30 @@ function DashboardHelperOldRequests() {
 
   return (
     <>
-      <Title level={2} style={{ marginTop: '1em' }}>Alte Aufträge</Title>
-      {requestList.length == 0 ? 'Du hast noch keinen Auftrag abgeschlossen.'
-			  :				(
-  <Collapse
-    className="dashboard-collapse"
-    expandIcon={({ isActive }) => (isActive ? <span className="dashboard-collapse-button dashboard-collapse-button-selected">Weniger anzeigen</span>
-      :						<span className="dashboard-collapse-button">Mehr Informationen anzeigen</span>)}
-    expandIconPosition="right"
-  >
-    {panelRender}
-  </Collapse>
-        )}
+      <Title level={2} style={{ marginTop: '1em' }}>
+        Alte Aufträge
+      </Title>
+      {requestList.length == 0 ? (
+        'Du hast noch keinen Auftrag abgeschlossen.'
+      ) : (
+        <Collapse
+          className="dashboard-collapse"
+          expandIcon={({ isActive }) =>
+            isActive ? (
+              <span className="dashboard-collapse-button dashboard-collapse-button-selected">
+                Weniger anzeigen
+              </span>
+            ) : (
+              <span className="dashboard-collapse-button">
+                Mehr Informationen anzeigen
+              </span>
+            )
+          }
+          expandIconPosition="right"
+        >
+          {panelRender}
+        </Collapse>
+      )}
     </>
   );
 }

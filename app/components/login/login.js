@@ -1,7 +1,14 @@
 import React from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import {
-  Card, Input, Space, Button, Typography, Timeline, Form, Select,
+  Card,
+  Input,
+  Space,
+  Button,
+  Typography,
+  Timeline,
+  Form,
+  Select,
 } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
@@ -22,7 +29,10 @@ function LoginWindow({ location: { username } = '' }) {
   const history = useHistory();
 
   const handleForm = async (values) => {
-    await authenticationContext.performAuthentication(values.user, values.password);
+    await authenticationContext.performAuthentication(
+      values.user,
+      values.password
+    );
   };
 
   function onSubmit(data) {
@@ -81,24 +91,39 @@ function LoginWindow({ location: { username } = '' }) {
             </Form.Item>
 
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={authenticationContext.authenticationState.isAuthenticating}>Login</Button>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={
+                  authenticationContext.authenticationState.isAuthenticating
+                }
+              >
+                Login
+              </Button>
             </Form.Item>
           </Form>
         </Card>
         <Card className="login-card login-description-card">
           <Timeline>
             <Timeline.Item>
-              Bitte geben Sie Ihre Telefonnummer oder E-Mail-Adresse und Ihr Passwort ein.
+              Bitte geben Sie Ihre Telefonnummer oder E-Mail-Adresse und Ihr
+              Passwort ein.
             </Timeline.Item>
             <Timeline.Item>
               Passwort vergessen? Dann klicken sie bitte hier:
               <br />
-              <Link to="/resetpassword"><Button className="login-description-card-button">Passwort zurücksetzen</Button></Link>
+              <Link to="/resetpassword">
+                <Button className="login-description-card-button">
+                  Passwort zurücksetzen
+                </Button>
+              </Link>
             </Timeline.Item>
             <Timeline.Item>
               Wenn Sie noch keinen Account erstellt haben:
               <br />
-              <Button className="login-description-card-button" type="primary">Registrieren</Button>
+              <Button className="login-description-card-button" type="primary">
+                Registrieren
+              </Button>
             </Timeline.Item>
           </Timeline>
         </Card>

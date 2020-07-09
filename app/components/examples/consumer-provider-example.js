@@ -18,10 +18,7 @@ export default function ConsumerProviderExample({ toggleTheme }) {
         </Text>
       </Paragraph>
       {/* ToggleTheme is defined on a higher level (in examples.js) and passed to this component. */}
-      <Button
-        type="primary"
-        onClick={toggleTheme}
-      >
+      <Button type="primary" onClick={toggleTheme}>
         Toggle
       </Button>
     </>

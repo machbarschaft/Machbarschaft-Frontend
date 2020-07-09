@@ -39,13 +39,23 @@ export const postPlaceRequest = async ({ formValues, isAuthenticated }) => {
  * @returns {Promise<Response>}
  */
 export const putPlaceRequest = async ({
-  processID, phoneNumber, formValues, isAuthenticated,
+  processID,
+  phoneNumber,
+  formValues,
+  isAuthenticated,
 }) => {
   const endpoint = isAuthenticated
     ? `${apiUrl()}request/${processID}`
-    : `${apiUrl()}request/guest/${processID}?phone=${encodeURIComponent(phoneNumber)}`;
+    : `${apiUrl()}request/guest/${processID}?phone=${encodeURIComponent(
+        phoneNumber
+      )}`;
 
-  const formBody = Object.keys(formValues).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(formValues[key])}`).join('&');
+  const formBody = Object.keys(formValues)
+    .map(
+      (key) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(formValues[key])}`
+    )
+    .join('&');
 
   // ToDo: Change in Backend to Forename + Surname, override for the meantime
   // formBody = formValues["forename"] + " " + formValues["surname"];
@@ -77,10 +87,16 @@ export const putPlaceRequest = async ({
  * @param isAuthenticated
  * @returns {Promise<Response>}
  */
-export const putPublishRequest = ({ processID, phoneNumber, isAuthenticated }) => {
+export const putPublishRequest = ({
+  processID,
+  phoneNumber,
+  isAuthenticated,
+}) => {
   const endpoint = isAuthenticated
     ? `${apiUrl()}request/${processID}/publish`
-    : `${apiUrl()}request/guest/${processID}/publish?phone=${encodeURIComponent(phoneNumber)}`;
+    : `${apiUrl()}request/guest/${processID}/publish?phone=${encodeURIComponent(
+        phoneNumber
+      )}`;
 
   return fetch(endpoint, {
     method: 'PUT',

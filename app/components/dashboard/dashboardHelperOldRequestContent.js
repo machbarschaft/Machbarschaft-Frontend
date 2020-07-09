@@ -13,7 +13,20 @@ function DashboardHelperOldRequestContent({
   carNecessary,
   prescriptionRequired,
 }) {
-  const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+  const monthNames = [
+    'Januar',
+    'Februar',
+    'März',
+    'April',
+    'Mai',
+    'Juni',
+    'Juli',
+    'August',
+    'September',
+    'Oktober',
+    'November',
+    'Dezember',
+  ];
   const urgencyMapping = {
     now: 'dringend',
     today: 'heute',
@@ -21,17 +34,19 @@ function DashboardHelperOldRequestContent({
     'this-week': 'diese Woche',
   };
   const requestTypeMapping = {
-    	groceries: 'Lebensmittel',
-    	medication: 'Medikamente',
-    	other: 'Produkte',
+    groceries: 'Lebensmittel',
+    medication: 'Medikamente',
+    other: 'Produkte',
   };
 
   const startedDate = new Date(startedAt * 1000);
-  const startedDateString = `${startedDate.getDate()}. ${monthNames[startedDate.getMonth()]} ${startedDate.getFullYear()
-								 }, ${startedDate.getHours()}:${startedDate.getMinutes()}`;
+  const startedDateString = `${startedDate.getDate()}. ${
+    monthNames[startedDate.getMonth()]
+  } ${startedDate.getFullYear()}, ${startedDate.getHours()}:${startedDate.getMinutes()}`;
   const finishedDate = new Date(finishedAt * 1000);
-  const finishedDateString = `${finishedDate.getDate()}. ${monthNames[finishedDate.getMonth()]} ${finishedDate.getFullYear()
-								 }, ${finishedDate.getHours()}:${finishedDate.getMinutes()}`;
+  const finishedDateString = `${finishedDate.getDate()}. ${
+    monthNames[finishedDate.getMonth()]
+  } ${finishedDate.getFullYear()}, ${finishedDate.getHours()}:${finishedDate.getMinutes()}`;
 
   return (
     <div className="dashboard-collapse-content">
@@ -61,7 +76,8 @@ DashboardHelperOldRequestContent.propTypes = {
   finishedAt: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
-  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
+  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week'])
+    .isRequired,
   carNecessary: PropTypes.bool.isRequired,
   prescriptionRequired: PropTypes.bool.isRequired,
 };

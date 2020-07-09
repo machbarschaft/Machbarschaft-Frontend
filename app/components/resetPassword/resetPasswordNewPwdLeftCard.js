@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Space, Button, Input, Typography, Form, Select,
-} from 'antd';
+import { Space, Button, Input, Typography, Form, Select } from 'antd';
 import PropTypes from 'prop-types';
 import resetPasswordSubmissionStateReducer from './resetPasswordSubmissionStateReducer';
 
@@ -15,7 +13,7 @@ function ResetPasswordNewPwdLeftCard({ user, token, proceed }) {
     {
       error: null,
       loading: false,
-    },
+    }
   );
 
   const layout = {
@@ -25,7 +23,9 @@ function ResetPasswordNewPwdLeftCard({ user, token, proceed }) {
 
   const handleForm = async (values) => {
     dispatchSubmissionState({ type: 'submit' });
-    console.log(`ToDo: send password set request for user '${user}', token '${token}', password '${data.password}' to backend`);
+    console.log(
+      `ToDo: send password set request for user '${user}', token '${token}', password '${data.password}' to backend`
+    );
     setTimeout(() => {
       dispatchSubmissionState({ type: 'success' });
       proceed();
@@ -69,7 +69,13 @@ function ResetPasswordNewPwdLeftCard({ user, token, proceed }) {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={submissionState.loading}>Login</Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={submissionState.loading}
+          >
+            Login
+          </Button>
         </Form.Item>
       </Form>
     </>

@@ -22,10 +22,7 @@ function DashboardHelpSeekerOldRequestContent({
 }) {
   return (
     <div className="dashboard-helper-old-request-grid">
-      <DashboardTileContact
-        name={name}
-        phone={phone}
-      />
+      <DashboardTileContact name={name} phone={phone} />
       <DashboardTileUrgency urgency="now" />
       <DashboardTileContact
         phone={phone}
@@ -34,7 +31,11 @@ function DashboardHelpSeekerOldRequestContent({
         city={city}
       />
       <DashboardTileRequestType requestType="groceries" />
-      <DashboardTileAdditionalInformation carNecessary prescriptionRequired={false} timestamp={1593672043} />
+      <DashboardTileAdditionalInformation
+        carNecessary
+        prescriptionRequired={false}
+        timestamp={1593672043}
+      />
     </div>
   );
 }
@@ -46,7 +47,8 @@ DashboardHelpSeekerOldRequestContent.propTypes = {
   zipCode: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
-  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
+  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week'])
+    .isRequired,
   carNecessary: PropTypes.bool.isRequired,
   prescriptionRequired: PropTypes.bool.isRequired,
 };

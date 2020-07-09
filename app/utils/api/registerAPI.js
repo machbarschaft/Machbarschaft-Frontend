@@ -3,7 +3,12 @@ import apiUrl from './apiUrl';
 export const postRegisterRequest = async (formValues) => {
   const endpoint = `${apiUrl()}auth/register`;
 
-  const formBody = Object.keys(formValues).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(formValues[key])}`).join('&');
+  const formBody = Object.keys(formValues)
+    .map(
+      (key) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(formValues[key])}`
+    )
+    .join('&');
 
   console.log(formBody);
 

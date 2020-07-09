@@ -9,7 +9,9 @@ export default function ResetPasswordDoneLeftCard() {
       title="Das Passwort wurde erfolgreich zurückgesetzt!"
       subTitle="Sie können sich jetzt einloggen, klicken Sie dazu auf den Login Button:"
       extra={[
-        <Link to="/login" key="login"><Button type="primary">Jetzt einloggen</Button></Link>,
+        <Link to="/login" key="login">
+          <Button type="primary">Jetzt einloggen</Button>
+        </Link>,
       ]}
     />
   );

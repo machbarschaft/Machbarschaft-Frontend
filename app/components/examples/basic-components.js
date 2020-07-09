@@ -2,11 +2,14 @@ import React from 'react';
 import {
   Menu,
   Space,
-  Button, Tooltip,
+  Button,
+  Tooltip,
   Typography,
-  Row, Col,
+  Row,
+  Col,
   Divider,
-  Steps, message,
+  Steps,
+  message,
   Avatar,
   Collapse,
   Card,
@@ -16,15 +19,22 @@ import {
   Spin,
   Skeleton,
   Checkbox,
-  InputNumber, Input, Radio, Switch, Select, Upload,
+  InputNumber,
+  Input,
+  Radio,
+  Switch,
+  Select,
+  Upload,
 } from 'antd';
 import {
-  SearchOutlined, InfoCircleOutlined, UserOutlined, LoadingOutlined, UploadOutlined,
+  SearchOutlined,
+  InfoCircleOutlined,
+  UserOutlined,
+  LoadingOutlined,
+  UploadOutlined,
 } from '@ant-design/icons';
 
-const {
-  Link, Title, Text, Paragraph,
-} = Typography;
+const { Link, Title, Text, Paragraph } = Typography;
 
 // Basic Layout
 function BasicComponentsExampleGrid() {
@@ -44,9 +54,13 @@ function BasicComponentsExampleGrid() {
           <div style={{ background: '#0092ff', color: 'white' }}>col-4</div>
         </Col>
       </Row>
-      CSS3 Grid might be a good alternative, especially for being responsive
-      (
-      <a href="https://css-tricks.com/snippets/css/complete-guide-grid/" target="_blank">More information on CSS Grid</a>
+      CSS3 Grid might be a good alternative, especially for being responsive (
+      <a
+        href="https://css-tricks.com/snippets/css/complete-guide-grid/"
+        target="_blank"
+      >
+        More information on CSS Grid
+      </a>
       )!
     </>
   );
@@ -104,24 +118,30 @@ function BasicComponentsExampleTypography() {
       <br />
       <br />
       <Paragraph copyable>This is a copyable text.</Paragraph>
-      <Paragraph copyable={{ text: 'Hello, Ant Design!' }}>Replace copy text.</Paragraph>
+      <Paragraph copyable={{ text: 'Hello, Ant Design!' }}>
+        Replace copy text.
+      </Paragraph>
       <div style={{ width: '50em' }}>
         Cut Text:
         <Paragraph ellipsis>
-          Ant Design, a design language for background applications, is refined by Ant UED Team. Ant
-          Design, a design language for background applications, is refined by Ant UED Team. Ant Design,
-          a design language for background applications, is refined by Ant UED Team. Ant Design, a
-          design language for background applications, is refined by Ant UED Team. Ant Design, a design
-          language for background applications, is refined by Ant UED Team. Ant Design, a design
+          Ant Design, a design language for background applications, is refined
+          by Ant UED Team. Ant Design, a design language for background
+          applications, is refined by Ant UED Team. Ant Design, a design
+          language for background applications, is refined by Ant UED Team. Ant
+          Design, a design language for background applications, is refined by
+          Ant UED Team. Ant Design, a design language for background
+          applications, is refined by Ant UED Team. Ant Design, a design
           language for background applications, is refined by Ant UED Team.
         </Paragraph>
         Expandable text:
         <Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
-          Ant Design, a design language for background applications, is refined by Ant UED Team. Ant
-          Design, a design language for background applications, is refined by Ant UED Team. Ant Design,
-          a design language for background applications, is refined by Ant UED Team. Ant Design, a
-          design language for background applications, is refined by Ant UED Team. Ant Design, a design
-          language for background applications, is refined by Ant UED Team. Ant Design, a design
+          Ant Design, a design language for background applications, is refined
+          by Ant UED Team. Ant Design, a design language for background
+          applications, is refined by Ant UED Team. Ant Design, a design
+          language for background applications, is refined by Ant UED Team. Ant
+          Design, a design language for background applications, is refined by
+          Ant UED Team. Ant Design, a design language for background
+          applications, is refined by Ant UED Team. Ant Design, a design
           language for background applications, is refined by Ant UED Team.
         </Paragraph>
       </div>
@@ -133,13 +153,12 @@ function BasicComponentsExampleTypography() {
 function BasicComponentsExampleIcon() {
   return (
     <>
-      Example:
-      {' '}
-      <InfoCircleOutlined style={{ fontSize: '2em' }} />
+      Example: <InfoCircleOutlined style={{ fontSize: '2em' }} />
       <br />
-      More icons:
-      {' '}
-      <a href="https://ant.design/components/icon/" target="_blank">ant.design/components/icon/</a>
+      More icons:{' '}
+      <a href="https://ant.design/components/icon/" target="_blank">
+        ant.design/components/icon/
+      </a>
     </>
   );
 }
@@ -147,24 +166,23 @@ function BasicComponentsExampleDivider() {
   return (
     <>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista
-        probare, quae sunt a te dicta? Refert tamen, quo modo.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
+        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
+        quo modo.
       </p>
       <Divider />
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista
-        probare, quae sunt a te dicta? Refert tamen, quo modo.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
+        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
+        quo modo.
       </p>
       <Divider plain>Text inside divider</Divider>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista
-        probare, quae sunt a te dicta? Refert tamen, quo modo.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne
+        merninisti licere mihi ista probare, quae sunt a te dicta? Refert tamen,
+        quo modo.
       </p>
-      Vertical
-      {' '}
-      <Divider type="vertical" />
-      {' '}
-      Divider
+      Vertical <Divider type="vertical" /> Divider
     </>
   );
 }
@@ -197,13 +215,28 @@ function BasicComponentsExampleSteps() {
       <div className="steps-content">{steps[state].content}</div>
       <div className="steps-action">
         {state < steps.length - 1 && (
-        <Button type="primary" onClick={() => setState((curState) => curState + 1)}>Next</Button>
+          <Button
+            type="primary"
+            onClick={() => setState((curState) => curState + 1)}
+          >
+            Next
+          </Button>
         )}
         {state === steps.length - 1 && (
-        <Button type="primary" onClick={() => message.success('Processing complete!')}>Done</Button>
+          <Button
+            type="primary"
+            onClick={() => message.success('Processing complete!')}
+          >
+            Done
+          </Button>
         )}
         {state > 0 && (
-        <Button style={{ margin: '0 8px' }} onClick={() => setState((curState) => curState - 1)}>Previous</Button>
+          <Button
+            style={{ margin: '0 8px' }}
+            onClick={() => setState((curState) => curState - 1)}
+          >
+            Previous
+          </Button>
         )}
       </div>
     </Space>
@@ -217,7 +250,9 @@ function BasicComponentsExampleAvatar() {
       <Avatar>U</Avatar>
       <Avatar size={40}>USER</Avatar>
       <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-      <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>U</Avatar>
+      <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
+        U
+      </Avatar>
       <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
     </>
   );
@@ -261,7 +296,11 @@ function BasicComponentsExampleCard() {
     <div style={{ background: '#ececec', padding: '30px' }}>
       <Row gutter={16}>
         <Col span={8}>
-          <Card title="Card title" bordered={false} extra={<a href="#">More</a>}>
+          <Card
+            title="Card title"
+            bordered={false}
+            extra={<a href="#">More</a>}
+          >
             Card content
           </Card>
         </Col>
@@ -295,7 +334,9 @@ function BasicComponentsExampleDescriptions() {
         <Descriptions.Item label="Product">Cloud Database</Descriptions.Item>
         <Descriptions.Item label="Billing Mode">Prepaid</Descriptions.Item>
         <Descriptions.Item label="Automatic Renewal">YES</Descriptions.Item>
-        <Descriptions.Item label="Order time">2018-04-24 18:00:00</Descriptions.Item>
+        <Descriptions.Item label="Order time">
+          2018-04-24 18:00:00
+        </Descriptions.Item>
         <Descriptions.Item label="Usage Time" span={2}>
           2019-04-24 18:00:00
         </Descriptions.Item>
@@ -430,7 +471,12 @@ function BasicComponentsExampleModal() {
           <Button key="back" onClick={handleCancel}>
             Abort
           </Button>,
-          <Button key="submit" type="primary" loading={state.loading} onClick={handleOk}>
+          <Button
+            key="submit"
+            type="primary"
+            loading={state.loading}
+            onClick={handleOk}
+          >
             Delete
           </Button>,
         ]}
@@ -451,12 +497,39 @@ function BasicComponentsExampleMessage() {
   }
   return (
     <Space>
-      <Button type="primary" onClick={() => message.info('This is a normal message')}>Display normal message</Button>
-      <Button type="primary" onClick={() => message.info('This is a normal message, 10s', 10)}>Display normal message for 10s</Button>
-      <Button type="primary" onClick={() => message.info('This is a success message')}>Success</Button>
-      <Button type="primary" onClick={() => message.info('This is an error message')}>Error</Button>
-      <Button type="primary" onClick={() => message.info('This is a warning message')}>Warning</Button>
-      <Button type="primary" onClick={openMessage}>Loading</Button>
+      <Button
+        type="primary"
+        onClick={() => message.info('This is a normal message')}
+      >
+        Display normal message
+      </Button>
+      <Button
+        type="primary"
+        onClick={() => message.info('This is a normal message, 10s', 10)}
+      >
+        Display normal message for 10s
+      </Button>
+      <Button
+        type="primary"
+        onClick={() => message.info('This is a success message')}
+      >
+        Success
+      </Button>
+      <Button
+        type="primary"
+        onClick={() => message.info('This is an error message')}
+      >
+        Error
+      </Button>
+      <Button
+        type="primary"
+        onClick={() => message.info('This is a warning message')}
+      >
+        Warning
+      </Button>
+      <Button type="primary" onClick={openMessage}>
+        Loading
+      </Button>
     </Space>
   );
 }
@@ -475,7 +548,10 @@ function BasicComponentsExampleSpin() {
       <br />
       <br />
       <Spin style={{ width: 300 }}>
-        <Card title="Card title" style={{ width: 300, border: '1px solid black' }}>
+        <Card
+          title="Card title"
+          style={{ width: 300, border: '1px solid black' }}
+        >
           Loading inside card
         </Card>
       </Spin>
@@ -483,9 +559,7 @@ function BasicComponentsExampleSpin() {
   );
 }
 function BasicComponentsExampleSkeleton() {
-  return (
-    <Skeleton />
-  );
+  return <Skeleton />;
 }
 
 // Form elements
@@ -514,9 +588,15 @@ function BasicComponentsExampleButton() {
       <br />
       <br />
       <Space>
-        <Button type="primary" size="large">Large</Button>
-        <Button type="primary" size="default">Default</Button>
-        <Button type="primary" size="small">Small</Button>
+        <Button type="primary" size="large">
+          Large
+        </Button>
+        <Button type="primary" size="default">
+          Default
+        </Button>
+        <Button type="primary" size="small">
+          Small
+        </Button>
       </Space>
       <br />
       <br />
@@ -528,13 +608,13 @@ function BasicComponentsExampleButton() {
 }
 function BasicComponentsExampleCheckbox() {
   return (
-    <Checkbox onChange={(e) => console.log(`checked = ${e.target.checked}`)}>Checkbox</Checkbox>
+    <Checkbox onChange={(e) => console.log(`checked = ${e.target.checked}`)}>
+      Checkbox
+    </Checkbox>
   );
 }
 function BasicComponentsExampleInputNumber() {
-  return (
-    <InputNumber min={1} max={10} defaultValue={3} />
-  );
+  return <InputNumber min={1} max={10} defaultValue={3} />;
 }
 
 const { Search, TextArea } = Input;
@@ -542,7 +622,11 @@ function BasicComponentsExampleInput() {
   return (
     <Space direction="vertical">
       <Input placeholder="Basic usage" />
-      <Search placeholder="input search text" onSearch={(value) => console.log(value)} style={{ width: 200 }} />
+      <Search
+        placeholder="input search text"
+        onSearch={(value) => console.log(value)}
+        style={{ width: 200 }}
+      />
       <TextArea rows={4} />
     </Space>
   );
@@ -568,17 +652,21 @@ function BasicComponentsExampleRadio() {
   );
 }
 function BasicComponentsExampleSwitch() {
-  return (
-    <Switch />
-  );
+  return <Switch />;
 }
 const { Option } = Select;
 function BasicComponentsExampleSelect() {
   return (
-    <Select defaultValue="lucy" style={{ width: 120 }} onChange={(value) => console.log(`selected ${value}`)}>
+    <Select
+      defaultValue="lucy"
+      style={{ width: 120 }}
+      onChange={(value) => console.log(`selected ${value}`)}
+    >
       <Option value="jack">Jack</Option>
       <Option value="lucy">Lucy</Option>
-      <Option value="disabled" disabled>Disabled</Option>
+      <Option value="disabled" disabled>
+        Disabled
+      </Option>
       <Option value="Yiminghe">yiminghe</Option>
     </Select>
   );
@@ -604,9 +692,7 @@ function BasicComponentsExampleUpload() {
   return (
     <Upload {...props}>
       <Button>
-        <UploadOutlined />
-        {' '}
-        Click to Upload
+        <UploadOutlined /> Click to Upload
       </Button>
     </Upload>
   );
@@ -616,63 +702,66 @@ export default function BasicComponentsExample() {
   const [state, setState] = React.useState('basic');
 
   const content = {
-    basic:
-  <>
-    <Title level={3}>Space</Title>
-    <BasicComponentsExampleSpace />
-    <Title level={3}>Typography</Title>
-    <BasicComponentsExampleTypography />
-    <Title level={3}>Grid</Title>
-    <BasicComponentsExampleGrid />
-  </>,
-    visual:
-  <>
-    <Title level={3}>Icon</Title>
-    <BasicComponentsExampleIcon />
-    <Title level={3}>Divider</Title>
-    <BasicComponentsExampleDivider />
-    <Title level={3}>Steps</Title>
-    <BasicComponentsExampleSteps />
-    <Title level={3}>Avatar</Title>
-    <BasicComponentsExampleAvatar />
-    <Title level={3}>Collapse</Title>
-    <BasicComponentsExampleCollapse />
-    <Title level={3}>Card</Title>
-    <BasicComponentsExampleCard />
-    <Title level={3}>Descriptions</Title>
-    <BasicComponentsExampleDescriptions />
-    <Title level={3}>Popover</Title>
-    <BasicComponentsExamplePopover />
-    <Title level={3}>Tooltip</Title>
-    <BasicComponentsExampleTooltip />
-    <Title level={3}>Modal</Title>
-    <BasicComponentsExampleModal />
-    <Title level={3}>Message</Title>
-    <BasicComponentsExampleMessage />
-    <Title level={3}>Spin</Title>
-    <BasicComponentsExampleSpin />
-    <Title level={3}>Skeleton</Title>
-    <BasicComponentsExampleSkeleton />
-  </>,
-    form:
-  <>
-    <Title level={3}>Button</Title>
-    <BasicComponentsExampleButton />
-    <Title level={3}>Checkbox</Title>
-    <BasicComponentsExampleCheckbox />
-    <Title level={3}>InputNumber</Title>
-    <BasicComponentsExampleInputNumber />
-    <Title level={3}>Input</Title>
-    <BasicComponentsExampleInput />
-    <Title level={3}>Radio</Title>
-    <BasicComponentsExampleRadio />
-    <Title level={3}>Switch</Title>
-    <BasicComponentsExampleSwitch />
-    <Title level={3}>Select</Title>
-    <BasicComponentsExampleSelect />
-    <Title level={3}>Upload</Title>
-    <BasicComponentsExampleUpload />
-  </>,
+    basic: (
+      <>
+        <Title level={3}>Space</Title>
+        <BasicComponentsExampleSpace />
+        <Title level={3}>Typography</Title>
+        <BasicComponentsExampleTypography />
+        <Title level={3}>Grid</Title>
+        <BasicComponentsExampleGrid />
+      </>
+    ),
+    visual: (
+      <>
+        <Title level={3}>Icon</Title>
+        <BasicComponentsExampleIcon />
+        <Title level={3}>Divider</Title>
+        <BasicComponentsExampleDivider />
+        <Title level={3}>Steps</Title>
+        <BasicComponentsExampleSteps />
+        <Title level={3}>Avatar</Title>
+        <BasicComponentsExampleAvatar />
+        <Title level={3}>Collapse</Title>
+        <BasicComponentsExampleCollapse />
+        <Title level={3}>Card</Title>
+        <BasicComponentsExampleCard />
+        <Title level={3}>Descriptions</Title>
+        <BasicComponentsExampleDescriptions />
+        <Title level={3}>Popover</Title>
+        <BasicComponentsExamplePopover />
+        <Title level={3}>Tooltip</Title>
+        <BasicComponentsExampleTooltip />
+        <Title level={3}>Modal</Title>
+        <BasicComponentsExampleModal />
+        <Title level={3}>Message</Title>
+        <BasicComponentsExampleMessage />
+        <Title level={3}>Spin</Title>
+        <BasicComponentsExampleSpin />
+        <Title level={3}>Skeleton</Title>
+        <BasicComponentsExampleSkeleton />
+      </>
+    ),
+    form: (
+      <>
+        <Title level={3}>Button</Title>
+        <BasicComponentsExampleButton />
+        <Title level={3}>Checkbox</Title>
+        <BasicComponentsExampleCheckbox />
+        <Title level={3}>InputNumber</Title>
+        <BasicComponentsExampleInputNumber />
+        <Title level={3}>Input</Title>
+        <BasicComponentsExampleInput />
+        <Title level={3}>Radio</Title>
+        <BasicComponentsExampleRadio />
+        <Title level={3}>Switch</Title>
+        <BasicComponentsExampleSwitch />
+        <Title level={3}>Select</Title>
+        <BasicComponentsExampleSelect />
+        <Title level={3}>Upload</Title>
+        <BasicComponentsExampleUpload />
+      </>
+    ),
   };
   function handleClick(e) {
     setState(e.key);
@@ -686,14 +775,16 @@ export default function BasicComponentsExample() {
         <Menu.Item key="form">Form Elements</Menu.Item>
       </Menu>
       <br />
-      <Space direction="vertical" size="large">{content[state]}</Space>
-
+      <Space direction="vertical" size="large">
+        {content[state]}
+      </Space>
       <br />
       <br />
       <br />
-      More information on:
-      {' '}
-      <a href="https://ant.design/components/overview/" target="_blank">ant.design/components/overview/</a>
+      More information on:{' '}
+      <a href="https://ant.design/components/overview/" target="_blank">
+        ant.design/components/overview/
+      </a>
       <br />
       <br />
       <br />

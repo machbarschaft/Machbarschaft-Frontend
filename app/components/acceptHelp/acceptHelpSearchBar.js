@@ -7,13 +7,24 @@ import useGeolocation from '../../hooks/useGeolocation';
 import SearchBox from './searchBox';
 
 export default function AcceptHelpSearchBar({ setCurrentLocation }) {
-  const [geolocationState, startGeolocation] = useGeolocation((pos) => setCurrentLocation(pos));
+  const [geolocationState, startGeolocation] = useGeolocation((pos) =>
+    setCurrentLocation(pos)
+  );
 
   React.useEffect(() => {
     if (geolocationState.error != null) {
-      if (geolocationState.error === 'NOT_SUPPORTED') message.error('Dein Browsers unterstützt die Standortermittlung leider nicht!');
+      if (geolocationState.error === 'NOT_SUPPORTED')
+        message.error(
+          'Dein Browsers unterstützt die Standortermittlung leider nicht!'
+        );
       else if (typeof geolocationState.error.code !== undefined) {
-        if (geolocationState.error.code === geolocationState.error.PERMISSION_DENIED) message.error('Bitte erlaube die Standortermittlung in deinem Browser!');
+        if (
+          geolocationState.error.code ===
+          geolocationState.error.PERMISSION_DENIED
+        )
+          message.error(
+            'Bitte erlaube die Standortermittlung in deinem Browser!'
+          );
         else message.error('Dein Standort konnte nicht ermittelt werden!');
       } else message.error('Dein Standort konnte nicht ermittelt werden!');
     }
@@ -30,10 +41,18 @@ export default function AcceptHelpSearchBar({ setCurrentLocation }) {
       />
       <img
         src={geolocationState.success ? geolocationFixed : geolocationNotFixed}
-        className={`accept-help-geolocation-icon${geolocationState.running ? ' accept-help-geolocation-icon-running' : ''}`}
+        className={`accept-help-geolocation-icon${
+          geolocationState.running
+            ? ' accept-help-geolocation-icon-running'
+            : ''
+        }`}
         onClick={() => startGeolocation()}
       />
-      <Select defaultValue="25" bordered={false} onChange={(value) => console.log(`selected ${value}`)}>
+      <Select
+        defaultValue="25"
+        bordered={false}
+        onChange={(value) => console.log(`selected ${value}`)}
+      >
         <Select.Option value="5">5km</Select.Option>
         <Select.Option value="10">10km</Select.Option>
         <Select.Option value="15">15km</Select.Option>

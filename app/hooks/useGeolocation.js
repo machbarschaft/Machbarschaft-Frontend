@@ -10,7 +10,8 @@ function geolocationStateReducer(state, action) {
       used: true,
       location: null,
     };
-  } if (action.type === 'success') {
+  }
+  if (action.type === 'success') {
     return {
       ...state,
       running: false,
@@ -18,7 +19,8 @@ function geolocationStateReducer(state, action) {
       error: null,
       location: action.location,
     };
-  } if (action.type === 'error') {
+  }
+  if (action.type === 'error') {
     return {
       ...state,
       running: false,
@@ -39,7 +41,7 @@ export default function useGeolocation(setLocation) {
       error: null,
       used: false,
       location: null,
-    },
+    }
   );
   React.useEffect(() => {
     if (geolocationState.running) {
@@ -53,9 +55,10 @@ export default function useGeolocation(setLocation) {
             setLocation(pos);
             dispatchGeolocationState({ type: 'success', position: pos });
           },
-          (error) => dispatchGeolocationState({ type: 'error', error }),
+          (error) => dispatchGeolocationState({ type: 'error', error })
         );
-      } else dispatchGeolocationState({ type: 'error', error: 'NOT_SUPPORTED' });
+      } else
+        dispatchGeolocationState({ type: 'error', error: 'NOT_SUPPORTED' });
     }
   }, [geolocationState.running]);
 

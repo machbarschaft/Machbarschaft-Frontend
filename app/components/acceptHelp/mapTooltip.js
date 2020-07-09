@@ -9,14 +9,16 @@ export default function MapTooltip({ categories, distance }) {
   if (categories.length == 0) categoryTitle = 'Keine Kategorie angegeben';
   else categoryTitle = categories.length > 1 ? 'Kategorien: ' : 'Kategorie: ';
   return (
-    <div
-      className="map-tooltip"
-    >
+    <div className="map-tooltip">
       <div className="map-tooltip-info">
         <div>{categoryTitle}</div>
         <div className="display-flex map-tooltip-centered">
-          {categories.includes('groceries') && <img src={RequestTypeGroceries} />}
-          {categories.includes('medication') && <img src={RequestTypeMedication} />}
+          {categories.includes('groceries') && (
+            <img src={RequestTypeGroceries} />
+          )}
+          {categories.includes('medication') && (
+            <img src={RequestTypeMedication} />
+          )}
           {categories.includes('other') && <img src={RequestTypeOther} />}
         </div>
         <div>Distanz:</div>

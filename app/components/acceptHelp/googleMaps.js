@@ -6,9 +6,19 @@ import CurrentLocationMarker from './currentLocationMarker';
 import { googleMapsApiKey } from '../../assets/config/google-maps-api.js';
 
 export default function MapContainer({
-  currentLocation, onMapClick, markers, selectedMarkerIndex, hoverMarkerIndex, onMarkerSelect, onMarkerEnter, onMarkerLeave,
+  currentLocation,
+  onMapClick,
+  markers,
+  selectedMarkerIndex,
+  hoverMarkerIndex,
+  onMarkerSelect,
+  onMarkerEnter,
+  onMarkerLeave,
 }) {
-  const [mapCenter, setMapCenter] = React.useState({ lat: 48.189280, lng: 11.564758 });
+  const [mapCenter, setMapCenter] = React.useState({
+    lat: 48.18928,
+    lng: 11.564758,
+  });
 
   React.useEffect(() => {
     if (currentLocation.lat !== 0 || currentLocation.lng !== 0) {
@@ -38,13 +48,12 @@ export default function MapContainer({
           />
         ))}
 
-        {(currentLocation.lat != 0 && currentLocation.lng != 0)
-                && (
-                <CurrentLocationMarker
-                  lat={currentLocation.lat}
-                  lng={currentLocation.lng}
-                />
-                )}
+        {currentLocation.lat != 0 && currentLocation.lng != 0 && (
+          <CurrentLocationMarker
+            lat={currentLocation.lat}
+            lng={currentLocation.lng}
+          />
+        )}
       </GoogleMapReact>
     </div>
   );

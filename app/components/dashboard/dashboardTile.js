@@ -7,12 +7,13 @@ const { Text } = Typography;
 function DashboardTile({ title, content }) {
   return (
     <div className="dashboard-tile">
-      {title !== undefined
-				&& (
-<>
-  <Text strong className="dashboard-tile-spacing">{title}</Text>
-</>
-				)}
+      {title !== undefined && (
+        <>
+          <Text strong className="dashboard-tile-spacing">
+            {title}
+          </Text>
+        </>
+      )}
       {content}
     </div>
   );

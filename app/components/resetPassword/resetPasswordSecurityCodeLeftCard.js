@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Space, Button, Input, Typography, Form, Select,
-} from 'antd';
+import { Space, Button, Input, Typography, Form, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { MailOutlined } from '@ant-design/icons';
 import resetPasswordSubmissionStateReducer from './resetPasswordSubmissionStateReducer';
@@ -15,7 +13,7 @@ function ResetPasswordSecurityCodeLeftCard({ user, setToken, proceed }) {
     {
       error: null,
       loading: false,
-    },
+    }
   );
 
   const layout = {
@@ -27,7 +25,9 @@ function ResetPasswordSecurityCodeLeftCard({ user, setToken, proceed }) {
 
   const handleForm = async (values) => {
     dispatchSubmissionState({ type: 'submit' });
-    console.log(`ToDo: send security code check request for user '${user}', code '${data.code}' to backend`);
+    console.log(
+      `ToDo: send security code check request for user '${user}', code '${data.code}' to backend`
+    );
     setToken('demo_token');
     setTimeout(() => {
       dispatchSubmissionState({ type: 'success' });
@@ -60,7 +60,13 @@ function ResetPasswordSecurityCodeLeftCard({ user, setToken, proceed }) {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={submissionState.loading}>Login</Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={submissionState.loading}
+          >
+            Login
+          </Button>
         </Form.Item>
       </Form>
     </>

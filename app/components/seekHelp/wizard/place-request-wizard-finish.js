@@ -10,12 +10,14 @@ const { Title } = Typography;
  * @returns {*}
  * @constructor
  */
-export default function PlaceRequestWizardFinish({ handlePreviousPage, handleNextPage, wizardState }) {
+export default function PlaceRequestWizardFinish({
+  handlePreviousPage,
+  handleNextPage,
+  wizardState,
+}) {
   const authenticationContext = React.useContext(AuthenticationContext);
 
-  const userExistsContent = () => (
-    <Title level={4}>Logge dich ein!</Title>
-  );
+  const userExistsContent = () => <Title level={4}>Logge dich ein!</Title>;
 
   const userNotExistsContent = () => (
     <Title level={4}>Erstellen Sie jetzt ein Benutzerkonto!</Title>
@@ -27,7 +29,9 @@ export default function PlaceRequestWizardFinish({ handlePreviousPage, handleNex
       title="Ihre Anfrage wurde entgegengenommen."
       subTitle="Unser Netzwerk aus freiwilligen Helferinnen und Helfern wurde benachrichtigt. Sie erhalten in Kürze eine Rückmeldung."
       extra={[
-        <NavLink to="/"><Button>Zurück zur Startseite</Button></NavLink>,
+        <NavLink to="/">
+          <Button>Zurück zur Startseite</Button>
+        </NavLink>,
       ]}
     />
   );

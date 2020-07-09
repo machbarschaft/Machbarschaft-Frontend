@@ -28,7 +28,11 @@ function DashboardHelper() {
         </div>
         <div className="dashboard-column">
           <DashboardTileUrgency urgency="now" />
-          <DashboardTileAdditionalInformation carNecessary prescriptionRequired={false} timestamp={1593672043} />
+          <DashboardTileAdditionalInformation
+            carNecessary
+            prescriptionRequired={false}
+            timestamp={1593672043}
+          />
         </div>
       </div>
       <DashboardHelperOldRequests />

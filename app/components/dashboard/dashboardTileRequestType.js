@@ -10,16 +10,29 @@ function DashboardTileRequestType({ requestType }) {
   return (
     <DashboardTile
       title="Typ des Auftrags"
-      content={(
+      content={
         <div className="dashboard-tile-row-container">
-          {requestType.includes('medication')
-                    && <DashboardTileImgTextRow imgSrc={RequestTypeMedication} title="Medikamente einkaufen" />}
-          {requestType.includes('groceries')
-                    && <DashboardTileImgTextRow imgSrc={RequestTypeGroceries} title="Lebensmittel einkaufen" className="dashboard-tile-spacing" />}
-          {requestType.includes('other')
-                    && <DashboardTileImgTextRow imgSrc={RequestTypeOther} title="Produkte einkaufen" />}
-        </div>
+          {requestType.includes('medication') && (
+            <DashboardTileImgTextRow
+              imgSrc={RequestTypeMedication}
+              title="Medikamente einkaufen"
+            />
           )}
+          {requestType.includes('groceries') && (
+            <DashboardTileImgTextRow
+              imgSrc={RequestTypeGroceries}
+              title="Lebensmittel einkaufen"
+              className="dashboard-tile-spacing"
+            />
+          )}
+          {requestType.includes('other') && (
+            <DashboardTileImgTextRow
+              imgSrc={RequestTypeOther}
+              title="Produkte einkaufen"
+            />
+          )}
+        </div>
+      }
     />
   );
 }

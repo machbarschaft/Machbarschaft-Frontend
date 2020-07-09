@@ -11,7 +11,11 @@ const { Title } = Typography;
  * @returns {*}
  * @constructor
  */
-export default function PlaceRequestWizardSummary({ handlePreviousPage, handleNextPage, wizardState }) {
+export default function PlaceRequestWizardSummary({
+  handlePreviousPage,
+  handleNextPage,
+  wizardState,
+}) {
   const [form] = Form.useForm();
 
   const formLayout = {
@@ -22,16 +26,29 @@ export default function PlaceRequestWizardSummary({ handlePreviousPage, handleNe
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <Title level={1}>Stimmt alles?</Title>
-      <Title level={4}>Bitte kontrollieren Sie alle Angaben. Anschließend werden wir unser Netzwerk aus freiwilligen Helferinnen und Helfern benachrichtigen.</Title>
+      <Title level={4}>
+        Bitte kontrollieren Sie alle Angaben. Anschließend werden wir unser
+        Netzwerk aus freiwilligen Helferinnen und Helfern benachrichtigen.
+      </Title>
 
-      <Form {...formLayout} form={form} name="place-request-wizard-summary" hideRequiredMark onFinish={handleNextPage}>
+      <Form
+        {...formLayout}
+        form={form}
+        name="place-request-wizard-summary"
+        hideRequiredMark
+        onFinish={handleNextPage}
+      >
         {/* ToDo: Summary UI */}
 
-        {wizardState.hasError && <PlaceRequestWizardValidationError wizardState={wizardState} />}
+        {wizardState.hasError && (
+          <PlaceRequestWizardValidationError wizardState={wizardState} />
+        )}
 
-        <PlaceRequestWizardNavigation handlePreviousPage={handlePreviousPage} wizardState={wizardState} />
+        <PlaceRequestWizardNavigation
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
       </Form>
-
     </Space>
   );
 }

@@ -14,11 +14,12 @@ export default function UseFontSizer() {
   return (
     <>
       {/* Trick from https://stackoverflow.com/a/45669262 */}
-      <div ref={(node) => {
-        if (node) {
-          node.style.setProperty('font-size', `${fontSize}em`, 'important');
-        }
-      }}
+      <div
+        ref={(node) => {
+          if (node) {
+            node.style.setProperty('font-size', `${fontSize}em`, 'important');
+          }
+        }}
       >
         <Title>Hello World!</Title>
         <p>Test</p>
