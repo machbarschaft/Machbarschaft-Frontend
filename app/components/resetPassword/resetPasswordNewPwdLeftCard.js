@@ -1,73 +1,84 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Space, Button, Input, Typography} from 'antd';
-import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
-import PropTypes from "prop-types";
-import resetPasswordSubmissionStateReducer from "./resetPasswordSubmissionStateReducer";
-const {Text} = Typography;
+import React from 'react'
+import {Space, Button, Input, Typography, Form, Select} from 'antd'
+import PropTypes from "prop-types"
+import resetPasswordSubmissionStateReducer from "./resetPasswordSubmissionStateReducer"
 
-
-const passwordSchema = yup.object().shape({
-    password: yup.string().required("Bitte geben Sie ein Passwort ein, das die angegebenen Regeln erfüllt"),
-    passwordRepeat: yup.string().oneOf([yup.ref("password")], "Die beiden Felder müssen übereinstimmen").required("Die beiden Felder müssen übereinstimmen")
-});
+const {Text} = Typography
+const {Option} = Select
 
 
 function ResetPasswordNewPwdLeftCard({user, token, proceed}) {
-    const {register, errors, handleSubmit, setValue, formState} = useForm({
-        validationSchema: passwordSchema
-    });
+    const [form] = Form.useForm()
     const [submissionState, dispatchSubmissionState] = React.useReducer(
         resetPasswordSubmissionStateReducer,
         {
             error: null,
             loading: false
         }
-    );
+    )
 
-    function onSubmit(data) {
-        dispatchSubmissionState({type: "submit"});
-        console.log("ToDo: send password set request for user '" + user + "', token '" + token + "', password '" + data.password + "' to backend")
-        setTimeout(() => {
-            dispatchSubmissionState({type: "success"});
-            proceed()
-        }, 1000);
+    const layout = {
+        labelCol: {span: 10},
+        wrapperCol: {span: 14},
     }
 
-    React.useEffect(() => {
-        register({name: "password"});
-        register({name: "passwordRepeat"});
-    }, []);
+    const handleForm = async (values) => {
+        dispatchSubmissionState({type: "submit"})
+        console.log("ToDo: send password set request for user '" + user + "', token '" + token + "', password '" + data.password + "' to backend")
+        setTimeout(() => {
+            dispatchSubmissionState({type: "success"})
+            proceed()
+        }, 1000)
+    }
 
     return (
         <>
-            <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
-                <Space direction="vertical" size="small">
-                    <Text strong>Passwort</Text>
-                    <Input.Password size="large"
-                                    name={"password"}
-                                    /*iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}*/
-                                    onChange={(e) => setValue("password", e.target.value)}/>
-                    <Text type="danger">{errors.password && <p>{errors.password.message}</p>}</Text>
-                    <Text strong>Passwort wiederholen</Text>
-                    <Input.Password size="large"
-                                    name={"passwordRepeat"}
-                                    /*iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}*/
-                                    onChange={(e) => setValue("passwordRepeat", e.target.value)}/>
-                    <Text type="danger">{errors.passwordRepeat && <p>{errors.passwordRepeat.message}</p>}</Text>
-                    <Text type={"danger"}>{submissionState.error}</Text>
-                    <Button type="primary" htmlType="submit" loading={submissionState.loading}>Passwort setzen</Button>
-                </Space>
-            </form>
+            <Form
+                {...layout}
+                form={form}
+                name={"reset-password"}
+                style={{width: "100%"}}
+                onFinish={handleForm}
+                hideRequiredMark={true}
+            >
+                <Form.Item
+                    name={"password"}
+                    label={"Passwort"}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Gib dein Passwort ein."
+                        }
+                    ]}
+                >
+                    <Input.Password size={"large"}/>
+                </Form.Item>
+
+                <Form.Item
+                    name={"password"}
+                    label={"Passwort wiederholen"}
+                    rules={[
+                        {
+                            required: true,
+                            message: "Gib dein Passwort erneut ein."
+                        }
+                    ]}
+                >
+                    <Input.Password size={"large"}/>
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type={"primary"} htmlType={"submit"} loading={submissionState.loading}>Login</Button>
+                </Form.Item>
+            </Form>
         </>
-    );
+    )
 }
+
 ResetPasswordNewPwdLeftCard.propTypes = {
     user: PropTypes.string.isRequired,
     setToken: PropTypes.string.isRequired,
     proceed: PropTypes.func.isRequired
-};
+}
 
-export default ResetPasswordNewPwdLeftCard;
+export default ResetPasswordNewPwdLeftCard

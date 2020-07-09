@@ -1,48 +1,37 @@
-import React from 'react';
-import {useHistory, Link} from "react-router-dom";
-import {Card, Input, Space, Button, Typography, Timeline} from 'antd';
-import {useForm} from "react-hook-form";
-import * as yup from "yup";
-import {MailOutlined} from '@ant-design/icons';
-import AuthenticationContext from "../../contexts/authentication";
-import PropTypes from 'prop-types';
-import validateDisjunction from "../../utils/inputValidationFunctions/validateDisjunction";
+import React from 'react'
+import {useHistory, Link} from "react-router-dom"
+import {Card, Input, Space, Button, Typography, Timeline, Form, Select} from 'antd'
+import {MailOutlined} from '@ant-design/icons'
+import AuthenticationContext from "../../contexts/authentication"
+import PropTypes from 'prop-types'
 
-const {Text} = Typography;
-
-yup.addMethod(yup.string, "or", validateDisjunction);
-const formSchema = yup.object().shape({
-    user: yup.
-          string().
-          or([yup.string().email(), yup.number().positive().integer()], "Die Eingabe ist keine Telefonnummer und keine E-Mail").
-          required("Bitte geben Sie Ihre Telefonnummer oder E-Mail Adresse ein"),
-    password: yup.string().required("Bitte geben Sie Ihr Passwort ein")
-});
+const {Option} = Select
+const {Text} = Typography
 
 function LoginWindow({location: {username} = ""}) {
-    const authenticationContext = React.useContext(AuthenticationContext);
+    const authenticationContext = React.useContext(AuthenticationContext)
 
-    const {register, errors, handleSubmit, setValue, formState} = useForm({
-        validationSchema: formSchema
-    });
-    const history = useHistory();
+    const layout = {
+        labelCol: {span: 10},
+        wrapperCol: {span: 14},
+    }
+
+    const [form] = Form.useForm()
+    const history = useHistory()
+
+    const handleForm = async (values) => {
+        await authenticationContext.performAuthentication(values.user, values.password)
+    }
 
     function onSubmit(data) {
-        authenticationContext.performAuthentication(data.user, data.password);
+        authenticationContext.performAuthentication(data.user, data.password)
     }
 
     React.useEffect(() => {
         if (authenticationContext.authenticationState.uid != null) {
             history.push("/")
         }
-    }, [authenticationContext.authenticationState]);
-
-    React.useEffect(() => {
-        register({name: "user"});
-        register({name: "password"});
-        setValue("user", username);
-    }, []);
-
+    }, [authenticationContext.authenticationState])
 
     return (
         <div className="content-container-default">
@@ -53,24 +42,45 @@ function LoginWindow({location: {username} = ""}) {
                       bordered={false}
                       className="login-card"
                 >
-                    <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
-                        <Space direction="vertical" size="small">
-                            <Text strong>Telefonnummer oder E-Mail Adresse</Text>
-                            <Input size="large"
-                                   name={"user"}
-                                   suffix={<MailOutlined/>}
-                                   onChange={(e) => setValue("user", e.target.value)}
-                                   defaultValue={username}/>
-                            <Text type="danger">{errors.user && <p>{errors.user.message}</p>}</Text>
-                            <Text strong>Passwort</Text>
-                            <Input.Password size="large"
-                                            name={"password"}
-                                            onChange={(e) => setValue("password", e.target.value)}/>
-                            <Text type="danger">{errors.password && <p>{errors.password.message}</p>}</Text>
-                            <Text type={"danger"}>{authenticationContext.authenticationState.authenticationErrors != null && authenticationContext.authenticationState.authenticationErrors}</Text>
-                            <Button type="primary" htmlType="submit" loading={authenticationContext.authenticationState.isAuthenticating}>Anmelden</Button>
-                        </Space>
-                    </form>
+                    <Form
+                        {...layout}
+                        form={form}
+                        name={"login"}
+                        style={{width: "100%"}}
+                        onFinish={handleForm}
+                        hideRequiredMark={true}
+                    >
+                        <Form.Item
+                            name={"user"}
+                            label={"E-Mail Adresse"}
+                            rules={[
+                                {
+                                    required: true,
+                                    type: "email",
+                                    message: "Gib eine gültige E-Mail Adresse ein."
+                                }
+                            ]}
+                        >
+                            <Input size={"large"} suffix={<MailOutlined/>}/>
+                        </Form.Item>
+
+                        <Form.Item
+                            name={"password"}
+                            label={"Passwort"}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Gib dein Passwort ein."
+                                }
+                            ]}
+                        >
+                            <Input.Password size={"large"}/>
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button type={"primary"} htmlType={"submit"} loading={authenticationContext.authenticationState.isAuthenticating}>Login</Button>
+                        </Form.Item>
+                    </Form>
                 </Card>
                 <Card className="login-card login-description-card">
                     <Timeline>
@@ -89,12 +99,13 @@ function LoginWindow({location: {username} = ""}) {
                 </Card>
             </div>
         </div>
-    );
+    )
 }
+
 LoginWindow.propTypes = {
     location: PropTypes.shape({
         username: PropTypes.string
     })
 }
 
-export default LoginWindow;
+export default LoginWindow
