@@ -6,6 +6,6 @@ export default function LandingPage() {
     const authProps = React.useContext(AuthenticationContext);
 
     return (
-        <WelcomeSection />
+        <WelcomeSection/>
     )
 }

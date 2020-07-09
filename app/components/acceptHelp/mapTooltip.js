@@ -6,8 +6,8 @@ import RequestTypeMedication from "../../assets/img/request-category/request-cat
 
 export default function MapTooltip({categories, distance}) {
     let categoryTitle = "";
-    if(categories.length == 0) categoryTitle = "Keine Kategorie angegeben";
-        else categoryTitle = categories.length > 1 ? "Kategorien: " : "Kategorie: ";
+    if (categories.length == 0) categoryTitle = "Keine Kategorie angegeben";
+    else categoryTitle = categories.length > 1 ? "Kategorien: " : "Kategorie: ";
     return (
         <div
             className="map-tooltip"
@@ -15,9 +15,9 @@ export default function MapTooltip({categories, distance}) {
             <div className="map-tooltip-info">
                 <div>{categoryTitle}</div>
                 <div className="display-flex map-tooltip-centered">
-                    {categories.includes("groceries") && <img src={RequestTypeGroceries} />}
-                    {categories.includes("medication") && <img src={RequestTypeMedication} />}
-                    {categories.includes("other") && <img src={RequestTypeOther} />}
+                    {categories.includes("groceries") && <img src={RequestTypeGroceries}/>}
+                    {categories.includes("medication") && <img src={RequestTypeMedication}/>}
+                    {categories.includes("other") && <img src={RequestTypeOther}/>}
                 </div>
                 <div>Distanz:</div>
                 <div className="map-tooltip-centered">{distance}</div>

@@ -13,7 +13,7 @@ export const postRegisterRequest = async (formValues) => {
         },
         body: formBody
     }).then(async (res) => {
-        if(res.status === 201) {
+        if (res.status === 201) {
             return res
         } else {
             res = await res.json()

@@ -1,10 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {Space, Button, Input, Typography} from 'antd';
+import {Button, Input, Space, Typography} from 'antd';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import PropTypes from "prop-types";
 import resetPasswordSubmissionStateReducer from "./resetPasswordSubmissionStateReducer";
+
 const {Text} = Typography;
 
 const codeErrorMsg = "Bitte geben Sie den 5 stelligen Code ein";
@@ -52,6 +52,7 @@ function ResetPasswordSecurityCodeLeftCard({user, setToken, proceed}) {
         </form>
     );
 }
+
 ResetPasswordSecurityCodeLeftCard.propTypes = {
     user: PropTypes.string.isRequired,
     setToken: PropTypes.func.isRequired,

@@ -1,5 +1,4 @@
 import React from "react"
-import AuthenticationContext from "../../contexts/authentication";
 
 /**
  * Creates a new help request, either for a guest or an authentciated user.

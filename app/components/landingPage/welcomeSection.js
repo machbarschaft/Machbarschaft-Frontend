@@ -1,5 +1,5 @@
 import React from 'react'
-import {Input, Button, Typography, Form, Row, Col} from 'antd';
+import {Button, Col, Form, Input, Row, Typography} from 'antd';
 import {PhoneOutlined} from '@ant-design/icons';
 import {useHistory} from "react-router-dom";
 import AuthenticationContext from "../../contexts/authentication";

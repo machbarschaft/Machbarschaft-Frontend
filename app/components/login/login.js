@@ -1,6 +1,6 @@
 import React from 'react';
-import {useHistory, Link} from "react-router-dom";
-import {Card, Input, Space, Button, Typography, Timeline} from 'antd';
+import {Link, useHistory} from "react-router-dom";
+import {Button, Card, Input, Space, Timeline, Typography} from 'antd';
 import {useForm} from "react-hook-form";
 import * as yup from "yup";
 import {MailOutlined} from '@ant-design/icons';
@@ -12,10 +12,7 @@ const {Text} = Typography;
 
 yup.addMethod(yup.string, "or", validateDisjunction);
 const formSchema = yup.object().shape({
-    user: yup.
-          string().
-          or([yup.string().email(), yup.number().positive().integer()], "Die Eingabe ist keine Telefonnummer und keine E-Mail").
-          required("Bitte geben Sie Ihre Telefonnummer oder E-Mail Adresse ein"),
+    user: yup.string().or([yup.string().email(), yup.number().positive().integer()], "Die Eingabe ist keine Telefonnummer und keine E-Mail").required("Bitte geben Sie Ihre Telefonnummer oder E-Mail Adresse ein"),
     password: yup.string().required("Bitte geben Sie Ihr Passwort ein")
 });
 
@@ -91,6 +88,7 @@ function LoginWindow({location: {username} = ""}) {
         </div>
     );
 }
+
 LoginWindow.propTypes = {
     location: PropTypes.shape({
         username: PropTypes.string

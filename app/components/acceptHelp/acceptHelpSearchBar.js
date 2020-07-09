@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import {Select, message} from 'antd';
 import geolocationFixed from "../../assets/img/maps/geolocation-fixed.svg";
@@ -12,9 +11,9 @@ export default function AcceptHelpSearchBar({setCurrentLocation}) {
 
     React.useEffect(() => {
         if(geolocationState.error != null) {
-            if(geolocationState.error == "NOT_SUPPORTED") message.error("Dein Browsers unterstützt die Standortermittlung leider nicht!");
+            if(geolocationState.error === "NOT_SUPPORTED") message.error("Dein Browsers unterstützt die Standortermittlung leider nicht!");
             else if(typeof geolocationState.error.code !== undefined) {
-                if(geolocationState.error.code == geolocationState.error.PERMISSION_DENIED) message.error("Bitte erlaube die Standortermittlung in deinem Browser!");
+                if(geolocationState.error.code === geolocationState.error.PERMISSION_DENIED) message.error("Bitte erlaube die Standortermittlung in deinem Browser!");
                     else message.error("Dein Standort konnte nicht ermittelt werden!");
             }
                 else message.error("Dein Standort konnte nicht ermittelt werden!");

@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {Space, Button, Input, Typography} from 'antd';
+import {Button, Input, Space, Typography} from 'antd';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
-import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 import PropTypes from "prop-types";
 import resetPasswordSubmissionStateReducer from "./resetPasswordSubmissionStateReducer";
+
 const {Text} = Typography;
 
 
@@ -48,13 +47,13 @@ function ResetPasswordNewPwdLeftCard({user, token, proceed}) {
                     <Text strong>Passwort</Text>
                     <Input.Password size="large"
                                     name={"password"}
-                                    /*iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}*/
+                        /*iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}*/
                                     onChange={(e) => setValue("password", e.target.value)}/>
                     <Text type="danger">{errors.password && <p>{errors.password.message}</p>}</Text>
                     <Text strong>Passwort wiederholen</Text>
                     <Input.Password size="large"
                                     name={"passwordRepeat"}
-                                    /*iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}*/
+                        /*iconRender={visible => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}*/
                                     onChange={(e) => setValue("passwordRepeat", e.target.value)}/>
                     <Text type="danger">{errors.passwordRepeat && <p>{errors.passwordRepeat.message}</p>}</Text>
                     <Text type={"danger"}>{submissionState.error}</Text>
@@ -64,6 +63,7 @@ function ResetPasswordNewPwdLeftCard({user, token, proceed}) {
         </>
     );
 }
+
 ResetPasswordNewPwdLeftCard.propTypes = {
     user: PropTypes.string.isRequired,
     setToken: PropTypes.string.isRequired,

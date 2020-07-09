@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import "antd/dist/antd.less";
 
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import {Typography, Layout} from 'antd';
+import {BrowserRouter as Router} from 'react-router-dom'
+import {Layout} from 'antd';
 
 import Navigation from "./components/base/navigation";
 import Footer from "./components/base/footer";
