@@ -1,5 +1,5 @@
 import React from "react"
-import {Button, Divider, Space, Form} from "antd";
+import {Button, Divider, Form, Space} from "antd";
 
 export default function PlaceRequestWizardNavigation({handlePreviousPage, wizardState}) {
     return (

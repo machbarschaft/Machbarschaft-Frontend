@@ -1,8 +1,6 @@
 import React from "react"
-import {
-    Form, Input, Button, Select, Typography, Card, Timeline, Space, Col, Row
-} from 'antd'
-import {Link, useHistory} from "react-router-dom";
+import {Button, Card, Col, Form, Input, Row, Select, Timeline, Typography} from 'antd'
+import {useHistory} from "react-router-dom";
 import AuthenticationContext from "../../contexts/authentication";
 
 const {Option} = Select;
