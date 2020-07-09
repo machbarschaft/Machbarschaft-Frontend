@@ -226,15 +226,15 @@ export default function useAuthentication() {
             phoneVerified: authenticateResult.phoneVerified,
 
             profile: {
-              forename: 'Max',
-              surname: 'Schmidt',
+              forename: authenticateResult.profile.forename,
+              surname: authenticateResult.profile.surname,
             },
 
             address: {
-              street: '',
-              houseNumber: '',
-              zipCode: '',
-              country: '',
+              street: authenticateResult.profile.street,
+              houseNumber: authenticateResult.houseNumber,
+              zipCode: authenticateResult.profile.zipCode,
+              country: authenticateResult.profile.country,
             },
           },
         });
