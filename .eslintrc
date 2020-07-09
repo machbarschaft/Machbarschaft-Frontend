@@ -8,6 +8,9 @@
   "plugins": [
     "react"
   ],
-  "rules": {},
+  "extends": ["airbnb"],
+  "rules": {
+    "semi": "error"
+  },
   "parser": "babel-eslint"
 }
