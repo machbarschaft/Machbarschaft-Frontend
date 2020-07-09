@@ -119,6 +119,10 @@ export default function useAuthentication() {
 
   const isAuthenticated = () => authenticationState.uid !== null;
 
+  const isMailVerified = () => authenticationState.emailVerified;
+
+  const isPhoneVerified = () => authenticationState.phoneVerified;
+
   /* Check for authentication on first build */
   React.useEffect(() => {
     checkAuthentication();
@@ -292,6 +296,8 @@ export default function useAuthentication() {
       checkAuthentication,
       invalidateAuthentication,
       isAuthenticated,
+      isMailVerified,
+      isPhoneVerified,
       performRegister,
     },
   ];
