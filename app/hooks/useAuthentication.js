@@ -1,24 +1,29 @@
 import React from 'react'
-import {getAuthenticate, putLogin, postLogout, putLogout} from "../utils/api/authenticationAPI"
+import {getAuthenticate, putLogin, putLogout} from "../utils/api/authenticationAPI"
 import {postRegisterRequest} from "../utils/api/registerAPI"
 
-// ToDo: Welche Daten wollen wir für den lokalen Nutzer speichern?
 const initialAuthenticationState = {
     // User Data
     uid: null,
     email: null,
     phoneNumber: null,
 
+    // Verification
+    emailVerified: false,
+    phoneVerified: false,
+
     // Profile
     profile: {
         forename: "Max",
         surname: "Schmidt",
-        address: {
-            street: "",
-            houseNumber: "",
-            zipCode: "",
-            country: ""
-        }
+    },
+
+    // Adresse
+    address: {
+        street: "",
+        houseNumber: "",
+        zipCode: "",
+        country: ""
     },
 
     // Process Information
@@ -58,24 +63,27 @@ function authenticationReducer(state, action) {
         case "authenticationSuccess":
             return {
                 ...state,
+
                 isAuthenticating: false,
                 isInitialLoading: false,
+
+                emailVerified: action.data["emailVerified"],
+                phoneVerified: action.data["phoneVerified"],
+
                 uid: action.data["uid"],
                 email: action.data["email"],
-                phoneNumber: "0123", // Todo: Change
-                profile: {
-                    forename: "Max",
-                    surname: "Schmidt",
-                    address: {
-                        street: "",
-                        houseNumber: "",
-                        zipCode: "",
-                        country: ""
-                    }
-                },
+                phoneNumber: action.data["phone"],
+
+                profile: action.data["profile"],
+                address: action.data["address"]
             }
         case "registerSuccess":
-            return {}
+            return {
+                ...state,
+
+                isAuthenticating: false,
+                isInitialLoading: false,
+            }
         case "authenticationFailure":
             return {
                 ...initialAuthenticationState,
@@ -112,7 +120,6 @@ export default function useAuthentication() {
     /* Check for authentication on first build */
     React.useEffect(() => {
         checkAuthentication()
-
     }, [])
 
     /**
@@ -210,7 +217,23 @@ export default function useAuthentication() {
                     type: "authenticationSuccess",
                     data: {
                         uid: authenticateResult["uid"],
-                        email: authenticateResult["email"]
+                        email: authenticateResult["email"],
+                        phoneNumber: authenticateResult["phone"],
+
+                        emailVerified: authenticateResult["emailVerified"],
+                        phoneVerified: authenticateResult["phoneVerified"],
+
+                        profile: {
+                            forename: "Max",
+                            surname: "Schmidt",
+                        },
+
+                        address: {
+                            street: "",
+                            houseNumber: "",
+                            zipCode: "",
+                            country: ""
+                        }
                     }
                 })
                 return true
