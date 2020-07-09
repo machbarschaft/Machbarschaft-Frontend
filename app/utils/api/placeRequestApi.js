@@ -1,6 +1,6 @@
 import React from 'react';
-import AuthenticationContext from '../../contexts/authentication';
 import apiUrl from './apiUrl';
+import { objectToFormUrlEncoded } from './formUrlEncoder';
 
 /**
  * Creates a new help request, either for a guest or an authentciated user.
@@ -34,7 +34,7 @@ export const postPlaceRequest = async ({ formValues, isAuthenticated }) => {
  * Updates data in an existing help request.
  * @param processID
  * @param phoneNumber
- * @param formValues
+ * @param formValues the necessary values (see Swagger backend docs)
  * @param isAuthenticated
  * @returns {Promise<Response>}
  */
@@ -50,18 +50,7 @@ export const putPlaceRequest = async ({
         phoneNumber
       )}`;
 
-  const formBody = Object.keys(formValues)
-    .map(
-      (key) =>
-        `${encodeURIComponent(key)}=${encodeURIComponent(formValues[key])}`
-    )
-    .join('&');
-
-  // ToDo: Change in Backend to Forename + Surname, override for the meantime
-  // formBody = formValues["forename"] + " " + formValues["surname"];
-  // formBody = "name=" + encodeURIComponent(formBody);
-
-  console.log(formBody);
+  const formBody = objectToFormUrlEncoded(formValues);
 
   return fetch(endpoint, {
     method: 'PUT',
@@ -111,5 +100,33 @@ export const putPublishRequest = ({
       return res;
     }
     throw new Error('Die Anfrage konnte nicht veröffentlicht werden.');
+  });
+};
+
+/**
+ * Creates a new address entry
+ * @param formValues the necessary values (see Swagger backend docs)
+ * @returns {Promise<Response>}
+ */
+export const postAddress = ({ formValues }) => {
+  const endpoint = `${apiUrl()}address`;
+
+  const formBody = objectToFormUrlEncoded(formValues);
+
+  return fetch(endpoint, {
+    method: 'POST',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    credentials: 'include',
+    body: formBody,
+  }).then(async (res) => {
+    if (res.status === 200) {
+      const jsonRes = await res.json();
+      return jsonRes._id;
+    } else {
+      throw Error('Die Adresse konnte nicht angelegt werden.');
+    }
   });
 };

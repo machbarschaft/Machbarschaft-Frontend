@@ -2,10 +2,11 @@ import React from 'react';
 import { Space, Steps } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
 import {
+  postAddress,
   postPlaceRequest,
   putPlaceRequest,
   putPublishRequest,
-} from '../../utils/api/placeRequestAPI';
+} from '../../utils/api/placeRequestApi';
 
 const queryString = require('query-string');
 
@@ -159,7 +160,23 @@ export default function PlaceRequestWindow(props) {
     });
   };
 
-  const handlePublish = () => {};
+  const handleAddressCreateRequest = async (formValues) => {
+    postAddress(formValues)
+      .then((addressId) => {
+        return addressId;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  const handlePublish = async () => {
+    await putPublishRequest({
+      processID: processID.current,
+      phoneNumber,
+      isAuthenticated: authenticationContext.isAuthenticated(),
+    });
+  };
 
   let wizardSteps = [
     {
@@ -176,7 +193,7 @@ export default function PlaceRequestWindow(props) {
       },
     },
     {
-      title: 'Addresse',
+      title: 'Adresse',
       content: (
         <PlaceRequestWizardAddress
           handleNextPage={handleNextPage}
@@ -185,7 +202,8 @@ export default function PlaceRequestWindow(props) {
         />
       ),
       handleBackend: async (formValues) => {
-        // ToDo: Which endpoint?
+        const addressId = await handleAddressCreateRequest(formValues);
+        await handleUpdateRequest({ addressId: addressId });
       },
     },
     {
@@ -235,11 +253,7 @@ export default function PlaceRequestWindow(props) {
         />
       ),
       handleBackend: async (formValues) => {
-        await putPublishRequest({
-          processID: processID.current,
-          phoneNumber,
-          isAuthenticated: authenticationContext.isAuthenticated(),
-        });
+        await handlePublish();
       },
     },
     {
@@ -279,13 +293,10 @@ export default function PlaceRequestWindow(props) {
       <div className="steps-content">
         {
           wizardSteps.filter((wizardItem) => {
-            if (
+            return !(
               wizardItem.title === 'Identität' &&
               (authenticationContext.isAuthenticated() || phoneVerified.current)
-            ) {
-              return false;
-            }
-            return true;
+            );
           })[wizardState.currentStep].content
         }
       </div>

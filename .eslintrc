@@ -20,5 +20,8 @@
     "object-shorthand": "off",
     "class-methods-use-this": "off"
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "globals": {
+    "fetch": false
+  }
 }
