@@ -1,5 +1,7 @@
+import apiUrl from "./apiUrl";
+
 export const postRegisterRequest = async (formValues) => {
-    const endpoint = "http://localhost:3000/auth/register"
+    const endpoint = apiUrl() + "auth/register"
 
     let formBody = Object.keys(formValues).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(formValues[key])).join('&')
 
@@ -13,7 +15,7 @@ export const postRegisterRequest = async (formValues) => {
         },
         body: formBody
     }).then(async (res) => {
-        if(res.status === 201) {
+        if (res.status === 201) {
             return res
         } else {
             res = await res.json()

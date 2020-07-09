@@ -4,8 +4,10 @@
  * @param password is the password of the user to be authenticated
  * @returns {Promise<Response>} the unparsed response of the backend
  */
+import apiUrl from "./apiUrl";
+
 export const putLogin = (email, password) => {
-    const endpoint = "http://localhost:3000/auth/login";
+    const endpoint = apiUrl() + "auth/login";
 
     const tmp = {email, password};
     const formBody = Object.keys(tmp).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(tmp[key])).join('&');
@@ -26,7 +28,7 @@ export const putLogin = (email, password) => {
  * @returns {Promise<Response>} the unparsed response of the backend (contains user information)
  */
 export const getAuthenticate = () => {
-    const endpoint = "http://localhost:3000/auth/authenticate";
+    const endpoint = apiUrl() + "auth/authenticate";
 
     return fetch(endpoint, {
         method: 'GET',
@@ -40,7 +42,7 @@ export const getAuthenticate = () => {
  * @returns {Promise<Response>} the unparsed response of the backend
  */
 export const putLogout = () => {
-    const endpoint = "http://localhost:3000/auth/logout";
+    const endpoint = apiUrl() + "auth/logout";
 
     return fetch(endpoint, {
         method: 'PUT',

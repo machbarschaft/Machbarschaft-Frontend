@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from 'prop-types'
-import {Row, Col, Typography, Input, Button, Space, Form} from 'antd';
+import {Form, Input, Space, Typography} from 'antd';
 import PlaceRequestWizardNavigation from "./place-request-wizard-navigation";
 import PlaceRequestWizardValidationError from "./place-request-wizard-validation-error";
 import AuthenticationContext from "../../../contexts/authentication";
@@ -25,7 +25,9 @@ export default function PlaceRequestWizardName({handlePreviousPage, handleNextPa
 
     return (
         <Space direction={"vertical"} size={"large"} style={{width: '100%'}}>
-            {authenticationContext.isAuthenticated() ? <Title level={1}>Hallo {authenticationContext.authenticationState.profile.forename} {authenticationContext.authenticationState.profile.surname},</Title> : <Title level={1}>Hallo,</Title>}
+            {authenticationContext.isAuthenticated() ?
+                <Title level={1}>Hallo {authenticationContext.authenticationState.profile.forename} {authenticationContext.authenticationState.profile.surname},</Title> :
+                <Title level={1}>Hallo,</Title>}
             <Title level={4}>Wir möchten gerne wissen, wie wir Sie ansprechen dürfen.</Title>
 
             <Form

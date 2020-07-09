@@ -1,7 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import {useLocation} from "react-router-dom"
-import {Steps, Space, Divider, Button} from "antd"
+import {Space, Steps} from "antd"
 import AuthenticationContext from "../../contexts/authentication"
 import {postPlaceRequest, putPlaceRequest, putPublishRequest} from "../../utils/api/placeRequestAPI"
 

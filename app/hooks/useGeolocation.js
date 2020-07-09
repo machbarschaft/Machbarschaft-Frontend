@@ -1,7 +1,7 @@
 import React from 'react';
 
 function geolocationStateReducer(state, action) {
-    if(action.type === "start") {
+    if (action.type === "start") {
         return {
             ...state,
             running: true,
@@ -10,7 +10,7 @@ function geolocationStateReducer(state, action) {
             used: true,
             location: null
         };
-    } else if(action.type === "success") {
+    } else if (action.type === "success") {
         return {
             ...state,
             running: false,
@@ -18,7 +18,7 @@ function geolocationStateReducer(state, action) {
             error: null,
             location: action.location
         }
-    } else if(action.type === "error") {
+    } else if (action.type === "error") {
         return {
             ...state,
             running: false,
@@ -26,8 +26,7 @@ function geolocationStateReducer(state, action) {
             error: action.error,
             location: null
         };
-    }
-    else {
+    } else {
         throw new Error("Unsupported");
     }
 }
@@ -45,8 +44,8 @@ export default function useGeolocation(setLocation) {
         }
     );
     React.useEffect(() => {
-        if(geolocationState.running) {
-            if(navigator.geolocation) {
+        if (geolocationState.running) {
+            if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         var pos = {
@@ -58,8 +57,7 @@ export default function useGeolocation(setLocation) {
                     },
                     (error) => dispatchGeolocationState({type: "error", error: error})
                 );
-            }
-                else dispatchGeolocationState({type: "error", error: "NOT_SUPPORTED"});
+            } else dispatchGeolocationState({type: "error", error: "NOT_SUPPORTED"});
         }
     }, [geolocationState.running]);
 

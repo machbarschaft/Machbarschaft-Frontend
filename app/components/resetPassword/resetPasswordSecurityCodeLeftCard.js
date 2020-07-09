@@ -7,7 +7,6 @@ import resetPasswordSubmissionStateReducer from "./resetPasswordSubmissionStateR
 const {Text} = Typography
 const {Option} = Select
 
-
 function ResetPasswordSecurityCodeLeftCard({user, setToken, proceed}) {
     const [submissionState, dispatchSubmissionState] = React.useReducer(
         resetPasswordSubmissionStateReducer,
