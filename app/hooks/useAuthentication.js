@@ -129,11 +129,15 @@ export default function useAuthentication() {
    * @param email the email of the user to be registered
    * @param phone the phone number of the user to be registered
    * @param password the password of the user to be registered
+   * @param forename the forename of the user to be registered
+   * @param surname the surname of the user to be registered
    */
   const performRegister = async (email, phone, password, forename, surname) => {
+    const parsedPhoneNumber = phone.replace(/\D/g, '');
+
     const formValues = {
       email,
-      phone,
+      parsedPhoneNumber,
       password,
       forename,
       surname,

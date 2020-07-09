@@ -76,6 +76,7 @@ export default function RegisterHelperComponent() {
                   name="register-helper"
                   style={{ width: '100%' }}
                   onFinish={handleForm}
+                  hideRequiredMark={true}
                   initialValues={{
                     phonePrefix: '49',
                   }}
@@ -86,7 +87,6 @@ export default function RegisterHelperComponent() {
                     rules={[
                       {
                         required: true,
-                        type: 'forename',
                         message: 'Gib deinen Vornamen ein',
                       },
                     ]}
@@ -100,7 +100,6 @@ export default function RegisterHelperComponent() {
                     rules={[
                       {
                         required: true,
-                        type: 'forename',
                         message: 'Gib deinen Nachname ein',
                       },
                     ]}
@@ -128,7 +127,8 @@ export default function RegisterHelperComponent() {
                     rules={[
                       {
                         required: true,
-                        /* type: "number", */
+                        pattern:
+                          '(\\(?([\\d \\-\\)\\–\\+\\/\\(]+){6,}\\)?([ .\\-–\\/]?)([\\d]+))',
                         message: 'Gib eine gültige Telefonnummer ein.',
                       },
                     ]}
