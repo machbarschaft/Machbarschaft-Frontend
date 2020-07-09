@@ -1,5 +1,5 @@
 import React from 'react'
-import {getAuthenticate, putLogin, postLogout} from "../utils/api/authenticationAPI"
+import {getAuthenticate, putLogin, postLogout, putLogout} from "../utils/api/authenticationAPI"
 import {postRegisterRequest} from "../utils/api/registerAPI"
 
 // ToDo: Welche Daten wollen wir für den lokalen Nutzer speichern?
