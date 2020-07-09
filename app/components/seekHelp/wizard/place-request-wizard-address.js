@@ -56,18 +56,19 @@ export default function PlaceRequestWizardAddress({
               }
             : authenticationContext.isAuthenticated()
             ? {
-                street:
-                  authenticationContext.authenticationState.profile.address
-                    .street,
-                houseNumber:
-                  authenticationContext.authenticationState.profile.address
-                    .houseNumber,
-                zipCode:
-                  authenticationContext.authenticationState.profile.address
-                    .zipCode,
-                city:
-                  authenticationContext.authenticationState.profile.address
-                    .city,
+                street: authenticationContext.authenticationState.address
+                  ? authenticationContext.authenticationState.address.street
+                  : null,
+                houseNumber: authenticationContext.authenticationState.address
+                  ? authenticationContext.authenticationState.address
+                      .houseNumber
+                  : null,
+                zipCode: authenticationContext.authenticationState.address
+                  ? authenticationContext.authenticationState.address.zipCode
+                  : null,
+                city: authenticationContext.authenticationState.address
+                  ? authenticationContext.authenticationState.address.city
+                  : null,
               }
             : {}
         }
