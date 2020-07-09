@@ -102,7 +102,7 @@ function DashboardHelpSeekerOldRequests() {
     );
 
     return (
-        <div>
+        <div className="dashboard-helps-seeker-old-request">
             {requestList.length == 0 ? "Du hast noch keinen Auftrag abgeschlossen."
                 :
                 <Collapse
@@ -110,7 +110,7 @@ function DashboardHelpSeekerOldRequests() {
                     expandIcon={({isActive}) => {
                         return isActive ? <span className="dashboard-collapse-button dashboard-collapse-button-selected">Weniger anzeigen</span>
                         :
-                        <span className="dashboard-collapse-button">Mehr Informationen anzeigen</span>
+                        <span className="dashboard-collapse-button">Mehr anzeigen</span>
                     }}
                     expandIconPosition={"right"}
                 >

@@ -162,6 +162,7 @@ h4 {
 .content-container-big {
 	width: 100%;
 	height: calc(100vh - 6em - 3em);
+	overflow: auto;
 	padding-top: 3em;
 	padding-bottom: 3em;
 	box-sizing: border-box;
@@ -568,6 +569,7 @@ h4 {
 .dashboard-tile-grid {
 	display: grid;
 	grid-template-columns: auto auto;
+	grid-column-gap: 0.5em;
 }
 .dashboard-columns-container {
 	width: 100%;
@@ -616,6 +618,7 @@ h4 {
 }
 .dashboard-tile-request-type-title {
 	width: 100%;
+	margin-left: 0.5em;
 	text-align: center;
 }
 .dashboard-collapse {
@@ -623,6 +626,7 @@ h4 {
 }
 .dashboard-collapse-button {
 	display: flex !important;
+	max-width: 50%;
 	border-radius: 0.3em;
 	font-weight: bold !important;
 	background: #2D3047;
@@ -686,7 +690,7 @@ h4 {
 	display: grid;
 	grid-template-columns: auto 1fr;
 }
-.dashboard-menu {
+.dashboard-menu-desktop {
 	display: flex;
 	flex-direction: column;
 	padding: 2em 2em;
@@ -698,7 +702,6 @@ h4 {
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
-	margin-top: 5em;
 }
 .dashboard-menu > *:not(:first-child) {
 	margin-top: 2em;
@@ -715,6 +718,11 @@ h4 {
 	border-radius: 0.3em !important;
 	line-height: 200% !important;
 }
+.dashboard-helper-old-request-grid {
+	display: grid;
+	grid-row-gap: 1em;
+	grid-column-gap: 1em;
+}
 .dashboard-menu-button-default {
 	background: white !important;
 	color: #5678BA !important;
@@ -727,22 +735,48 @@ h4 {
 	height: 1.5em;
 	width: auto;
 }
-.dashboard-helper-old-request-grid {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 1em;
-}
 .dashboard-helper-old-request-grid .dashboard-tile {
 	font-size: 110%;
 }
+.dashboard-helps-seeker-old-request .dashboard-tile {
+	margin-top: 0 !important;
+}
+@media (min-width: 1000px) {
+	.dashboard-menu-mobile {
+		display: none !important;
+	}
+	.dashboard-menu-desktop {
+	}
+	.dashboard-menu-container {
+		margin-top: 5em;
+	}
+}
 @media (max-width: 1000px) {
-	.dashboard-menu {
+	.dashboard-menu-mobile {
 		flex-direction: row;
+	}
+	.dashboard-menu-desktop {
+		display: none !important;
 	}
 	.dashboard-menu-request-type-image {
 		display: none;
 	}
 	.dashboard-helpseeker-container {
+		grid-template-columns: 1fr;
+	}
+}
+@media (min-width: 1200px) {
+	.dashboard-helper-old-request-grid {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+}
+@media (max-width: 1200px) and (min-width: 700px) {
+	.dashboard-helper-old-request-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media (max-width: 700px) {
+	.dashboard-helper-old-request-grid {
 		grid-template-columns: 1fr;
 	}
 }
