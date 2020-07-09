@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Space, Button, Input, Typography, Form, Select,
-} from 'antd';
+import { Space, Button, Input, Typography, Form, Select } from 'antd';
 import PropTypes from 'prop-types';
 import { MailOutlined } from '@ant-design/icons';
 
@@ -23,7 +21,7 @@ function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
     {
       error: null,
       loading: false,
-    },
+    }
   );
 
   const handleForm = async (values) => {
@@ -60,7 +58,13 @@ function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
           <Input size="large" suffix={<MailOutlined />} />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" loading={submissionState.loading}>Senden</Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={submissionState.loading}
+          >
+            Senden
+          </Button>
         </Form.Item>
       </Form>
     </>

@@ -11,7 +11,8 @@ function stateReducer(state, action) {
       [action.selectedMenu]: action.user,
       error: null,
     };
-  } if (action.type === 'error') {
+  }
+  if (action.type === 'error') {
     return {
       ...state,
       error: action.error.message,
@@ -23,12 +24,9 @@ function stateReducer(state, action) {
 export default function APICallExample() {
   const [selectedMenu, setSelectedMenu] = React.useState('1');
 
-  const [state, dispatch] = React.useReducer(
-    stateReducer,
-    {
-      error: null,
-    },
-  );
+  const [state, dispatch] = React.useReducer(stateReducer, {
+    error: null,
+  });
 
   const fetchedUsers = React.useRef([]);
 
@@ -52,13 +50,13 @@ export default function APICallExample() {
   return (
     <>
       <Title level={3}>API Call (+ Cache)</Title>
-      <Menu onClick={handleClick} selectedKeys={[selectedMenu]} mode="horizontal">
-        <Menu.Item key="1">
-          One
-        </Menu.Item>
-        <Menu.Item key="2">
-          Two
-        </Menu.Item>
+      <Menu
+        onClick={handleClick}
+        selectedKeys={[selectedMenu]}
+        mode="horizontal"
+      >
+        <Menu.Item key="1">One</Menu.Item>
+        <Menu.Item key="2">Two</Menu.Item>
       </Menu>
 
       {isLoading() && <Text>Lädt...</Text>}

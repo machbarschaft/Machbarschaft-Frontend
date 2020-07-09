@@ -5,7 +5,5 @@ import AuthenticationContext from '../../contexts/authentication';
 export default function LandingPage() {
   const authProps = React.useContext(AuthenticationContext);
 
-  return (
-    <WelcomeSection />
-  );
+  return <WelcomeSection />;
 }

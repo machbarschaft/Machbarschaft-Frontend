@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Form, Input, Space, Typography,
-} from 'antd';
+import { Form, Input, Space, Typography } from 'antd';
 import PropTypes from 'prop-types';
 import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
@@ -14,7 +12,11 @@ const { Title } = Typography;
  * @returns {*}
  * @constructor
  */
-export default function PlaceRequestWizardAddress({ handlePreviousPage, handleNextPage, wizardState }) {
+export default function PlaceRequestWizardAddress({
+  handlePreviousPage,
+  handleNextPage,
+  wizardState,
+}) {
   const authenticationContext = React.useContext(AuthenticationContext);
 
   const [form] = Form.useForm();
@@ -27,11 +29,16 @@ export default function PlaceRequestWizardAddress({ handlePreviousPage, handleNe
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      {authenticationContext.isAuthenticated()
-        ? <Title level={1}>Ist dies weiterhin Ihre richtige Adresse?</Title>
-        : <Title level={1}>Geben Sie Ihre Adresse ein</Title>}
+      {authenticationContext.isAuthenticated() ? (
+        <Title level={1}>Ist dies weiterhin Ihre richtige Adresse?</Title>
+      ) : (
+        <Title level={1}>Geben Sie Ihre Adresse ein</Title>
+      )}
 
-      <Title level={4}>Damit unsere Helferinnen und Helfer Sie später finden, müssen Sie ihre Adresse angeben.</Title>
+      <Title level={4}>
+        Damit unsere Helferinnen und Helfer Sie später finden, müssen Sie ihre
+        Adresse angeben.
+      </Title>
 
       <Form
         {...formLayout}
@@ -39,17 +46,31 @@ export default function PlaceRequestWizardAddress({ handlePreviousPage, handleNe
         name={formName}
         hideRequiredMark
         onFinish={(formValues) => handleNextPage(formName, formValues)}
-        initialValues={typeof wizardState.formData[formName] !== 'undefined' ? {
-          street: wizardState.formData[formName].street,
-          houseNumber: wizardState.formData[formName].houseNumber,
-          zipCode: wizardState.formData[formName].zipCode,
-          city: wizardState.formData[formName].city,
-        } : (authenticationContext.isAuthenticated() ? {
-          street: authenticationContext.authenticationState.profile.address.street,
-          houseNumber: authenticationContext.authenticationState.profile.address.houseNumber,
-          zipCode: authenticationContext.authenticationState.profile.address.zipCode,
-          city: authenticationContext.authenticationState.profile.address.city,
-        } : {})}
+        initialValues={
+          typeof wizardState.formData[formName] !== 'undefined'
+            ? {
+                street: wizardState.formData[formName].street,
+                houseNumber: wizardState.formData[formName].houseNumber,
+                zipCode: wizardState.formData[formName].zipCode,
+                city: wizardState.formData[formName].city,
+              }
+            : authenticationContext.isAuthenticated()
+            ? {
+                street:
+                  authenticationContext.authenticationState.profile.address
+                    .street,
+                houseNumber:
+                  authenticationContext.authenticationState.profile.address
+                    .houseNumber,
+                zipCode:
+                  authenticationContext.authenticationState.profile.address
+                    .zipCode,
+                city:
+                  authenticationContext.authenticationState.profile.address
+                    .city,
+              }
+            : {}
+        }
       >
         <Form.Item
           label="Straße"
@@ -100,11 +121,15 @@ export default function PlaceRequestWizardAddress({ handlePreviousPage, handleNe
           <Input size="large" />
         </Form.Item>
 
-        {wizardState.hasError && <PlaceRequestWizardValidationError wizardState={wizardState} />}
+        {wizardState.hasError && (
+          <PlaceRequestWizardValidationError wizardState={wizardState} />
+        )}
 
-        <PlaceRequestWizardNavigation handlePreviousPage={handlePreviousPage} wizardState={wizardState} />
+        <PlaceRequestWizardNavigation
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
       </Form>
-
     </Space>
   );
 }

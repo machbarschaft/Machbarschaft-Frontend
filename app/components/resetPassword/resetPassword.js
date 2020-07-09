@@ -31,38 +31,67 @@ export default function ResetPasswordWindow() {
   const steps = [
     {
       title: 'E-Mail/Telefon eingeben',
-      content: <ResetPasswordCardsComponent
-        title="E-Mail/Telefon eingeben"
-        contentLeft={<ResetPasswordUsernameLeftCard proceed={() => setCurrentStep(1)} setUser={setUser} />}
-        contentRight={<ResetPasswordUsernameRightCard />}
-      />,
+      content: (
+        <ResetPasswordCardsComponent
+          title="E-Mail/Telefon eingeben"
+          contentLeft={
+            <ResetPasswordUsernameLeftCard
+              proceed={() => setCurrentStep(1)}
+              setUser={setUser}
+            />
+          }
+          contentRight={<ResetPasswordUsernameRightCard />}
+        />
+      ),
     },
     {
       title: 'Sicherheitscode',
-      content: <ResetPasswordCardsComponent
-        title="Sicherheitscode eingeben"
-        contentLeft={<ResetPasswordSecurityCodeLeftCard proceed={() => setCurrentStep(2)} user={user} setToken={setToken} />}
-        contentRight={<ResetPasswordSecurityCodeRightCard user={user} />}
-      />,
+      content: (
+        <ResetPasswordCardsComponent
+          title="Sicherheitscode eingeben"
+          contentLeft={
+            <ResetPasswordSecurityCodeLeftCard
+              proceed={() => setCurrentStep(2)}
+              user={user}
+              setToken={setToken}
+            />
+          }
+          contentRight={<ResetPasswordSecurityCodeRightCard user={user} />}
+        />
+      ),
     },
     {
       title: 'Neues Passwort setzen',
-      content: <ResetPasswordCardsComponent
-        title="Neues Passwort eingeben"
-        contentLeft={<ResetPasswordNewPwdLeftCard proceed={() => setCurrentStep(3)} user={user} token={token} />}
-        contentRight={<ResetPasswordNewPwdRightCard />}
-      />,
+      content: (
+        <ResetPasswordCardsComponent
+          title="Neues Passwort eingeben"
+          contentLeft={
+            <ResetPasswordNewPwdLeftCard
+              proceed={() => setCurrentStep(3)}
+              user={user}
+              token={token}
+            />
+          }
+          contentRight={<ResetPasswordNewPwdRightCard />}
+        />
+      ),
     },
     {
       title: 'Abgeschlossen',
-      content: <ResetPasswordCardsComponent
-        title="Erfolgreich abgeschlossen"
-        contentLeft={<ResetPasswordDoneLeftCard />}
-      />,
+      content: (
+        <ResetPasswordCardsComponent
+          title="Erfolgreich abgeschlossen"
+          contentLeft={<ResetPasswordDoneLeftCard />}
+        />
+      ),
     },
   ];
   return (
-    <Space direction="vertical" size="large" className="reset-password-container">
+    <Space
+      direction="vertical"
+      size="large"
+      className="reset-password-container"
+    >
       <Steps current={currentStep}>
         {steps.map((item) => (
           <Step key={item.title} title={item.title} />

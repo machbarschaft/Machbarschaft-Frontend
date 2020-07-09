@@ -1,19 +1,37 @@
 import React from 'react';
 import { Space, Steps } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
-import { postPlaceRequest, putPlaceRequest, putPublishRequest } from '../../utils/api/placeRequestAPI';
+import {
+  postPlaceRequest,
+  putPlaceRequest,
+  putPublishRequest,
+} from '../../utils/api/placeRequestAPI';
 
 const queryString = require('query-string');
 
 const { Step } = Steps;
 
-const PlaceRequestWizardAddress = React.lazy(() => import('./wizard/place-request-wizard-address'));
-const PlaceRequestWizardCategory = React.lazy(() => import('./wizard/place-request-wizard-category'));
-const PlaceRequestWizardFinish = React.lazy(() => import('./wizard/place-request-wizard-finish'));
-const PlaceRequestWizardName = React.lazy(() => import('./wizard/place-request-wizard-name'));
-const PlaceRequestWizardTan = React.lazy(() => import('./wizard/place-request-wizard-tan'));
-const PlaceRequestWizardUrgency = React.lazy(() => import('./wizard/place-request-wizard-urgency'));
-const PlaceRequestWizardSummary = React.lazy(() => import('./wizard/place-request-wizard-summary'));
+const PlaceRequestWizardAddress = React.lazy(() =>
+  import('./wizard/place-request-wizard-address')
+);
+const PlaceRequestWizardCategory = React.lazy(() =>
+  import('./wizard/place-request-wizard-category')
+);
+const PlaceRequestWizardFinish = React.lazy(() =>
+  import('./wizard/place-request-wizard-finish')
+);
+const PlaceRequestWizardName = React.lazy(() =>
+  import('./wizard/place-request-wizard-name')
+);
+const PlaceRequestWizardTan = React.lazy(() =>
+  import('./wizard/place-request-wizard-tan')
+);
+const PlaceRequestWizardUrgency = React.lazy(() =>
+  import('./wizard/place-request-wizard-urgency')
+);
+const PlaceRequestWizardSummary = React.lazy(() =>
+  import('./wizard/place-request-wizard-summary')
+);
 
 function PlaceRequestReducer(state, action) {
   switch (action.type) {
@@ -71,24 +89,30 @@ export default function PlaceRequestWindow(props) {
 
     const formValues = {};
     if (isAuthenticated) {
-      formValues.phoneNumber = authenticationContext.authenticationState.phoneNumber;
+      formValues.phoneNumber =
+        authenticationContext.authenticationState.phoneNumber;
     } else if (typeof phoneNumber !== 'undefined') {
       formValues.phoneNumber = phoneNumber;
     } else {
       // ToDo: Throw Error
     }
 
-    postPlaceRequest({ formValues, isAuthenticated }).then((res) => {
-      processID.current = res._id;
-      if (typeof res.phoneVerifiedCookieMatch !== 'undefined' && res.phoneVerifiedCookieMatch === true) {
-        phoneVerified.current = true;
-      }
-    }).catch((error) => {
-      dispatch({
-        type: 'error',
-        data: error.toString(), // ToDo: Pretty Print
+    postPlaceRequest({ formValues, isAuthenticated })
+      .then((res) => {
+        processID.current = res._id;
+        if (
+          typeof res.phoneVerifiedCookieMatch !== 'undefined' &&
+          res.phoneVerifiedCookieMatch === true
+        ) {
+          phoneVerified.current = true;
+        }
+      })
+      .catch((error) => {
+        dispatch({
+          type: 'error',
+          data: error.toString(), // ToDo: Pretty Print
+        });
       });
-    });
   }, []);
 
   const handleNextPage = (formName, formValues) => {
@@ -98,7 +122,6 @@ export default function PlaceRequestWindow(props) {
         formName,
         formValues,
       },
-
     });
 
     // ToDo: Improve Handling
@@ -106,16 +129,19 @@ export default function PlaceRequestWindow(props) {
       wizardSteps = wizardSteps.filter((item) => item.title !== 'Identität');
     }
 
-    wizardSteps[wizardState.currentStep].handleBackend(formValues).then((result) => {
-      dispatch({
-        type: 'nextPage',
+    wizardSteps[wizardState.currentStep]
+      .handleBackend(formValues)
+      .then((result) => {
+        dispatch({
+          type: 'nextPage',
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: 'error',
+          data: `${error}`,
+        });
       });
-    }).catch((error) => {
-      dispatch({
-        type: 'error',
-        data: `${error}`,
-      });
-    });
   };
 
   const handlePreviousPage = () => {
@@ -133,48 +159,81 @@ export default function PlaceRequestWindow(props) {
     });
   };
 
-  const handlePublish = () => {
-
-  };
+  const handlePublish = () => {};
 
   let wizardSteps = [
     {
       title: 'Name',
-      content: <PlaceRequestWizardName handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState} />,
+      content: (
+        <PlaceRequestWizardName
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
+      ),
       handleBackend: async (formValues) => {
         await handleUpdateRequest(formValues);
       },
     },
     {
       title: 'Addresse',
-      content: <PlaceRequestWizardAddress handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState} />,
+      content: (
+        <PlaceRequestWizardAddress
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
+      ),
       handleBackend: async (formValues) => {
         // ToDo: Which endpoint?
       },
     },
     {
       title: 'Kategorie',
-      content: <PlaceRequestWizardCategory handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState} />,
+      content: (
+        <PlaceRequestWizardCategory
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
+      ),
       handleBackend: async (formValues) => {
         await handleUpdateRequest(formValues);
       },
     },
     {
       title: 'Dringlichkeit',
-      content: <PlaceRequestWizardUrgency handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState} />,
+      content: (
+        <PlaceRequestWizardUrgency
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
+      ),
       handleBackend: async (formValues) => {
         await handleUpdateRequest(formValues);
       },
     },
     {
       title: 'Identität',
-      content: <PlaceRequestWizardTan handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState} />,
-      handleBackend: async (formValues) => {
-      },
+      content: (
+        <PlaceRequestWizardTan
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
+      ),
+      handleBackend: async (formValues) => {},
     },
     {
       title: 'Übersicht',
-      content: <PlaceRequestWizardSummary handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState} />,
+      content: (
+        <PlaceRequestWizardSummary
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
+      ),
       handleBackend: async (formValues) => {
         await putPublishRequest({
           processID: processID.current,
@@ -185,31 +244,50 @@ export default function PlaceRequestWindow(props) {
     },
     {
       title: 'Fertig',
-      content: <PlaceRequestWizardFinish handleNextPage={handleNextPage} handlePreviousPage={handlePreviousPage} wizardState={wizardState} />,
-      handleBackend: async (formValues) => {
-      },
+      content: (
+        <PlaceRequestWizardFinish
+          handleNextPage={handleNextPage}
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
+      ),
+      handleBackend: async (formValues) => {},
     },
   ];
 
   return (
-    <Space direction="vertical" size="large" className="content-container-default">
+    <Space
+      direction="vertical"
+      size="large"
+      className="content-container-default"
+    >
       <Steps current={wizardState.currentStep}>
-        {wizardSteps.filter((wizardItem) => {
-          if (wizardItem.title === 'Identität' && (authenticationContext.isAuthenticated() || phoneVerified.current)) {
-            return false;
-          }
-          return true;
-        }).map((wizardItem) => (
-          <Step key={wizardItem.title} title={wizardItem.title} />
-        ))}
+        {wizardSteps
+          .filter((wizardItem) => {
+            if (
+              wizardItem.title === 'Identität' &&
+              (authenticationContext.isAuthenticated() || phoneVerified.current)
+            ) {
+              return false;
+            }
+            return true;
+          })
+          .map((wizardItem) => (
+            <Step key={wizardItem.title} title={wizardItem.title} />
+          ))}
       </Steps>
       <div className="steps-content">
-        {wizardSteps.filter((wizardItem) => {
-          if (wizardItem.title === 'Identität' && (authenticationContext.isAuthenticated() || phoneVerified.current)) {
-            return false;
-          }
-          return true;
-        })[wizardState.currentStep].content}
+        {
+          wizardSteps.filter((wizardItem) => {
+            if (
+              wizardItem.title === 'Identität' &&
+              (authenticationContext.isAuthenticated() || phoneVerified.current)
+            ) {
+              return false;
+            }
+            return true;
+          })[wizardState.currentStep].content
+        }
       </div>
     </Space>
   );

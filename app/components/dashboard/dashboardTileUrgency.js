@@ -12,20 +12,21 @@ function DashboardTileUrgency({ urgency }) {
   return (
     <DashboardTile
       title="Dringlichkeit"
-      content={urgency in urgencyMapping
-        ? (
+      content={
+        urgency in urgencyMapping ? (
           <>
             Der Auftrag soll
-            {urgencyMapping[urgency]}
-            {' '}
-            bearbeitet werden.
+            {urgencyMapping[urgency]} bearbeitet werden.
           </>
+        ) : (
+          <>Unbekannte Dringlichkeit</>
         )
-        : <>Unbekannte Dringlichkeit</>}
+      }
     />
   );
 }
 DashboardTileUrgency.propTypes = {
-  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
+  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week'])
+    .isRequired,
 };
 export default DashboardTileUrgency;

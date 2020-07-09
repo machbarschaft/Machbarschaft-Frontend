@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Button, Layout, Menu, Popover, Space, Typography,
-} from 'antd';
+import { Button, Layout, Menu, Popover, Space, Typography } from 'antd';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -19,22 +17,62 @@ function NavigationMenu({ mode, menuClicked }) {
     // No User
     return (
       <Menu mode={mode} defaultSelectedKeys={['1']} onClick={menuClicked}>
-        <Menu.Item key="1"><NavLink to="/" exact>DAS PROJEKT</NavLink></Menu.Item>
-        <Menu.Item key="2"><NavLink to="/" exact>SO FUNKTIONIERT'S</NavLink></Menu.Item>
-        <Menu.Item key="3"><NavLink to="/" exact>ÜBER UNS</NavLink></Menu.Item>
-        <Menu.Item key="4"><NavLink to="/" exact>FAQ</NavLink></Menu.Item>
-        <Menu.Item key="5"><NavLink to="/" exact>KONTAKT</NavLink></Menu.Item>
-        <Menu.Item key="6"><NavLink to="/" exact>DOWNLOAD APP</NavLink></Menu.Item>
-        <Menu.Item key="7"><NavLink to="/" exact>ALS HELFER REGISTRIEREN</NavLink></Menu.Item>
+        <Menu.Item key="1">
+          <NavLink to="/" exact>
+            DAS PROJEKT
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <NavLink to="/" exact>
+            SO FUNKTIONIERT'S
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="3">
+          <NavLink to="/" exact>
+            ÜBER UNS
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="4">
+          <NavLink to="/" exact>
+            FAQ
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="5">
+          <NavLink to="/" exact>
+            KONTAKT
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="6">
+          <NavLink to="/" exact>
+            DOWNLOAD APP
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="7">
+          <NavLink to="/" exact>
+            ALS HELFER REGISTRIEREN
+          </NavLink>
+        </Menu.Item>
       </Menu>
     );
   }
   // User
   return (
     <Menu mode={mode} defaultSelectedKeys={['1']} onClick={menuClicked}>
-      <Menu.Item key="1"><NavLink to="/dashboard" exact>DASHBOARD</NavLink></Menu.Item>
-      <Menu.Item key="2"><NavLink to="/" exact>AUFTRAG AUFGEBEN</NavLink></Menu.Item>
-      <Menu.Item key="3"><NavLink to="/" exact>BRAUCHEN SIE HILFE?</NavLink></Menu.Item>
+      <Menu.Item key="1">
+        <NavLink to="/dashboard" exact>
+          DASHBOARD
+        </NavLink>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <NavLink to="/" exact>
+          AUFTRAG AUFGEBEN
+        </NavLink>
+      </Menu.Item>
+      <Menu.Item key="3">
+        <NavLink to="/" exact>
+          BRAUCHEN SIE HILFE?
+        </NavLink>
+      </Menu.Item>
     </Menu>
   );
 }
@@ -50,21 +88,38 @@ function NavigationProfileIndicator() {
   const popoverContent = (
     <>
       <Space direction="vertical">
-        <NavLink to="/" exact>Einstellungen</NavLink>
-        <NavLink to="/" onClick={() => authProps.invalidateAuthentication()} exact>Logout</NavLink>
+        <NavLink to="/" exact>
+          Einstellungen
+        </NavLink>
+        <NavLink
+          to="/"
+          onClick={() => authProps.invalidateAuthentication()}
+          exact
+        >
+          Logout
+        </NavLink>
       </Space>
     </>
   );
 
   return (
     <div className="nav-profile-container">
-      {authProps.authenticationState.uid == null
-        ? <NavLink to="/login" exact><Text strong style={{ fontSize: '120%' }}>Login</Text></NavLink>
-        : (
-          <Popover content={popoverContent} placement="topRight" title="" trigger="click">
-            <Button shape="circle" size="large" icon={<UserOutlined />} />
-          </Popover>
-        )}
+      {authProps.authenticationState.uid == null ? (
+        <NavLink to="/login" exact>
+          <Text strong style={{ fontSize: '120%' }}>
+            Login
+          </Text>
+        </NavLink>
+      ) : (
+        <Popover
+          content={popoverContent}
+          placement="topRight"
+          title=""
+          trigger="click"
+        >
+          <Button shape="circle" size="large" icon={<UserOutlined />} />
+        </Popover>
+      )}
     </div>
   );
 }
@@ -77,16 +132,28 @@ export default function Navigation() {
     <>
       <div className="nav-bar">
         <div className="nav-menu-mobile-icon-container">
-          <MenuOutlined className="nav-menu-mobile-icon" onClick={() => setState(!mobileNavState)} />
+          <MenuOutlined
+            className="nav-menu-mobile-icon"
+            onClick={() => setState(!mobileNavState)}
+          />
         </div>
         <img className="nav-logo" src={MachbarschaftLogo} />
         <div className="nav-menu-desktop">
-          <NavigationMenu mode="horizontal" menuClicked={() => setState(false)} />
+          <NavigationMenu
+            mode="horizontal"
+            menuClicked={() => setState(false)}
+          />
         </div>
         <NavigationProfileIndicator />
       </div>
       <div className="nav-menu-mobile">
-        <div className={`nav-menu-mobile-content ${mobileNavState ? 'nav-menu-mobile-content-open' : 'nav-menu-mobile-content-close'}`}>
+        <div
+          className={`nav-menu-mobile-content ${
+            mobileNavState
+              ? 'nav-menu-mobile-content-open'
+              : 'nav-menu-mobile-content-close'
+          }`}
+        >
           <NavigationMenu mode="vertical" menuClicked={() => setState(false)} />
         </div>
       </div>

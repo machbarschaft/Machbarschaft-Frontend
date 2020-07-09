@@ -8,14 +8,18 @@ import PrescriptionNotRequired from '../../assets/img/request-requirements/presc
 import ClockIcon from '../../assets/img/clock-icon.svg';
 import DashboardTileImgTextRow from './dashboardTileImgTextRow';
 
-function DashboardTileAdditionalInformation({ carNecessary, prescriptionRequired, timestamp }) {
+function DashboardTileAdditionalInformation({
+  carNecessary,
+  prescriptionRequired,
+  timestamp,
+}) {
   const creationDate = new Date(timestamp * 1000);
   const timeString = `${creationDate.toLocaleDateString()}, ${creationDate.getHours()}:${creationDate.getMinutes()}`;
 
   return (
     <DashboardTile
       title="Weitere Informationen"
-      content={(
+      content={
         <>
           <DashboardTileImgTextRow
             imgSrc={carNecessary ? CarRequired : CarNotRequired}
@@ -23,7 +27,11 @@ function DashboardTileAdditionalInformation({ carNecessary, prescriptionRequired
           />
           <div className="dashboard-tile-spacing" />
           <DashboardTileImgTextRow
-            imgSrc={prescriptionRequired ? PrescriptionRequired : PrescriptionNotRequired}
+            imgSrc={
+              prescriptionRequired
+                ? PrescriptionRequired
+                : PrescriptionNotRequired
+            }
             title={`${!prescriptionRequired ? 'Kein ' : ''}Rezept benötigt`}
           />
           <div className="dashboard-tile-spacing" />
@@ -32,7 +40,7 @@ function DashboardTileAdditionalInformation({ carNecessary, prescriptionRequired
             title={`Auftrag erstellt: ${timeString}`}
           />
         </>
-          )}
+      }
     />
   );
 }

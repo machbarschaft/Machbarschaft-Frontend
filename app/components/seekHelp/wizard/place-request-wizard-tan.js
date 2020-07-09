@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Form, Input, Space, Typography,
-} from 'antd';
+import { Form, Input, Space, Typography } from 'antd';
 import PropTypes from 'prop-types';
 import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
@@ -13,7 +11,11 @@ const { Title, Paragraph, Text } = Typography;
  * @returns {*}
  * @constructor
  */
-export default function PlaceRequestWizardTan({ handlePreviousPage, handleNextPage, wizardState }) {
+export default function PlaceRequestWizardTan({
+  handlePreviousPage,
+  handleNextPage,
+  wizardState,
+}) {
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-tan';
 
@@ -27,7 +29,10 @@ export default function PlaceRequestWizardTan({ handlePreviousPage, handleNextPa
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         <Title level={1}>Bestätigen Sie Ihre Identität</Title>
 
-        <Title level={4}>Sie erhalten jeden Moment einen Anruf von uns. Es wird ihnen eine Zahlenkombination mitgeteilt.</Title>
+        <Title level={4}>
+          Sie erhalten jeden Moment einen Anruf von uns. Es wird ihnen eine
+          Zahlenkombination mitgeteilt.
+        </Title>
 
         <Form
           {...formLayout}
@@ -35,9 +40,13 @@ export default function PlaceRequestWizardTan({ handlePreviousPage, handleNextPa
           name={formName}
           hideRequiredMark
           onFinish={(formValues) => handleNextPage(formName, formValues)}
-          initialValues={typeof wizardState.formData[formName] !== 'undefined' ? {
-            code: wizardState.formData[formName].code,
-          } : {}}
+          initialValues={
+            typeof wizardState.formData[formName] !== 'undefined'
+              ? {
+                  code: wizardState.formData[formName].code,
+                }
+              : {}
+          }
         >
           <Form.Item
             label="Zahlenkombination"
@@ -52,10 +61,14 @@ export default function PlaceRequestWizardTan({ handlePreviousPage, handleNextPa
             <Input />
           </Form.Item>
 
-          {wizardState.hasError && <PlaceRequestWizardValidationError wizardState={wizardState} />}
+          {wizardState.hasError && (
+            <PlaceRequestWizardValidationError wizardState={wizardState} />
+          )}
 
-          <PlaceRequestWizardNavigation handlePreviousPage={handlePreviousPage} wizardState={wizardState} />
-
+          <PlaceRequestWizardNavigation
+            handlePreviousPage={handlePreviousPage}
+            wizardState={wizardState}
+          />
         </Form>
       </Space>
     </>

@@ -1,6 +1,14 @@
 import React from 'react';
 import {
-  Button, Card, Col, Form, Input, Row, Select, Timeline, Typography,
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Row,
+  Select,
+  Timeline,
+  Typography,
 } from 'antd';
 import { useHistory } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
@@ -20,7 +28,13 @@ export default function RegisterHelperComponent() {
   };
 
   const handleForm = async (values) => {
-    const registerResult = await authenticationContext.performRegister(values.email, values.phone, values.password);
+    const registerResult = await authenticationContext.performRegister(
+      values.email,
+      values.phone,
+      values.password,
+      values.forename,
+      values.surname
+    );
     if (registerResult === true) {
       history.push('/');
     }
@@ -38,12 +52,12 @@ export default function RegisterHelperComponent() {
     <>
       <div className="content-container-default">
         <div style={{ textAlign: 'center' }}>
-          <Title level={1}>Mach mit uns deine Nachbarschaften zu Machbarschaften.</Title>
+          <Title level={1}>
+            Mach mit uns deine Nachbarschaften zu Machbarschaften.
+          </Title>
           <Title level={3}>
             Cool, dass
-            <strong>DU</strong>
-            {' '}
-            dabei bist!
+            <strong>DU</strong> dabei bist!
           </Title>
         </div>
         <div className="login-container">
@@ -56,7 +70,6 @@ export default function RegisterHelperComponent() {
                 bordered={false}
                 className="login-card"
               >
-
                 <Form
                   {...layout}
                   form={form}
@@ -67,6 +80,34 @@ export default function RegisterHelperComponent() {
                     phonePrefix: '49',
                   }}
                 >
+                  <Form.Item
+                    name="forename"
+                    label="Vorname"
+                    rules={[
+                      {
+                        required: true,
+                        type: 'forename',
+                        message: 'Gib deinen Vornamen ein',
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  <Form.Item
+                    name="surname"
+                    label="Nachname"
+                    rules={[
+                      {
+                        required: true,
+                        type: 'forename',
+                        message: 'Gib deinen Nachname ein',
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
                   <Form.Item
                     name="email"
                     label="Deine E-Mail Adresse"
@@ -92,7 +133,10 @@ export default function RegisterHelperComponent() {
                       },
                     ]}
                   >
-                    <Input addonBefore={phonePrefixSelector} style={{ width: '100%' }} />
+                    <Input
+                      addonBefore={phonePrefixSelector}
+                      style={{ width: '100%' }}
+                    />
                   </Form.Item>
 
                   <Form.Item
@@ -109,10 +153,11 @@ export default function RegisterHelperComponent() {
                   </Form.Item>
 
                   <Form.Item>
-                    <Button type="primary" htmlType="submit">Registrieren</Button>
+                    <Button type="primary" htmlType="submit">
+                      Registrieren
+                    </Button>
                   </Form.Item>
                 </Form>
-
               </Card>
             </Col>
             <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
@@ -128,10 +173,9 @@ export default function RegisterHelperComponent() {
                     Super, dass du in deiner Nachbarschaft helfen möchtest!
                   </Timeline.Item>
                   <Timeline.Item>
-                    Um loszulegen, brauchen wir nur einige Informationen über dich. Für deinen Nutzeraccount benötigen wir deine
-                    {' '}
-                    <strong>E-Mail Adresse</strong>
-                    .
+                    Um loszulegen, brauchen wir nur einige Informationen über
+                    dich. Für deinen Nutzeraccount benötigen wir deine{' '}
+                    <strong>E-Mail Adresse</strong>.
                   </Timeline.Item>
                 </Timeline>
               </Card>
@@ -140,6 +184,5 @@ export default function RegisterHelperComponent() {
         </div>
       </div>
     </>
-
   );
 }

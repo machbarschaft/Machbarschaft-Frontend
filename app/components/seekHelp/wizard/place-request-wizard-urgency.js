@@ -1,14 +1,16 @@
 import React from 'react';
-import {
-  Form, Radio, Space, Typography,
-} from 'antd';
+import { Form, Radio, Space, Typography } from 'antd';
 import PropTypes from 'prop-types';
 import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
 
 const { Title } = Typography;
 
-export default function PlaceRequestWizardUrgency({ handlePreviousPage, handleNextPage, wizardState }) {
+export default function PlaceRequestWizardUrgency({
+  handlePreviousPage,
+  handleNextPage,
+  wizardState,
+}) {
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-urgency';
 
@@ -27,9 +29,13 @@ export default function PlaceRequestWizardUrgency({ handlePreviousPage, handleNe
         name={formName}
         hideRequiredMark
         onFinish={(formValues) => handleNextPage(formName, formValues)}
-        initialValues={typeof wizardState.formData[formName] !== 'undefined' ? {
-          urgency: wizardState.formData[formName].urgency,
-        } : {}}
+        initialValues={
+          typeof wizardState.formData[formName] !== 'undefined'
+            ? {
+                urgency: wizardState.formData[formName].urgency,
+              }
+            : {}
+        }
       >
         <Form.Item
           label="Wie schnell benötigen Sie die Hilfe?"
@@ -37,7 +43,8 @@ export default function PlaceRequestWizardUrgency({ handlePreviousPage, handleNe
           rules={[
             {
               required: true,
-              message: 'Bitte geben Sie an, wie schnell die Hilfe benötigt wird.',
+              message:
+                'Bitte geben Sie an, wie schnell die Hilfe benötigt wird.',
             },
           ]}
         >
@@ -49,9 +56,14 @@ export default function PlaceRequestWizardUrgency({ handlePreviousPage, handleNe
           </Radio.Group>
         </Form.Item>
 
-        {wizardState.hasError && <PlaceRequestWizardValidationError wizardState={wizardState} />}
+        {wizardState.hasError && (
+          <PlaceRequestWizardValidationError wizardState={wizardState} />
+        )}
 
-        <PlaceRequestWizardNavigation handlePreviousPage={handlePreviousPage} wizardState={wizardState} />
+        <PlaceRequestWizardNavigation
+          handlePreviousPage={handlePreviousPage}
+          wizardState={wizardState}
+        />
       </Form>
     </Space>
   );

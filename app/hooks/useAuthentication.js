@@ -1,5 +1,9 @@
 import React from 'react';
-import { getAuthenticate, putLogin, putLogout } from '../utils/api/authenticationAPI';
+import {
+  getAuthenticate,
+  putLogin,
+  putLogout,
+} from '../utils/api/authenticationAPI';
 import { postRegisterRequest } from '../utils/api/registerAPI';
 
 const initialAuthenticationState = {
@@ -110,7 +114,7 @@ function authenticationReducer(state, action) {
 export default function useAuthentication() {
   const [authenticationState, dispatch] = React.useReducer(
     authenticationReducer,
-    initialAuthenticationState,
+    initialAuthenticationState
   );
 
   const isAuthenticated = () => authenticationState.uid !== null;
@@ -121,16 +125,18 @@ export default function useAuthentication() {
   }, []);
 
   /**
-     * Makes a request to the backend to register a user. If successful, authenticates in one go
-     * @param email the email of the user to be registered
-     * @param phone the phone number of the user to be registered
-     * @param password the password of the user to be registered
-     */
-  const performRegister = async (email, phone, password) => {
+   * Makes a request to the backend to register a user. If successful, authenticates in one go
+   * @param email the email of the user to be registered
+   * @param phone the phone number of the user to be registered
+   * @param password the password of the user to be registered
+   */
+  const performRegister = async (email, phone, password, forename, surname) => {
     const formValues = {
       email,
       phone,
       password,
+      forename,
+      surname,
     };
 
     dispatch({
@@ -139,14 +145,12 @@ export default function useAuthentication() {
 
     try {
       let registerResult = await postRegisterRequest(formValues);
-      console.log(registerResult.status);
       if (registerResult.status !== 201) {
         // Register: Failure
         switch (registerResult.status) {
           case 422:
             // Invalid Request
             registerResult = await registerResult.json();
-            console.log(registerResult);
             return false;
           case 401:
             // User exists
@@ -162,16 +166,14 @@ export default function useAuthentication() {
 
       // ToDo: Das könnten wir noch verbessern. Register könnte direkt einen gültigen Cookie zurückgeben.
       return await performAuthentication(email, password);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   /**
-     * Makes a request to the backend in order to authenticate a user and modifies state accordingly
-     * @param email the email of the user to be authenticated
-     * @param password the password of the user to be authenticated
-     */
+   * Makes a request to the backend in order to authenticate a user and modifies state accordingly
+   * @param email the email of the user to be authenticated
+   * @param password the password of the user to be authenticated
+   */
   const performAuthentication = async (email, password) => {
     dispatch({
       type: 'loginInit',
@@ -202,8 +204,8 @@ export default function useAuthentication() {
   };
 
   /**
-     * Makes a request to the backend in order to get information about the authenticated user (if any) and modifies state accordingly
-     */
+   * Makes a request to the backend in order to get information about the authenticated user (if any) and modifies state accordingly
+   */
   const checkAuthentication = async () => {
     try {
       let authenticateResult = await getAuthenticate();
@@ -250,8 +252,8 @@ export default function useAuthentication() {
   };
 
   /**
-     * Makes a request to the backend in order to invalidate (logout) a user, i.e. clearing his cookie and modifies state accordingly
-     */
+   * Makes a request to the backend in order to invalidate (logout) a user, i.e. clearing his cookie and modifies state accordingly
+   */
   const invalidateAuthentication = async () => {
     try {
       const logoutResult = await putLogout();
@@ -271,11 +273,14 @@ export default function useAuthentication() {
     }
   };
 
-  return [authenticationState, {
-    performAuthentication,
-    checkAuthentication,
-    invalidateAuthentication,
-    isAuthenticated,
-    performRegister,
-  }];
+  return [
+    authenticationState,
+    {
+      performAuthentication,
+      checkAuthentication,
+      invalidateAuthentication,
+      isAuthenticated,
+      performRegister,
+    },
+  ];
 }

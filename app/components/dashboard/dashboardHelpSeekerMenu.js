@@ -16,17 +16,23 @@ function DashboardHelpSeekerMenu({ mode, menuKey, setMenuKey }) {
       <Menu.Item
         key="request-1"
         className={
-                mode == 'vertical'
-                && `dashboard-menu-button${menuKey == 'request-1' ? ' dashboard-menu-button-selected' : ' dashboard-menu-button-default'}`
-            }
+          mode == 'vertical' &&
+          `dashboard-menu-button${
+            menuKey == 'request-1'
+              ? ' dashboard-menu-button-selected'
+              : ' dashboard-menu-button-default'
+          }`
+        }
       >
         {mode == 'vertical' && (
           <div className="dashboard-menu-request-types">
             <img
               className="dashboard-menu-request-type-image"
               src={
-                            menuKey == 'request-1' ? RequestTypeOtherWhite : RequestTypeOther
-                        }
+                menuKey == 'request-1'
+                  ? RequestTypeOtherWhite
+                  : RequestTypeOther
+              }
             />
           </div>
         )}
@@ -35,17 +41,19 @@ function DashboardHelpSeekerMenu({ mode, menuKey, setMenuKey }) {
       <Menu.Item
         key="old-requests"
         className={
-                mode == 'vertical'
-                && `dashboard-menu-button ${menuKey == 'old-requests' ? ' dashboard-menu-button-selected' : ' dashboard-menu-button-default'}`
-            }
+          mode == 'vertical' &&
+          `dashboard-menu-button ${
+            menuKey == 'old-requests'
+              ? ' dashboard-menu-button-selected'
+              : ' dashboard-menu-button-default'
+          }`
+        }
       >
         {mode == 'vertical' && (
           <div className="dashboard-menu-request-types">
             <img
               className="dashboard-menu-request-type-image"
-              src={
-                            menuKey == 'old-requests' ? ClockIconWhite : ClockIcon
-                        }
+              src={menuKey == 'old-requests' ? ClockIconWhite : ClockIcon}
             />
           </div>
         )}

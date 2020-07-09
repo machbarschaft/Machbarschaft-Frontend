@@ -24,21 +24,26 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
           <span>{name}</span>
           <span>Telefon:</span>
           <span>{phone}</span>
-          <span><Text strong>Status: </Text></span>
-          <span><Text strong>{status === 'accepted' ? 'angenommen' : 'auf dem Weg'}</Text></span>
+          <span>
+            <Text strong>Status: </Text>
+          </span>
+          <span>
+            <Text strong>
+              {status === 'accepted' ? 'angenommen' : 'auf dem Weg'}
+            </Text>
+          </span>
         </div>
       </>
     );
   } else content = <>Der Status kann nicht angezeigt werden.</>;
 
-  return (
-    <DashboardTile title="Ihr Helfer" content={content} />
-  );
+  return <DashboardTile title="Ihr Helfer" content={content} />;
 }
 DashboardTileHelpSeekerStatus.propTypes = {
   name: PropTypes.string,
   phone: PropTypes.string,
-  status: PropTypes.oneOf(['not-accepted', 'accepted', 'on-the-way']).isRequired,
+  status: PropTypes.oneOf(['not-accepted', 'accepted', 'on-the-way'])
+    .isRequired,
 };
 
 export default DashboardTileHelpSeekerStatus;

@@ -10,7 +10,10 @@ export default function SearchBox({ placeholder, onPlacesChanged }) {
   function processPlaces(places) {
     if (places.length > 0) {
       inputEl.current.value = places[0].formatted_address;
-      onPlacesChanged({ lat: places[0].geometry.location.lat(), lng: places[0].geometry.location.lng() });
+      onPlacesChanged({
+        lat: places[0].geometry.location.lat(),
+        lng: places[0].geometry.location.lng(),
+      });
     } else onPlacesChanged(null);
   }
 
@@ -20,7 +23,9 @@ export default function SearchBox({ placeholder, onPlacesChanged }) {
 
   function searchButtonClicked() {
     const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address: inputEl.current.value }, (result) => processPlaces(result));
+    geocoder.geocode({ address: inputEl.current.value }, (result) =>
+      processPlaces(result)
+    );
   }
 
   React.useEffect(() => {
@@ -30,8 +35,17 @@ export default function SearchBox({ placeholder, onPlacesChanged }) {
   });
   return (
     <>
-      <input className="accept-help-search-input" ref={inputEl} placeholder={placeholder} type="text" />
-      <Button shape="circle" icon={<SearchOutlined />} onClick={() => searchButtonClicked()} />
+      <input
+        className="accept-help-search-input"
+        ref={inputEl}
+        placeholder={placeholder}
+        type="text"
+      />
+      <Button
+        shape="circle"
+        icon={<SearchOutlined />}
+        onClick={() => searchButtonClicked()}
+      />
     </>
   );
 }

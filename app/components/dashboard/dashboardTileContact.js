@@ -2,43 +2,41 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DashboardTile from './dashboardTile';
 
-function DashboardTileContact({
-  name, phone, street, zipCode, city,
-}) {
+function DashboardTileContact({ name, phone, street, zipCode, city }) {
   return (
     <DashboardTile
       title="Kontakt"
-      content={(
+      content={
         <>
           <div className="dashboard-tile-spacing" />
           <div className="dashboard-tile-grid">
             {name !== undefined && (
-            <>
-              <span>Name:</span>
-              <span>{name}</span>
-            </>
+              <>
+                <span>Name:</span>
+                <span>{name}</span>
+              </>
             )}
             {phone !== undefined && (
-            <>
-              <span>Telefon:</span>
-              <span>{phone}</span>
-            </>
+              <>
+                <span>Telefon:</span>
+                <span>{phone}</span>
+              </>
             )}
             {street !== undefined && (
-            <>
-              <span>Adresse:</span>
-              <span>{street}</span>
-            </>
+              <>
+                <span>Adresse:</span>
+                <span>{street}</span>
+              </>
             )}
             {zipCode !== undefined && city !== undefined && (
-            <>
-              <span>Ort:</span>
-              <span>{`${zipCode} ${city}`}</span>
-            </>
+              <>
+                <span>Ort:</span>
+                <span>{`${zipCode} ${city}`}</span>
+              </>
             )}
           </div>
         </>
-          )}
+      }
     />
   );
 }

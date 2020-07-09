@@ -13,7 +13,9 @@ import PrescriptionNotRequired from '../../assets/img/request-requirements/presc
 const { Text } = Typography;
 
 export default function AcceptRequestDetailView({
-  request, distance, closeDetailView,
+  request,
+  distance,
+  closeDetailView,
 }) {
   let categoryTitle = '';
   const urgencyMapping = {
@@ -22,7 +24,8 @@ export default function AcceptRequestDetailView({
     tomorrow: 'morgen',
     'this-week': 'diese Woche',
   };
-  if (request.requestType.length == 0) categoryTitle = 'Keine Kategorie angegeben';
+  if (request.requestType.length == 0)
+    categoryTitle = 'Keine Kategorie angegeben';
   else categoryTitle = 'Kategorie: ';
 
   return (
@@ -32,10 +35,7 @@ export default function AcceptRequestDetailView({
           <img src={ArrowLeft} onClick={() => closeDetailView()} />
         </div>
         <div className="accept-help-request-detail-title">
-          {request.address.street}
-          ,
-          {request.address.zipCode}
-          {' '}
+          {request.address.street},{request.address.zipCode}{' '}
           {request.address.city}
         </div>
       </div>
@@ -43,22 +43,53 @@ export default function AcceptRequestDetailView({
         <div className="accept-help-request-detail-info">
           <Text strong>{categoryTitle}</Text>
           <div className="display-flex">
-            {request.requestType.includes('groceries') && <img className="accept-help-request-detail-icon" src={RequestTypeGroceries} />}
-            {request.requestType.includes('medication') && <img className="accept-help-request-detail-icon" src={RequestTypeMedication} />}
-            {request.requestType.includes('other') && <img className="accept-help-request-detail-icon" src={RequestTypeOther} />}
+            {request.requestType.includes('groceries') && (
+              <img
+                className="accept-help-request-detail-icon"
+                src={RequestTypeGroceries}
+              />
+            )}
+            {request.requestType.includes('medication') && (
+              <img
+                className="accept-help-request-detail-icon"
+                src={RequestTypeMedication}
+              />
+            )}
+            {request.requestType.includes('other') && (
+              <img
+                className="accept-help-request-detail-icon"
+                src={RequestTypeOther}
+              />
+            )}
           </div>
           <Text strong>Distanz:</Text>
           <div>{distance}</div>
           <Text strong>Dringlichkeit:</Text>
-          <div>{request.urgency in urgencyMapping ? urgencyMapping[request.urgency] : 'unbekannt'}</div>
+          <div>
+            {request.urgency in urgencyMapping
+              ? urgencyMapping[request.urgency]
+              : 'unbekannt'}
+          </div>
           <Text strong>Auto benötigt:</Text>
-          <img className="accept-help-request-detail-icon" src={request.extras.carNecessary ? CarRequired : CarNotRequired} />
+          <img
+            className="accept-help-request-detail-icon"
+            src={request.extras.carNecessary ? CarRequired : CarNotRequired}
+          />
           <Text strong>Rezept benötigt:</Text>
-          <img className="accept-help-request-detail-icon" src={request.extras.prescriptionRequired ? PrescriptionRequired : PrescriptionNotRequired} />
+          <img
+            className="accept-help-request-detail-icon"
+            src={
+              request.extras.prescriptionRequired
+                ? PrescriptionRequired
+                : PrescriptionNotRequired
+            }
+          />
         </div>
       </div>
       <div className="horizontal-center">
-        <Button className="accept-help-request-detail-button" type="primary">Auftrag annehmen</Button>
+        <Button className="accept-help-request-detail-button" type="primary">
+          Auftrag annehmen
+        </Button>
       </div>
     </div>
   );

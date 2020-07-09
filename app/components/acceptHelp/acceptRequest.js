@@ -11,7 +11,10 @@ export default function AcceptRequestWindow() {
   const [selectedMarkerIndex, setSelectedMarkerIndex] = React.useState(-1);
   const [hoverMarkerIndex, setHoverMarkerIndex] = React.useState(-1);
   const [mobileMenuKey, setMobileMenuKey] = React.useState('map');
-  const [currentLocation, setCurrentLocation] = React.useState({ lat: 0, lng: 0 });
+  const [currentLocation, setCurrentLocation] = React.useState({
+    lat: 0,
+    lng: 0,
+  });
 
   // test data, should be fetched from backend when endpoint is available
   const listEntries = [
@@ -22,7 +25,7 @@ export default function AcceptRequestWindow() {
           zipCode: '80801',
           city: 'München',
           geoLocation: {
-            latitude: 48.189280,
+            latitude: 48.18928,
             longitude: 11.564758,
           },
         },
@@ -34,7 +37,8 @@ export default function AcceptRequestWindow() {
         },
       },
       distance: '2,6km',
-    }, {
+    },
+    {
       request: {
         address: {
           street: 'Konradstraße',
@@ -53,7 +57,8 @@ export default function AcceptRequestWindow() {
         },
       },
       distance: '2,6km',
-    }, {
+    },
+    {
       request: {
         address: {
           street: 'Konradstraße',
@@ -72,7 +77,8 @@ export default function AcceptRequestWindow() {
         },
       },
       distance: '2,6km',
-    }, {
+    },
+    {
       request: {
         address: {
           street: 'Konradstraße',
@@ -104,7 +110,9 @@ export default function AcceptRequestWindow() {
         onMouseEnter={() => setHoverMarkerIndex(index)}
         onMouseLeave={() => setHoverMarkerIndex(-1)}
       />
-      {(index < listEntries.length - 1) && <div className="accept-help-request-list-divider" />}
+      {index < listEntries.length - 1 && (
+        <div className="accept-help-request-list-divider" />
+      )}
     </React.Fragment>
   ));
   const mapContainer = (
@@ -127,7 +135,11 @@ export default function AcceptRequestWindow() {
       listEntriesRender={listEntriesRender}
     />
   );
-  const acceptHelpSearchBar = <AcceptHelpSearchBar setCurrentLocation={(pos) => setCurrentLocation(pos)} />;
+  const acceptHelpSearchBar = (
+    <AcceptHelpSearchBar
+      setCurrentLocation={(pos) => setCurrentLocation(pos)}
+    />
+  );
 
   return (
     <>
@@ -143,14 +155,21 @@ export default function AcceptRequestWindow() {
         {acceptHelpSearchBar}
         <br />
 
-        <Menu onClick={(e) => setMobileMenuKey(e.key)} selectedKeys={mobileMenuKey} mode="horizontal" style={{ textAlign: 'center' }}>
+        <Menu
+          onClick={(e) => setMobileMenuKey(e.key)}
+          selectedKeys={mobileMenuKey}
+          mode="horizontal"
+          style={{ textAlign: 'center' }}
+        >
           <Menu.Item key="map">KARTE</Menu.Item>
-          <Menu.Item key="list-and-detail">{selectedMarkerIndex == -1 ? 'LISTE' : 'DETAILS'}</Menu.Item>
+          <Menu.Item key="list-and-detail">
+            {selectedMarkerIndex === -1 ? 'LISTE' : 'DETAILS'}
+          </Menu.Item>
         </Menu>
         <br />
 
-        {mobileMenuKey == 'map' && mapContainer}
-        {mobileMenuKey == 'list-and-detail' && acceptHelpListAndDetail}
+        {mobileMenuKey === 'map' && mapContainer}
+        {mobileMenuKey === 'list-and-detail' && acceptHelpListAndDetail}
       </div>
     </>
   );
