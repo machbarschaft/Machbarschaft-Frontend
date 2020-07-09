@@ -69,7 +69,7 @@ export default function RegisterHelperComponent() {
                                         rules={[
                                             {
                                                 required: true,
-                                                type: "number",
+                                                /*type: "number",*/
                                                 message: "Gib eine gültige Telefonnummer ein."
                                             }
                                         ]}>
