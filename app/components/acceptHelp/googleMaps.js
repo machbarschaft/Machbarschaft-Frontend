@@ -10,7 +10,7 @@ export default function MapContainer({currentLocation, onMapClick, markers, sele
     const [mapCenter, setMapCenter] = React.useState({lat: 48.189280, lng: 11.564758});
 
     React.useEffect(() => {
-        if(currentLocation.lat !== 0 || currentLocation.lng !== 0) {
+        if (currentLocation.lat !== 0 || currentLocation.lng !== 0) {
             setMapCenter(currentLocation);
         }
     }, [currentLocation]);
@@ -18,12 +18,12 @@ export default function MapContainer({currentLocation, onMapClick, markers, sele
     return (
         <div className="accept-help-map-container">
             <GoogleMapReact
-              bootstrapURLKeys={{ key: googleMapsApiKey }}
-              center={mapCenter}
-              defaultZoom={11}
-              onClick={() => onMapClick()}
+                bootstrapURLKeys={{key: googleMapsApiKey}}
+                center={mapCenter}
+                defaultZoom={11}
+                onClick={() => onMapClick()}
             >
-                {markers.map((entry, index) => 
+                {markers.map((entry, index) =>
                     <MapMarker
                         {...entry}
                         lat={entry.request.address.geoLocation.latitude}
@@ -38,12 +38,12 @@ export default function MapContainer({currentLocation, onMapClick, markers, sele
                 )}
 
                 {(currentLocation.lat != 0 && currentLocation.lng != 0) &&
-                    <CurrentLocationMarker
-                        lat={currentLocation.lat}
-                        lng={currentLocation.lng}
-                    />
+                <CurrentLocationMarker
+                    lat={currentLocation.lat}
+                    lng={currentLocation.lng}
+                />
                 }
-           </GoogleMapReact>
+            </GoogleMapReact>
         </div>
     );
 }

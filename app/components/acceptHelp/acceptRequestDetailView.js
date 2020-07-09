@@ -9,11 +9,12 @@ import CarRequired from "../../assets/img/request-requirements/car-required.svg"
 import CarNotRequired from "../../assets/img/request-requirements/car-not-required.svg";
 import PrescriptionRequired from "../../assets/img/request-requirements/prescription-required.svg";
 import PrescriptionNotRequired from "../../assets/img/request-requirements/prescription-not-required.svg";
+
 const {Text} = Typography;
 
 export default function AcceptRequestDetailView({
-    request, distance, closeDetailView
-}) {
+                                                    request, distance, closeDetailView
+                                                }) {
     let categoryTitle = "";
     const urgencyMapping = {
         "now": "dringend",
@@ -21,14 +22,14 @@ export default function AcceptRequestDetailView({
         "tomorrow": "morgen",
         "this-week": "diese Woche"
     };
-    if(request.requestType.length == 0) categoryTitle = "Keine Kategorie angegeben";
-        else categoryTitle = "Kategorie: ";
+    if (request.requestType.length == 0) categoryTitle = "Keine Kategorie angegeben";
+    else categoryTitle = "Kategorie: ";
 
     return (
         <div className="accept-help-request-detail">
             <div className="accept-help-request-detail-header">
                 <div className="accept-help-request-detail-back">
-                    <img src={ArrowLeft} onClick={() => closeDetailView()} />
+                    <img src={ArrowLeft} onClick={() => closeDetailView()}/>
                 </div>
                 <div className="accept-help-request-detail-title">
                     {request.address.street}, {request.address.zipCode} {request.address.city}
@@ -38,17 +39,18 @@ export default function AcceptRequestDetailView({
                 <div className="accept-help-request-detail-info">
                     <Text strong>{categoryTitle}</Text>
                     <div className="display-flex">
-                        {request.requestType.includes("groceries") && <img className="accept-help-request-detail-icon" src={RequestTypeGroceries} />}
-                        {request.requestType.includes("medication") && <img className="accept-help-request-detail-icon" src={RequestTypeMedication} />}
-                        {request.requestType.includes("other") && <img className="accept-help-request-detail-icon" src={RequestTypeOther} />}
+                        {request.requestType.includes("groceries") && <img className="accept-help-request-detail-icon" src={RequestTypeGroceries}/>}
+                        {request.requestType.includes("medication") && <img className="accept-help-request-detail-icon" src={RequestTypeMedication}/>}
+                        {request.requestType.includes("other") && <img className="accept-help-request-detail-icon" src={RequestTypeOther}/>}
                     </div>
-                    <Text strong>Distanz:</Text><div>{distance}</div>
+                    <Text strong>Distanz:</Text>
+                    <div>{distance}</div>
                     <Text strong>Dringlichkeit:</Text>
                     <div>{request.urgency in urgencyMapping ? urgencyMapping[request.urgency] : "unbekannt"}</div>
                     <Text strong>Auto benötigt:</Text>
-                    <img className="accept-help-request-detail-icon" src={request.extras.carNecessary ? CarRequired : CarNotRequired} />
+                    <img className="accept-help-request-detail-icon" src={request.extras.carNecessary ? CarRequired : CarNotRequired}/>
                     <Text strong>Rezept benötigt:</Text>
-                    <img className="accept-help-request-detail-icon" src={request.extras.prescriptionRequired ? PrescriptionRequired : PrescriptionNotRequired} />
+                    <img className="accept-help-request-detail-icon" src={request.extras.prescriptionRequired ? PrescriptionRequired : PrescriptionNotRequired}/>
                 </div>
             </div>
             <div className="horizontal-center">

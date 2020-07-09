@@ -1,5 +1,5 @@
 import React from 'react'
-import {Col, Row, Button, Layout, Menu, Space, Avatar, Popover, Typography} from "antd";
+import {Button, Layout, Menu, Popover, Space, Typography} from "antd";
 import {MenuOutlined, UserOutlined} from '@ant-design/icons';
 import MachbarschaftLogo from "../../assets/img/logo/machbarschaft-logo.png";
 import {NavLink} from "react-router-dom";
@@ -37,6 +37,7 @@ function NavigationMenu({mode, menuClicked}) {
         );
     }
 }
+
 NavigationMenu.propTypes = {
     mode: PropTypes.oneOf(["horizontal", "vertical"]).isRequired,
     menuClicked: PropTypes.func.isRequired

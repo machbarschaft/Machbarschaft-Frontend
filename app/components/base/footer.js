@@ -1,8 +1,8 @@
 import React from 'react'
-import {Space, Layout} from "antd";
+import {Space} from "antd";
 
 export default function Footer() {
-    return(
+    return (
         <footer>
             <Space>
                 <a href="#">FAQ</a>

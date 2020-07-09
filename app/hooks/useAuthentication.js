@@ -75,9 +75,7 @@ function authenticationReducer(state, action) {
                 },
             }
         case "registerSuccess":
-            return {
-
-            }
+            return {}
         case "authenticationFailure":
             return {
                 ...initialAuthenticationState,
@@ -138,9 +136,9 @@ export default function useAuthentication() {
         try {
             let registerResult = await postRegisterRequest(formValues)
             console.log(registerResult.status)
-            if(registerResult.status !== 201) {
+            if (registerResult.status !== 201) {
                 // Register: Failure
-                switch(registerResult.status) {
+                switch (registerResult.status) {
                     case 422:
                         // Invalid Request
                         registerResult = await registerResult.json()

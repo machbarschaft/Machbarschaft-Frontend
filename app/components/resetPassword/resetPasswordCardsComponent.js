@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {Card, Typography} from 'antd';
+import {Card} from 'antd';
 import PropTypes from 'prop-types';
 
 
@@ -17,16 +16,17 @@ function ResetPasswordCardsComponent({title, contentLeft, contentRight}) {
                     {contentLeft}
                 </Card>
                 {contentRight !== undefined &&
-                    <Card className="login-card login-description-card"
-                          bodyStyle={{display: "flex", height: "calc(100% - 62px)", justifyContent: "center", alignItems: "center", fontSize: "125%"}}
-                    >
-                        <div>{contentRight}</div>
-                    </Card>
+                <Card className="login-card login-description-card"
+                      bodyStyle={{display: "flex", height: "calc(100% - 62px)", justifyContent: "center", alignItems: "center", fontSize: "125%"}}
+                >
+                    <div>{contentRight}</div>
+                </Card>
                 }
             </div>
         </div>
     );
 }
+
 ResetPasswordCardsComponent.propTypes = {
     title: PropTypes.string.isRequired,
     contentLeft: PropTypes.node.isRequired,

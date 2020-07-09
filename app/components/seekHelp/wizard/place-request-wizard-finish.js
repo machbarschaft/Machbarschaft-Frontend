@@ -1,7 +1,6 @@
 import React from "react"
-import {Result, Row, Col, Typography, Input, Button, Radio, Space, Form} from 'antd';
+import {Button, Result, Typography} from 'antd';
 import PropTypes from "prop-types";
-import PlaceRequestWizardNavigation from "./place-request-wizard-navigation";
 import {NavLink} from "react-router-dom";
 import AuthenticationContext from "../../../contexts/authentication";
 

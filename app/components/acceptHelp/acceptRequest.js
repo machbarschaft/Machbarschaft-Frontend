@@ -1,8 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import {Input, Select, Menu} from 'antd';
+import {Menu} from 'antd';
 import MapContainer from "./googleMaps";
-import {SearchOutlined} from '@ant-design/icons';
 import AcceptHelpSearchBar from "./acceptHelpSearchBar";
 import AcceptHelpListAndDetail from "./acceptHelpListAndDetail";
 import AcceptRequestListEntry from "./acceptRequestListEntry";

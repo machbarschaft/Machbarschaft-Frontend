@@ -1,19 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {Space, Button, Input, Typography} from 'antd';
+import {Button, Input, Space, Typography} from 'antd';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import PropTypes from "prop-types";
 import resetPasswordSubmissionStateReducer from "./resetPasswordSubmissionStateReducer";
 import validateDisjunction from "../../utils/inputValidationFunctions/validateDisjunction";
+
 const {Text} = Typography;
 
 yup.addMethod(yup.string, "or", validateDisjunction);
 const userSchema = yup.object().shape({
-    user: yup.
-          string().
-          or([yup.string().email(), yup.number().positive().integer()], "Die Eingabe muss eine Telefonnummer oder E-Mail sein").
-          required("Bitte geben Sie Ihre Telefonnummer oder E-Mail Adresse ein")
+    user: yup.string().or([yup.string().email(), yup.number().positive().integer()], "Die Eingabe muss eine Telefonnummer oder E-Mail sein").required("Bitte geben Sie Ihre Telefonnummer oder E-Mail Adresse ein")
 });
 
 
@@ -56,6 +53,7 @@ function ResetPasswordUsernameLeftCard({setUser, proceed}) {
         </form>
     );
 }
+
 ResetPasswordUsernameLeftCard.propTypes = {
     setUser: PropTypes.func.isRequired,
     proceed: PropTypes.func.isRequired
