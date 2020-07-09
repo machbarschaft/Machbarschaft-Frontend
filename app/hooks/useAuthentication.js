@@ -231,10 +231,18 @@ export default function useAuthentication() {
             },
 
             address: {
-              street: authenticateResult.profile.street,
-              houseNumber: authenticateResult.houseNumber,
-              zipCode: authenticateResult.profile.zipCode,
-              country: authenticateResult.profile.country,
+              street: authenticateResult.address
+                ? authenticateResult.address.street
+                : null,
+              houseNumber: authenticateResult.address
+                ? authenticateResult.address.houseNumber
+                : null,
+              zipCode: authenticateResult.address
+                ? authenticateResult.address.zipCode
+                : null,
+              country: authenticateResult.address
+                ? authenticateResult.address.country
+                : null,
             },
           },
         });
