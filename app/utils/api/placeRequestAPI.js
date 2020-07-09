@@ -1,4 +1,6 @@
 import React from "react"
+import AuthenticationContext from "../../contexts/authentication";
+import apiUrl from "./apiUrl";
 
 /**
  * Creates a new help request, either for a guest or an authentciated user.
@@ -8,8 +10,8 @@ import React from "react"
  */
 export const postPlaceRequest = async ({formValues, isAuthenticated}) => {
     const endpoint = isAuthenticated ?
-        "http://localhost:3000/request" :
-        "http://localhost:3000/request/guest?phone=" + formValues["phoneNumber"];
+        apiUrl() + "request" :
+        apiUrl() + "request/guest?phone=" + formValues["phoneNumber"];
 
     return fetch(endpoint, {
         method: 'POST',
@@ -39,8 +41,8 @@ export const postPlaceRequest = async ({formValues, isAuthenticated}) => {
  */
 export const putPlaceRequest = async ({processID, phoneNumber, formValues, isAuthenticated}) => {
     const endpoint = isAuthenticated ?
-        "http://localhost:3000/request/" + processID :
-        "http://localhost:3000/request/guest/" + processID + "?phone=" + encodeURIComponent(phoneNumber);
+        apiUrl() + "request/" + processID :
+        apiUrl() + "request/guest/" + processID + "?phone=" + encodeURIComponent(phoneNumber);
 
     let formBody = Object.keys(formValues).map(key => encodeURIComponent(key) + '=' + encodeURIComponent(formValues[key])).join('&');
 
@@ -76,8 +78,8 @@ export const putPlaceRequest = async ({processID, phoneNumber, formValues, isAut
  */
 export const putPublishRequest = ({processID, phoneNumber, isAuthenticated}) => {
     const endpoint = isAuthenticated ?
-        "http://localhost:3000/request/" + processID + "/publish" :
-        "http://localhost:3000/request/guest/" + processID + "/publish?phone=" + encodeURIComponent(phoneNumber);
+        apiUrl() + "request/" + processID + "/publish" :
+        apiUrl() + "request/guest/" + processID + "/publish?phone=" + encodeURIComponent(phoneNumber);
 
     return fetch(endpoint, {
         method: 'PUT',
