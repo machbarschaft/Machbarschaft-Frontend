@@ -10,61 +10,68 @@ import RequestTypeMedicationWhite from '../../assets/img/request-category/reques
 import ClockIcon from '../../assets/img/clock-icon.svg';
 import ClockIconWhite from '../../assets/img/clock-icon-white.svg';
 
-function DashboardHelpSeekerMenu({ mode, menuKey, setMenuKey }) {
+function DashboardHelpSeekerMenu({ mode, menuKey, setMenuKey, currentRequests }) {
+  const requestTypeImages = {
+    groceries: RequestTypeGroceries,
+    medication: RequestTypeMedication,
+    other: RequestTypeOther
+  };
+  const requestTypeImagesWhite = {
+    groceries: RequestTypeGroceriesWhite,
+    medication: RequestTypeMedicationWhite,
+    other: RequestTypeOtherWhite
+  };
+
   return (
     <Menu onClick={(e) => setMenuKey(e.key)} selectedKeys={menuKey} mode={mode}>
+      {currentRequests.map((entry, key) =>
+        <Menu.Item
+          key={key}
+          className={
+            mode == 'vertical' &&
+            ("dashboard-menu-button" + (menuKey == key ? " dashboard-menu-button-selected" : " dashboard-menu-button-default"))
+          }
+        >
+          {mode == 'vertical' && (
+            <div className="dashboard-menu-request-types">
+              <img
+                className="dashboard-menu-request-type-image"
+                src={
+                  menuKey == key
+                    ? requestTypeImagesWhite[entry.requestType]
+                    : requestTypeImages[entry.requestType]
+                }
+              />
+            </div>
+          )}
+          <span>AUFTRAG {key+1}</span>
+        </Menu.Item>
+      )}
+      
       <Menu.Item
-        key="request-1"
+        key="finished"
         className={
           mode == 'vertical' &&
-          `dashboard-menu-button${
-            menuKey == 'request-1'
-              ? ' dashboard-menu-button-selected'
-              : ' dashboard-menu-button-default'
-          }`
+          ("dashboard-menu-button" + (menuKey == "finished" ? " dashboard-menu-button-selected" : " dashboard-menu-button-default"))
         }
       >
         {mode == 'vertical' && (
           <div className="dashboard-menu-request-types">
             <img
               className="dashboard-menu-request-type-image"
-              src={
-                menuKey == 'request-1'
-                  ? RequestTypeOtherWhite
-                  : RequestTypeOther
-              }
+              src={menuKey == "finished" ? ClockIconWhite : ClockIcon}
             />
           </div>
         )}
-        <span>AUFTRAG 1</span>
-      </Menu.Item>
-      <Menu.Item
-        key="old-requests"
-        className={
-          mode == 'vertical' &&
-          `dashboard-menu-button ${
-            menuKey == 'old-requests'
-              ? ' dashboard-menu-button-selected'
-              : ' dashboard-menu-button-default'
-          }`
-        }
-      >
-        {mode == 'vertical' && (
-          <div className="dashboard-menu-request-types">
-            <img
-              className="dashboard-menu-request-type-image"
-              src={menuKey == 'old-requests' ? ClockIconWhite : ClockIcon}
-            />
-          </div>
-        )}
-        <span>ALTE AUFTRÄGE</span>
+        <span>ERLEDIGTE AUFTRÄGE</span>
       </Menu.Item>
     </Menu>
   );
 }
 DashboardHelpSeekerMenu.propTypes = {
   mode: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
-  menuKey: PropTypes.string.isRequired,
+  menuKey: PropTypes.any.isRequired,
   setMenuKey: PropTypes.func.isRequired,
+  currentRequests: PropTypes.array.isRequired
 };
 export default DashboardHelpSeekerMenu;

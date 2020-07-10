@@ -11,10 +11,13 @@ function DashboardWindow() {
 		<div className="content-container-default background-light-grey">
 			<DashboardHelper/>
 		</div>
-	*/
-  return (
     <div className="content-container-big background-light-grey">
       <DashboardHelpSeeker />
+    </div>
+	*/
+  return (
+    <div className="content-container-default background-light-grey">
+      <DashboardHelper/>
     </div>
   );
 }
