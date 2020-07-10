@@ -6,7 +6,7 @@ import apiUrl from './apiUrl';
  * @returns current request
  */
 export const getCurrentRequestHelper = async () => {
-  const endpoint = `${apiUrl()}dashboard/helper/currentRequests`;
+  const endpoint = `${apiUrl()}dashboard/helper/active-requests`;
 
   return [{
     name: "Max Mustermann",
@@ -47,10 +47,9 @@ export const getCurrentRequestHelper = async () => {
  * @returns old requests
  */
 export const getOldRequestsHelper = async () => {
-  const endpoint = `${apiUrl()}dashboard/helper/oldRequests`;
+  const endpoint = `${apiUrl()}dashboard/helper/finished-requests`;
 
   return [
-    // ToDo: fetch from backend
     {
       name: 'Erika Müller',
       phone: '040/299960980',
@@ -144,7 +143,7 @@ export const getOldRequestsHelper = async () => {
  * @returns current request
  */
 export const getCurrentRequestsHelpSeeker = async () => {
-  const endpoint = `${apiUrl()}dashboard/helpSeeker/currentRequests`;
+  const endpoint = `${apiUrl()}dashboard/helpseeker/active-requests`;
 
   return [{
     name: "Max Schmidt",
@@ -201,10 +200,9 @@ export const getCurrentRequestsHelpSeeker = async () => {
  * @returns old requests
  */
 export const getOldRequestsHelpSeeker = async () => {
-  const endpoint = `${apiUrl()}dashboard/helpSeeker/oldRequests`;
+  const endpoint = `${apiUrl()}dashboard/helpseeker/finished-requests`;
 
   return [
-    // ToDo: fetch from backend
     {
       name: 'Erika Müller',
       phone: '040/299960980',
