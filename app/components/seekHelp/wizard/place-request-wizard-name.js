@@ -18,8 +18,6 @@ export default function PlaceRequestWizardName({
   wizardState,
   formData,
 }) {
-  const authenticationContext = React.useContext(AuthenticationContext);
-
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-name';
 
@@ -30,11 +28,10 @@ export default function PlaceRequestWizardName({
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      {authenticationContext.isAuthenticated() ? (
+      {typeof formData.current[formName] !== 'undefined' ? (
         <Title level={1}>
-          Hallo
-          {authenticationContext.authenticationState.profile.forename}{' '}
-          {authenticationContext.authenticationState.profile.surname},
+          Hallo {formData.current[formName].forename}{' '}
+          {formData.current[formName].surname},
         </Title>
       ) : (
         <Title level={1}>Hallo,</Title>
@@ -54,13 +51,6 @@ export default function PlaceRequestWizardName({
             ? {
                 forename: formData.current[formName].forename,
                 surname: formData.current[formName].surname,
-              }
-            : authenticationContext.isAuthenticated()
-            ? {
-                forename:
-                  authenticationContext.authenticationState.profile.forename,
-                surname:
-                  authenticationContext.authenticationState.profile.surname,
               }
             : {}
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space, Steps } from 'antd';
+import { Space, Steps, Typography } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
 import {
   postAddress,
@@ -12,6 +12,7 @@ import { putConfirmTan } from '../../utils/api/phoneApi';
 const queryString = require('query-string');
 
 const { Step } = Steps;
+const { Paragraph } = Typography;
 
 const PlaceRequestWizardAddress = React.lazy(() =>
   import('./wizard/place-request-wizard-address')
@@ -37,6 +38,11 @@ const PlaceRequestWizardSummary = React.lazy(() =>
 
 function PlaceRequestReducer(state, action) {
   switch (action.type) {
+    case 'loaded':
+      return {
+        ...state,
+        isLoading: false,
+      };
     case 'validating':
       return {
         ...state,
@@ -100,12 +106,49 @@ export default function PlaceRequestWindow(props) {
     postPlaceRequest({ formValues, isAuthenticated })
       .then((res) => {
         processID.current = res._id;
+
+        // Pre-Fill
+        if (
+          typeof res.forename !== 'undefined' &&
+          typeof res.surname !== 'undefined'
+        ) {
+          formData.current['place-request-wizard-name'] = {
+            forename: res.forename,
+            surname: res.surname,
+          };
+        } else if (authenticationContext.isAuthenticated()) {
+          formData.current['place-request-wizard-name'] = {
+            forename:
+              authenticationContext.authenticationState.profile.forename,
+            surname: authenticationContext.authenticationState.profile.surname,
+          };
+        }
+
+        formData.current['place-request-wizard-address'] = {
+          street: res.address.street,
+          houseNumber: res.address.houseNumber,
+          zipCode: res.address.zipCode,
+          city: res.address.city,
+        };
+        formData.current['place-request-wizard-category'] = {
+          requestType: res.requestType,
+          carNecessary: res.extras.carNecessary,
+          prescriptionRequired: res.extras.prescriptionRequired,
+        };
+        formData.current['place-request-wizard-urgency'] = {
+          urgency: res.urgency,
+        };
+
         if (
           typeof res.phoneVerifiedCookieMatch !== 'undefined' &&
           res.phoneVerifiedCookieMatch === true
         ) {
           phoneVerified.current = true;
         }
+
+        dispatch({
+          type: 'loaded',
+        });
       })
       .catch((error) => {
         dispatch({
@@ -275,6 +318,10 @@ export default function PlaceRequestWindow(props) {
       handleBackend: async (formValues) => {},
     },
   ];
+
+  if (wizardState.isLoading) {
+    return <Paragraph>Lädt...</Paragraph>;
+  }
 
   return (
     <Space
