@@ -12,6 +12,8 @@ import Footer from './components/base/footer';
 import useAuthentication from './hooks/useAuthentication';
 import { AuthenticationProvider } from './contexts/authentication';
 import RoutesComponent from './utils/routing/routes-component';
+import ValidateMailNotification from './components/base/misc/validateMailNotification';
+import ValidatePhoneNotification from './components/base/misc/validatePhoneNotification';
 
 function App() {
   const [
@@ -48,6 +50,13 @@ function App() {
           <Navigation />
           <div className="site-layout">
             <div className="main-content">
+              {isAuthenticated() && !isMailVerified() && (
+                <ValidateMailNotification />
+              )}
+              {isAuthenticated() && !isPhoneVerified() && (
+                <ValidatePhoneNotification />
+              )}
+
               <React.Suspense fallback={<p>Lädt...</p>}>
                 <RoutesComponent />
               </React.Suspense>
