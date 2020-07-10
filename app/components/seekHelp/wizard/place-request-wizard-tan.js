@@ -5,7 +5,7 @@ import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
 import { postRequestTan, putConfirmTan } from '../../../utils/api/phoneApi';
 
-const { Title, Paragraph, Text } = Typography;
+const { Title } = Typography;
 
 /**
  * Optional component of seek help wizard. Used, if user is not authenticated and no cookie is present.

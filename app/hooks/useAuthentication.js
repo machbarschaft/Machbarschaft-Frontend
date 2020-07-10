@@ -119,6 +119,10 @@ export default function useAuthentication() {
 
   const isAuthenticated = () => authenticationState.uid !== null;
 
+  const isMailVerified = () => authenticationState.emailVerified;
+
+  const isPhoneVerified = () => authenticationState.phoneVerified;
+
   /* Check for authentication on first build */
   React.useEffect(() => {
     checkAuthentication();
@@ -226,8 +230,12 @@ export default function useAuthentication() {
             phoneVerified: authenticateResult.phoneVerified,
 
             profile: {
-              forename: authenticateResult.profile.forename,
-              surname: authenticateResult.profile.surname,
+              forename: authenticateResult.profile
+                ? authenticateResult.profile.forename
+                : null,
+              surname: authenticateResult.profile
+                ? authenticateResult.profile.surname
+                : null,
             },
 
             address: {
@@ -292,6 +300,8 @@ export default function useAuthentication() {
       checkAuthentication,
       invalidateAuthentication,
       isAuthenticated,
+      isMailVerified,
+      isPhoneVerified,
       performRegister,
     },
   ];

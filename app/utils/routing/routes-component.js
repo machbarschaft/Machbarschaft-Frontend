@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
+import PropTypes from 'prop-types';
 
 const LandingPage = React.lazy(() =>
   import('../../components/landingPage/landingPage')
@@ -22,6 +23,9 @@ const AcceptRequest = React.lazy(() =>
 const RegisterHelper = React.lazy(() =>
   import('../../components/register/register-helper-component')
 );
+const ValidatePhone = React.lazy(() =>
+  import('../../components/validation/validate-phone-component')
+);
 
 export default function RoutesComponent() {
   return (
@@ -40,6 +44,7 @@ export default function RoutesComponent() {
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
+      <Route path="/telefon-bestaetigen" component={ValidatePhone} />
       <Route
         exaxct
         path="/place-request"
@@ -51,6 +56,7 @@ export default function RoutesComponent() {
           <RouteAuthenticated
             render={() => <AcceptRequest {...props} />}
             redirectTo="/login"
+            needVerified={true}
           />
         )}
       />
@@ -59,11 +65,25 @@ export default function RoutesComponent() {
   );
 }
 
-function RouteAuthenticated({ render, redirectTo }) {
+function RouteAuthenticated({ render, redirectTo, needVerified = false }) {
   const authenticationContext = React.useContext(AuthenticationContext);
 
   if (authenticationContext.isAuthenticated()) {
+    if (
+      needVerified &&
+      (!authenticationContext.isMailVerified() ||
+        !authenticationContext.isPhoneVerified())
+    ) {
+      return <Redirect to={redirectTo} />;
+    }
+
     return render();
   }
   return <Redirect to={redirectTo} />;
 }
+
+RouteAuthenticated.propTypes = {
+  render: PropTypes.func.isRequired,
+  redirectTo: PropTypes.string.isRequired,
+  needVerified: PropTypes.boolean,
+};
