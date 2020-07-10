@@ -3,6 +3,7 @@ import { Form, Input, Space, Typography } from 'antd';
 import PropTypes from 'prop-types';
 import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
+import { postRequestTan, putConfirmTan } from '../../../utils/api/phoneApi';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -23,6 +24,12 @@ export default function PlaceRequestWizardTan({
     labelCol: { span: 4 },
     wrapperCol: { span: 12 },
   };
+
+  React.useEffect(() => {
+    postRequestTan({
+      phone: '',
+    });
+  }, []);
 
   return (
     <>
