@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, Col, Form, Input, Row, Typography } from 'antd';
+import { Button, Col, Form, Input, Row, Select, Typography } from 'antd';
 import { PhoneOutlined } from '@ant-design/icons';
 import { useHistory } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
 
 const { Text } = Typography;
+const { Option } = Select;
 
 export default function WelcomeSection() {
   const authenticationContext = React.useContext(AuthenticationContext);
@@ -17,10 +18,23 @@ export default function WelcomeSection() {
     wrapperCol: { span: 16 },
   };
 
+  const phonePrefixSelector = (
+    <Form.Item name="phonePrefix" noStyle>
+      <Select style={{ width: 70 }}>
+        <Option value="49">+49</Option>
+      </Select>
+    </Form.Item>
+  );
+
   const handleStartHelpRequest = async (formValues) => {
+    const parsedPhoneNumber =
+      typeof formValues.phoneNumber !== 'undefined'
+        ? formValues.phoneNumber.replace(/\D/g, '')
+        : 0;
+
     const redirectURL =
       typeof formValues.phoneNumber !== 'undefined'
-        ? `/place-request?phoneNumber=${formValues.phoneNumber}`
+        ? `/place-request?phoneNumber=${parsedPhoneNumber}`
         : '/place-request';
 
     history.push({
@@ -58,6 +72,9 @@ export default function WelcomeSection() {
             form={form}
             name="landing-page-phone"
             hideRequiredMark
+            initialValues={{
+              phonePrefix: '49',
+            }}
             onFinish={handleStartHelpRequest}
           >
             {!authenticationContext.isAuthenticated() && (
@@ -67,11 +84,17 @@ export default function WelcomeSection() {
                 rules={[
                   {
                     required: true,
-                    message: 'Bitte geben Sie Ihre Telefonnummer ein.',
+                    pattern:
+                      '(\\(?([\\d \\-\\)\\–\\+\\/\\(]+){6,}\\)?([ .\\-–\\/]?)([\\d]+))',
+                    message: 'Gib eine gültige Telefonnummer ein.',
                   },
                 ]}
               >
-                <Input prefix={<PhoneOutlined />} size="large" />
+                <Input
+                  addonBefore={phonePrefixSelector}
+                  suffix={<PhoneOutlined />}
+                  size="large"
+                />
               </Form.Item>
             )}
 

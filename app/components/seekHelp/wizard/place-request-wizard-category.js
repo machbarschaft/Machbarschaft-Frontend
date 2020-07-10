@@ -15,6 +15,7 @@ export default function PlaceRequestWizardCategory({
   handlePreviousPage,
   handleNextPage,
   wizardState,
+  formData,
 }) {
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-category';
@@ -35,12 +36,12 @@ export default function PlaceRequestWizardCategory({
         hideRequiredMark
         onFinish={(formValues) => handleNextPage(formName, formValues)}
         initialValues={
-          typeof wizardState.formData[formName] !== 'undefined'
+          typeof formData.current[formName] !== 'undefined'
             ? {
-                requestType: wizardState.formData[formName].requestType,
-                carNecessary: wizardState.formData[formName].carNecessary,
+                requestType: formData.current[formName].requestType,
+                carNecessary: formData.current[formName].carNecessary,
                 prescriptionRequired:
-                  wizardState.formData[formName].prescriptionRequired,
+                  formData.current[formName].prescriptionRequired,
               }
             : {}
         }
@@ -111,4 +112,5 @@ PlaceRequestWizardCategory.propTypes = {
   handleNextPage: PropTypes.func.isRequired,
   handlePreviousPage: PropTypes.func.isRequired,
   wizardState: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
 };

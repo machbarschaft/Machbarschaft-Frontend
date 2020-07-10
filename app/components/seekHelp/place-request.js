@@ -7,6 +7,7 @@ import {
   putPlaceRequest,
   putPublishRequest,
 } from '../../utils/api/placeRequestApi';
+import { putConfirmTan } from '../../utils/api/phoneApi';
 
 const queryString = require('query-string');
 
@@ -42,9 +43,6 @@ function PlaceRequestReducer(state, action) {
         isValidating: true,
         hasError: false,
         errorMsg: '',
-        formData: {
-          [action.data.formName]: action.data.formValues,
-        },
       };
     case 'error':
       return {
@@ -82,6 +80,7 @@ export default function PlaceRequestWindow(props) {
 
   const processID = React.useRef(null);
   const phoneVerified = React.useRef(false);
+  const formData = React.useRef({});
 
   const authenticationContext = React.useContext(AuthenticationContext);
 
@@ -117,12 +116,10 @@ export default function PlaceRequestWindow(props) {
   }, []);
 
   const handleNextPage = (formName, formValues) => {
+    formData.current[formName] = formValues;
+
     dispatch({
       type: 'validating',
-      data: {
-        formName,
-        formValues,
-      },
     });
 
     // ToDo: Improve Handling
@@ -161,13 +158,12 @@ export default function PlaceRequestWindow(props) {
   };
 
   const handleAddressCreateRequest = async (formValues) => {
-    postAddress(formValues)
-      .then((addressId) => {
-        return addressId;
-      })
-      .catch((error) => {
-        throw error;
-      });
+    try {
+      const addressId = await postAddress(formValues);
+      return addressId;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const handlePublish = async () => {
@@ -186,6 +182,7 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
         />
       ),
       handleBackend: async (formValues) => {
@@ -199,6 +196,7 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
         />
       ),
       handleBackend: async (formValues) => {
@@ -213,6 +211,7 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
         />
       ),
       handleBackend: async (formValues) => {
@@ -226,6 +225,7 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
         />
       ),
       handleBackend: async (formValues) => {
@@ -239,9 +239,16 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
+          phoneNumber={phoneNumber}
         />
       ),
-      handleBackend: async (formValues) => {},
+      handleBackend: async (formValues) => {
+        await putConfirmTan({
+          phone: phoneNumber,
+          tan: formValues.code,
+        });
+      },
     },
     {
       title: 'Übersicht',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Space, Typography } from 'antd';
+import { Button, Form, Input, Space, Typography } from 'antd';
 import PropTypes from 'prop-types';
 import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
@@ -16,19 +16,29 @@ export default function PlaceRequestWizardTan({
   handlePreviousPage,
   handleNextPage,
   wizardState,
+  formData,
+  phoneNumber,
 }) {
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-tan';
+
+  const [requestTanState, setRequestTanState] = React.useState(false);
 
   const formLayout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 12 },
   };
 
-  React.useEffect(() => {
-    postRequestTan({
-      phone: '',
+  const handleRequestTan = async () => {
+    setRequestTanState(true);
+    await postRequestTan({
+      phone: phoneNumber,
     });
+    setRequestTanState(false);
+  };
+
+  React.useEffect(() => {
+    handleRequestTan();
   }, []);
 
   return (
@@ -41,6 +51,14 @@ export default function PlaceRequestWizardTan({
           Zahlenkombination mitgeteilt.
         </Title>
 
+        <Button
+          type={'primary'}
+          onClick={handleRequestTan}
+          loading={requestTanState}
+        >
+          Neuer Anruf
+        </Button>
+
         <Form
           {...formLayout}
           form={form}
@@ -48,9 +66,9 @@ export default function PlaceRequestWizardTan({
           hideRequiredMark
           onFinish={(formValues) => handleNextPage(formName, formValues)}
           initialValues={
-            typeof wizardState.formData[formName] !== 'undefined'
+            typeof formData.current[formName] !== 'undefined'
               ? {
-                  code: wizardState.formData[formName].code,
+                  code: formData.current[formName].code,
                 }
               : {}
           }
@@ -86,4 +104,6 @@ PlaceRequestWizardTan.propTypes = {
   handleNextPage: PropTypes.func.isRequired,
   handlePreviousPage: PropTypes.func.isRequired,
   wizardState: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
+  phoneNumber: PropTypes.string.isRequired,
 };

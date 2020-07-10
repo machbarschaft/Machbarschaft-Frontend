@@ -108,10 +108,13 @@ export const putPublishRequest = ({
  * @param formValues the necessary values (see Swagger backend docs)
  * @returns {Promise<Response>}
  */
-export const postAddress = ({ formValues }) => {
+export const postAddress = (formValues) => {
   const endpoint = `${apiUrl()}address`;
 
-  const formBody = objectToFormUrlEncoded(formValues);
+  let formBody = objectToFormUrlEncoded(formValues);
+
+  // Right now, only Germany is supported.
+  formBody += '&country=Germany';
 
   return fetch(endpoint, {
     method: 'POST',

@@ -76,7 +76,7 @@ export default function RegisterHelperComponent() {
                   name="register-helper"
                   style={{ width: '100%' }}
                   onFinish={handleForm}
-                  hideRequiredMark={true}
+                  hideRequiredMark
                   initialValues={{
                     phonePrefix: '49',
                   }}

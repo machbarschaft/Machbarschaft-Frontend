@@ -16,6 +16,7 @@ export default function PlaceRequestWizardName({
   handlePreviousPage,
   handleNextPage,
   wizardState,
+  formData,
 }) {
   const authenticationContext = React.useContext(AuthenticationContext);
 
@@ -49,14 +50,14 @@ export default function PlaceRequestWizardName({
         hideRequiredMark
         onFinish={(formValues) => handleNextPage(formName, formValues)}
         initialValues={
-          typeof wizardState.formData[formName] !== 'undefined'
+          typeof formData.current[formName] !== 'undefined'
             ? {
-                name: wizardState.formData[formName].name, // ToDo: Change back to forename after backend change
-                surname: wizardState.formData[formName].surname,
+                forename: formData.current[formName].forename,
+                surname: formData.current[formName].surname,
               }
             : authenticationContext.isAuthenticated()
             ? {
-                name:
+                forename:
                   authenticationContext.authenticationState.profile.forename,
                 surname:
                   authenticationContext.authenticationState.profile.surname,
@@ -66,7 +67,7 @@ export default function PlaceRequestWizardName({
       >
         <Form.Item
           label="Vorname"
-          name="name"
+          name="forename"
           rules={[
             {
               required: true,
@@ -106,4 +107,5 @@ PlaceRequestWizardName.propTypes = {
   handleNextPage: PropTypes.func.isRequired,
   handlePreviousPage: PropTypes.func.isRequired,
   wizardState: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
 };

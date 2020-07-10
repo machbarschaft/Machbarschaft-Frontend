@@ -41,13 +41,9 @@ export default function RoutesComponent() {
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
       <Route
+        exaxct
         path="/place-request"
-        render={(props) => (
-          <RouteAuthenticated
-            render={() => <PlaceRequest {...props} />}
-            redirectTo="/login"
-          />
-        )}
+        render={(props) => <PlaceRequest {...props} />}
       />
       <Route
         path="/accept-request"
