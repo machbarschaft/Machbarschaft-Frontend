@@ -22,6 +22,9 @@ const AcceptRequest = React.lazy(() =>
 const RegisterHelper = React.lazy(() =>
   import('../../components/register/register-helper-component')
 );
+const ValidatePhone = React.lazy(() =>
+  import('../../components/validation/validate-phone-component')
+);
 
 export default function RoutesComponent() {
   return (
@@ -40,6 +43,7 @@ export default function RoutesComponent() {
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
+      <Route path="/telefon-bestaetigen" component={ValidatePhone} />
       <Route
         path="/place-request"
         render={(props) => (
