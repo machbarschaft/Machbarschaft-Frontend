@@ -300,6 +300,8 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
+          phoneNumber={phoneNumber}
         />
       ),
       handleBackend: async (formValues) => {
