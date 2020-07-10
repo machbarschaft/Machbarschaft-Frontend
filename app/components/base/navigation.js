@@ -104,7 +104,7 @@ function NavigationProfileIndicator() {
 
   return (
     <div className="nav-profile-container">
-      {authProps.authenticationState.uid == null ? (
+      {!authProps.isAuthenticated() ? (
         <NavLink to="/login" exact>
           <Text strong style={{ fontSize: '120%' }}>
             Login

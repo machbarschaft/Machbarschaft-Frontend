@@ -230,8 +230,12 @@ export default function useAuthentication() {
             phoneVerified: authenticateResult.phoneVerified,
 
             profile: {
-              forename: authenticateResult.profile.forename,
-              surname: authenticateResult.profile.surname,
+              forename: authenticateResult.profile
+                ? authenticateResult.profile.forename
+                : null,
+              surname: authenticateResult.profile
+                ? authenticateResult.profile.surname
+                : null,
             },
 
             address: {
