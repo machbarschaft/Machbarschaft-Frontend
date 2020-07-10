@@ -37,9 +37,7 @@ export default function WelcomeSection() {
         ? `/place-request?phoneNumber=${parsedPhoneNumber}`
         : '/place-request';
 
-    history.push({
-      pathname: redirectURL,
-    });
+    history.push(redirectURL);
   };
 
   return (
