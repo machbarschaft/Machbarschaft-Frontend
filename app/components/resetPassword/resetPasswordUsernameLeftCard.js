@@ -1,64 +1,79 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {Space, Button, Input, Typography} from 'antd';
-import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import PropTypes from "prop-types";
-import resetPasswordSubmissionStateReducer from "./resetPasswordSubmissionStateReducer";
-import validateDisjunction from "../../utils/inputValidationFunctions/validateDisjunction";
-const {Text} = Typography;
+import { Space, Button, Input, Typography, Form, Select } from 'antd';
+import PropTypes from 'prop-types';
+import { MailOutlined } from '@ant-design/icons';
 
-yup.addMethod(yup.string, "or", validateDisjunction);
-const userSchema = yup.object().shape({
-    user: yup.
-          string().
-          or([yup.string().email(), yup.number().positive().integer()], "Die Eingabe muss eine Telefonnummer oder E-Mail sein").
-          required("Bitte geben Sie Ihre Telefonnummer oder E-Mail Adresse ein")
-});
+import resetPasswordSubmissionStateReducer from './resetPasswordSubmissionStateReducer';
 
+const { Text } = Typography;
+const { Option } = Select;
 
-function ResetPasswordUsernameLeftCard({setUser, proceed}) {
-    const {register, errors, handleSubmit, setValue, formState} = useForm({
-        validationSchema: userSchema
-    });
-    const [submissionState, dispatchSubmissionState] = React.useReducer(
-        resetPasswordSubmissionStateReducer,
-        {
-            error: null,
-            loading: false
-        }
-    );
+function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
+  const [form] = Form.useForm();
 
-    function onSubmit(data) {
-        dispatchSubmissionState({type: "submit"});
-        setUser(data.user);
-        console.log("ToDo: send reset request for user '" + data.user + "' to backend");
-        setTimeout(() => {
-            dispatchSubmissionState({type: "success"});
-            proceed();
-        }, 1000);
+  const layout = {
+    labelCol: { span: 10 },
+    wrapperCol: { span: 14 },
+  };
+
+  const [submissionState, dispatchSubmissionState] = React.useReducer(
+    resetPasswordSubmissionStateReducer,
+    {
+      error: null,
+      loading: false,
     }
+  );
 
-    React.useEffect(() => {
-        register({name: "user"});
-    }, []);
-    return (
-        <form onSubmit={handleSubmit(async (data) => await onSubmit(data))}>
-            <Space direction="vertical" size="small">
-                <Input size="large"
-                       name={"user"}
-                       onChange={(e) => setValue("user", e.target.value)}
-                />
-                <Text type="danger">{errors.user && <p>{errors.user.message}</p>}</Text>
-                <Text type={"danger"}>{submissionState.error}</Text>
-                <Button type="primary" htmlType="submit" loading={submissionState.loading}>Anfrage abschicken</Button>
-            </Space>
-        </form>
-    );
+  const handleForm = async (values) => {
+    dispatchSubmissionState({ type: 'submit' });
+    setUser(data.user);
+    console.log(`ToDo: send reset request for user '${data.user}' to backend`);
+    setTimeout(() => {
+      dispatchSubmissionState({ type: 'success' });
+      proceed();
+    }, 1000);
+  };
+
+  return (
+    <>
+      <Form
+        {...layout}
+        form={form}
+        name="reset-password"
+        style={{ width: '100%' }}
+        onFinish={handleForm}
+        hideRequiredMark
+      >
+        <Form.Item
+          name="user"
+          label="E-Mail Adresse"
+          rules={[
+            {
+              required: true,
+              type: 'email',
+              message: 'Gib eine gültige E-Mail Adresse ein.',
+            },
+          ]}
+        >
+          <Input size="large" suffix={<MailOutlined />} />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={submissionState.loading}
+          >
+            Senden
+          </Button>
+        </Form.Item>
+      </Form>
+    </>
+  );
 }
+
 ResetPasswordUsernameLeftCard.propTypes = {
-    setUser: PropTypes.func.isRequired,
-    proceed: PropTypes.func.isRequired
+  setUser: PropTypes.func.isRequired,
+  proceed: PropTypes.func.isRequired,
 };
 
 export default ResetPasswordUsernameLeftCard;

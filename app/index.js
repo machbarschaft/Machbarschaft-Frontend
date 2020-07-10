@@ -1,59 +1,73 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
-import "antd/dist/antd.less";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import 'antd/dist/antd.less';
 
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import {Typography, Layout} from 'antd';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Layout } from 'antd';
 
-import Navigation from "./components/base/navigation";
-import Footer from "./components/base/footer";
-import useAuthentication from "./hooks/useAuthentication";
-import AuthenticationContext, {AuthenticationProvider} from "./contexts/authentication";
-import Loading from "react-fullscreen-loading";
-import RoutesComponent from "./utils/routing/routes-component";
+import Loading from 'react-fullscreen-loading';
+import Navigation from './components/base/navigation';
+import Footer from './components/base/footer';
+import useAuthentication from './hooks/useAuthentication';
+import { AuthenticationProvider } from './contexts/authentication';
+import RoutesComponent from './utils/routing/routes-component';
+import ValidateMailNotification from './components/base/misc/validateMailNotification';
+import ValidatePhoneNotification from './components/base/misc/validatePhoneNotification';
 
 function App() {
-    const [authenticationState, {
-        performAuthentication,
-        checkAuthentication,
-        invalidateAuthentication,
-        isAuthenticated
-    }] = useAuthentication();
-    const authProps = {
-        authenticationState: authenticationState,
-        performAuthentication: performAuthentication,
-        checkAuthentication: checkAuthentication,
-        invalidateAuthentication: invalidateAuthentication,
-        isAuthenticated: isAuthenticated
-    };
+  const [
+    authenticationState,
+    {
+      performAuthentication,
+      checkAuthentication,
+      invalidateAuthentication,
+      isAuthenticated,
+      isMailVerified,
+      isPhoneVerified,
+      performRegister,
+    },
+  ] = useAuthentication();
+  const authProps = {
+    authenticationState,
+    performAuthentication,
+    checkAuthentication,
+    invalidateAuthentication,
+    isAuthenticated,
+    isMailVerified,
+    isPhoneVerified,
+    performRegister,
+  };
 
-    if (authenticationState.isInitialLoading) {
-        return <Loading loading={true} background={"#F4B3A3"} loaderColor={"#2D3047"}/>;
-    }
+  if (authenticationState.isInitialLoading) {
+    return <Loading loading background="#F4B3A3" loaderColor="#2D3047" />;
+  }
 
-    return (
-        <Router>
-            <AuthenticationProvider value={authProps}>
-                <Layout>
-                    <Navigation/>
-                    <div className="site-layout">
-                        <div className="main-content">
-                            <React.Suspense fallback={<p>Lädt...</p>}>
-                                <RoutesComponent/>
-                            </React.Suspense>
-                        </div>
+  return (
+    <Router>
+      <AuthenticationProvider value={authProps}>
+        <Layout>
+          <Navigation />
+          <div className="site-layout">
+            <div className="main-content">
+              {isAuthenticated() && !isMailVerified() && (
+                <ValidateMailNotification />
+              )}
+              {isAuthenticated() && !isPhoneVerified() && (
+                <ValidatePhoneNotification />
+              )}
 
-                        <Footer/>
-                    </div>
+              <React.Suspense fallback={<p>Lädt...</p>}>
+                <RoutesComponent />
+              </React.Suspense>
+            </div>
 
-                </Layout>
-            </AuthenticationProvider>
-        </Router>
-    )
+            <Footer />
+          </div>
+        </Layout>
+      </AuthenticationProvider>
+    </Router>
+  );
 }
 
-ReactDOM.render(
-    <App/>,
-    document.getElementById("app")
-)
+ReactDOM.render(<App />, document.getElementById('app'));
