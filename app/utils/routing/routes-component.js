@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
+import PropTypes from 'prop-types';
 
 const LandingPage = React.lazy(() =>
   import('../../components/landingPage/landingPage')
@@ -46,6 +47,7 @@ export default function RoutesComponent() {
           <RouteAuthenticated
             render={() => <PlaceRequest {...props} />}
             redirectTo="/login"
+            needVerified={true}
           />
         )}
       />
@@ -55,6 +57,7 @@ export default function RoutesComponent() {
           <RouteAuthenticated
             render={() => <AcceptRequest {...props} />}
             redirectTo="/login"
+            needVerified={true}
           />
         )}
       />
@@ -63,11 +66,25 @@ export default function RoutesComponent() {
   );
 }
 
-function RouteAuthenticated({ render, redirectTo }) {
+function RouteAuthenticated({ render, redirectTo, needVerified = false }) {
   const authenticationContext = React.useContext(AuthenticationContext);
 
   if (authenticationContext.isAuthenticated()) {
+    if (
+      needVerified &&
+      (!authenticationContext.isMailVerified() ||
+        !authenticationContext.isPhoneVerified())
+    ) {
+      return <Redirect to={redirectTo} />;
+    }
+
     return render();
   }
   return <Redirect to={redirectTo} />;
 }
+
+RouteAuthenticated.propTypes = {
+  render: PropTypes.func.isRequired,
+  redirectTo: PropTypes.string.isRequired,
+  needVerified: PropTypes.boolean,
+};
