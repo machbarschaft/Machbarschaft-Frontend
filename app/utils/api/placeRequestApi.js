@@ -96,7 +96,6 @@ export const putPublishRequest = ({
     credentials: 'include',
   }).then(async (res) => {
     if (res.status === 200) {
-      res = await res.json();
       return res;
     }
     throw new Error('Die Anfrage konnte nicht veröffentlicht werden.');
