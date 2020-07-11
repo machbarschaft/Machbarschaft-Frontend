@@ -2,148 +2,11 @@ import React from 'react';
 import apiUrl from './apiUrl';
 
 /**
- * Get current request of helper for displaying on dashboard.
- * @returns current request
- */
-export const getCurrentRequestHelper = async () => {
-  const endpoint = `${apiUrl()}dashboard/helper/active-requests`;
-
-  return [{
-    name: "Max Mustermann",
-    status: "accepted",
-    phone: "01575/12345",
-    requestType: "medication",
-    urgency: "now",
-    extras: {
-      carNecessary: false,
-      prescriptionRequired: true
-    },
-    address: {
-      street: "Straßenname",
-      zipCode: 1234,
-      city: "München"
-    },
-    startedAt: 100000
-  }];
-  /*return fetch(endpoint, {
-    method: 'GET',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    credentials: 'include',
-  }).then(async (res) => {
-    if (res.status === 200) {
-      res = await res.json();
-      return res;
-    }
-    res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
-  });*/
-};
-
-/**
- * Get old requests of helper for displaying on dashboard.
- * @returns old requests
- */
-export const getOldRequestsHelper = async () => {
-  const endpoint = `${apiUrl()}dashboard/helper/finished-requests`;
-
-  return [
-    {
-      name: 'Erika Müller',
-      phone: '040/299960980',
-      address: {
-        street: 'Höhenstadter Str. 56',
-        zipCode: '81671',
-        city: 'München',
-      },
-      requestType: 'groceries',
-      urgency: 'now',
-      extras: {
-        carNecessary: true,
-        prescriptionRequired: false,
-      },
-      startedAt: 1593774600,
-      finishedAt: 1593869056,
-    },
-    {
-      name: 'Erika Müller',
-      phone: '040/299960980',
-      address: {
-        street: 'Höhenstadter Str. 56',
-        zipCode: '81671',
-        city: 'München',
-      },
-      requestType: 'medication',
-      urgency: 'now',
-      extras: {
-        carNecessary: true,
-        prescriptionRequired: false,
-      },
-      startedAt: 1593774600,
-      finishedAt: 1593869056,
-    },
-    {
-      name: 'Erika Müller',
-      phone: '040/299960980',
-      address: {
-        street: 'Höhenstadter Str. 56',
-        zipCode: '81671',
-        city: 'München',
-      },
-      requestType: 'other',
-      urgency: 'now',
-      extras: {
-        carNecessary: true,
-        prescriptionRequired: false,
-      },
-      startedAt: 1593774600,
-      finishedAt: 1593869056,
-    },
-    {
-      name: 'Erika Müller',
-      phone: '040/299960980',
-      address: {
-        street: 'Höhenstadter Str. 56',
-        zipCode: '81671',
-        city: 'München',
-      },
-      requestType: 'groceries',
-      urgency: 'now',
-      extras: {
-        carNecessary: true,
-        prescriptionRequired: false,
-      },
-      startedAt: 1593774600,
-      finishedAt: 1593869056,
-    },
-  ];
-  /*return fetch(endpoint, {
-    method: 'GET',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    credentials: 'include',
-  }).then(async (res) => {
-    if (res.status === 200) {
-      res = await res.json();
-      return res;
-    }
-    res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
-  });*/
-};
-
-
-
-/**
- * Get current requests of help seeker for displaying on dashboard.
+ * Get active requests for displaying on dashboard.
  * @returns current request
  */
 export const getCurrentRequestsHelpSeeker = async () => {
-  const endpoint = `${apiUrl()}dashboard/helpseeker/active-requests`;
+  const endpoint = `${apiUrl()}dashboard/active-requests`;
 
   return [{
     name: "Max Schmidt",
@@ -160,7 +23,8 @@ export const getCurrentRequestsHelpSeeker = async () => {
       zipCode: 1234,
       city: "München"
     },
-    startedAt: 0
+    startedAt: 0,
+    isHelpSeeker: true
   },{
     name: "Max Mustermann",
     status: "open",
@@ -176,7 +40,8 @@ export const getCurrentRequestsHelpSeeker = async () => {
       zipCode: 1234,
       city: "München"
     },
-    startedAt: 100000
+    startedAt: 100000,
+    isHelpSeeker: false
   }];
   /*return fetch(endpoint, {
     method: 'GET',
@@ -196,11 +61,11 @@ export const getCurrentRequestsHelpSeeker = async () => {
 };
 
 /**
- * Get old requests of help seeker for displaying on dashboard.
+ * Get old requests for displaying on dashboard.
  * @returns old requests
  */
-export const getOldRequestsHelpSeeker = async () => {
-  const endpoint = `${apiUrl()}dashboard/helpseeker/finished-requests`;
+export const getOldRequestsHelper = async () => {
+  const endpoint = `${apiUrl()}dashboard/finished-requests`;
 
   return [
     {
@@ -219,6 +84,7 @@ export const getOldRequestsHelpSeeker = async () => {
       },
       startedAt: 1593774600,
       finishedAt: 1593869056,
+      isHelpSeeker: true
     },
     {
       name: 'Erika Müller',
@@ -236,6 +102,7 @@ export const getOldRequestsHelpSeeker = async () => {
       },
       startedAt: 1593774600,
       finishedAt: 1593869056,
+      isHelpSeeker: true
     },
     {
       name: 'Erika Müller',
@@ -253,6 +120,7 @@ export const getOldRequestsHelpSeeker = async () => {
       },
       startedAt: 1593774600,
       finishedAt: 1593869056,
+      isHelpSeeker: false
     },
     {
       name: 'Erika Müller',
@@ -270,6 +138,7 @@ export const getOldRequestsHelpSeeker = async () => {
       },
       startedAt: 1593774600,
       finishedAt: 1593869056,
+      isHelpSeeker: false
     },
   ];
   /*return fetch(endpoint, {
@@ -288,3 +157,6 @@ export const getOldRequestsHelpSeeker = async () => {
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
   });*/
 };
+
+
+
