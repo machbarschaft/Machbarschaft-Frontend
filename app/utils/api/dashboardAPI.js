@@ -5,7 +5,7 @@ import apiUrl from './apiUrl';
  * Get active requests for displaying on dashboard.
  * @returns current request
  */
-export const getCurrentRequestsHelpSeeker = async () => {
+export const getActiveRequests = async () => {
   const endpoint = `${apiUrl()}dashboard/active-requests`;
 
   return [{
@@ -24,8 +24,8 @@ export const getCurrentRequestsHelpSeeker = async () => {
       city: "München"
     },
     startedAt: 0,
-    isHelpSeeker: true
-  },{
+    isHelpSeeker: false
+  }/*,{
     name: "Max Mustermann",
     status: "open",
     phone: "01575/12345",
@@ -42,7 +42,7 @@ export const getCurrentRequestsHelpSeeker = async () => {
     },
     startedAt: 100000,
     isHelpSeeker: false
-  }];
+  }*/];
   /*return fetch(endpoint, {
     method: 'GET',
     cache: 'no-cache',
@@ -61,10 +61,10 @@ export const getCurrentRequestsHelpSeeker = async () => {
 };
 
 /**
- * Get old requests for displaying on dashboard.
+ * Get finished requests for displaying on dashboard.
  * @returns old requests
  */
-export const getOldRequestsHelper = async () => {
+export const getFinishedRequests = async () => {
   const endpoint = `${apiUrl()}dashboard/finished-requests`;
 
   return [

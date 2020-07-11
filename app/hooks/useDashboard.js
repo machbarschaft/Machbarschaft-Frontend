@@ -1,99 +1,108 @@
 import React from 'react';
 import {
-  getCurrentRequestHelper,
-  getCurrentRequestsHelpSeeker,
-  getOldRequestsHelper,
-  getOldRequestsHelpSeeker
+  getActiveRequests,
+  getFinishedRequests
 } from '../utils/api/dashboardAPI';
 
+function checkIfHelpSeeker(requests) {
+  for(var i = 0; i < requests.length; i++) {
+    if(requests[i].isHelpSeeker) return true;
+  }
+  return false;
+}
+
 function dashboardStateReducer(state, action) {
-  if (action.type === 'success-current') {
+  if (action.type === 'success-active') {
+    var isHelpSeeker = checkIfHelpSeeker(action.activeRequests);
     return {
       ...state,
-      loading: state.loadingOldRequests,
-      loadingCurrentRequests: false,
-      currentRequests: action.currentRequests,
+      loading: state.loadingFinishedRequests,
+      loadingActiveRequests: false,
+      activeRequests: action.activeRequests,
+      isHelpSeeker: state.isHelpSeeker || isHelpSeeker,
       error: null
     };
   }
-  if (action.type === 'success-old') {
+  if (action.type === 'success-finished') {
+    var isHelpSeeker = checkIfHelpSeeker(action.finishedRequests);
     return {
       ...state,
-      loading: state.loadingCurrentRequests,
-      loadingOldRequests: false,
-      oldRequests: action.oldRequests,
+      loading: state.loadingActiveRequests,
+      loadingFinishedRequests: false,
+      finishedRequests: action.finishedRequests,
+      isHelpSeeker: state.isHelpSeeker || isHelpSeeker,
       error: null
     };
   }
-  if (action.type === 'error-current') {
+  if (action.type === 'error-active') {
     return {
       ...state,
-      loading: state.loadingOldRequests,
-      loadingCurrentRequests: false,
-      currentRequests: [],
+      loading: state.loadingFinishedRequests,
+      loadingActiveRequests: false,
+      activeRequests: [],
       error: action.error
     };
   }
-  if (action.type === 'error-old') {
+  if (action.type === 'error-finished') {
     return {
       ...state,
-      loading: state.loadingCurrentRequests,
-      loadingOldRequests: false,
-      oldRequests: [],
+      loading: state.loadingActiveRequests,
+      loadingFinishedRequests: false,
+      finishedRequests: [],
       error: action.error
     };
   }
-  if (action.type == 'loading-current') {
+  if (action.type == 'loading-active') {
     return {
       ...state,
       loading: true,
-      loadingCurrentRequests: true,
-      currentRequests: [],
+      loadingActiveRequests: true,
+      activeRequests: [],
+      isHelpSeeker: false,
       error: null
     }
   }
-  if (action.type == 'loading-old') {
+  if (action.type == 'loading-finished') {
     return {
       ...state,
       loading: true,
-      loadingOldRequests: true,
-      oldRequests: [],
+      loadingFinishedRequests: true,
+      finishedRequests: [],
+      isHelpSeeker: false,
       error: null
     }
   }
   throw new Error('Unsupported');
 }
 
-export default function useDashboard(type) {
+export default function useDashboard() {
   const [requestsState, dispatchRequestsState] = React.useReducer(
     dashboardStateReducer,
     {
       loading: true,
-      loadingCurrentRequests: true,
-      loadingOldRequests: true,
-      currentRequests: [],
-      oldRequests: [],
+      loadingActiveRequests: true,
+      loadingFinishedRequests: true,
+      activeRequests: [],
+      finishedRequests: [],
+      isHelpSeeker: false,
       error: null,
     }
   );
-  console.log("type: " + type);
-  const currentRequestsFetch = type == "helper" ? getCurrentRequestHelper : getCurrentRequestsHelpSeeker;
-  const oldRequestFetch = type == "helper" ? getOldRequestsHelper : getOldRequestsHelpSeeker;
-  const fetchCurrentRequests = () => {
-    dispatchRequestsState({type: "loading-current"});
-    currentRequestsFetch()
-      .then((res) => dispatchRequestsState({type: "success-current", currentRequests: res}))
-      .catch((err) => dispatchRequestsState({type: "error-current", error: err}));
+  const fetchActiveRequests = () => {
+    dispatchRequestsState({type: "loading-active"});
+    getActiveRequests()
+      .then((res) => dispatchRequestsState({type: "success-active", activeRequests: res}))
+      .catch((err) => dispatchRequestsState({type: "error-active", error: err}));
   }
-  const fetchOldRequests = () => {
-    dispatchRequestsState({type: "loading-old"});
-    oldRequestFetch()
-      .then((res) => dispatchRequestsState({type: "success-old", oldRequests: res}))
-      .catch((err) => dispatchRequestsState({type: "error-old", error: err}));
+  const fetchFinishedRequests = () => {
+    dispatchRequestsState({type: "loading-finished"});
+    getFinishedRequests()
+      .then((res) => dispatchRequestsState({type: "success-finished", finishedRequests: res}))
+      .catch((err) => dispatchRequestsState({type: "error-finished", error: err}));
   }
   const fetchRequests = () => {
-    fetchCurrentRequests();
-    fetchOldRequests();
+    fetchActiveRequests();
+    fetchFinishedRequests();
   }
   React.useEffect(() => fetchRequests(), []);
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const { Text } = Typography;
 
-function DashboardHelperOldRequestContent({
+function DashboardHelperFinishedRequestContent({
   startedAt,
   finishedAt,
   name,
@@ -71,7 +71,7 @@ function DashboardHelperOldRequestContent({
     </div>
   );
 }
-DashboardHelperOldRequestContent.propTypes = {
+DashboardHelperFinishedRequestContent.propTypes = {
   startedAt: PropTypes.number.isRequired,
   finishedAt: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
@@ -81,4 +81,4 @@ DashboardHelperOldRequestContent.propTypes = {
   carNecessary: PropTypes.bool.isRequired,
   prescriptionRequired: PropTypes.bool.isRequired,
 };
-export default DashboardHelperOldRequestContent;
+export default DashboardHelperFinishedRequestContent;

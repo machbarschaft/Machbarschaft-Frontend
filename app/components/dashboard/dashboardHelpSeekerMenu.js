@@ -10,7 +10,7 @@ import RequestTypeMedicationWhite from '../../assets/img/request-category/reques
 import ClockIcon from '../../assets/img/clock-icon.svg';
 import ClockIconWhite from '../../assets/img/clock-icon-white.svg';
 
-function DashboardHelpSeekerMenu({ mode, menuKey, setMenuKey, currentRequests }) {
+function DashboardHelpSeekerMenu({ mode, menuKey, setMenuKey, activeRequests }) {
   const requestTypeImages = {
     groceries: RequestTypeGroceries,
     medication: RequestTypeMedication,
@@ -24,7 +24,7 @@ function DashboardHelpSeekerMenu({ mode, menuKey, setMenuKey, currentRequests })
 
   return (
     <Menu onClick={(e) => setMenuKey(e.key)} selectedKeys={menuKey} mode={mode}>
-      {currentRequests.map((entry, key) =>
+      {activeRequests.map((entry, key) =>
         <Menu.Item
           key={key}
           className={
@@ -72,6 +72,6 @@ DashboardHelpSeekerMenu.propTypes = {
   mode: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
   menuKey: PropTypes.any.isRequired,
   setMenuKey: PropTypes.func.isRequired,
-  currentRequests: PropTypes.array.isRequired
+  activeRequests: PropTypes.array.isRequired
 };
 export default DashboardHelpSeekerMenu;

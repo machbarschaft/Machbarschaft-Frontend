@@ -1,25 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Collapse, Result } from 'antd';
-import DashboardOldRequestHeader from './dashboardOldRequestHeader';
-import DashboardHelpSeekerOldRequestContent from './dashboardHelpSeekerOldRequestContent';
+import DashboardFinishedRequestHeader from './dashboardFinishedRequestHeader';
+import DashboardHelpSeekerFinishedRequestContent from './dashboardHelpSeekerFinishedRequestContent';
 
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-function DashboardHelpSeekerOldRequests({requestList}) {
+function DashboardHelpSeekerFinishedRequests({requestList}) {
 
   const panelRender = requestList.map((entry, index) => (
     <Panel
       header={
-        <DashboardOldRequestHeader
+        <DashboardFinishedRequestHeader
           finishedAt={entry.finishedAt}
           requestType={entry.requestType}
         />
       }
       key={index}
     >
-      <DashboardHelpSeekerOldRequestContent
+      <DashboardHelpSeekerFinishedRequestContent
         startedAt={entry.startedAt}
         name={entry.name}
         phone={entry.phon}
@@ -39,7 +39,7 @@ function DashboardHelpSeekerOldRequests({requestList}) {
       {requestList.length == 0 ? (
         <Result title="Es gibt keine alten Aufträge" />
       ) : (
-        <div className="dashboard-helps-seeker-old-request">
+        <div className="dashboard-helps-seeker-finished-request">
           {requestList.length == 0 ? (
             'Du hast noch keinen Auftrag abgeschlossen.'
           ) : (
@@ -64,7 +64,7 @@ function DashboardHelpSeekerOldRequests({requestList}) {
     </>
   );
 }
-DashboardHelpSeekerOldRequests.propTypes = {
+DashboardHelpSeekerFinishedRequests.propTypes = {
   requestList: PropTypes.array.isRequired
 }
-export default DashboardHelpSeekerOldRequests;
+export default DashboardHelpSeekerFinishedRequests;

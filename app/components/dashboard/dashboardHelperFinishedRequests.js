@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Result, Collapse } from 'antd';
-import DashboardOldRequestHeader from './dashboardOldRequestHeader';
-import DashboardHelperOldRequestContent from './dashboardHelperOldRequestContent';
+import DashboardFinishedRequestHeader from './dashboardFinishedRequestHeader';
+import DashboardHelperFinishedRequestContent from './dashboardHelperFinishedRequestContent';
 
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-function DashboardHelperOldRequests({requestList}) {
+function DashboardHelperFinishedRequests({requestList}) {
   const panelRender = requestList.map((entry, index) => (
     <Panel
       header={
-        <DashboardOldRequestHeader
+        <DashboardFinishedRequestHeader
           finishedAt={entry.finishedAt}
           requestType={entry.requestType}
         />
       }
       key={index}
     >
-      <DashboardHelperOldRequestContent
+      <DashboardHelperFinishedRequestContent
         startedAt={entry.startedAt}
         finishedAt={entry.finishedAt}
         name={entry.name}
@@ -59,7 +59,7 @@ function DashboardHelperOldRequests({requestList}) {
     </>
   );
 }
-DashboardHelperOldRequests.propTypes = {
+DashboardHelperFinishedRequests.propTypes = {
   requestList: PropTypes.array.isRequired
 }
-export default DashboardHelperOldRequests;
+export default DashboardHelperFinishedRequests;

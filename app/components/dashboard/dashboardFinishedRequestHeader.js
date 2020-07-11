@@ -4,7 +4,7 @@ import RequestTypeOther from '../../assets/img/request-category/request-category
 import RequestTypeGroceries from '../../assets/img/request-category/request-category-groceries.svg';
 import RequestTypeMedication from '../../assets/img/request-category/request-category-medication.svg';
 
-function DashboardHelperOldRequestHeader({ finishedAt, requestType }) {
+function DashboardHelperFinishedRequestHeader({ finishedAt, requestType }) {
   const monthNames = [
     'Januar',
     'Februar',
@@ -53,8 +53,8 @@ function DashboardHelperOldRequestHeader({ finishedAt, requestType }) {
     </div>
   );
 }
-DashboardHelperOldRequestHeader.propTypes = {
+DashboardHelperFinishedRequestHeader.propTypes = {
   finishedAt: PropTypes.number.isRequired,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
 };
-export default DashboardHelperOldRequestHeader;
+export default DashboardHelperFinishedRequestHeader;

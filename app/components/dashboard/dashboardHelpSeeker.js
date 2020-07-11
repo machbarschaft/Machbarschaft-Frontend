@@ -1,25 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Typography, Button, Result, Spin } from 'antd';
-import DashboardTile from './dashboardTile';
 import DashboardTileHelpSeekerStatus from './dashboardTileHelpSeekerStatus';
 import DashboardTileContact from './dashboardTileContact';
 import DashboardTileUrgency from './dashboardTileUrgency';
 import DashboardTileRequestType from './dashboardTileRequestType';
 import DashboardTileAdditionalInformation from './dashboardTileAdditionalInformation';
-import DashboardHelperOldRequests from './dashboardHelperOldRequests';
-import DashboardHelpSeekerOldRequests from './dashboardHelpSeekerOldRequests';
+import DashboardHelpSeekerFinishedRequests from './dashboardHelpSeekerFinishedRequests';
 import DashboardHelpSeekerMenu from './dashboardHelpSeekerMenu';
-import useDashboard from '../../hooks/useDashboard';
 
 const { Title } = Typography;
 
-function DashboardHelpSeeker() {
-  const [requestsState, fetchRequests] = useDashboard("helpSeeker");
+function DashboardHelpSeeker({activeRequests, finishedRequests}) {
   const [menuKey, setMenuKey] = React.useState('request-1');
-  const [currentRequestsRenders, setCurrentRequestsRender] = React.useState([]);
+  const [activeRequestsRenders, setActiveRequestsRender] = React.useState([]);
 
   React.useEffect(() => {
-    setCurrentRequestsRender(requestsState.currentRequests.map((entry, index) => (
+    setActiveRequestsRender(activeRequests.map((entry, index) => (
       <div className="dashboard-columns-container">
         <div className="dashboard-column">
           <DashboardTileHelpSeekerStatus
@@ -52,70 +49,42 @@ function DashboardHelpSeeker() {
         </div>
       </div>
     )));
-    setMenuKey(requestsState.currentRequests.length > 0 ? 0 : "finished");
-  }, [requestsState.currentRequests]);
+    setMenuKey(activeRequests.length > 0 ? 0 : "finished");
+  }, [activeRequests]);
 
   return (
     <>
-      {requestsState.loading == true &&
-        <Result icon={<Spin size="large" />} />
-      }
-      {requestsState.loading == false && requestsState.error != null &&
-        <Result
-          status="warning"
-          title="Es ist ein Fehler beim Laden aufgetreten."
-          extra={
-            <Button type="primary" onClick={() => fetchRequests()}>
-              Erneut versuchen
-            </Button>
-          }
-        />
-      }
-      {requestsState.loading == false && requestsState.error == null && requestsState.currentRequests.length == 0 &&
-        requestsState.oldRequests.length == 0 &&
-        <Result
-          title="Du hast noch keinen Auftrag erstellt"
-          extra={<>
-            Um einen Auftrag zu starten, klicke hier:<br/>
-            <Button type="primary" onClick={() => history.push('/place-request')}>Auftrag erstellen</Button>
-          </>}
-        />
-      }
-      {requestsState.error == null && requestsState.loading == false &&
-        (requestsState.currentRequests.length > 0 || requestsState.oldRequests.length > 0) &&
-        <div className="dashboard-helpseeker-container">
-          <div className="dashboard-menu-container">
-            <div className="dashboard-menu-desktop">
-              <DashboardHelpSeekerMenu
-                mode="vertical"
-                menuKey={menuKey}
-                setMenuKey={setMenuKey}
-                currentRequests={requestsState.currentRequests}
-              />
-            </div>
-            <div className="dashboard-menu-mobile">
-              <DashboardHelpSeekerMenu
-                mode="horizontal"
-                menuKey={menuKey}
-                setMenuKey={setMenuKey}
-                currentRequests={requestsState.currentRequests}
-              />
-            </div>
+      <div className="dashboard-helpseeker-container">
+        <div className="dashboard-menu-container">
+          <div className="dashboard-menu-desktop">
+            <DashboardHelpSeekerMenu
+              mode="vertical"
+              menuKey={menuKey}
+              setMenuKey={setMenuKey}
+              activeRequests={activeRequests}
+            />
           </div>
-          {requestsState.loading == false && requestsState.error == null &&
-            <>
-              {menuKey != "finished" ?
-                currentRequestsRenders[menuKey]
-                :
-                <DashboardHelpSeekerOldRequests requestList={requestsState.oldRequests} />
-              }
-            </>
-          }
-          <div className="dashboard-tile-spacing" />
+          <div className="dashboard-menu-mobile">
+            <DashboardHelpSeekerMenu
+              mode="horizontal"
+              menuKey={menuKey}
+              setMenuKey={setMenuKey}
+              activeRequests={activeRequests}
+            />
+          </div>
         </div>
-      }
+        {menuKey != "finished" ?
+          activeRequestsRenders[menuKey]
+          :
+          <DashboardHelpSeekerFinishedRequests requestList={finishedRequests} />
+        }
+        <div className="dashboard-tile-spacing" />
+      </div>
     </>
   );
 }
-
+DashboardHelpSeeker.propTypes = {
+  activeRequests: PropTypes.array.isRequired,
+  finishedRequests: PropTypes.array.isRequired
+}
 export default DashboardHelpSeeker;
