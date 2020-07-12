@@ -8,7 +8,7 @@ const { Text } = Typography;
 function DashboardTileHelpSeekerStatus({ name, phone, status }) {
   let content;
 
-  if (status == 'not-accepted') {
+  if (status == 'open') {
     content = (
       <>
         <div className="dashboard-tile-spacing" />
@@ -42,7 +42,7 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
 DashboardTileHelpSeekerStatus.propTypes = {
   name: PropTypes.string,
   phone: PropTypes.string,
-  status: PropTypes.oneOf(['not-accepted', 'accepted', 'on-the-way'])
+  status: PropTypes.oneOf(['open', 'accepted', 'on-the-way'])
     .isRequired,
 };
 

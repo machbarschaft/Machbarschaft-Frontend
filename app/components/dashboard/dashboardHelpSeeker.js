@@ -1,73 +1,90 @@
 import React from 'react';
-import { Typography, Button } from 'antd';
-import DashboardTile from './dashboardTile';
+import PropTypes from 'prop-types';
+import { Typography, Button, Result, Spin } from 'antd';
 import DashboardTileHelpSeekerStatus from './dashboardTileHelpSeekerStatus';
 import DashboardTileContact from './dashboardTileContact';
 import DashboardTileUrgency from './dashboardTileUrgency';
 import DashboardTileRequestType from './dashboardTileRequestType';
 import DashboardTileAdditionalInformation from './dashboardTileAdditionalInformation';
-import DashboardHelperOldRequests from './dashboardHelperOldRequests';
-import DashboardHelpSeekerOldRequests from './dashboardHelpSeekerOldRequests';
+import DashboardHelpSeekerFinishedRequests from './dashboardHelpSeekerFinishedRequests';
 import DashboardHelpSeekerMenu from './dashboardHelpSeekerMenu';
 
 const { Title } = Typography;
 
-function DashboardHelpSeeker() {
+function DashboardHelpSeeker({activeRequests, finishedRequests}) {
   const [menuKey, setMenuKey] = React.useState('request-1');
+  const [activeRequestsRenders, setActiveRequestsRender] = React.useState([]);
 
-  return (
-    <div className="dashboard-helpseeker-container">
-      <div className="dashboard-menu-container">
-        <div className="dashboard-menu-desktop">
-          <DashboardHelpSeekerMenu
-            mode="vertical"
-            menuKey={menuKey}
-            setMenuKey={setMenuKey}
+  React.useEffect(() => {
+    setActiveRequestsRender(activeRequests.map((entry, index) => (
+      <div className="dashboard-columns-container">
+        <div className="dashboard-column">
+          <DashboardTileHelpSeekerStatus
+            name={entry.name}
+            phone={entry.phone}
+            status={entry.status}
           />
-        </div>
-        <div className="dashboard-menu-mobile">
-          <DashboardHelpSeekerMenu
-            mode="horizontal"
-            menuKey={menuKey}
-            setMenuKey={setMenuKey}
-          />
-        </div>
-      </div>
-      {menuKey == 'request-1' && (
-        <div className="dashboard-columns-container">
-          <div className="dashboard-column">
-            <DashboardTileHelpSeekerStatus
-              name="Max Schmidt"
-              phone="040/299960980"
-              status="accepted"
-            />
-            <DashboardTileRequestType requestType="groceries" />
+          <DashboardTileRequestType requestType={entry.requestType} />
+          {entry.status == "open" &&
             <div className="dashboard-cancel-button-container">
               <Button className="dashboard-cancel-button" type="primary">
                 AUFTRAG ABBRECHEN
               </Button>
             </div>
-          </div>
-          <div className="dashboard-column">
-            <DashboardTileUrgency urgency="now" />
-            <DashboardTileAdditionalInformation
-              carNecessary
-              prescriptionRequired={false}
-              timestamp={1593672043}
+          }
+        </div>
+        <div className="dashboard-column">
+          <DashboardTileUrgency urgency={entry.urgency} />
+          <DashboardTileAdditionalInformation
+            carNecessary={entry.extras.carNecessary}
+            prescriptionRequired={entry.extras.prescriptionRequired}
+            timestamp={entry.startedAt}
+          />
+          <DashboardTileContact
+            phone={entry.phone}
+            street={entry.address.street}
+            zipCode={entry.address.zipCode}
+            city={entry.address.city}
+          />
+        </div>
+      </div>
+    )));
+    setMenuKey(activeRequests.length > 0 ? 0 : "finished");
+  }, [activeRequests]);
+
+  return (
+    <>
+      <div className="dashboard-helpseeker-container">
+        <div className="dashboard-menu-container">
+          <div className="dashboard-menu-desktop">
+            <DashboardHelpSeekerMenu
+              mode="vertical"
+              menuKey={menuKey}
+              setMenuKey={setMenuKey}
+              activeRequests={activeRequests}
             />
-            <DashboardTileContact
-              phone="089/8354081"
-              street="Höhenstadter Str. 56"
-              zipCode={81671}
-              city="München"
+          </div>
+          <div className="dashboard-menu-mobile">
+            <DashboardHelpSeekerMenu
+              mode="horizontal"
+              menuKey={menuKey}
+              setMenuKey={setMenuKey}
+              activeRequests={activeRequests}
             />
           </div>
         </div>
-      )}
-      {menuKey == 'old-requests' && <DashboardHelpSeekerOldRequests />}
-      <div className="dashboard-tile-spacing" />
-    </div>
+        {menuKey != "finished" ?
+          activeRequestsRenders[menuKey]
+          :
+          <DashboardHelpSeekerFinishedRequests requestList={finishedRequests} />
+        }
+        <div className="dashboard-tile-spacing" />
+      </div>
+    </>
   );
 }
-
+DashboardHelpSeeker.propTypes = {
+  activeRequests: PropTypes.array.isRequired,
+  finishedRequests: PropTypes.array.isRequired
+}
 export default DashboardHelpSeeker;
