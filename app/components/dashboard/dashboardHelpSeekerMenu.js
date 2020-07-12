@@ -63,7 +63,7 @@ function DashboardHelpSeekerMenu({ mode, menuKey, setMenuKey, activeRequests }) 
             />
           </div>
         )}
-        <span>ERLEDIGTE AUFTRÄGE</span>
+        <span>ABGESCHLOSSENE AUFTRÄGE</span>
       </Menu.Item>
     </Menu>
   );

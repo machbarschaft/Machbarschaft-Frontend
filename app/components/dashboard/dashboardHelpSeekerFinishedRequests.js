@@ -22,7 +22,7 @@ function DashboardHelpSeekerFinishedRequests({requestList}) {
       <DashboardHelpSeekerFinishedRequestContent
         startedAt={entry.startedAt}
         name={entry.name}
-        phone={entry.phon}
+        phone={entry.phone}
         street={entry.address.street}
         zipCode={entry.address.zipCode}
         city={entry.address.city}
