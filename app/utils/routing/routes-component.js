@@ -46,14 +46,9 @@ export default function RoutesComponent() {
       <Route path="/resetpassword" component={ResetPassword} />
       <Route path="/telefon-bestaetigen" component={ValidatePhone} />
       <Route
+        exaxct
         path="/place-request"
-        render={(props) => (
-          <RouteAuthenticated
-            render={() => <PlaceRequest {...props} />}
-            redirectTo="/login"
-            needVerified={true}
-          />
-        )}
+        render={(props) => <PlaceRequest {...props} />}
       />
       <Route
         path="/accept-request"

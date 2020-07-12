@@ -10,6 +10,7 @@ export default function PlaceRequestWizardUrgency({
   handlePreviousPage,
   handleNextPage,
   wizardState,
+  formData,
 }) {
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-urgency';
@@ -30,9 +31,9 @@ export default function PlaceRequestWizardUrgency({
         hideRequiredMark
         onFinish={(formValues) => handleNextPage(formName, formValues)}
         initialValues={
-          typeof wizardState.formData[formName] !== 'undefined'
+          typeof formData.current[formName] !== 'undefined'
             ? {
-                urgency: wizardState.formData[formName].urgency,
+                urgency: formData.current[formName].urgency,
               }
             : {}
         }
@@ -73,4 +74,5 @@ PlaceRequestWizardUrgency.propTypes = {
   handleNextPage: PropTypes.func.isRequired,
   handlePreviousPage: PropTypes.func.isRequired,
   wizardState: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
 };

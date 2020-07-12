@@ -16,6 +16,7 @@ export default function PlaceRequestWizardAddress({
   handlePreviousPage,
   handleNextPage,
   wizardState,
+  formData,
 }) {
   const authenticationContext = React.useContext(AuthenticationContext);
 
@@ -47,12 +48,12 @@ export default function PlaceRequestWizardAddress({
         hideRequiredMark
         onFinish={(formValues) => handleNextPage(formName, formValues)}
         initialValues={
-          typeof wizardState.formData[formName] !== 'undefined'
+          typeof formData.current[formName] !== 'undefined'
             ? {
-                street: wizardState.formData[formName].street,
-                houseNumber: wizardState.formData[formName].houseNumber,
-                zipCode: wizardState.formData[formName].zipCode,
-                city: wizardState.formData[formName].city,
+                street: formData.current[formName].street,
+                houseNumber: formData.current[formName].houseNumber,
+                zipCode: formData.current[formName].zipCode,
+                city: formData.current[formName].city,
               }
             : authenticationContext.isAuthenticated()
             ? {
@@ -139,4 +140,5 @@ PlaceRequestWizardAddress.propTypes = {
   handleNextPage: PropTypes.func.isRequired,
   handlePreviousPage: PropTypes.func.isRequired,
   wizardState: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
 };

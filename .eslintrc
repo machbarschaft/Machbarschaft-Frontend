@@ -6,11 +6,22 @@
     }
   },
   "plugins": [
-    "react"
+    "react",
+    "prettier"
   ],
-  "extends": ["airbnb"],
+  "extends": ["airbnb", "prettier"],
   "rules": {
-    "semi": "error"
+    "semi": "error",
+    "prettier/prettier": "error",
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "func-names": "off",
+    "no-process-exit": "off",
+    "object-shorthand": "off",
+    "class-methods-use-this": "off"
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "globals": {
+    "fetch": false
+  }
 }

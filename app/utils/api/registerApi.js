@@ -10,8 +10,6 @@ export const postRegisterRequest = async (formValues) => {
     )
     .join('&');
 
-  console.log(formBody);
-
   return fetch(endpoint, {
     method: 'POST',
     cache: 'no-cache',

@@ -3,8 +3,8 @@ import {
   getAuthenticate,
   putLogin,
   putLogout,
-} from '../utils/api/authenticationAPI';
-import { postRegisterRequest } from '../utils/api/registerAPI';
+} from '../utils/api/authenticationApi';
+import { postRegisterRequest } from '../utils/api/registerApi';
 
 const initialAuthenticationState = {
   // User Data
@@ -18,8 +18,8 @@ const initialAuthenticationState = {
 
   // Profile
   profile: {
-    forename: 'Max',
-    surname: 'Schmidt',
+    forename: '',
+    surname: '',
   },
 
   // Adresse

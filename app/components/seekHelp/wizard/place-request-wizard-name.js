@@ -16,9 +16,8 @@ export default function PlaceRequestWizardName({
   handlePreviousPage,
   handleNextPage,
   wizardState,
+  formData,
 }) {
-  const authenticationContext = React.useContext(AuthenticationContext);
-
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-name';
 
@@ -29,11 +28,10 @@ export default function PlaceRequestWizardName({
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      {authenticationContext.isAuthenticated() ? (
+      {typeof formData.current[formName] !== 'undefined' ? (
         <Title level={1}>
-          Hallo
-          {authenticationContext.authenticationState.profile.forename}{' '}
-          {authenticationContext.authenticationState.profile.surname},
+          Hallo {formData.current[formName].forename}{' '}
+          {formData.current[formName].surname},
         </Title>
       ) : (
         <Title level={1}>Hallo,</Title>
@@ -49,24 +47,17 @@ export default function PlaceRequestWizardName({
         hideRequiredMark
         onFinish={(formValues) => handleNextPage(formName, formValues)}
         initialValues={
-          typeof wizardState.formData[formName] !== 'undefined'
+          typeof formData.current[formName] !== 'undefined'
             ? {
-                name: wizardState.formData[formName].name, // ToDo: Change back to forename after backend change
-                surname: wizardState.formData[formName].surname,
-              }
-            : authenticationContext.isAuthenticated()
-            ? {
-                name:
-                  authenticationContext.authenticationState.profile.forename,
-                surname:
-                  authenticationContext.authenticationState.profile.surname,
+                forename: formData.current[formName].forename,
+                surname: formData.current[formName].surname,
               }
             : {}
         }
       >
         <Form.Item
           label="Vorname"
-          name="name"
+          name="forename"
           rules={[
             {
               required: true,
@@ -106,4 +97,5 @@ PlaceRequestWizardName.propTypes = {
   handleNextPage: PropTypes.func.isRequired,
   handlePreviousPage: PropTypes.func.isRequired,
   wizardState: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
 };
