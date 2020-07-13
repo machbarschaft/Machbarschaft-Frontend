@@ -4,33 +4,26 @@ import {
   getFinishedRequests
 } from '../utils/api/dashboardAPI';
 
-function checkIfHelpSeeker(requests) {
-  for(var i = 0; i < requests.length; i++) {
-    if(requests[i].isHelpSeeker) return true;
-  }
-  return false;
-}
-
 function dashboardStateReducer(state, action) {
   if (action.type === 'success-active') {
-    var isHelpSeeker = checkIfHelpSeeker(action.activeRequests);
     return {
       ...state,
       loading: state.loadingFinishedRequests,
       loadingActiveRequests: false,
       activeRequests: action.activeRequests,
-      isHelpSeeker: state.isHelpSeeker || isHelpSeeker,
+      isHelper: state.isHelper || action.activeRequests.helper.length > 0,
+      isHelpSeeker: state.isHelpSeeker || action.activeRequests.helpSeeker.length > 0,
       error: null
     };
   }
   if (action.type === 'success-finished') {
-    var isHelpSeeker = checkIfHelpSeeker(action.finishedRequests);
     return {
       ...state,
       loading: state.loadingActiveRequests,
       loadingFinishedRequests: false,
       finishedRequests: action.finishedRequests,
-      isHelpSeeker: state.isHelpSeeker || isHelpSeeker,
+      isHelper: state.isHelper || action.finishedRequests.helper.length > 0,
+      isHelpSeeker: state.isHelpSeeker || action.finishedRequests.helpSeeker.length > 0,
       error: null
     };
   }
@@ -59,6 +52,7 @@ function dashboardStateReducer(state, action) {
       loadingActiveRequests: true,
       activeRequests: [],
       isHelpSeeker: false,
+      isHelper: false,
       error: null
     }
   }
@@ -69,6 +63,7 @@ function dashboardStateReducer(state, action) {
       loadingFinishedRequests: true,
       finishedRequests: [],
       isHelpSeeker: false,
+      isHelper: false,
       error: null
     }
   }
@@ -84,6 +79,7 @@ export default function useDashboard() {
       loadingFinishedRequests: true,
       activeRequests: [],
       finishedRequests: [],
+      isHelper: false,
       isHelpSeeker: false,
       error: null,
     }
