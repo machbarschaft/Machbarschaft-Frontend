@@ -76,8 +76,7 @@ DashboardHelperFinishedRequestContent.propTypes = {
   finishedAt: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
-  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week'])
-    .isRequired,
+  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
   carNecessary: PropTypes.bool.isRequired,
   prescriptionRequired: PropTypes.bool.isRequired,
 };

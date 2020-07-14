@@ -22,6 +22,7 @@ function DashboardHelper({activeRequest, finishedRequests}) {
           carNecessary={activeRequests[0].extras.carNecessary}
           prescriptionRequired={activeRequests[0].extras.prescriptionRequired}
           address={activeRequests[0].address}
+          startedAt={activeRequest[0].startedAt}
         />
       }
       <DashboardHelperFinishedRequests requestList={finishedRequests} />

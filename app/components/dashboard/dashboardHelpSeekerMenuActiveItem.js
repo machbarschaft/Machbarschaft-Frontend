@@ -8,7 +8,7 @@ import RequestTypeOtherWhite from '../../assets/img/request-category/request-cat
 import RequestTypeGroceriesWhite from '../../assets/img/request-category/request-category-groceries-white.svg';
 import RequestTypeMedicationWhite from '../../assets/img/request-category/request-category-medication-white.svg';
 
-export default function dashboardHelpSeekerMenuActiveItem({key, selectedKey, requestType, title}) {
+export default function dashboardHelpSeekerMenuActiveItem({ownKey, selectedKey, mode, requestType, title}) {
     const requestTypeImages = {
       groceries: RequestTypeGroceries,
       medication: RequestTypeMedication,
@@ -22,10 +22,10 @@ export default function dashboardHelpSeekerMenuActiveItem({key, selectedKey, req
 
     return (
         <Menu.Item
-            key={key}
+            key={ownKey}
             className={
             mode == 'vertical' &&
-            ("dashboard-menu-button" + (selectedKey == key ? " dashboard-menu-button-selected" : " dashboard-menu-button-default"))
+            ("dashboard-menu-button" + (selectedKey == ownKey ? " dashboard-menu-button-selected" : " dashboard-menu-button-default"))
             }
             >
             {mode == 'vertical' && (
@@ -33,7 +33,7 @@ export default function dashboardHelpSeekerMenuActiveItem({key, selectedKey, req
                 <img
                 className="dashboard-menu-request-type-image"
                 src={
-                    selectedKey == key
+                    selectedKey == ownKey
                     ? requestTypeImagesWhite[requestType]
                     : requestTypeImages[requestType]
                 }
@@ -45,8 +45,9 @@ export default function dashboardHelpSeekerMenuActiveItem({key, selectedKey, req
     );
 }
 dashboardHelpSeekerMenuActiveItem.propTypes = {
-    key: PropTypes.any.isRequired,
+    ownKey: PropTypes.any.isRequired,
     selectedKey: PropTypes.any.isRequired,
+    mode: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
     requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
     title: PropTypes.string.isRequired
 }

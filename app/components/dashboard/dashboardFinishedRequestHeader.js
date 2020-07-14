@@ -33,22 +33,9 @@ function DashboardHelperFinishedRequestHeader({ finishedAt, requestType }) {
     <div className="display-flex">
       {dateString}
       <div className="dashboard-collapse-request-category">
-        <img
-          src={RequestTypeGroceries}
-          className={
-            requestType.includes('groceries') ? '' : 'visibility-hidden'
-          }
-        />
-        <img
-          src={RequestTypeMedication}
-          className={
-            requestType.includes('medication') ? '' : 'visibility-hidden'
-          }
-        />
-        <img
-          src={RequestTypeOther}
-          className={requestType.includes('other') ? '' : 'visibility-hidden'}
-        />
+        {requestType == 'groceries' && <img src={RequestTypeGroceries}/>}
+        {requestType == 'medication' && <img src={RequestTypeMedication}/>}
+        {requestType == 'other' && <img src={RequestTypeOther}/>}
       </div>
     </div>
   );

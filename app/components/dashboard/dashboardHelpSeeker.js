@@ -14,12 +14,27 @@ function DashboardHelpSeeker({
   finishedRequestsHelpSeeker,
   finishedRequestsHelper
 }) {
-  const [menuKey, setMenuKey] = React.useState('request-1');
+  const [menuKey, setMenuKey] = React.useState("");
   const [activeRequestsHelpSeekerRender, setActiveRequestsHelpSeekerRender] = React.useState([]);
-  const [activeRequestHelperRender, setActiveRequestHelperRender] = React.useState([]);
+
+  const selectMenuKey = () => {
+    var changeRequired = false;
+    if(menuKey == "") changeRequired = true;
+    else if(menuKey == /^hs\d+$/.test(menuKey) && activeRequestsHelpSeeker.length <= menuKey.match(/\d+/)[0]) changeRequired = true;
+    else if(menuKey == "active-helper" && activeRequestHelper == null) changeRequired = true;
+    else if(menuKey == "finished-helpseeker" && finishedRequestsHelpSeeker.length == 0) changeRequired = true;
+    else if(menuKey == "finished-helper" && finishedRequestsHelper == 0) changeRequired = true;
+
+    if(changeRequired) {
+      if(activeRequestsHelpSeeker.length > 0) setMenuKey("hs0");
+      else if(activeRequestHelper != null) setMenuKey("active-helper");
+      else if(finishedRequestsHelpSeeker.length > 0) setMenuKey("finished-helpseeker");
+      else if(finishedRequestsHelpSeeker.length > 0) setMenuKey("finished-helper");
+    }
+  };
 
   React.useEffect(() => {
-    setActiveRequestsHelpSeekerRender(activeRequestsHelpSeeker.map((entry, index) =>
+    setActiveRequestsHelpSeekerRender(activeRequestsHelpSeeker.map((entry) =>
       <DashboardHelpSeekerActiveRequest
         name={entry.name}
         phone={entry.phone}
@@ -29,25 +44,14 @@ function DashboardHelpSeeker({
         carNecessary={entry.extras.carNecessary}
         prescriptionRequired={entry.extras.prescriptionRequired}
         address={entry.address}
+        startedAt={entry.startedAt}
       />
     ));
-    //setMenuKey(activeRequests.length > 0 ? 0 : "finished");
+    selectMenuKey();
   }, [activeRequestsHelpSeeker]);
 
   React.useEffect(() => {
-    setActiveRequestHelperRender(activeRequestHelper &&
-      <DashboardHelperActiveRequest
-        name={entry.name}
-        phone={entry.phone}
-        status={entry.status}
-        requestType={entry.requestType}
-        urgency={entry.urgency}
-        carNecessary={entry.extras.carNecessary}
-        prescriptionRequired={entry.extras.prescriptionRequired}
-        address={entry.address}
-      />
-    );
-    //setMenuKey(activeRequests.length > 0 ? 0 : "finished");
+    selectMenuKey();
   }, [activeRequestHelper]);
 
   const menuRender = (mode) => <DashboardHelpSeekerMenu
@@ -72,7 +76,19 @@ function DashboardHelpSeeker({
           </div>
         </div>
         {/^hs\d+$/.test(menuKey) && activeRequestsHelpSeekerRender[menuKey.match(/\d+/)[0]]}
-        {menuKey == "active-helper" && activeRequestHelperRender}
+        {menuKey == "active-helper" && activeRequestHelper != null &&
+          <DashboardHelperActiveRequest
+            name={activeRequestHelper.name}
+            phone={activeRequestHelper.phone}
+            status={activeRequestHelper.status}
+            requestType={activeRequestHelper.requestType}
+            urgency={activeRequestHelper.urgency}
+            carNecessary={activeRequestHelper.extras.carNecessary}
+            prescriptionRequired={activeRequestHelper.extras.prescriptionRequired}
+            address={activeRequestHelper.address}
+            startedAt={activeRequestHelper.startedAt}
+          />
+        }
         {menuKey == "finished-helpseeker" &&
           <DashboardHelpSeekerFinishedRequests requestList={finishedRequestsHelpSeeker} />
         }
@@ -87,7 +103,7 @@ function DashboardHelpSeeker({
 }
 DashboardHelpSeeker.propTypes = {
   activeRequestsHelpSeeker: PropTypes.array.isRequired,
-  activeRequestsHelper: PropTypes.array.isRequired,
+  activeRequestHelper: PropTypes.object.isRequired,
   finishedRequestsHelpSeeker: PropTypes.array.isRequired,
   finishedRequestsHelper: PropTypes.array.isRequired
 }

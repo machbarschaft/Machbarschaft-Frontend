@@ -36,7 +36,7 @@ function DashboardWindow() {
         <>
           {requestsState.isHelpSeeker &&
             <DashboardHelpSeeker
-              activeRequestHelpSeeker={requestsState.activeRequests.helpSeeker}
+              activeRequestsHelpSeeker={requestsState.activeRequests.helpSeeker}
               activeRequestHelper={requestsState.activeRequests.helper}
               finishedRequestsHelpSeeker={requestsState.finishedRequests.helpSeeker}
               finishedRequestsHelper={requestsState.finishedRequests.helper}

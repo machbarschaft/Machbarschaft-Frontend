@@ -746,10 +746,8 @@ h4 {
 	.dashboard-menu-mobile {
 		display: none !important;
 	}
-	.dashboard-menu-desktop {
-	}
 	.dashboard-menu-container {
-		margin-top: 5em;
+		/*margin-top: 5em;*/
 	}
 }
 @media (max-width: 1000px) {
@@ -782,4 +780,7 @@ h4 {
 	.dashboard-helper-finished-request-grid {
 		grid-template-columns: 1fr;
 	}
+}
+.full-width {
+	width: 100%;
 }

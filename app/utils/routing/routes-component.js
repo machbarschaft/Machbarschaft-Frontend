@@ -87,5 +87,5 @@ function RouteAuthenticated({ render, redirectTo, needVerified = false }) {
 RouteAuthenticated.propTypes = {
   render: PropTypes.func.isRequired,
   redirectTo: PropTypes.string.isRequired,
-  needVerified: PropTypes.boolean,
+  needVerified: PropTypes.bool,
 };

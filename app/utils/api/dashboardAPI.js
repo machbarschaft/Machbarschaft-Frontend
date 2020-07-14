@@ -8,12 +8,29 @@ import apiUrl from './apiUrl';
 export const getActiveRequests = async () => {
   const endpoint = `${apiUrl()}dashboard/active-requests`;
 
+  console.log("get active requests");
+  fetch(endpoint, {
+    method: 'GET',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    credentials: 'include',
+  }).then(async (res) => {
+    if (res.status === 200) {
+      res = await res.json();
+      console.log("result: ", res);
+    }
+    res = await res.json();
+    throw Error(res.errors[0]); // ToDo: Throw multiple errors
+  });
   return {
     helpSeeker: [{
       name: "Max Schmidt",
       status: "called",
       requestType: "groceries",
       urgency: "now",
+      phone: "040/299960980",
       extras: {
         carNecessary: true,
         prescriptionRequired: false
@@ -31,6 +48,7 @@ export const getActiveRequests = async () => {
       status: "accepted",
       requestType: "groceries",
       urgency: "now",
+      phone: "040/299960980",
       extras: {
         carNecessary: true,
         prescriptionRequired: false

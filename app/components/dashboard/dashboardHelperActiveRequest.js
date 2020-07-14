@@ -14,42 +14,44 @@ export default function DashboardHelperActiveRequest({
     urgency,
     carNecessary,
     prescriptionRequired,
-    address
+    address,
+    startedAt
 }) {
     return (
-        <>
+        <div className={"full-width"}>
             <DashboardTileHelperStatus name={name} status={status} />
             <div className="dashboard-columns-container">
-            <div className="dashboard-column">
-                <DashboardTileContact
-                name={name}
-                phone={phone}
-                street={address.street}
-                zipCode={address.zipCode}
-                city={address.city}
-                />
-                <br />
-                <DashboardTileRequestType requestType={requestType} />
+                <div className="dashboard-column">
+                    <DashboardTileContact
+                    name={name}
+                    phone={phone}
+                    street={address.street}
+                    zipCode={address.zipCode}
+                    city={address.city}
+                    />
+                    <br />
+                    <DashboardTileRequestType requestType={requestType} />
+                </div>
+                <div className="dashboard-column">
+                    <DashboardTileUrgency urgency={urgency} />
+                    <DashboardTileAdditionalInformation
+                    carNecessary={carNecessary}
+                    prescriptionRequired={prescriptionRequired}
+                    timestamp={startedAt}
+                    />
+                </div>
             </div>
-            <div className="dashboard-column">
-                <DashboardTileUrgency urgency={urgency} />
-                <DashboardTileAdditionalInformation
-                carNecessary={carNecessary}
-                prescriptionRequired={prescriptionRequired}
-                timestamp={startedAt}
-                />
-            </div>
-            </div>
-        </>
+        </div>
     );
 }
 DashboardHelperActiveRequest.propTypes = {
     name: PropTypes.string.isRequired,
     phone: PropTypes.string.isRequired,
-    status: PropTypes.oneOf(['open', 'accepted', 'on-the-way']).isRequired,
+    status: PropTypes.oneOf(['accepted', 'called', 'on-the-way']).isRequired,
     requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
     urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
     carNecessary: PropTypes.bool.isRequired,
     prescriptionRequired: PropTypes.bool.isRequired,
-    address: PropTypes.object.isRequired
+    address: PropTypes.object.isRequired,
+    startedAt: PropTypes.number.isRequired
 }

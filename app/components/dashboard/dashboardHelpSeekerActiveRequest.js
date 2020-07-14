@@ -14,7 +14,8 @@ export default function DashboardHelpSeekerActiveRequest({
     urgency,
     carNecessary,
     prescriptionRequired,
-    address
+    address,
+    startedAt
 }) {
     return (
         <div className="dashboard-columns-container">
@@ -53,10 +54,11 @@ export default function DashboardHelpSeekerActiveRequest({
 DashboardHelpSeekerActiveRequest.propTypes = {
     name: PropTypes.string.isRequired,
     phone: PropTypes.string.isRequired,
-    status: PropTypes.oneOf(['open', 'accepted', 'on-the-way']).isRequired,
+    status: PropTypes.oneOf(['open', 'accepted', 'called', 'on-the-way']).isRequired,
     requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
     urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
     carNecessary: PropTypes.bool.isRequired,
     prescriptionRequired: PropTypes.bool.isRequired,
-    address: PropTypes.object.isRequired
+    address: PropTypes.object.isRequired,
+    startedAt: PropTypes.number.isRequired
 }
