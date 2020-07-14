@@ -40,8 +40,7 @@ export default function PlaceRequestWizardCategory({
             ? {
                 requestType: formData.current[formName].requestType,
                 carNecessary: formData.current[formName].carNecessary,
-                prescriptionRequired:
-                  formData.current[formName].prescriptionRequired,
+                prescriptionRequired: formData.current[formName].prescriptionRequired,
               }
             : {}
         }
@@ -74,8 +73,8 @@ export default function PlaceRequestWizardCategory({
           ]}
         >
           <Radio.Group size="large">
-            <Radio.Button value="true">Ja</Radio.Button>
-            <Radio.Button value="false">Nein</Radio.Button>
+            <Radio.Button value={true}>Ja</Radio.Button>
+            <Radio.Button value={false}>Nein</Radio.Button>
           </Radio.Group>
         </Form.Item>
 
@@ -90,8 +89,8 @@ export default function PlaceRequestWizardCategory({
           ]}
         >
           <Radio.Group size="large">
-            <Radio.Button value="true">Ja</Radio.Button>
-            <Radio.Button value="false">Nein</Radio.Button>
+            <Radio.Button value={true}>Ja</Radio.Button>
+            <Radio.Button value={false}>Nein</Radio.Button>
           </Radio.Group>
         </Form.Item>
 

@@ -9,6 +9,7 @@ import {
   Select,
   Timeline,
   Typography,
+  Alert,
 } from 'antd';
 import { useHistory } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
@@ -31,14 +32,17 @@ export default function RegisterHelperComponent() {
     const registerResult = await authenticationContext.performRegister(
       values.email,
       values.phone,
+      //values.phonePrefix,
       values.password,
       values.forename,
       values.surname
     );
+    console.log("phone: " + values.phone);
     if (registerResult === true) {
       history.push('/');
     }
   };
+
 
   const phonePrefixSelector = (
     <Form.Item name="phonePrefix" noStyle>
@@ -53,11 +57,10 @@ export default function RegisterHelperComponent() {
       <div className="content-container-default">
         <div style={{ textAlign: 'center' }}>
           <Title level={1}>
-            Mach mit uns deine Nachbarschaften zu Machbarschaften.
+            Mach mit uns deine Nachbarschaft zur Machbarschaft.
           </Title>
           <Title level={3}>
-            Cool, dass
-            <strong>DU</strong> dabei bist!
+            Cool, dass <strong>DU</strong> dabei bist!
           </Title>
         </div>
         <div className="login-container">
@@ -153,11 +156,22 @@ export default function RegisterHelperComponent() {
                   </Form.Item>
 
                   <Form.Item>
-                    <Button type="primary" htmlType="submit">
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      loading={authenticationContext.authenticationState.isRegistering}
+                    >
                       Registrieren
                     </Button>
                   </Form.Item>
                 </Form>
+                {authenticationContext.authenticationState.registerErrors &&
+                  <Alert
+                    message="Es ist ein Fehler aufgetreten"
+                    description={authenticationContext.authenticationState.registerErrors}
+                    type="error"
+                  />
+                }
               </Card>
             </Col>
             <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
@@ -174,8 +188,7 @@ export default function RegisterHelperComponent() {
                   </Timeline.Item>
                   <Timeline.Item>
                     Um loszulegen, brauchen wir nur einige Informationen über
-                    dich. Für deinen Nutzeraccount benötigen wir deine{' '}
-                    <strong>E-Mail Adresse</strong>.
+                    dich. Bitte gib diese für deinen Nutzeraccount hier ein.
                   </Timeline.Item>
                 </Timeline>
               </Card>

@@ -23,6 +23,18 @@ export default function PlaceRequestWizardSummary({
     labelCol: { span: 8 },
     wrapperCol: { span: 12 },
   };
+  const urgencyMapping = {
+    now: 'Dringend',
+    today: 'Heute',
+    tomorrow: 'Morgen',
+    'this-week': 'Diese Woche',
+  };
+  const requestTypeMapping = {
+    groceries: 'Lebensmittel',
+    medication: 'Medikamente',
+    other: 'Produkte',
+  };
+
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
@@ -54,19 +66,16 @@ export default function PlaceRequestWizardSummary({
         </Descriptions.Item>
 
         <Descriptions.Item label="Art">
-          {formData.current['place-request-wizard-category'].requestType}
+          {requestTypeMapping[formData.current['place-request-wizard-category'].requestType]}
         </Descriptions.Item>
         <Descriptions.Item label="Auto benötigt">
-          {formData.current['place-request-wizard-category'].carNecessary}
+          {formData.current['place-request-wizard-category'].carNecessary ? "Ja": "Nein"}
         </Descriptions.Item>
         <Descriptions.Item label="Rezept benötigt">
-          {
-            formData.current['place-request-wizard-category']
-              .prescriptionRequired
-          }
+          {formData.current['place-request-wizard-category'].prescriptionRequired ? "Ja": "Nein"}
         </Descriptions.Item>
         <Descriptions.Item label="Dringlichkeit">
-          {formData.current['place-request-wizard-urgency'].urgency}
+          {urgencyMapping[formData.current['place-request-wizard-urgency'].urgency]}
         </Descriptions.Item>
       </Descriptions>
 

@@ -84,7 +84,7 @@ export const getFinishedRequests = async () => {
       },
       startedAt: 1593774600,
       finishedAt: 1593869056,
-      isHelpSeeker: true
+      isHelpSeeker: false
     },
     {
       name: 'Erika Müller',
@@ -102,7 +102,7 @@ export const getFinishedRequests = async () => {
       },
       startedAt: 1593774600,
       finishedAt: 1593869056,
-      isHelpSeeker: true
+      isHelpSeeker: false
     },
     {
       name: 'Erika Müller',
