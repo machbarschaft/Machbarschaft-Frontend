@@ -11,7 +11,7 @@ function dashboardStateReducer(state, action) {
       loading: state.loadingFinishedRequests,
       loadingActiveRequests: false,
       activeRequests: action.activeRequests,
-      isHelper: state.isHelper || action.activeRequests.helper.length > 0,
+      isHelper: state.isHelper || action.activeRequests.helper != null,
       isHelpSeeker: state.isHelpSeeker || action.activeRequests.helpSeeker.length > 0,
       error: null
     };
