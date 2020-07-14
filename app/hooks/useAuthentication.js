@@ -33,7 +33,9 @@ const initialAuthenticationState = {
   // Process Information
   isInitialLoading: true,
   isAuthenticating: false,
+  isRegistering: false,
   authenticationErrors: null,
+  registerErrors: null,
 };
 
 function authenticationReducer(state, action) {
@@ -76,7 +78,7 @@ function authenticationReducer(state, action) {
 
         uid: action.data.uid,
         email: action.data.email,
-        phoneNumber: action.data.phone,
+        phoneNumber: action.data.phoneNumber,
 
         profile: action.data.profile,
         address: action.data.address,
@@ -137,11 +139,11 @@ export default function useAuthentication() {
    * @param surname the surname of the user to be registered
    */
   const performRegister = async (email, phone, password, forename, surname) => {
-    const parsedPhoneNumber = phone.replace(/\D/g, '');
+    phone = phone.replace(/\D/g, '');
 
     const formValues = {
       email,
-      parsedPhoneNumber,
+      phone,
       password,
       forename,
       surname,
@@ -162,6 +164,12 @@ export default function useAuthentication() {
             return false;
           case 401:
             // User exists
+            dispatch({
+              type: 'registerFailure',
+              data: {
+                errors: registerResult.errors,
+              },
+            });
             return false;
           case 500:
             // Internal server error
@@ -174,7 +182,15 @@ export default function useAuthentication() {
 
       // ToDo: Das könnten wir noch verbessern. Register könnte direkt einen gültigen Cookie zurückgeben.
       return await performAuthentication(email, password);
-    } catch (error) {}
+    } catch (error) {
+      dispatch({
+        type: 'registerFailure',
+        data: {
+          errors: error.message,
+        },
+      });
+      return false;
+    }
   };
 
   /**
@@ -200,11 +216,10 @@ export default function useAuthentication() {
       });
       return false;
     } catch (error) {
-      // ToDo: Dieser Case ist eig. Server Offline. Wie gehen wir damit um?
       dispatch({
         type: 'loginFailure',
         data: {
-          errors: 'Die Anmeldung konnte nicht durchgeführt werden.',
+          errors: 'Die Anmeldung konnte nicht durchgeführt werden, bitte versuche es erneut.',
         },
       });
       return false;

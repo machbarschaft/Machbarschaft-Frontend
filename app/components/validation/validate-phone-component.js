@@ -11,7 +11,7 @@ import {
   Typography,
 } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
-import { putConfirmTan } from '../../utils/api/phoneApi';
+import { postRequestTan, putConfirmTan } from '../../utils/api/phoneApi';
 
 const { Option } = Select;
 const { Paragraph } = Typography;
@@ -59,6 +59,11 @@ export default function ValidatePhoneComponent(props) {
     }
   );
   const validatePhoneNumber = React.useRef('');
+  const handleRequestTan = async () => {
+    await postRequestTan({
+      phone: validatePhoneNumber.current,
+    });
+  };
 
   const [form] = Form.useForm();
 
@@ -102,6 +107,7 @@ export default function ValidatePhoneComponent(props) {
     if (authenticationContext.isAuthenticated()) {
       validatePhoneNumber.current =
         authenticationContext.authenticationState.phoneNumber;
+        console.log("is authenticated: ", authenticationContext.authenticationState);
     } else {
       const { phoneNumber } = queryString.parse(props.location.search);
       if (typeof phoneNumber !== 'undefined') {
@@ -151,8 +157,6 @@ export default function ValidatePhoneComponent(props) {
                       rules={[
                         {
                           required: true,
-                          pattern:
-                            '(\\(?([\\d \\-\\)\\–\\+\\/\\(]+){6,}\\)?([ .\\-–\\/]?)([\\d]+))',
                           message: 'Gib eine gültige Telefonnummer ein.',
                         },
                       ]}
@@ -210,7 +214,8 @@ export default function ValidatePhoneComponent(props) {
                   bordered={false}
                 >
                   <Paragraph>
-                    Ein kurzer Text dazu, warum wir das machen.
+                    Ein kurzer Text dazu, warum wir das machen.<br/>
+                    <Button type="primary" onClick={() => handleRequestTan()}>TAN erneut schicken</Button>
                   </Paragraph>
                 </Card>
               </Col>
