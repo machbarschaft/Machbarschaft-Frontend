@@ -8,7 +8,7 @@ import DashboardTileAdditionalInformation from './dashboardTileAdditionalInforma
 
 export default function DashboardHelperActiveRequest({
     name,
-    phone,
+    phoneHelpSeeker,
     status,
     requestType,
     urgency,
@@ -24,7 +24,7 @@ export default function DashboardHelperActiveRequest({
                 <div className="dashboard-column">
                     <DashboardTileContact
                     name={name}
-                    phone={phone}
+                    phone={phoneHelpSeeker}
                     street={address.street}
                     zipCode={address.zipCode}
                     city={address.city}
@@ -46,12 +46,12 @@ export default function DashboardHelperActiveRequest({
 }
 DashboardHelperActiveRequest.propTypes = {
     name: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
+    phoneHelpSeeker: PropTypes.number.isRequired,
     status: PropTypes.oneOf(['accepted', 'called', 'on-the-way']).isRequired,
     requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
     urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
     carNecessary: PropTypes.bool.isRequired,
     prescriptionRequired: PropTypes.bool.isRequired,
     address: PropTypes.object.isRequired,
-    startedAt: PropTypes.number.isRequired
+    startedAt: PropTypes.string.isRequired
 }

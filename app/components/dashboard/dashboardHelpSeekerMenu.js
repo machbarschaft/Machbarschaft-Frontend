@@ -114,7 +114,7 @@ DashboardHelpSeekerMenu.propTypes = {
   menuKey: PropTypes.any.isRequired,
   setMenuKey: PropTypes.func.isRequired,
   activeRequestsHelpSeeker: PropTypes.array.isRequired,
-  activeRequestHelper: PropTypes.object.isRequired,
+  activeRequestHelper: PropTypes.object,
   finishedRequestsHelpSeeker: PropTypes.bool.isRequired,
   finishedRequestsHelper: PropTypes.bool.isRequired
 };

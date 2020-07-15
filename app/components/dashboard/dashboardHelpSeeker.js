@@ -5,6 +5,7 @@ import DashboardHelpSeekerFinishedRequests from './dashboardHelpSeekerFinishedRe
 import DashboardHelpSeekerMenu from './dashboardHelpSeekerMenu';
 import DashboardHelpSeekerActiveRequest from './dashboardHelpSeekerActiveRequest';
 import DashboardHelperActiveRequest from './dashboardHelperActiveRequest';
+import DashboardHelperFinishedRequests from './dashboardHelperFinishedRequests';
 
 const { Title } = Typography;
 
@@ -37,7 +38,8 @@ function DashboardHelpSeeker({
     setActiveRequestsHelpSeekerRender(activeRequestsHelpSeeker.map((entry) =>
       <DashboardHelpSeekerActiveRequest
         name={entry.name}
-        phone={entry.phone}
+        phoneHelpSeeker={entry.phoneHelpSeeker}
+        phoneHelper={123456789}
         status={entry.status}
         requestType={entry.requestType}
         urgency={entry.urgency}
@@ -79,7 +81,7 @@ function DashboardHelpSeeker({
         {menuKey == "active-helper" && activeRequestHelper != null &&
           <DashboardHelperActiveRequest
             name={activeRequestHelper.name}
-            phone={activeRequestHelper.phone}
+            phoneHelpSeeker={activeRequestHelper.phoneHelpSeeker}
             status={activeRequestHelper.status}
             requestType={activeRequestHelper.requestType}
             urgency={activeRequestHelper.urgency}
@@ -93,8 +95,7 @@ function DashboardHelpSeeker({
           <DashboardHelpSeekerFinishedRequests requestList={finishedRequestsHelpSeeker} />
         }
         {menuKey == "finished-helper" &&
-          //<DashboardHelpSeekerFinishedRequests requestList={finishedRequestsHelper} />
-          <>TBD</>
+          <DashboardHelperFinishedRequests requestList={finishedRequestsHelper} />
         }
         <div className="dashboard-tile-spacing" />
       </div>
@@ -103,7 +104,7 @@ function DashboardHelpSeeker({
 }
 DashboardHelpSeeker.propTypes = {
   activeRequestsHelpSeeker: PropTypes.array.isRequired,
-  activeRequestHelper: PropTypes.object.isRequired,
+  activeRequestHelper: PropTypes.object,
   finishedRequestsHelpSeeker: PropTypes.array.isRequired,
   finishedRequestsHelper: PropTypes.array.isRequired
 }

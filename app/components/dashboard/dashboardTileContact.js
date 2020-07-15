@@ -19,7 +19,7 @@ function DashboardTileContact({ name, phone, street, zipCode, city }) {
             {phone !== undefined && (
               <>
                 <span>Telefon:</span>
-                <span>{phone}</span>
+                <span>{'0' + phone}</span>
               </>
             )}
             {street !== undefined && (
@@ -42,7 +42,7 @@ function DashboardTileContact({ name, phone, street, zipCode, city }) {
 }
 DashboardTileContact.propTypes = {
   name: PropTypes.string,
-  phone: PropTypes.string,
+  phone: PropTypes.number,
   street: PropTypes.string,
   zipCode: PropTypes.number,
   city: PropTypes.string,

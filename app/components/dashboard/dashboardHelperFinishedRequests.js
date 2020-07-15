@@ -7,7 +7,7 @@ import DashboardHelperFinishedRequestContent from './dashboardHelperFinishedRequ
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-function DashboardHelperFinishedRequests({requestList}) {
+function DashboardHelperFinishedRequests({title, requestList}) {
   const panelRender = requestList.map((entry, index) => (
     <Panel
       header={
@@ -31,10 +31,8 @@ function DashboardHelperFinishedRequests({requestList}) {
   ));
 
   return (
-    <>
-      <Title level={2} style={{ marginTop: '1em' }}>
-        Alte Aufträge
-      </Title>
+    <div>
+      {title && <Title level={2} style={{ marginTop: '1em' }}>{title}</Title>}
       {requestList.length == 0 ? (
         <Result title="Es gibt keine alten Aufträge" />
       ) : (
@@ -56,10 +54,11 @@ function DashboardHelperFinishedRequests({requestList}) {
           {panelRender}
         </Collapse>
       )}
-    </>
+    </div>
   );
 }
 DashboardHelperFinishedRequests.propTypes = {
+  title: PropTypes.string,
   requestList: PropTypes.array.isRequired
 }
 export default DashboardHelperFinishedRequests;

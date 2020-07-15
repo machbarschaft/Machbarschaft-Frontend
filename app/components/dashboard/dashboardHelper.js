@@ -9,23 +9,23 @@ const {Title} = Typography;
 function DashboardHelper({activeRequest, finishedRequests}) {
   return (
     <>
-      {activeRequests.length == 0 &&
+      {activeRequest == null &&
         <Result title="Sie haben aktuell keinen Auftrag angenommen." />
       }
-      {activeRequests != null &&
+      {activeRequest != null &&
         <DashboardHelperActiveRequest
-          name={activeRequests[0].name}
-          phone={activeRequests[0].phone}
-          status={activeRequests[0].status}
-          requestType={activeRequests[0].requestType}
-          urgency={activeRequests[0].urgency}
-          carNecessary={activeRequests[0].extras.carNecessary}
-          prescriptionRequired={activeRequests[0].extras.prescriptionRequired}
-          address={activeRequests[0].address}
-          startedAt={activeRequest[0].startedAt}
+          name={activeRequest.name}
+          phoneHelpSeeker={123456789}
+          status={activeRequest.status}
+          requestType={activeRequest.requestType}
+          urgency={activeRequest.urgency}
+          carNecessary={activeRequest.extras.carNecessary}
+          prescriptionRequired={activeRequest.extras.prescriptionRequired}
+          address={activeRequest.address}
+          startedAt={activeRequest.startedAt}
         />
       }
-      <DashboardHelperFinishedRequests requestList={finishedRequests} />
+      <DashboardHelperFinishedRequests title={"Alte Aufträge"} requestList={finishedRequests} />
     </>
   );
 }

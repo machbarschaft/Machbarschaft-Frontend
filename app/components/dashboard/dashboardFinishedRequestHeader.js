@@ -19,15 +19,10 @@ function DashboardHelperFinishedRequestHeader({ finishedAt, requestType }) {
     'November',
     'Dezember',
   ];
-  const finishedDate = new Date(finishedAt * 1000);
+  const finishedDate = new Date(Date.parse(finishedAt));
   const dateString = `${finishedDate.getDate()}. ${
     monthNames[finishedDate.getMonth()]
   } ${finishedDate.getFullYear()}`;
-  console.log(
-    `Month: ${finishedDate.getMonth()}, name: ${
-      monthNames[finishedDate.getMonth()]
-    }`
-  );
 
   return (
     <div className="display-flex">
@@ -41,7 +36,7 @@ function DashboardHelperFinishedRequestHeader({ finishedAt, requestType }) {
   );
 }
 DashboardHelperFinishedRequestHeader.propTypes = {
-  finishedAt: PropTypes.number.isRequired,
+  finishedAt: PropTypes.string.isRequired,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
 };
 export default DashboardHelperFinishedRequestHeader;

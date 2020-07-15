@@ -8,7 +8,8 @@ import DashboardTileAdditionalInformation from './dashboardTileAdditionalInforma
 
 export default function DashboardHelpSeekerActiveRequest({
     name,
-    phone,
+    phoneHelpSeeker,
+    phoneHelper,
     status,
     requestType,
     urgency,
@@ -22,7 +23,7 @@ export default function DashboardHelpSeekerActiveRequest({
             <div className="dashboard-column">
             <DashboardTileHelpSeekerStatus
                 name={name}
-                phone={phone}
+                phone={phoneHelpSeeker}
                 status={status}
             />
             <DashboardTileRequestType requestType={requestType} />
@@ -42,7 +43,7 @@ export default function DashboardHelpSeekerActiveRequest({
                 timestamp={startedAt}
             />
             <DashboardTileContact
-                phone={phone}
+                phone={phoneHelper}
                 street={address.street}
                 zipCode={address.zipCode}
                 city={address.city}
@@ -53,12 +54,13 @@ export default function DashboardHelpSeekerActiveRequest({
 }
 DashboardHelpSeekerActiveRequest.propTypes = {
     name: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
+    phoneHelpSeeker: PropTypes.number.isRequired,
+    phoneHelper: PropTypes.number.isRequired,
     status: PropTypes.oneOf(['open', 'accepted', 'called', 'on-the-way']).isRequired,
     requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
     urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
     carNecessary: PropTypes.bool.isRequired,
     prescriptionRequired: PropTypes.bool.isRequired,
     address: PropTypes.object.isRequired,
-    startedAt: PropTypes.number.isRequired
+    startedAt: PropTypes.string.isRequired
 }

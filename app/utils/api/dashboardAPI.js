@@ -8,29 +8,13 @@ import apiUrl from './apiUrl';
 export const getActiveRequests = async () => {
   const endpoint = `${apiUrl()}dashboard/active-requests`;
 
-  console.log("get active requests");
-  fetch(endpoint, {
-    method: 'GET',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    credentials: 'include',
-  }).then(async (res) => {
-    if (res.status === 200) {
-      res = await res.json();
-      console.log("result: ", res);
-    }
-    res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
-  });
-  return {
+  /*return {
     helpSeeker: [{
       name: "Max Schmidt",
       status: "called",
       requestType: "groceries",
       urgency: "now",
-      phone: "040/299960980",
+      phoneHelpSeeker: 40299960980,
       extras: {
         carNecessary: true,
         prescriptionRequired: false
@@ -41,14 +25,31 @@ export const getActiveRequests = async () => {
         zipCode: 1234,
         city: "München"
       },
-      startedAt: 0,
+      startedAt: "2020-07-14T14:00:37.117Z",
+    },{
+      name: "Max Schmidt",
+      status: "called",
+      requestType: "groceries",
+      urgency: "now",
+      phoneHelpSeeker: 40299960980,
+      extras: {
+        carNecessary: true,
+        prescriptionRequired: false
+      },
+      address: {
+        street: "Straßenname",
+        houseNumber: 25,
+        zipCode: 1234,
+        city: "München"
+      },
+      startedAt: "2020-07-14T14:00:37.117Z",
     }],
     helper: {
       name: "Helfername",
       status: "accepted",
       requestType: "groceries",
       urgency: "now",
-      phone: "040/299960980",
+      phoneHelpSeeker: 40299960980,
       extras: {
         carNecessary: true,
         prescriptionRequired: false
@@ -59,10 +60,10 @@ export const getActiveRequests = async () => {
         zipCode: 1234,
         city: "München"
       },
-      startedAt: 0,
+      startedAt: "2020-07-14T14:00:37.117Z",
     }
-  };
-  /*return fetch(endpoint, {
+  };*/
+  return fetch(endpoint, {
     method: 'GET',
     cache: 'no-cache',
     headers: {
@@ -76,7 +77,7 @@ export const getActiveRequests = async () => {
     }
     res = await res.json();
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
-  });*/
+  });
 };
 
 /**
@@ -86,10 +87,9 @@ export const getActiveRequests = async () => {
 export const getFinishedRequests = async () => {
   const endpoint = `${apiUrl()}dashboard/finished-requests`;
 
-  return {
+  /*return {
     helpSeeker: [{
       name: 'Erika Müller',
-      phone: '040/299960980',
       address: {
         street: 'Höhenstadter Str.',
         houseNumber:  25,
@@ -102,12 +102,11 @@ export const getFinishedRequests = async () => {
         carNecessary: true,
         prescriptionRequired: false,
       },
-      startedAt: 1593774600,
-      finishedAt: 1593869056
+      startedAt: "2020-07-14T14:00:37.117Z",
+      finishedAt: "2020-07-14T14:00:37.117Z"
     },
     {
       name: 'Erika Müller',
-      phone: '040/299960980',
       address: {
         street: 'Höhenstadter Str.',
         houseNumber: 10,
@@ -120,12 +119,11 @@ export const getFinishedRequests = async () => {
         carNecessary: true,
         prescriptionRequired: false,
       },
-      startedAt: 1593774600,
-      finishedAt: 1593869056
+      startedAt: "2020-07-14T14:00:37.117Z",
+      finishedAt: "2020-07-14T14:00:37.117Z"
     }],
     helper: [{
       name: 'Erika Müller',
-      phone: '040/299960980',
       address: {
         street: 'Höhenstadter Str.',
         houseNumber: 56,
@@ -138,12 +136,11 @@ export const getFinishedRequests = async () => {
         carNecessary: true,
         prescriptionRequired: false,
       },
-      startedAt: 1593774600,
-      finishedAt: 1593869056
+      startedAt: "2020-07-14T14:00:37.117Z",
+      finishedAt: "2020-07-14T14:00:37.117Z"
     },
     {
       name: 'Erika Müller',
-      phone: '040/299960980',
       address: {
         street: 'Höhenstadter Str.',
         houseNumber: 2,
@@ -156,11 +153,11 @@ export const getFinishedRequests = async () => {
         carNecessary: true,
         prescriptionRequired: false,
       },
-      startedAt: 1593774600,
-      finishedAt: 1593869056
+      startedAt: "2020-07-14T14:00:37.117Z",
+      finishedAt: "2020-07-14T14:00:37.117Z"
     }]
-  };
-  /*return fetch(endpoint, {
+  };*/
+  return fetch(endpoint, {
     method: 'GET',
     cache: 'no-cache',
     headers: {
@@ -174,7 +171,7 @@ export const getFinishedRequests = async () => {
     }
     res = await res.json();
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
-  });*/
+  });
 };
 
 

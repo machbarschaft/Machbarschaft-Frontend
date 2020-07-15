@@ -29,7 +29,7 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
           <span>Name:</span>
           <span>{name}</span>
           <span>Telefon:</span>
-          <span>{phone}</span>
+          <span>{'0' + phone}</span>
           <span>
             <Text strong>Status: </Text>
           </span>
@@ -47,7 +47,7 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
 }
 DashboardTileHelpSeekerStatus.propTypes = {
   name: PropTypes.string,
-  phone: PropTypes.string,
+  phone: PropTypes.number,
   status: PropTypes.oneOf(['open', 'accepted', 'called', 'on-the-way'])
     .isRequired,
 };
