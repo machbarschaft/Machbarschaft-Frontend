@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography } from 'antd';
+import { Button, Typography, message } from 'antd';
 import PropTypes from 'prop-types';
 import ArrowLeft from '../../assets/img/navigation/arrow-left.svg';
 import RequestTypeOther from '../../assets/img/request-category/request-category-other.svg';
@@ -9,12 +9,18 @@ import CarRequired from '../../assets/img/request-requirements/car-required.svg'
 import CarNotRequired from '../../assets/img/request-requirements/car-not-required.svg';
 import PrescriptionRequired from '../../assets/img/request-requirements/prescription-required.svg';
 import PrescriptionNotRequired from '../../assets/img/request-requirements/prescription-not-required.svg';
+import { acceptOpenRequest } from '../../utils/api/acceptHelpApi';
+import { useHistory } from 'react-router-dom';
 
 const { Text } = Typography;
 
 export default function AcceptRequestDetailView({
-  request,
+  process,
+  requestType,
+  address,
+  urgency,
   distance,
+  extras,
   closeDetailView,
 }) {
   let categoryTitle = '';
@@ -24,9 +30,25 @@ export default function AcceptRequestDetailView({
     tomorrow: 'morgen',
     'this-week': 'diese Woche',
   };
-  if (request.requestType.length == 0)
+  if (requestType.length == 0)
     categoryTitle = 'Keine Kategorie angegeben';
   else categoryTitle = 'Kategorie: ';
+
+  const [loadingState, setLoadingState] = React.useState(false);
+  const acceptRequest = () => {
+    setLoadingState(true);
+    acceptOpenRequest({requestId: process})
+      .then(() => {
+        const history = useHistory();
+        message.success('Auftrag erfolgreich angenommen!');
+        setLoadingState(false);
+        history.push('/dashboard');
+      })
+      .catch((err) => {
+        message.error('Es ist ein Fehler aufgetreten!'); // ToDo: more details
+        setLoadingState(false);
+      })
+  };
 
   return (
     <div className="accept-help-request-detail">
@@ -35,27 +57,27 @@ export default function AcceptRequestDetailView({
           <img src={ArrowLeft} onClick={() => closeDetailView()} />
         </div>
         <div className="accept-help-request-detail-title">
-          {request.address.street},{request.address.zipCode}{' '}
-          {request.address.city}
+          {address.street}, {address.zipCode}{' '}
+          {address.city}
         </div>
       </div>
       <div className="accept-help-request-detail-main">
         <div className="accept-help-request-detail-info">
           <Text strong>{categoryTitle}</Text>
           <div className="display-flex">
-            {request.requestType.includes('groceries') && (
+            {requestType == 'groceries' && (
               <img
                 className="accept-help-request-detail-icon"
                 src={RequestTypeGroceries}
               />
             )}
-            {request.requestType.includes('medication') && (
+            {requestType == 'medication' && (
               <img
                 className="accept-help-request-detail-icon"
                 src={RequestTypeMedication}
               />
             )}
-            {request.requestType.includes('other') && (
+            {requestType == 'other' && (
               <img
                 className="accept-help-request-detail-icon"
                 src={RequestTypeOther}
@@ -63,23 +85,23 @@ export default function AcceptRequestDetailView({
             )}
           </div>
           <Text strong>Distanz:</Text>
-          <div>{distance}</div>
+          <div>{(distance/1000).toFixed(1).replace('.', ',')}km</div>
           <Text strong>Dringlichkeit:</Text>
           <div>
-            {request.urgency in urgencyMapping
-              ? urgencyMapping[request.urgency]
+            {urgency in urgencyMapping
+              ? urgencyMapping[urgency]
               : 'unbekannt'}
           </div>
           <Text strong>Auto benötigt:</Text>
           <img
             className="accept-help-request-detail-icon"
-            src={request.extras.carNecessary ? CarRequired : CarNotRequired}
+            src={extras.carNecessary ? CarRequired : CarNotRequired}
           />
           <Text strong>Rezept benötigt:</Text>
           <img
             className="accept-help-request-detail-icon"
             src={
-              request.extras.prescriptionRequired
+              extras.prescriptionRequired
                 ? PrescriptionRequired
                 : PrescriptionNotRequired
             }
@@ -87,7 +109,12 @@ export default function AcceptRequestDetailView({
         </div>
       </div>
       <div className="horizontal-center">
-        <Button className="accept-help-request-detail-button" type="primary">
+        <Button
+          className="accept-help-request-detail-button"
+          type="primary"
+          onClick={() => acceptRequest()}
+          loading={loadingState}
+        >
           Auftrag annehmen
         </Button>
       </div>
@@ -95,7 +122,11 @@ export default function AcceptRequestDetailView({
   );
 }
 AcceptRequestDetailView.propTypes = {
-  request: PropTypes.object.isRequired,
-  distance: PropTypes.string.isRequired,
+  process: PropTypes.string,
+  requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
+  address: PropTypes.object.isRequired,
+  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
+  distance: PropTypes.number.isRequired,
+  extras: PropTypes.object.isRequired,
   closeDetailView: PropTypes.func.isRequired,
 };

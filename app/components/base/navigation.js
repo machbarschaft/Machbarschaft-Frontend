@@ -37,19 +37,28 @@ function NavigationMenu({ mode, menuClicked }) {
   }
   // User
   return (
-    <Menu mode={mode} defaultSelectedKeys={['1']} onClick={menuClicked}>
-      <Menu.Item key="1">
+    <Menu
+      mode={mode}
+      defaultSelectedKeys={[window.location.pathname]}
+      onClick={menuClicked}
+    >
+      <Menu.Item key="/dashboard">
         <NavLink to="/dashboard" exact>
           DASHBOARD
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="2">
+      <Menu.Item key="/place-request">
         <NavLink to="/place-request" exact>
           AUFTRAG AUFGEBEN
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="3">
-        <NavLink to="/" exact>
+      <Menu.Item key="/accept-request">
+        <NavLink to="/accept-request" exact>
+          AUFTRAG ANNEHMEN
+        </NavLink>
+      </Menu.Item>
+      <Menu.Item key="/support">
+        <NavLink to="/support" exact>
           BRAUCHEN SIE HILFE?
         </NavLink>
       </Menu.Item>

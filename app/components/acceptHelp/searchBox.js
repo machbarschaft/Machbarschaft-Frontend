@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-export default function SearchBox({ placeholder, onPlacesChanged }) {
+export default function SearchBox({ loading, placeholder, onPlacesChanged }) {
   let placesHandle = null;
   const inputEl = React.useRef(null);
 
@@ -21,7 +21,7 @@ export default function SearchBox({ placeholder, onPlacesChanged }) {
     processPlaces(placesHandle.getPlaces());
   }
 
-  function searchButtonClicked() {
+  function startSearch() {
     const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ address: inputEl.current.value }, (result) =>
       processPlaces(result)
@@ -44,12 +44,14 @@ export default function SearchBox({ placeholder, onPlacesChanged }) {
       <Button
         shape="circle"
         icon={<SearchOutlined />}
-        onClick={() => searchButtonClicked()}
+        onClick={() => startSearch()}
+        loading={loading}
       />
     </>
   );
 }
 SearchBox.propTypes = {
+  loading: PropTypes.bool.isRequired,
   placesHolder: PropTypes.string,
   onPlacesChanged: PropTypes.func.isRequired,
 };
