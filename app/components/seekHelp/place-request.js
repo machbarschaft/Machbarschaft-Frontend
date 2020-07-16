@@ -1,15 +1,18 @@
 import React from 'react';
-import { Space, Steps } from 'antd';
+import { Space, Steps, Typography } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
 import {
+  postAddress,
   postPlaceRequest,
   putPlaceRequest,
   putPublishRequest,
-} from '../../utils/api/placeRequestAPI';
+} from '../../utils/api/placeRequestApi';
+import { putConfirmTan } from '../../utils/api/phoneApi';
 
 const queryString = require('query-string');
 
 const { Step } = Steps;
+const { Paragraph } = Typography;
 
 const PlaceRequestWizardAddress = React.lazy(() =>
   import('./wizard/place-request-wizard-address')
@@ -35,15 +38,17 @@ const PlaceRequestWizardSummary = React.lazy(() =>
 
 function PlaceRequestReducer(state, action) {
   switch (action.type) {
+    case 'loaded':
+      return {
+        ...state,
+        isLoading: false,
+      };
     case 'validating':
       return {
         ...state,
         isValidating: true,
         hasError: false,
         errorMsg: '',
-        formData: {
-          [action.data.formName]: action.data.formValues,
-        },
       };
     case 'error':
       return {
@@ -81,6 +86,7 @@ export default function PlaceRequestWindow(props) {
 
   const processID = React.useRef(null);
   const phoneVerified = React.useRef(false);
+  const formData = React.useRef({});
 
   const authenticationContext = React.useContext(AuthenticationContext);
 
@@ -100,12 +106,49 @@ export default function PlaceRequestWindow(props) {
     postPlaceRequest({ formValues, isAuthenticated })
       .then((res) => {
         processID.current = res._id;
+
+        // Pre-Fill
+        if (
+          typeof res.forename !== 'undefined' &&
+          typeof res.surname !== 'undefined'
+        ) {
+          formData.current['place-request-wizard-name'] = {
+            forename: res.forename,
+            surname: res.surname,
+          };
+        } else if (authenticationContext.isAuthenticated()) {
+          formData.current['place-request-wizard-name'] = {
+            forename:
+              authenticationContext.authenticationState.profile.forename,
+            surname: authenticationContext.authenticationState.profile.surname,
+          };
+        }
+
+        formData.current['place-request-wizard-address'] = {
+          street: res.address.street,
+          houseNumber: res.address.houseNumber,
+          zipCode: res.address.zipCode,
+          city: res.address.city,
+        };
+        formData.current['place-request-wizard-category'] = {
+          requestType: res.requestType,
+          carNecessary: res.extras.carNecessary,
+          prescriptionRequired: res.extras.prescriptionRequired,
+        };
+        formData.current['place-request-wizard-urgency'] = {
+          urgency: res.urgency,
+        };
+
         if (
           typeof res.phoneVerifiedCookieMatch !== 'undefined' &&
           res.phoneVerifiedCookieMatch === true
         ) {
           phoneVerified.current = true;
         }
+
+        dispatch({
+          type: 'loaded',
+        });
       })
       .catch((error) => {
         dispatch({
@@ -116,12 +159,10 @@ export default function PlaceRequestWindow(props) {
   }, []);
 
   const handleNextPage = (formName, formValues) => {
+    formData.current[formName] = formValues;
+
     dispatch({
       type: 'validating',
-      data: {
-        formName,
-        formValues,
-      },
     });
 
     // ToDo: Improve Handling
@@ -159,7 +200,22 @@ export default function PlaceRequestWindow(props) {
     });
   };
 
-  const handlePublish = () => {};
+  const handleAddressCreateRequest = async (formValues) => {
+    try {
+      const addressId = await postAddress(formValues);
+      return addressId;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handlePublish = async () => {
+    await putPublishRequest({
+      processID: processID.current,
+      phoneNumber,
+      isAuthenticated: authenticationContext.isAuthenticated(),
+    });
+  };
 
   let wizardSteps = [
     {
@@ -169,6 +225,7 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
         />
       ),
       handleBackend: async (formValues) => {
@@ -176,16 +233,18 @@ export default function PlaceRequestWindow(props) {
       },
     },
     {
-      title: 'Addresse',
+      title: 'Adresse',
       content: (
         <PlaceRequestWizardAddress
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
         />
       ),
       handleBackend: async (formValues) => {
-        // ToDo: Which endpoint?
+        const addressId = await handleAddressCreateRequest(formValues);
+        await handleUpdateRequest({ addressId: addressId });
       },
     },
     {
@@ -195,6 +254,7 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
         />
       ),
       handleBackend: async (formValues) => {
@@ -208,6 +268,7 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
         />
       ),
       handleBackend: async (formValues) => {
@@ -221,9 +282,16 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
+          phoneNumber={phoneNumber}
         />
       ),
-      handleBackend: async (formValues) => {},
+      handleBackend: async (formValues) => {
+        await putConfirmTan({
+          phone: phoneNumber,
+          tan: formValues.code,
+        });
+      },
     },
     {
       title: 'Übersicht',
@@ -232,14 +300,12 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
+          phoneNumber={phoneNumber}
         />
       ),
       handleBackend: async (formValues) => {
-        await putPublishRequest({
-          processID: processID.current,
-          phoneNumber,
-          isAuthenticated: authenticationContext.isAuthenticated(),
-        });
+        await handlePublish();
       },
     },
     {
@@ -254,6 +320,10 @@ export default function PlaceRequestWindow(props) {
       handleBackend: async (formValues) => {},
     },
   ];
+
+  if (wizardState.isLoading) {
+    return <Paragraph>Lädt...</Paragraph>;
+  }
 
   return (
     <Space
@@ -279,13 +349,10 @@ export default function PlaceRequestWindow(props) {
       <div className="steps-content">
         {
           wizardSteps.filter((wizardItem) => {
-            if (
+            return !(
               wizardItem.title === 'Identität' &&
               (authenticationContext.isAuthenticated() || phoneVerified.current)
-            ) {
-              return false;
-            }
-            return true;
+            );
           })[wizardState.currentStep].content
         }
       </div>

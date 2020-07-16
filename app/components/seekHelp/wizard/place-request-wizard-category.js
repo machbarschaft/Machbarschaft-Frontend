@@ -15,6 +15,7 @@ export default function PlaceRequestWizardCategory({
   handlePreviousPage,
   handleNextPage,
   wizardState,
+  formData,
 }) {
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-category';
@@ -35,12 +36,11 @@ export default function PlaceRequestWizardCategory({
         hideRequiredMark
         onFinish={(formValues) => handleNextPage(formName, formValues)}
         initialValues={
-          typeof wizardState.formData[formName] !== 'undefined'
+          typeof formData.current[formName] !== 'undefined'
             ? {
-                requestType: wizardState.formData[formName].requestType,
-                carNecessary: wizardState.formData[formName].carNecessary,
-                prescriptionRequired:
-                  wizardState.formData[formName].prescriptionRequired,
+                requestType: formData.current[formName].requestType,
+                carNecessary: formData.current[formName].carNecessary,
+                prescriptionRequired: formData.current[formName].prescriptionRequired,
               }
             : {}
         }
@@ -73,8 +73,8 @@ export default function PlaceRequestWizardCategory({
           ]}
         >
           <Radio.Group size="large">
-            <Radio.Button value="true">Ja</Radio.Button>
-            <Radio.Button value="false">Nein</Radio.Button>
+            <Radio.Button value={true}>Ja</Radio.Button>
+            <Radio.Button value={false}>Nein</Radio.Button>
           </Radio.Group>
         </Form.Item>
 
@@ -89,8 +89,8 @@ export default function PlaceRequestWizardCategory({
           ]}
         >
           <Radio.Group size="large">
-            <Radio.Button value="true">Ja</Radio.Button>
-            <Radio.Button value="false">Nein</Radio.Button>
+            <Radio.Button value={true}>Ja</Radio.Button>
+            <Radio.Button value={false}>Nein</Radio.Button>
           </Radio.Group>
         </Form.Item>
 
@@ -111,4 +111,5 @@ PlaceRequestWizardCategory.propTypes = {
   handleNextPage: PropTypes.func.isRequired,
   handlePreviousPage: PropTypes.func.isRequired,
   wizardState: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
 };

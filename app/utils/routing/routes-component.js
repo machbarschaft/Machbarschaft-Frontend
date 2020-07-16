@@ -28,9 +28,12 @@ const ValidatePhone = React.lazy(() =>
 );
 
 export default function RoutesComponent() {
+  const authProps = React.useContext(AuthenticationContext);
+  const { authenticationState } = authProps;
+
   return (
     <Switch>
-      <Route exact path="/" component={LandingPage} />
+      <Route exact path="/" component={authenticationState.uid == null ? LandingPage : Dashboard} />
       <Route
         path="/dashboard"
         render={(props) => (
@@ -46,8 +49,9 @@ export default function RoutesComponent() {
       <Route path="/resetpassword" component={ResetPassword} />
       <Route path="/telefon-bestaetigen" component={ValidatePhone} />
       <Route
+        exaxct
         path="/place-request"
-        component={PlaceRequest}
+        render={(props) => <PlaceRequest {...props} />}
       />
       <Route
         path="/accept-request"
@@ -55,7 +59,6 @@ export default function RoutesComponent() {
           <RouteAuthenticated
             render={() => <AcceptRequest {...props} />}
             redirectTo="/login"
-            needVerified={true}
           />
         )}
       />

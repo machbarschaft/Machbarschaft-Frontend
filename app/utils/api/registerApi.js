@@ -10,8 +10,6 @@ export const postRegisterRequest = async (formValues) => {
     )
     .join('&');
 
-  console.log(formBody);
-
   return fetch(endpoint, {
     method: 'POST',
     cache: 'no-cache',
@@ -24,8 +22,7 @@ export const postRegisterRequest = async (formValues) => {
       return res;
     }
     res = await res.json();
-    console.log(res);
     // ToDo: Return multiple errors
-    throw new Error('Fehler bei der Regstrierung');
+    throw new Error(res.errors);
   });
 };

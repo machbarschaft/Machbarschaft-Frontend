@@ -8,7 +8,7 @@ import DashboardTileAdditionalInformation from './dashboardTileAdditionalInforma
 
 const { Text } = Typography;
 
-function DashboardHelpSeekerOldRequestContent({
+function DashboardHelpSeekerFinishedRequestContent({
   startedAt,
   name,
   phone,
@@ -21,7 +21,7 @@ function DashboardHelpSeekerOldRequestContent({
   prescriptionRequired,
 }) {
   return (
-    <div className="dashboard-helper-old-request-grid">
+    <div className="dashboard-helper-finished-request-grid">
       <DashboardTileContact name={name} phone={phone} />
       <DashboardTileUrgency urgency="now" />
       <DashboardTileContact
@@ -39,7 +39,7 @@ function DashboardHelpSeekerOldRequestContent({
     </div>
   );
 }
-DashboardHelpSeekerOldRequestContent.propTypes = {
+DashboardHelpSeekerFinishedRequestContent.propTypes = {
   startedAt: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
@@ -52,4 +52,4 @@ DashboardHelpSeekerOldRequestContent.propTypes = {
   carNecessary: PropTypes.bool.isRequired,
   prescriptionRequired: PropTypes.bool.isRequired,
 };
-export default DashboardHelpSeekerOldRequestContent;
+export default DashboardHelpSeekerFinishedRequestContent;

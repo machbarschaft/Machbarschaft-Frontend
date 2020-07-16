@@ -94,9 +94,7 @@ function LoginWindow({ location: { username } = '' }) {
               <Button
                 type="primary"
                 htmlType="submit"
-                loading={
-                  authenticationContext.authenticationState.isAuthenticating
-                }
+                loading={authenticationContext.authenticationState.isAuthenticating}
               >
                 Login
               </Button>
@@ -121,7 +119,7 @@ function LoginWindow({ location: { username } = '' }) {
             <Timeline.Item>
               Wenn Sie noch keinen Account erstellt haben:
               <br />
-              <Button className="login-description-card-button" type="primary">
+              <Button className="login-description-card-button" type="primary" onClick={() => history.push("/registrieren")}>
                 Registrieren
               </Button>
             </Timeline.Item>

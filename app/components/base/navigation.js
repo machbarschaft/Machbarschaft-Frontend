@@ -19,36 +19,16 @@ function NavigationMenu({ mode, menuClicked }) {
       <Menu mode={mode} defaultSelectedKeys={['1']} onClick={menuClicked}>
         <Menu.Item key="1">
           <NavLink to="/" exact>
-            DAS PROJEKT
+            ÜBER UNS
           </NavLink>
         </Menu.Item>
         <Menu.Item key="2">
           <NavLink to="/" exact>
-            SO FUNKTIONIERT'S
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="3">
-          <NavLink to="/" exact>
-            ÜBER UNS
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="4">
-          <NavLink to="/" exact>
-            FAQ
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="5">
-          <NavLink to="/" exact>
             KONTAKT
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="6">
-          <NavLink to="/" exact>
-            DOWNLOAD APP
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="7">
-          <NavLink to="/" exact>
+        <Menu.Item key="3">
+          <NavLink to="/registrieren" exact>
             ALS HELFER REGISTRIEREN
           </NavLink>
         </Menu.Item>
@@ -64,7 +44,7 @@ function NavigationMenu({ mode, menuClicked }) {
         </NavLink>
       </Menu.Item>
       <Menu.Item key="2">
-        <NavLink to="/" exact>
+        <NavLink to="/place-request" exact>
           AUFTRAG AUFGEBEN
         </NavLink>
       </Menu.Item>
