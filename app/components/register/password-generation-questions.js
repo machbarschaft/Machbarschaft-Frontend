@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 const {Title} = Typography
 
 export default function PasswordGenerationQuestions({phone, forename, surname}) {
+
     const authenticationContext = React.useContext(AuthenticationContext);
     const history = useHistory();
 
@@ -54,10 +55,10 @@ export default function PasswordGenerationQuestions({phone, forename, surname}) 
         }
     };
 
-    const formLayout = {
-        labelCol: {span: 8},
-        wrapperCol: {span: 12},
-    };
+    const formLayoutVertical = {
+        labelCol: {span: 21},
+        wrapperCol: {span: 21},
+    }
 
     const [showFormState, setShowFormState] = React.useState('start');
     const [emailState, setEmailState] = React.useState('');
@@ -70,12 +71,15 @@ export default function PasswordGenerationQuestions({phone, forename, surname}) 
 
     return (
         <>
+            <div className={"dashboard-tile register-component"}>
             <Title level={3}>Jetzt registrieren</Title>
+                <div className={"dashboard-tile-spacing"}/>
             {showFormState === 'start' && <Button type='primary' onClick={() => {setShowFormState('email')}}>Start</Button>}
 
             {showFormState === 'email' && <>
                 <Form
-                    {...formLayout}
+                    {...formLayoutVertical}
+                    layout={'vertical'}
                     form={form}
                     name={formNameEmail}
                     hideRequiredMark={true}
@@ -94,7 +98,7 @@ export default function PasswordGenerationQuestions({phone, forename, surname}) 
                     ]}>
                         <Input/>
                     </Form.Item>
-                    <Form.Item>
+                    <Form.Item className={"register-component"}>
                         <Button type='primary' htmlType='submit'>Weiter</Button>
                     </Form.Item>
                 </Form>
@@ -102,7 +106,8 @@ export default function PasswordGenerationQuestions({phone, forename, surname}) 
 
             {showFormState === 'questions' &&
                 <Form
-                {...formLayout}
+                {...formLayoutVertical}
+                layout={'vertical'}
                 form={form}
                 name={formNamePassword}
                 hideRequiredMark={true}
@@ -134,20 +139,22 @@ export default function PasswordGenerationQuestions({phone, forename, surname}) 
                 ]}>
                     <Input/>
                 </Form.Item>
-                    <Form.Item>
+                    <Form.Item className={"register-component"}>
                         <Button type='primary' onClick={()=>setShowFormState('email')}>Zurück</Button>
-                    </Form.Item>
-                    <Form.Item>
-                        <Button type='primary' htmlType='submit'>Weiter</Button>
+                        <Button className={"space-left"} type='primary' htmlType='submit'>Weiter</Button>
                     </Form.Item>
             </Form>}
 
             {showFormState === 'summary' && <>
                 Ihr Passwort: {passwordState} <br/> Bitte notieren Sie sich ihr Passwort.<br/>
-                <Button type='primary' onClick={() => {
+                <div className={"horizontal-container space-top"}>
+                    <Button type='primary' onClick={() => {
                     pickQuestionsRandomly();
                     setShowFormState('questions');}}>Zurück</Button>
-                <Button type='primary' onClick={() => handleForm(emailState, passwordState)}>Abschicken</Button></>}
+                    <Button className={"space-left"} type='primary' onClick={() => handleForm(emailState, passwordState)}>Abschicken</Button>
+                </div>
+            </>}
+            </div>
         </>
 
     )

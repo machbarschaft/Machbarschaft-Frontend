@@ -742,6 +742,21 @@ h4 {
 .dashboard-helps-seeker-finished-request .dashboard-tile {
 	margin-top: 0 !important;
 }
+.register-component {
+	justify-content: center !important;
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+}
+.horizontal-container {
+	display: flex;
+}
+.space-left {
+	margin-left: 2em;
+}
+.space-top {
+	margin-top: 1em;
+}
 @media (min-width: 1000px) {
 	.dashboard-menu-mobile {
 		display: none !important;

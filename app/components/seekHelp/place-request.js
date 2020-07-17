@@ -8,6 +8,7 @@ import {
   putPublishRequest,
 } from '../../utils/api/placeRequestApi';
 import { putConfirmTan } from '../../utils/api/phoneApi';
+import PasswordGenerationQuestions from "../register/password-generation-questions";
 
 const queryString = require('query-string');
 
@@ -105,16 +106,16 @@ export default function PlaceRequestWindow(props) {
 
     postPlaceRequest({ formValues, isAuthenticated })
       .then((res) => {
-        processID.current = res._id;
+        processID.current = res.request._id;
 
         // Pre-Fill
         if (
-          typeof res.forename !== 'undefined' &&
-          typeof res.surname !== 'undefined'
+          typeof res.request.forename !== 'undefined' &&
+          typeof res.request.surname !== 'undefined'
         ) {
           formData.current['place-request-wizard-name'] = {
-            forename: res.forename,
-            surname: res.surname,
+            forename: res.request.forename,
+            surname: res.request.surname,
           };
         } else if (authenticationContext.isAuthenticated()) {
           formData.current['place-request-wizard-name'] = {
@@ -125,18 +126,18 @@ export default function PlaceRequestWindow(props) {
         }
 
         formData.current['place-request-wizard-address'] = {
-          street: res.address.street,
-          houseNumber: res.address.houseNumber,
-          zipCode: res.address.zipCode,
-          city: res.address.city,
+          street: res.request.address.street,
+          houseNumber: res.request.address.houseNumber,
+          zipCode: res.request.address.zipCode,
+          city: res.request.address.city,
         };
         formData.current['place-request-wizard-category'] = {
-          requestType: res.requestType,
-          carNecessary: res.extras.carNecessary,
-          prescriptionRequired: res.extras.prescriptionRequired,
+          requestType: res.request.requestType,
+          carNecessary: res.request.extras.carNecessary,
+          prescriptionRequired: res.request.extras.prescriptionRequired,
         };
         formData.current['place-request-wizard-urgency'] = {
-          urgency: res.urgency,
+          urgency: res.request.urgency,
         };
 
         if (
@@ -315,6 +316,8 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
+          phoneNumber={phoneNumber}
         />
       ),
       handleBackend: async (formValues) => {},
