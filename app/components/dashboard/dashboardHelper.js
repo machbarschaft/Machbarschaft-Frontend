@@ -1,53 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Result, Typography} from 'antd';
-import DashboardTileHelperStatus from './dashboardTileHelperStatus';
-import DashboardTileContact from './dashboardTileContact';
-import DashboardTileUrgency from './dashboardTileUrgency';
-import DashboardTileRequestType from './dashboardTileRequestType';
-import DashboardTileAdditionalInformation from './dashboardTileAdditionalInformation';
+import DashboardHelperActiveRequest from './dashboardHelperActiveRequest';
 import DashboardHelperFinishedRequests from './dashboardHelperFinishedRequests';
 
 const {Title} = Typography;
 
-function DashboardHelper({activeRequests, finishedRequests}) {
+function DashboardHelper({activeRequest, finishedRequests}) {
   return (
     <>
-      {activeRequests.length == 0 &&
+      {activeRequest == null &&
         <Result title="Sie haben aktuell keinen Auftrag angenommen." />
       }
-      {activeRequests.length == 1 &&
-        <>
-          <DashboardTileHelperStatus name={activeRequests[0].name} status={activeRequests[0].status} />
-          <div className="dashboard-columns-container">
-            <div className="dashboard-column">
-              <DashboardTileContact
-                name={activeRequests[0].name}
-                phone={activeRequests[0].phone}
-                street={activeRequests[0].address.street}
-                zipCode={activeRequests[0].address.zipCode}
-                city={activeRequests[0].address.city}
-              />
-              <br />
-              <DashboardTileRequestType requestType={activeRequests[0].requestType} />
-            </div>
-            <div className="dashboard-column">
-              <DashboardTileUrgency urgency="now" />
-              <DashboardTileAdditionalInformation
-                carNecessary={activeRequests[0].extras.carNecessary}
-                prescriptionRequired={activeRequests[0].extras.prescriptionRequired}
-                timestamp={activeRequests[0].startedAt}
-              />
-            </div>
-          </div>
-        </>
+      {activeRequest != null &&
+        <DashboardHelperActiveRequest
+          name={activeRequest.name}
+          phoneHelpSeeker={123456789}
+          status={activeRequest.status}
+          requestType={activeRequest.requestType}
+          urgency={activeRequest.urgency}
+          carNecessary={activeRequest.extras.carNecessary}
+          prescriptionRequired={activeRequest.extras.prescriptionRequired}
+          address={activeRequest.address}
+          startedAt={activeRequest.startedAt}
+        />
       }
-      <DashboardHelperFinishedRequests requestList={finishedRequests} />
+      <DashboardHelperFinishedRequests title={"Alte Aufträge"} requestList={finishedRequests} />
     </>
   );
 }
 DashboardHelper.propTypes = {
-  activeRequests: PropTypes.array.isRequired,
+  activeRequest: PropTypes.object.isRequired,
   finishedRequests: PropTypes.array.isRequired
 }
 export default DashboardHelper;

@@ -7,15 +7,21 @@ const { Text } = Typography;
 
 function DashboardTileHelpSeekerStatus({ name, phone, status }) {
   let content;
+  const statusMapping = {
+    "open": "Bisher hat kein Helfer den Auftrag angenommen.",
+    "accepted": "Der Auftrag wurde angenommen.",
+    "called": "Es wurden Details per Telefon besprochen.",
+    "on-the-way": "Der Helfer ist unterwegs."
+  };
 
   if (status == 'open') {
     content = (
       <>
         <div className="dashboard-tile-spacing" />
-        Bisher hat kein Helfer den Auftrag angenommen.
+        {statusMapping[status]}
       </>
     );
-  } else if (status == 'accepted' || status == 'on-the-way') {
+  } else if (status == 'accepted' || status == 'called' || status == 'on-the-way') {
     content = (
       <>
         <div className="dashboard-tile-spacing" />
@@ -23,13 +29,13 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
           <span>Name:</span>
           <span>{name}</span>
           <span>Telefon:</span>
-          <span>{phone}</span>
+          <span>{'0' + phone}</span>
           <span>
             <Text strong>Status: </Text>
           </span>
           <span>
             <Text strong>
-              {status === 'accepted' ? 'angenommen' : 'auf dem Weg'}
+              {statusMapping[status]}
             </Text>
           </span>
         </div>
@@ -41,8 +47,8 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
 }
 DashboardTileHelpSeekerStatus.propTypes = {
   name: PropTypes.string,
-  phone: PropTypes.string,
-  status: PropTypes.oneOf(['open', 'accepted', 'on-the-way'])
+  phone: PropTypes.number,
+  status: PropTypes.oneOf(['open', 'accepted', 'called', 'on-the-way'])
     .isRequired,
 };
 

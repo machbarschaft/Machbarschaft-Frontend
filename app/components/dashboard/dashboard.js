@@ -9,15 +9,6 @@ function DashboardWindow() {
   const authProps = React.useContext(AuthenticationContext);
   const [requestsState, fetchRequests] = useDashboard("helper");
 
-  /*
-		<div className="content-container-default background-light-grey">
-			<DashboardHelper/>
-		</div>
-    <div className="content-container-big background-light-grey">
-      <DashboardHelpSeeker />
-    </div>
-  */
-
   return (
     <div className="content-container-default background-light-grey">
       {requestsState.loading == true &&
@@ -34,23 +25,27 @@ function DashboardWindow() {
           }
         />
       }
-      {requestsState.loading == false && requestsState.error == null && requestsState.activeRequests.length == 0 &&
-        requestsState.finishedRequests.length == 0 &&
+      {requestsState.loading == false && requestsState.error == null &&
+        requestsState.activeRequests.helpSeeker.length == 0 && requestsState.activeRequests.helper == null &&
+        requestsState.finishedRequests.helpSeeker.length == 0 && requestsState.finishedRequests.helper.length == 0 &&
         <Result title="Es gibt noch keinen Auftrag." />
       }
       {requestsState.loading == false && requestsState.error == null &&
-        (requestsState.activeRequests.length > 0 || requestsState.finishedRequests.length > 0) &&
+        (requestsState.activeRequests.helpSeeker.length > 0 || requestsState.activeRequests.helper != null ||
+        requestsState.finishedRequests.helpSeeker.length > 0 || requestsState.finishedRequests.helper.length > 0) &&
         <>
           {requestsState.isHelpSeeker &&
             <DashboardHelpSeeker
-              activeRequests={requestsState.activeRequests}
-              finishedRequests={requestsState.finishedRequests}
+              activeRequestsHelpSeeker={requestsState.activeRequests.helpSeeker}
+              activeRequestHelper={requestsState.activeRequests.helper}
+              finishedRequestsHelpSeeker={requestsState.finishedRequests.helpSeeker}
+              finishedRequestsHelper={requestsState.finishedRequests.helper}
             />
           }
           {!requestsState.isHelpSeeker &&
             <DashboardHelper
-              activeRequests={requestsState.activeRequests}
-              finishedRequests={requestsState.finishedRequests}
+              activeRequest={requestsState.activeRequests.helper}
+              finishedRequests={requestsState.finishedRequests.helper}
             />
           }
         </>

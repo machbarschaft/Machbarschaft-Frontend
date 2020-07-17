@@ -11,7 +11,6 @@ const { Text } = Typography;
 function DashboardHelpSeekerFinishedRequestContent({
   startedAt,
   name,
-  phone,
   street,
   zipCode,
   city,
@@ -22,27 +21,25 @@ function DashboardHelpSeekerFinishedRequestContent({
 }) {
   return (
     <div className="dashboard-helper-finished-request-grid">
-      <DashboardTileContact name={name} phone={phone} />
-      <DashboardTileUrgency urgency="now" />
+      <DashboardTileContact name={name} />
+      <DashboardTileUrgency urgency={urgency} />
       <DashboardTileContact
-        phone={phone}
         street={street}
         zipCode={zipCode}
         city={city}
       />
-      <DashboardTileRequestType requestType="groceries" />
+      <DashboardTileRequestType requestType={requestType} />
       <DashboardTileAdditionalInformation
-        carNecessary
-        prescriptionRequired={false}
-        timestamp={1593672043}
+        carNecessary={carNecessary}
+        prescriptionRequired={prescriptionRequired}
+        timestamp={startedAt}
       />
     </div>
   );
 }
 DashboardHelpSeekerFinishedRequestContent.propTypes = {
-  startedAt: PropTypes.number.isRequired,
+  startedAt: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
   street: PropTypes.string.isRequired,
   zipCode: PropTypes.string.isRequired,
   city: PropTypes.string.isRequired,

@@ -1,82 +1,101 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Button, Result, Spin } from 'antd';
-import DashboardTileHelpSeekerStatus from './dashboardTileHelpSeekerStatus';
-import DashboardTileContact from './dashboardTileContact';
-import DashboardTileUrgency from './dashboardTileUrgency';
-import DashboardTileRequestType from './dashboardTileRequestType';
-import DashboardTileAdditionalInformation from './dashboardTileAdditionalInformation';
 import DashboardHelpSeekerFinishedRequests from './dashboardHelpSeekerFinishedRequests';
 import DashboardHelpSeekerMenu from './dashboardHelpSeekerMenu';
+import DashboardHelpSeekerActiveRequest from './dashboardHelpSeekerActiveRequest';
+import DashboardHelperActiveRequest from './dashboardHelperActiveRequest';
+import DashboardHelperFinishedRequests from './dashboardHelperFinishedRequests';
 
 const { Title } = Typography;
 
-function DashboardHelpSeeker({activeRequests, finishedRequests}) {
-  const [menuKey, setMenuKey] = React.useState('request-1');
-  const [activeRequestsRenders, setActiveRequestsRender] = React.useState([]);
+function DashboardHelpSeeker({
+  activeRequestsHelpSeeker,
+  activeRequestHelper,
+  finishedRequestsHelpSeeker,
+  finishedRequestsHelper
+}) {
+  const [menuKey, setMenuKey] = React.useState("");
+  const [activeRequestsHelpSeekerRender, setActiveRequestsHelpSeekerRender] = React.useState([]);
+
+  const selectMenuKey = () => {
+    var changeRequired = false;
+    if(menuKey == "") changeRequired = true;
+    else if(menuKey == /^hs\d+$/.test(menuKey) && activeRequestsHelpSeeker.length <= menuKey.match(/\d+/)[0]) changeRequired = true;
+    else if(menuKey == "active-helper" && activeRequestHelper == null) changeRequired = true;
+    else if(menuKey == "finished-helpseeker" && finishedRequestsHelpSeeker.length == 0) changeRequired = true;
+    else if(menuKey == "finished-helper" && finishedRequestsHelper == 0) changeRequired = true;
+
+    if(changeRequired) {
+      if(activeRequestsHelpSeeker.length > 0) setMenuKey("hs0");
+      else if(activeRequestHelper != null) setMenuKey("active-helper");
+      else if(finishedRequestsHelpSeeker.length > 0) setMenuKey("finished-helpseeker");
+      else if(finishedRequestsHelpSeeker.length > 0) setMenuKey("finished-helper");
+    }
+  };
 
   React.useEffect(() => {
-    setActiveRequestsRender(activeRequests.map((entry, index) => (
-      <div className="dashboard-columns-container">
-        <div className="dashboard-column">
-          <DashboardTileHelpSeekerStatus
-            name={entry.name}
-            phone={entry.phone}
-            status={entry.status}
-          />
-          <DashboardTileRequestType requestType={entry.requestType} />
-          {entry.status == "open" &&
-            <div className="dashboard-cancel-button-container">
-              <Button className="dashboard-cancel-button" type="primary">
-                AUFTRAG ABBRECHEN
-              </Button>
-            </div>
-          }
-        </div>
-        <div className="dashboard-column">
-          <DashboardTileUrgency urgency={entry.urgency} />
-          <DashboardTileAdditionalInformation
-            carNecessary={entry.extras.carNecessary}
-            prescriptionRequired={entry.extras.prescriptionRequired}
-            timestamp={entry.startedAt}
-          />
-          <DashboardTileContact
-            phone={entry.phone}
-            street={entry.address.street}
-            zipCode={entry.address.zipCode}
-            city={entry.address.city}
-          />
-        </div>
-      </div>
-    )));
-    setMenuKey(activeRequests.length > 0 ? 0 : "finished");
-  }, [activeRequests]);
+    setActiveRequestsHelpSeekerRender(activeRequestsHelpSeeker.map((entry) =>
+      <DashboardHelpSeekerActiveRequest
+        name={entry.name}
+        phoneHelpSeeker={entry.phoneHelpSeeker}
+        phoneHelper={123456789}
+        status={entry.status}
+        requestType={entry.requestType}
+        urgency={entry.urgency}
+        carNecessary={entry.extras.carNecessary}
+        prescriptionRequired={entry.extras.prescriptionRequired}
+        address={entry.address}
+        startedAt={entry.startedAt}
+      />
+    ));
+    selectMenuKey();
+  }, [activeRequestsHelpSeeker]);
+
+  React.useEffect(() => {
+    selectMenuKey();
+  }, [activeRequestHelper]);
+
+  const menuRender = (mode) => <DashboardHelpSeekerMenu
+    mode={mode}
+    menuKey={menuKey}
+    setMenuKey={setMenuKey}
+    activeRequestsHelpSeeker={activeRequestsHelpSeeker}
+    activeRequestHelper={activeRequestHelper}
+    finishedRequestsHelpSeeker={finishedRequestsHelpSeeker.length > 0}
+    finishedRequestsHelper={finishedRequestsHelper.length > 0}
+  />;
 
   return (
     <>
       <div className="dashboard-helpseeker-container">
         <div className="dashboard-menu-container">
           <div className="dashboard-menu-desktop">
-            <DashboardHelpSeekerMenu
-              mode="vertical"
-              menuKey={menuKey}
-              setMenuKey={setMenuKey}
-              activeRequests={activeRequests}
-            />
+            {menuRender("vertical")}
           </div>
           <div className="dashboard-menu-mobile">
-            <DashboardHelpSeekerMenu
-              mode="horizontal"
-              menuKey={menuKey}
-              setMenuKey={setMenuKey}
-              activeRequests={activeRequests}
-            />
+            {menuRender("horizontal")}
           </div>
         </div>
-        {menuKey != "finished" ?
-          activeRequestsRenders[menuKey]
-          :
-          <DashboardHelpSeekerFinishedRequests requestList={finishedRequests} />
+        {/^hs\d+$/.test(menuKey) && activeRequestsHelpSeekerRender[menuKey.match(/\d+/)[0]]}
+        {menuKey == "active-helper" && activeRequestHelper != null &&
+          <DashboardHelperActiveRequest
+            name={activeRequestHelper.name}
+            phoneHelpSeeker={activeRequestHelper.phoneHelpSeeker}
+            status={activeRequestHelper.status}
+            requestType={activeRequestHelper.requestType}
+            urgency={activeRequestHelper.urgency}
+            carNecessary={activeRequestHelper.extras.carNecessary}
+            prescriptionRequired={activeRequestHelper.extras.prescriptionRequired}
+            address={activeRequestHelper.address}
+            startedAt={activeRequestHelper.startedAt}
+          />
+        }
+        {menuKey == "finished-helpseeker" &&
+          <DashboardHelpSeekerFinishedRequests requestList={finishedRequestsHelpSeeker} />
+        }
+        {menuKey == "finished-helper" &&
+          <DashboardHelperFinishedRequests requestList={finishedRequestsHelper} />
         }
         <div className="dashboard-tile-spacing" />
       </div>
@@ -84,7 +103,9 @@ function DashboardHelpSeeker({activeRequests, finishedRequests}) {
   );
 }
 DashboardHelpSeeker.propTypes = {
-  activeRequests: PropTypes.array.isRequired,
-  finishedRequests: PropTypes.array.isRequired
+  activeRequestsHelpSeeker: PropTypes.array.isRequired,
+  activeRequestHelper: PropTypes.object,
+  finishedRequestsHelpSeeker: PropTypes.array.isRequired,
+  finishedRequestsHelper: PropTypes.array.isRequired
 }
 export default DashboardHelpSeeker;
