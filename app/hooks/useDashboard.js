@@ -46,6 +46,16 @@ function loadFeedbackHelpSeeker(activeRequests, dispatchRequestsState) {
       .catch((err) => dispatchRequestsState({type: "error-feedback-helpseeker", index: i, error: err}));
   }
 }
+function isHelper(state) {
+  if(state.activeRequests.helper != null) return true;
+  if(state.finishedRequests.helper.length > 0) return true;
+  return false;
+}
+function isHelpSeeker(state) {
+  if(state.activeRequests.helpSeeker.length > 0) return true;
+  if(state.finishedRequests.helpSeeker.length > 0) return true;
+  return false;
+}
 
 function dashboardStateReducer(state, action) {
   if (action.type === 'success-active') {
@@ -55,8 +65,8 @@ function dashboardStateReducer(state, action) {
       loadingFeedbackHelper: action.activeRequests.helper != null,
       loadingFeedBackHelpSeeker: checkFeedbackHelpSeekerLoadingRequired(action.activeRequests.helpSeeker),
       activeRequests: action.activeRequests,
-      isHelper: state.isHelper || action.activeRequests.helper != null,
-      isHelpSeeker: state.isHelpSeeker || action.activeRequests.helpSeeker.length > 0,
+      isHelper: isHelper(state) || action.activeRequests.helper != null,
+      isHelpSeeker: isHelpSeeker(state) || action.activeRequests.helpSeeker.length > 0,
     };
     newState.loading = isLoading(newState);
     return newState;
@@ -66,8 +76,8 @@ function dashboardStateReducer(state, action) {
       ...state,
       loadingFinishedRequests: false,
       finishedRequests: action.finishedRequests,
-      isHelper: state.isHelper || action.finishedRequests.helper.length > 0,
-      isHelpSeeker: state.isHelpSeeker || action.finishedRequests.helpSeeker.length > 0,
+      isHelper: isHelper(state) || action.finishedRequests.helper.length > 0,
+      isHelpSeeker: isHelpSeeker(state) || action.finishedRequests.helpSeeker.length > 0,
     };
     newState.loading = isLoading(newState);
     return newState;
@@ -98,7 +108,6 @@ function dashboardStateReducer(state, action) {
     var newState = {
       ...state,
       loadingActiveRequests: false,
-      activeRequests: [],
       error: action.error
     };
     newState.loading = isLoading(newState);
@@ -132,7 +141,6 @@ function dashboardStateReducer(state, action) {
     var newState = {
       ...state,
       loadingFinishedRequests: false,
-      finishedRequests: [],
       error: action.error
     };
     newState.loading = isLoading(newState);
@@ -143,9 +151,6 @@ function dashboardStateReducer(state, action) {
       ...state,
       loading: true,
       loadingActiveRequests: true,
-      activeRequests: [],
-      isHelpSeeker: false,
-      isHelper: false,
       error: null
     }
   }
@@ -154,9 +159,6 @@ function dashboardStateReducer(state, action) {
       ...state,
       loading: true,
       loadingFinishedRequests: true,
-      finishedRequests: [],
-      isHelpSeeker: false,
-      isHelper: false,
       error: null
     }
   }
@@ -172,10 +174,10 @@ export default function useDashboard() {
       loadingFeedbackHelper: false,
       loadingFeedBackHelpSeeker: [],
       loadingFinishedRequests: true,
-      activeRequests: [],
+      activeRequests: {helper: null, helpSeeker: []},
       needFeedBackHelper: false,
       needFeedBackHelpSeeker: [],
-      finishedRequests: [],
+      finishedRequests: {helper: [], helpSeeker: []},
       isHelper: false,
       isHelpSeeker: false,
       error: null,

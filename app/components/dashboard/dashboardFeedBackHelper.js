@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Input, Form, Radio, Button, message, Typography} from 'antd';
-import { postFeedback } from '../../utils/api/feedbackAPI';
+import { putFeedback } from '../../utils/api/feedbackAPI';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -12,7 +12,7 @@ function DashboardFeedBackHelper({processId, name, feedBackSent}) {
 
   const sendFeedback = (formValues) => {
     setLoading(true);
-    postFeedback(processId, true, formValues.needContact, formValues.comment)
+    putFeedback(processId, true, formValues.needContact, formValues.comment)
       .then((res) => {
         message.success('Feedback erfolgreich abgeschickt!');
         setLoading(false);

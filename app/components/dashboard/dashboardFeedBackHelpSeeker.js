@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Input, Form, Radio, Button, Typography} from 'antd';
-import { postFeedback } from '../../utils/api/feedbackAPI';
-import { postReopenRequest } from '../../utils/api/requestStatusApi';
+import { putFeedback } from '../../utils/api/feedbackAPI';
+import { putReopenRequest } from '../../utils/api/requestStatusApi';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
@@ -74,7 +74,7 @@ function DashboardFeedBackHelpSeeker({processId, requestId, name, feedBackSent})
 
   const sendFeedback = (formValues, reopenRequest) => {
     dispatchSendState({type: "loading-feedback"});
-    postFeedback(processId, true, formValues.needContact, formValues.comment)
+    putFeedback(processId, true, formValues.needContact, formValues.comment)
       .then((res) => {
         if(reopenRequest) sendReopenRequest(formValues);
         dispatchSendState({type: "success-feedback"});
@@ -83,7 +83,7 @@ function DashboardFeedBackHelpSeeker({processId, requestId, name, feedBackSent})
   };
   const sendReopenRequest = (formValues) => {
     dispatchSendState({type: "loading-reopenrequest"});
-    postReopenRequest(requestId)
+    putReopenRequest(requestId)
       .then((res) => dispatchSendState({type: "success-reopenrequest"}))
       .catch((err) => dispatchSendState({type: "error-reopenrequest", error: err}))
   };

@@ -30,7 +30,7 @@ export const getFeedbackNeeded = async (processId) => {
 /**
  * Send feedback
  */
-export const postFeedback = async (processId, isHelpSeeker, needContact, comment) => {
+export const putFeedback = async (processId, isHelpSeeker, needContact, comment) => {
   const endpoint = `${apiUrl()}feedback/${isHelpSeeker ? "request" : "response"}?id=${processId}`;
 
   const tmp = { needContact, comment };

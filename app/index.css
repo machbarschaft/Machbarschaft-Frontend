@@ -597,6 +597,9 @@ h4 {
 	.dashboard-tile-helper-status-container {
 		flex-direction: row;
 	}
+	.dashboard-tile-helper-status-container > button {
+		margin-left: 2em;
+	}
 }
 @media (max-width: 950px) {
 	.dashboard-tile-helper-status-container {

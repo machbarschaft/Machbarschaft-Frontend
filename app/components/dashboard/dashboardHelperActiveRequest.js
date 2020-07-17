@@ -15,11 +15,18 @@ export default function DashboardHelperActiveRequest({
     carNecessary,
     prescriptionRequired,
     address,
-    startedAt
+    startedAt,
+    processId,
+    refreshRequests
 }) {
     return (
         <div className={"full-width"}>
-            <DashboardTileHelperStatus name={name} status={status} />
+            <DashboardTileHelperStatus
+                name={name}
+                status={status}
+                processId={processId}
+                refreshRequests={() => refreshRequests()}
+            />
             <div className="dashboard-columns-container">
                 <div className="dashboard-column">
                     <DashboardTileContact
@@ -53,5 +60,7 @@ DashboardHelperActiveRequest.propTypes = {
     carNecessary: PropTypes.bool.isRequired,
     prescriptionRequired: PropTypes.bool.isRequired,
     address: PropTypes.object.isRequired,
-    startedAt: PropTypes.string.isRequired
+    startedAt: PropTypes.string.isRequired,
+    processId: PropTypes.string.isRequired,
+    refreshRequests: PropTypes.func.isRequired
 }

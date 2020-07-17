@@ -1,11 +1,12 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import PropTypes from 'prop-types';
 import DashboardTileHelpSeekerStatus from './dashboardTileHelpSeekerStatus';
 import DashboardTileContact from './dashboardTileContact';
 import DashboardTileUrgency from './dashboardTileUrgency';
 import DashboardTileRequestType from './dashboardTileRequestType';
 import DashboardTileAdditionalInformation from './dashboardTileAdditionalInformation';
+import { putAbortRequest } from '../../utils/api/requestStatusApi';
 
 export default function DashboardHelpSeekerActiveRequest({
     name,
@@ -17,8 +18,24 @@ export default function DashboardHelpSeekerActiveRequest({
     carNecessary,
     prescriptionRequired,
     address,
-    startedAt
+    startedAt,
+    processId,
+    refreshRequests
 }) {
+    const [abortLoading, setAbortLoading] = React.useState(false);
+    const abortRequest = () => {
+        setAbortLoading(true);
+        putAbortRequest(processId)
+            .then((res) => {
+                setAbortLoading(false);
+                message.success("Auftrag erfolgreich abgebrochen!");
+                refreshRequests();
+            })
+            .catch((err) => {
+                message.error('Es ist ein Fehler aufgetreten, bitte versuche es erneut!');
+                setAbortLoading(false);
+            })
+    };
     return (
         <div className="dashboard-columns-container">
             <div className="dashboard-column">
@@ -30,7 +47,12 @@ export default function DashboardHelpSeekerActiveRequest({
             <DashboardTileRequestType requestType={requestType} />
             {status == "open" &&
                 <div className="dashboard-cancel-button-container">
-                <Button className="dashboard-cancel-button" type="primary">
+                <Button
+                    className="dashboard-cancel-button"
+                    type="primary"
+                    onClick={() => abortRequest()}
+                    loading={abortLoading}
+                >
                     AUFTRAG ABBRECHEN
                 </Button>
                 </div>
@@ -63,5 +85,7 @@ DashboardHelpSeekerActiveRequest.propTypes = {
     carNecessary: PropTypes.bool.isRequired,
     prescriptionRequired: PropTypes.bool.isRequired,
     address: PropTypes.object.isRequired,
-    startedAt: PropTypes.string.isRequired
+    startedAt: PropTypes.string.isRequired,
+    processId: PropTypes.string.isRequired,
+    refreshRequests: PropTypes.func.isRequired
 }

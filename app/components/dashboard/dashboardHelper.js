@@ -7,7 +7,13 @@ import DashboardFeedBackHelper from './dashboardFeedBackHelper';
 
 const {Title} = Typography;
 
-function DashboardHelper({activeRequest, finishedRequests, needFeedBackHelper, refreshRequests}) {
+function DashboardHelper({
+  activeRequest,
+  finishedRequests,
+  needFeedBackHelper,
+  refreshRequests,
+  refreshRequestsBackground
+}) {
   return (
     <>
       {needFeedBackHelper &&
@@ -31,6 +37,10 @@ function DashboardHelper({activeRequest, finishedRequests, needFeedBackHelper, r
           prescriptionRequired={activeRequest.extras.prescriptionRequired}
           address={activeRequest.address}
           startedAt={activeRequest.startedAt}
+          processId={activeRequest.process}
+          refreshRequests={() => {
+            console.log("HERE");
+            refreshRequestsBackground()}}
         />
       }
       <DashboardHelperFinishedRequests title={"Alte Aufträge"} requestList={finishedRequests} />
@@ -41,6 +51,7 @@ DashboardHelper.propTypes = {
   activeRequest: PropTypes.object.isRequired,
   finishedRequests: PropTypes.array.isRequired,
   needFeedBackHelper: PropTypes.bool.isRequired,
-  refreshRequests: PropTypes.func.isRequired
+  refreshRequests: PropTypes.func.isRequired,
+  refreshRequestsBackground: PropTypes.func.isRequired
 }
 export default DashboardHelper;

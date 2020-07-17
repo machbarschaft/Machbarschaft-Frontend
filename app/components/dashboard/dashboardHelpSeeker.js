@@ -18,7 +18,8 @@ function DashboardHelpSeeker({
   finishedRequestsHelper,
   needFeedBackHelpSeeker,
   needFeedBackHelper,
-  refreshRequests
+  refreshRequests,
+  refreshRequestsBackground
 }) {
   const [menuKey, setMenuKey] = React.useState("");
   const [activeRequestsHelpSeekerRender, setActiveRequestsHelpSeekerRender] = React.useState([]);
@@ -61,6 +62,8 @@ function DashboardHelpSeeker({
           prescriptionRequired={entry.extras.prescriptionRequired}
           address={entry.address}
           startedAt={entry.startedAt}
+          processId={entry.process}
+          refreshRequests={() => refreshRequestsBackground()}
         />
       </div>
     ));
@@ -69,7 +72,7 @@ function DashboardHelpSeeker({
 
   React.useEffect(() => {
     selectMenuKey();
-  }, [activeRequestHelper]);
+  }, [activeRequestHelper, finishedRequestsHelpSeeker, finishedRequestsHelper]);
 
   const menuRender = (mode) => <DashboardHelpSeekerMenu
     mode={mode}
@@ -104,7 +107,7 @@ function DashboardHelpSeeker({
             }
             <DashboardHelperActiveRequest
               name={activeRequestHelper.name}
-              phoneHelpSeeker={activeRequestHelper.phoneHelpSeeker}
+              phoneHelpSeeker={123456789}
               status={activeRequestHelper.status}
               requestType={activeRequestHelper.requestType}
               urgency={activeRequestHelper.urgency}
@@ -112,6 +115,8 @@ function DashboardHelpSeeker({
               prescriptionRequired={activeRequestHelper.extras.prescriptionRequired}
               address={activeRequestHelper.address}
               startedAt={activeRequestHelper.startedAt}
+              processId={activeRequestHelper.process}
+              refreshRequests={() => refreshRequestsBackground()}
             />
           </div>
         }
@@ -133,6 +138,7 @@ DashboardHelpSeeker.propTypes = {
   finishedRequestsHelper: PropTypes.array.isRequired,
   needFeedBackHelpSeeker: PropTypes.array.isRequired,
   needFeedBackHelper: PropTypes.bool.isRequired,
-  refreshRequests: PropTypes.func.isRequired
+  refreshRequests: PropTypes.func.isRequired,
+  refreshRequestsBackground: PropTypes.func.isRequired
 }
 export default DashboardHelpSeeker;
