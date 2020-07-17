@@ -8,7 +8,7 @@ import {
   putPublishRequest,
 } from '../../utils/api/placeRequestApi';
 import { putConfirmTan } from '../../utils/api/phoneApi';
-import PasswordGenerationQuestions from "../register/password-generation-questions";
+import RegisterHelpseekerComponent from "../register/register-helpseeker-component";
 
 const queryString = require('query-string');
 

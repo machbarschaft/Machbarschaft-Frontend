@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 const {Title} = Typography
 
-export default function PasswordGenerationQuestions({phone, forename, surname}) {
+export default function RegisterHelpseekerComponent({phone, forename, surname}) {
 
     const authenticationContext = React.useContext(AuthenticationContext);
     const history = useHistory();
@@ -160,7 +160,7 @@ export default function PasswordGenerationQuestions({phone, forename, surname}) 
     )
 }
 
-PasswordGenerationQuestions.propTypes = {
+RegisterHelpseekerComponent.propTypes = {
     phone: PropTypes.string.isRequired,
     forename: PropTypes.string.isRequired,
     surname: PropTypes.string.isRequired,

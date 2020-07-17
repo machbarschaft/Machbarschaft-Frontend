@@ -3,7 +3,7 @@ import { Button, Result, Typography } from 'antd';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import AuthenticationContext from '../../../contexts/authentication';
-import PasswordGenerationQuestions from "../../register/password-generation-questions";
+import RegisterHelpseekerComponent from "../../register/register-helpseeker-component";
 
 const { Title } = Typography;
 /**
@@ -38,7 +38,7 @@ export default function PlaceRequestWizardFinish({
           </NavLink>,
         ]}
       />
-      <PasswordGenerationQuestions phone={phoneNumber} surname={formData.current["place-request-wizard-name"].surname} forename={formData.current["place-request-wizard-name"].forename}/>
+      <RegisterHelpseekerComponent phone={phoneNumber} surname={formData.current["place-request-wizard-name"].surname} forename={formData.current["place-request-wizard-name"].forename}/>
     </>
   );
 }
