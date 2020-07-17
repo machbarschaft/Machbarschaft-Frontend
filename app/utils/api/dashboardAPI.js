@@ -73,6 +73,7 @@ export const getActiveRequests = async () => {
   }).then(async (res) => {
     if (res.status === 200) {
       res = await res.json();
+      console.log("got from dashboard api active: ", res);
       return res;
     }
     res = await res.json();

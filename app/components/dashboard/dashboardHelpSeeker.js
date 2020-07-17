@@ -6,6 +6,8 @@ import DashboardHelpSeekerMenu from './dashboardHelpSeekerMenu';
 import DashboardHelpSeekerActiveRequest from './dashboardHelpSeekerActiveRequest';
 import DashboardHelperActiveRequest from './dashboardHelperActiveRequest';
 import DashboardHelperFinishedRequests from './dashboardHelperFinishedRequests';
+import DashboardFeedBackHelper from './dashboardFeedBackHelper';
+import DashboardFeedBackHelpSeeker from './dashboardFeedBackHelpSeeker';
 
 const { Title } = Typography;
 
@@ -13,7 +15,10 @@ function DashboardHelpSeeker({
   activeRequestsHelpSeeker,
   activeRequestHelper,
   finishedRequestsHelpSeeker,
-  finishedRequestsHelper
+  finishedRequestsHelper,
+  needFeedBackHelpSeeker,
+  needFeedBackHelper,
+  refreshRequests
 }) {
   const [menuKey, setMenuKey] = React.useState("");
   const [activeRequestsHelpSeekerRender, setActiveRequestsHelpSeekerRender] = React.useState([]);
@@ -35,19 +40,29 @@ function DashboardHelpSeeker({
   };
 
   React.useEffect(() => {
-    setActiveRequestsHelpSeekerRender(activeRequestsHelpSeeker.map((entry) =>
-      <DashboardHelpSeekerActiveRequest
-        name={entry.name}
-        phoneHelpSeeker={entry.phoneHelpSeeker}
-        phoneHelper={123456789}
-        status={entry.status}
-        requestType={entry.requestType}
-        urgency={entry.urgency}
-        carNecessary={entry.extras.carNecessary}
-        prescriptionRequired={entry.extras.prescriptionRequired}
-        address={entry.address}
-        startedAt={entry.startedAt}
-      />
+    setActiveRequestsHelpSeekerRender(activeRequestsHelpSeeker.map((entry, index) =>
+      <div>
+        {needFeedBackHelpSeeker[index] &&
+          <DashboardFeedBackHelpSeeker
+            processId={entry.process}
+            requestId={entry._id}
+            name={entry.name}
+            feedBackSent={() => refreshRequests()}
+          />
+        }
+        <DashboardHelpSeekerActiveRequest
+          name={entry.name}
+          phoneHelpSeeker={entry.phoneHelpSeeker}
+          phoneHelper={123456789}
+          status={entry.status}
+          requestType={entry.requestType}
+          urgency={entry.urgency}
+          carNecessary={entry.extras.carNecessary}
+          prescriptionRequired={entry.extras.prescriptionRequired}
+          address={entry.address}
+          startedAt={entry.startedAt}
+        />
+      </div>
     ));
     selectMenuKey();
   }, [activeRequestsHelpSeeker]);
@@ -79,17 +94,26 @@ function DashboardHelpSeeker({
         </div>
         {/^hs\d+$/.test(menuKey) && activeRequestsHelpSeekerRender[menuKey.match(/\d+/)[0]]}
         {menuKey == "active-helper" && activeRequestHelper != null &&
-          <DashboardHelperActiveRequest
-            name={activeRequestHelper.name}
-            phoneHelpSeeker={activeRequestHelper.phoneHelpSeeker}
-            status={activeRequestHelper.status}
-            requestType={activeRequestHelper.requestType}
-            urgency={activeRequestHelper.urgency}
-            carNecessary={activeRequestHelper.extras.carNecessary}
-            prescriptionRequired={activeRequestHelper.extras.prescriptionRequired}
-            address={activeRequestHelper.address}
-            startedAt={activeRequestHelper.startedAt}
-          />
+          <div>
+            {needFeedBackHelper &&
+              <DashboardFeedBackHelper
+                processId={activeRequestHelper.process}
+                name={activeRequestHelper.name}
+                feedBackSent={() => refreshRequests()}
+              />
+            }
+            <DashboardHelperActiveRequest
+              name={activeRequestHelper.name}
+              phoneHelpSeeker={activeRequestHelper.phoneHelpSeeker}
+              status={activeRequestHelper.status}
+              requestType={activeRequestHelper.requestType}
+              urgency={activeRequestHelper.urgency}
+              carNecessary={activeRequestHelper.extras.carNecessary}
+              prescriptionRequired={activeRequestHelper.extras.prescriptionRequired}
+              address={activeRequestHelper.address}
+              startedAt={activeRequestHelper.startedAt}
+            />
+          </div>
         }
         {menuKey == "finished-helpseeker" &&
           <DashboardHelpSeekerFinishedRequests requestList={finishedRequestsHelpSeeker} />
@@ -106,6 +130,9 @@ DashboardHelpSeeker.propTypes = {
   activeRequestsHelpSeeker: PropTypes.array.isRequired,
   activeRequestHelper: PropTypes.object,
   finishedRequestsHelpSeeker: PropTypes.array.isRequired,
-  finishedRequestsHelper: PropTypes.array.isRequired
+  finishedRequestsHelper: PropTypes.array.isRequired,
+  needFeedBackHelpSeeker: PropTypes.array.isRequired,
+  needFeedBackHelper: PropTypes.bool.isRequired,
+  refreshRequests: PropTypes.func.isRequired
 }
 export default DashboardHelpSeeker;

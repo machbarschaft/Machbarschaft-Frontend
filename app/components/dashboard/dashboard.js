@@ -12,7 +12,8 @@ function DashboardWindow() {
   return (
     <div className="content-container-default background-light-grey">
       {requestsState.loading == true &&
-        <Result icon={<Spin size="large" />} />
+        //<Result icon={<Spin size="large" />} />
+        <>Laden...</>
       }
       {requestsState.loading == false && requestsState.error != null &&
         <Result
@@ -40,12 +41,17 @@ function DashboardWindow() {
               activeRequestHelper={requestsState.activeRequests.helper}
               finishedRequestsHelpSeeker={requestsState.finishedRequests.helpSeeker}
               finishedRequestsHelper={requestsState.finishedRequests.helper}
+              needFeedBackHelpSeeker={requestsState.needFeedBackHelpSeeker}
+              needFeedBackHelper={requestsState.needFeedBackHelper}
+              refreshRequests={() => fetchRequests()}
             />
           }
           {!requestsState.isHelpSeeker &&
             <DashboardHelper
               activeRequest={requestsState.activeRequests.helper}
               finishedRequests={requestsState.finishedRequests.helper}
+              needFeedBackHelper={requestsState.needFeedBackHelper}
+              refreshRequests={() => fetchRequests()}
             />
           }
         </>

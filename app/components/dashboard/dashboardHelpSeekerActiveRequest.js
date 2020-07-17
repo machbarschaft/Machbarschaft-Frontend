@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'antd';
 import PropTypes from 'prop-types';
 import DashboardTileHelpSeekerStatus from './dashboardTileHelpSeekerStatus';
 import DashboardTileContact from './dashboardTileContact';
@@ -53,7 +54,7 @@ export default function DashboardHelpSeekerActiveRequest({
     );
 }
 DashboardHelpSeekerActiveRequest.propTypes = {
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     phoneHelpSeeker: PropTypes.number.isRequired,
     phoneHelper: PropTypes.number.isRequired,
     status: PropTypes.oneOf(['open', 'accepted', 'called', 'on-the-way']).isRequired,

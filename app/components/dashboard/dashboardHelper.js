@@ -3,12 +3,20 @@ import PropTypes from 'prop-types';
 import {Result, Typography} from 'antd';
 import DashboardHelperActiveRequest from './dashboardHelperActiveRequest';
 import DashboardHelperFinishedRequests from './dashboardHelperFinishedRequests';
+import DashboardFeedBackHelper from './dashboardFeedBackHelper';
 
 const {Title} = Typography;
 
-function DashboardHelper({activeRequest, finishedRequests}) {
+function DashboardHelper({activeRequest, finishedRequests, needFeedBackHelper, refreshRequests}) {
   return (
     <>
+      {needFeedBackHelper &&
+        <DashboardFeedBackHelper
+          processId={activeRequest.process}
+          name={activeRequest.name}
+          feedBackSent={() => refreshRequests()}
+        />
+      }
       {activeRequest == null &&
         <Result title="Sie haben aktuell keinen Auftrag angenommen." />
       }
@@ -31,6 +39,8 @@ function DashboardHelper({activeRequest, finishedRequests}) {
 }
 DashboardHelper.propTypes = {
   activeRequest: PropTypes.object.isRequired,
-  finishedRequests: PropTypes.array.isRequired
+  finishedRequests: PropTypes.array.isRequired,
+  needFeedBackHelper: PropTypes.bool.isRequired,
+  refreshRequests: PropTypes.func.isRequired
 }
 export default DashboardHelper;

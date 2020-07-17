@@ -784,3 +784,19 @@ h4 {
 .full-width {
 	width: 100%;
 }
+.horizontal-center {
+	text-align: center;
+}
+.spacing-left {
+	margin-left: 2em !important;
+}
+@media (min-width: 800px) {
+	.feedback-textarea {
+		width: 50vw !important;
+	}
+}
+@media (max-width: 800px) {
+	.feedback-textarea {
+		width: 80vw !important;
+	}
+}
