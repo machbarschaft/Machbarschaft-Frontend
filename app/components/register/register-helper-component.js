@@ -100,7 +100,7 @@ export default function RegisterHelperComponent() {
                   onFinish={handleForm}
                   hideRequiredMark
                   initialValues={{
-                    countryCode: '49',
+                    countryCode: '49'
                   }}
                 >
                   <Form.Item

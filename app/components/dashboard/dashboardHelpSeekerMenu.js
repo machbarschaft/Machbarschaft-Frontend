@@ -10,15 +10,12 @@ import RequestTypeMedicationWhite from '../../assets/img/request-category/reques
 import ClockIcon from '../../assets/img/clock-icon.svg';
 import ClockIconWhite from '../../assets/img/clock-icon-white.svg';
 
-//import DashboardHelpSeekerMenuActiveItem from './dashboardHelpSeekerMenuActiveItem';
-//import DashboardHelpSeekerMenuFinishedItem from './dashboardHelpSeekerMenuFinishedItem';
-
 function DashboardHelpSeekerMenu({
   mode,
   menuKey,
   setMenuKey,
   activeRequestsHelpSeeker,
-  activeRequestHelper,
+  activeRequestsHelper,
   finishedRequestsHelpSeeker,
   finishedRequestsHelper
 }) {
@@ -84,14 +81,14 @@ function DashboardHelpSeekerMenu({
         )
       )}
       
-      {activeRequestHelper != null &&
+      {activeRequestsHelper.map((entry, key) =>
         dashboardHelpSeekerMenuActiveItem(
-          "active-helper",
+          "h" + key,
           menuKey,
-          activeRequestHelper.requestType,
-          "MEIN AUFTRAG"
+          entry.requestType,
+          "MEIN AUFTRAG " + (key+1)
         )
-      }
+      )}
       {finishedRequestsHelpSeeker &&
         dashboardHelpSeekerMenuFinishedItem(
           "finished-helpseeker",
@@ -114,7 +111,7 @@ DashboardHelpSeekerMenu.propTypes = {
   menuKey: PropTypes.any.isRequired,
   setMenuKey: PropTypes.func.isRequired,
   activeRequestsHelpSeeker: PropTypes.array.isRequired,
-  activeRequestHelper: PropTypes.object,
+  activeRequestsHelper: PropTypes.array.isRequired,
   finishedRequestsHelpSeeker: PropTypes.bool.isRequired,
   finishedRequestsHelper: PropTypes.bool.isRequired
 };

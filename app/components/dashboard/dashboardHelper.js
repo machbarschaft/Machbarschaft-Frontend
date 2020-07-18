@@ -8,49 +8,52 @@ import DashboardFeedBackHelper from './dashboardFeedBackHelper';
 const {Title} = Typography;
 
 function DashboardHelper({
-  activeRequest,
+  activeRequests,
   finishedRequests,
-  needFeedBackHelper,
   refreshRequests,
   refreshRequestsBackground
 }) {
+  const [activeRequestsRender, setActiveRequestsRender] = React.useState([]);
+  React.useEffect(() => {
+    console.log("got active requests: ", activeRequests);
+    setActiveRequestsRender(activeRequests.map((entry, index) =>
+      <React.Fragment key={index}>
+        {!entry.feedbackSubmitted && entry.status == "done" &&
+          <DashboardFeedBackHelper
+            _id={entry._id}
+            name={entry.name}
+            feedBackSent={() => refreshRequests()}
+          />
+        }
+        <DashboardHelperActiveRequest
+          name={entry.name}
+          phoneHelpSeeker={123456789}
+          status={entry.status}
+          requestType={entry.requestType}
+          urgency={entry.urgency}
+          carNecessary={entry.extras.carNecessary}
+          prescriptionRequired={entry.extras.prescriptionRequired}
+          address={entry.address}
+          startedAt={entry.startedAt}
+          processId={entry.process}
+          refreshRequests={() => refreshRequestsBackground()}
+        />
+      </React.Fragment>
+    ));
+  }, [activeRequests]);
   return (
     <>
-      {needFeedBackHelper &&
-        <DashboardFeedBackHelper
-          processId={activeRequest.process}
-          name={activeRequest.name}
-          feedBackSent={() => refreshRequests()}
-        />
-      }
-      {activeRequest == null &&
-        <Result title="Sie haben aktuell keinen Auftrag angenommen." />
-      }
-      {activeRequest != null &&
-        <DashboardHelperActiveRequest
-          name={activeRequest.name}
-          phoneHelpSeeker={123456789}
-          status={activeRequest.status}
-          requestType={activeRequest.requestType}
-          urgency={activeRequest.urgency}
-          carNecessary={activeRequest.extras.carNecessary}
-          prescriptionRequired={activeRequest.extras.prescriptionRequired}
-          address={activeRequest.address}
-          startedAt={activeRequest.startedAt}
-          processId={activeRequest.process}
-          refreshRequests={() => {
-            console.log("HERE");
-            refreshRequestsBackground()}}
-        />
+      {activeRequests.length > 0 && activeRequestsRender}
+      {activeRequests.length == 0 &&
+          <Result title="Sie haben aktuell keinen Auftrag angenommen." />
       }
       <DashboardHelperFinishedRequests title={"Alte Aufträge"} requestList={finishedRequests} />
     </>
   );
 }
 DashboardHelper.propTypes = {
-  activeRequest: PropTypes.object.isRequired,
+  activeRequests: PropTypes.array.isRequired,
   finishedRequests: PropTypes.array.isRequired,
-  needFeedBackHelper: PropTypes.bool.isRequired,
   refreshRequests: PropTypes.func.isRequired,
   refreshRequestsBackground: PropTypes.func.isRequired
 }

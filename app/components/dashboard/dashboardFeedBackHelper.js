@@ -1,25 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Input, Form, Radio, Button, message, Typography} from 'antd';
-import { putFeedback } from '../../utils/api/feedbackAPI';
+import {Input, Form, Radio, Button, notification, Typography} from 'antd';
+import { postFeedback } from '../../utils/api/feedbackAPI';
 
 const { Title } = Typography;
 const { TextArea } = Input;
 
-function DashboardFeedBackHelper({processId, name, feedBackSent}) {
+function DashboardFeedBackHelper({_id, name, feedBackSent}) {
   const [form] = Form.useForm();
   const [loading, setLoading] = React.useState(false);
 
   const sendFeedback = (formValues) => {
     setLoading(true);
-    putFeedback(processId, true, formValues.needContact, formValues.comment)
+    postFeedback(_id, false, formValues.needContact, formValues.comment)
       .then((res) => {
-        message.success('Feedback erfolgreich abgeschickt!');
+        notification.success({
+          message: 'Fertig',
+          description: 'Feedback erfolgreich abgeschickt!'
+        });
         setLoading(false);
         feedBackSent();
       })
       .catch((err) => {
-        message.error('Es ist ein Fehler aufgetreten, bitte versuche es erneut!');
+        notification.error({
+          message: 'Fehler',
+          description: 'Es ist ein Fehler aufgetreten, bitte versuche es erneut!'
+        });
         setLoading(false);
       })
   };
@@ -70,7 +76,7 @@ function DashboardFeedBackHelper({processId, name, feedBackSent}) {
   );
 }
 DashboardFeedBackHelper.propTypes = {
-  processId: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   feedBackSent: PropTypes.func.isRequired
 }

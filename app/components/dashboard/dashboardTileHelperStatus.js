@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, notification } from 'antd';
 import PropTypes from 'prop-types';
 import DashboardTile from './dashboardTile';
 import { putUpdateRequestStatus } from '../../utils/api/requestStatusApi';
@@ -14,7 +14,10 @@ function DashboardTileHelperStatus({ name, status, processId, refreshRequests })
         refreshRequests();
       })
       .catch((err) => {
-        message.error('Es ist ein Fehler aufgetreten, bitte versuche es erneut!');
+        notification.error({
+          message: 'Fehler',
+          description: 'Es ist ein Fehler aufgetreten, bitte versuche es erneut!'
+        });
         setUpdateLoading(false);
       })
   };
@@ -49,13 +52,34 @@ function DashboardTileHelperStatus({ name, status, processId, refreshRequests })
     'on-the-way': (
       <>
         <div className="dashboard-tile-helper-status-bold">
-          Wenn du alles erledigt hast, klicke diesen Button:
+          Wenn Sie alles erledigt haben, klicken Sies diesen Button:
         </div>
         <Button type="primary" onClick={() => updateStatus()} loading={updateLoading}>
           AUFTRAG ABSCHLIESSEN
         </Button>
       </>
     ),
+    'done': (
+      <>
+        <div className="dashboard-tile-helper-status-bold">
+          Sie haben den Auftrag als erledigt markiert.
+        </div>
+      </>
+    ),
+    'aborted': (
+      <>
+        <div className="dashboard-tile-helper-status-bold">
+          Sie haben den Auftrag als abgebrochen markiert.
+        </div>
+      </>
+    ),
+    'did-not-help': (
+      <>
+        <div className="dashboard-tile-helper-status-bold">
+          Sie haben angegeben, dass Sie nicht helfen konnten.
+        </div>
+      </>
+    )
   };
 
   return (
@@ -71,8 +95,8 @@ function DashboardTileHelperStatus({ name, status, processId, refreshRequests })
 }
 DashboardTileHelperStatus.propTypes = {
   name: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(['accepted', 'called', 'on-the-way']).isRequired,
-  processId: PropTypes.string.isRequired,
+  status: PropTypes.oneOf(["accepted", "called", "on-the-way", "done", "aborted", "did-not-help"]).isRequired,
+  processId: PropTypes.string,
   refreshRequests: PropTypes.func.isRequired
 };
 

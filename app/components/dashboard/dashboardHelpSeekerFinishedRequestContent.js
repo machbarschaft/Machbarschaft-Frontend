@@ -5,6 +5,7 @@ import DashboardTileContact from './dashboardTileContact';
 import DashboardTileUrgency from './dashboardTileUrgency';
 import DashboardTileRequestType from './dashboardTileRequestType';
 import DashboardTileAdditionalInformation from './dashboardTileAdditionalInformation';
+import DashboardTile from './dashboardTile';
 
 const { Text } = Typography;
 
@@ -21,7 +22,10 @@ function DashboardHelpSeekerFinishedRequestContent({
 }) {
   return (
     <div className="dashboard-helper-finished-request-grid">
-      <DashboardTileContact name={name} />
+      {name !== undefined && <DashboardTileContact name={name} />}
+      {name === undefined &&
+        <DashboardTile title={"Status"} content={"Der Auftrag wurde von keinem Helfer angenommen."} />
+      }
       <DashboardTileUrgency urgency={urgency} />
       <DashboardTileContact
         street={street}
@@ -39,9 +43,9 @@ function DashboardHelpSeekerFinishedRequestContent({
 }
 DashboardHelpSeekerFinishedRequestContent.propTypes = {
   startedAt: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   street: PropTypes.string.isRequired,
-  zipCode: PropTypes.string.isRequired,
+  zipCode: PropTypes.number.isRequired,
   city: PropTypes.string.isRequired,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
   urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week'])

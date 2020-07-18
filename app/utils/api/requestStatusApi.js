@@ -16,7 +16,6 @@ export const putReopenRequest = async (requestId) => {
     credentials: 'include',
   }).then(async (res) => {
     if (res.status === 200) {
-      res = await res.json();
       return res;
     }
     res = await res.json();
@@ -28,7 +27,7 @@ export const putReopenRequest = async (requestId) => {
  * Help seeker can abort request
  */
 export const putAbortRequest = async (processId) => {
-  const endpoint = `${apiUrl()}process/${processId}/response/abort`;
+  const endpoint = `${apiUrl()}process/${processId}/request/abort`;
 
   return fetch(endpoint, {
     method: 'PUT',
@@ -39,8 +38,7 @@ export const putAbortRequest = async (processId) => {
     credentials: 'include',
   }).then(async (res) => {
     if (res.status === 200) {
-      res = await res.json();
-      return res;
+      return;
     }
     res = await res.json();
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
@@ -62,8 +60,7 @@ export const putUpdateRequestStatus = async (processId) => {
     credentials: 'include',
   }).then(async (res) => {
     if (res.status === 200) {
-      res = await res.json();
-      return res;
+      return;
     }
     res = await res.json();
     throw Error(res.errors[0]); // ToDo: Throw multiple errors

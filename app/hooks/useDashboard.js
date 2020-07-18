@@ -3,48 +3,11 @@ import {
   getActiveRequests,
   getFinishedRequests
 } from '../utils/api/dashboardAPI';
-import { getFeedbackNeeded } from '../utils/api/feedbackAPI';
 
-function checkFeedbackHelpSeekerLoadingRequired(activeRequests) {
-  var result = [];
-  for(var i = 0; i < activeRequests.length; i++) {
-    result.push(true);
-  }
-  return result;
-}
 function isLoading(state) {
   if(state.loadingActiveRequests) return true;
   if(state.loadingFinishedRequests) return true;
-  if(state.loadingFeedbackHelper) return true;
-  for(var i = 0; i < state.loadingFeedBackHelpSeeker.length; i++) {
-    if(state.loadingFeedBackHelpSeeker[i]) return true;
-  }
   return false;
-}
-function getIndex(activeRequests, process) {
-  for(var i = 0; i < activeRequests.length; i++) {
-    if(activeRequests[i].process == process) return i;
-  }
-  return -1;
-}
-function loadFeedbackHelper(processId, dispatchRequestsState) {
-  getFeedbackNeeded(processId)
-      .then((res) => dispatchRequestsState({
-        type: "success-feedback-helper",
-        needFeedBackHelper: res.needFeedback
-      }))
-      .catch((err) => dispatchRequestsState({type: "error-feedback-helper", error: err}));
-}
-function loadFeedbackHelpSeeker(activeRequests, dispatchRequestsState) {
-  for(var i = 0; i < activeRequests.length; i++) {
-    getFeedbackNeeded(activeRequests[i].process)
-      .then((res) => dispatchRequestsState({
-        type: "success-feedback-helpseeker",
-        index: getIndex(activeRequests, res.process),
-        needFeedBackHelpSeeker: res.needFeedback
-      }))
-      .catch((err) => dispatchRequestsState({type: "error-feedback-helpseeker", index: i, error: err}));
-  }
 }
 function isHelper(state) {
   if(state.activeRequests.helper != null) return true;
@@ -56,82 +19,69 @@ function isHelpSeeker(state) {
   if(state.finishedRequests.helpSeeker.length > 0) return true;
   return false;
 }
+function restructureRequests(state) {
+  var activeRequests = {helper: [], helpSeeker: []};
+  var finishedRequests = {helper: [], helpSeeker: []};
+
+  for(var i = 0; i < state.finishedRequestsResult.helper.length; i++) {
+    if(state.finishedRequestsResult.helper[i].feedbackSubmitted ||
+      ["done", "aborted", "did-not-help"].includes(state.finishedRequestsResult.helper[i].status)) {
+      finishedRequests.helper.push(state.finishedRequestsResult.helper[i]);
+    }
+      else {
+        activeRequests.helper.push(state.finishedRequestsResult.helper[i]);
+      }
+  }
+  if(state.activeRequestsResult.helper != null) activeRequests.helper.push(state.activeRequestsResult.helper);
+
+  for(var i = 0; i < state.finishedRequestsResult.helpSeeker.length; i++) {
+    if(state.finishedRequestsResult.helpSeeker[i].feedbackSubmitted ||
+      ["done", "aborted", "did-not-help"].includes(state.finishedRequestsResult.helpSeeker[i].status)) {
+      finishedRequests.helpSeeker.push(state.finishedRequestsResult.helpSeeker[i]);
+    }
+      else {
+        activeRequests.helpSeeker.push(state.finishedRequestsResult.helpSeeker[i]);
+      }
+  }
+  activeRequests.helpSeeker = activeRequests.helpSeeker.concat(state.activeRequestsResult.helpSeeker);
+
+  var newState = {
+    ...state,
+    activeRequests: activeRequests,
+    finishedRequests: finishedRequests
+  };
+  return newState;
+}
 
 function dashboardStateReducer(state, action) {
   if (action.type === 'success-active') {
     var newState = {
       ...state,
       loadingActiveRequests: false,
-      loadingFeedbackHelper: action.activeRequests.helper != null,
-      loadingFeedBackHelpSeeker: checkFeedbackHelpSeekerLoadingRequired(action.activeRequests.helpSeeker),
-      activeRequests: action.activeRequests,
+      activeRequestsResult: action.activeRequests,
       isHelper: isHelper(state) || action.activeRequests.helper != null,
       isHelpSeeker: isHelpSeeker(state) || action.activeRequests.helpSeeker.length > 0,
     };
     newState.loading = isLoading(newState);
+    if(!newState.loading) newState = restructureRequests(newState);
     return newState;
   }
   if (action.type === 'success-finished') {
     var newState = {
       ...state,
       loadingFinishedRequests: false,
-      finishedRequests: action.finishedRequests,
+      finishedRequestsResult: action.finishedRequests,
       isHelper: isHelper(state) || action.finishedRequests.helper.length > 0,
       isHelpSeeker: isHelpSeeker(state) || action.finishedRequests.helpSeeker.length > 0,
     };
     newState.loading = isLoading(newState);
-    return newState;
-  }
-  if (action.type === 'success-feedback-helper') {
-    var newState = {
-      ...state,
-      loadingFeedbackHelper: false,
-      needFeedBackHelper: action.needFeedBackHelper,
-    };
-    newState.loading = isLoading(newState);
-    return newState;
-  }
-  if (action.type === 'success-feedback-helpseeker') {
-    var newLoadingState = state.loadingFeedBackHelpSeeker;
-    newLoadingState[action.index] = false;
-    var newFeedBackState = state.needFeedBackHelpSeeker;
-    newFeedBackState[action.index] = action.needFeedBackHelpSeeker;
-    var newState = {
-      ...state,
-      loadingFeedBackHelpSeeker: newLoadingState,
-      needFeedBackHelpSeeker: newFeedBackState,
-    };
-    newState.loading = isLoading(newState);
+    if(!newState.loading) newState = restructureRequests(newState);
     return newState;
   }
   if (action.type === 'error-active') {
     var newState = {
       ...state,
       loadingActiveRequests: false,
-      error: action.error
-    };
-    newState.loading = isLoading(newState);
-    return newState;
-  }
-  if (action.type === 'error-feedback-helper') {
-    var newState = {
-      ...state,
-      loadingFeedbackHelper: false,
-      needFeedBackHelper: false,
-      error: action.error
-    };
-    newState.loading = isLoading(newState);
-    return newState;
-  }
-  if (action.type === 'error-feedback-helpseeker') {
-    var newLoadingState = state.loadingFeedBackHelpSeeker;
-    newLoadingState[action.index] = false;
-    var newFeedBackState = state.needFeedBackHelpSeeker;
-    newFeedBackState[action.index] = false;
-    var newState = {
-      ...state,
-      loadingFeedBackHelpSeeker: newLoadingState,
-      needFeedBackHelpSeeker: newFeedBackState,
       error: action.error
     };
     newState.loading = isLoading(newState);
@@ -171,13 +121,11 @@ export default function useDashboard() {
     {
       loading: true,
       loadingActiveRequests: true,
-      loadingFeedbackHelper: false,
-      loadingFeedBackHelpSeeker: [],
       loadingFinishedRequests: true,
-      activeRequests: {helper: null, helpSeeker: []},
-      needFeedBackHelper: false,
-      needFeedBackHelpSeeker: [],
+      activeRequests: {helper: [], helpSeeker: []},
       finishedRequests: {helper: [], helpSeeker: []},
+      activeRequestsResult: {helper: null, helpSeeker: []},
+      finishedRequestsResult: {helper: [], helpSeeker: []},
       isHelper: false,
       isHelpSeeker: false,
       error: null,
@@ -188,10 +136,6 @@ export default function useDashboard() {
     getActiveRequests()
       .then((res) => {
         dispatchRequestsState({type: "success-active", activeRequests: res});
-        if(res.helper != null) {
-          loadFeedbackHelper(res.helper.process, dispatchRequestsState);
-        }
-        loadFeedbackHelpSeeker(res.helpSeeker, dispatchRequestsState);
       })
       .catch((err) => dispatchRequestsState({type: "error-active", error: err}));
   }

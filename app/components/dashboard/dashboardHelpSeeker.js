@@ -13,49 +13,50 @@ const { Title } = Typography;
 
 function DashboardHelpSeeker({
   activeRequestsHelpSeeker,
-  activeRequestHelper,
+  activeRequestsHelper,
   finishedRequestsHelpSeeker,
   finishedRequestsHelper,
-  needFeedBackHelpSeeker,
-  needFeedBackHelper,
   refreshRequests,
   refreshRequestsBackground
 }) {
   const [menuKey, setMenuKey] = React.useState("");
   const [activeRequestsHelpSeekerRender, setActiveRequestsHelpSeekerRender] = React.useState([]);
+  const [activeRequestsHelperRender, setActiveRequestsHelperRender] = React.useState([]);
 
   const selectMenuKey = () => {
     var changeRequired = false;
     if(menuKey == "") changeRequired = true;
     else if(menuKey == /^hs\d+$/.test(menuKey) && activeRequestsHelpSeeker.length <= menuKey.match(/\d+/)[0]) changeRequired = true;
-    else if(menuKey == "active-helper" && activeRequestHelper == null) changeRequired = true;
+    else if(menuKey == "active-helper" && activeRequestsHelper == null) changeRequired = true;
     else if(menuKey == "finished-helpseeker" && finishedRequestsHelpSeeker.length == 0) changeRequired = true;
     else if(menuKey == "finished-helper" && finishedRequestsHelper == 0) changeRequired = true;
 
     if(changeRequired) {
       if(activeRequestsHelpSeeker.length > 0) setMenuKey("hs0");
-      else if(activeRequestHelper != null) setMenuKey("active-helper");
+      else if(activeRequestsHelper.length > 0) setMenuKey("active-helper");
       else if(finishedRequestsHelpSeeker.length > 0) setMenuKey("finished-helpseeker");
       else if(finishedRequestsHelpSeeker.length > 0) setMenuKey("finished-helper");
     }
   };
 
   React.useEffect(() => {
-    setActiveRequestsHelpSeekerRender(activeRequestsHelpSeeker.map((entry, index) =>
+    setActiveRequestsHelpSeekerRender(activeRequestsHelpSeeker.map((entry) =>
       <div>
-        {needFeedBackHelpSeeker[index] &&
+        {!entry.feedbackSubmitted &&
+          ["done", "aborted", "did-not-help"].includes(entry.helperStatus)  &&
+          entry.status != "open" &&
           <DashboardFeedBackHelpSeeker
-            processId={entry.process}
             requestId={entry._id}
             name={entry.name}
+            status={entry.helperStatus}
             feedBackSent={() => refreshRequests()}
           />
         }
         <DashboardHelpSeekerActiveRequest
           name={entry.name}
           phoneHelpSeeker={entry.phoneHelpSeeker}
-          phoneHelper={123456789}
-          status={entry.status}
+          phoneHelper={entry.phoneHelper}
+          status={entry.status == "open" ? "open" : entry.helperStatus}
           requestType={entry.requestType}
           urgency={entry.urgency}
           carNecessary={entry.extras.carNecessary}
@@ -71,15 +72,43 @@ function DashboardHelpSeeker({
   }, [activeRequestsHelpSeeker]);
 
   React.useEffect(() => {
+    setActiveRequestsHelperRender(activeRequestsHelper.map((entry) =>
+      <div>
+        {!entry.feedbackSubmitted &&
+          <DashboardFeedBackHelper
+            _id={entry._id}
+            name={entry.name}
+            feedBackSent={() => refreshRequests()}
+          />
+        }
+        <DashboardHelperActiveRequest
+          name={SingleEntryPlugin.name}
+          phoneHelpSeeker={123456789}
+          status={entry.status}
+          requestType={entry.requestType}
+          urgency={entry.urgency}
+          carNecessary={entry.extras.carNecessary}
+          prescriptionRequired={entry.extras.prescriptionRequired}
+          address={entry.address}
+          startedAt={entry.startedAt}
+          processId={entry.process}
+          refreshRequests={() => refreshRequestsBackground()}
+        />
+      </div>
+    ));
     selectMenuKey();
-  }, [activeRequestHelper, finishedRequestsHelpSeeker, finishedRequestsHelper]);
+  }, [activeRequestsHelper]);
+
+  React.useEffect(() => {
+    selectMenuKey();
+  }, [finishedRequestsHelpSeeker, finishedRequestsHelper]);
 
   const menuRender = (mode) => <DashboardHelpSeekerMenu
     mode={mode}
     menuKey={menuKey}
     setMenuKey={setMenuKey}
     activeRequestsHelpSeeker={activeRequestsHelpSeeker}
-    activeRequestHelper={activeRequestHelper}
+    activeRequestsHelper={activeRequestsHelper}
     finishedRequestsHelpSeeker={finishedRequestsHelpSeeker.length > 0}
     finishedRequestsHelper={finishedRequestsHelper.length > 0}
   />;
@@ -96,30 +125,7 @@ function DashboardHelpSeeker({
           </div>
         </div>
         {/^hs\d+$/.test(menuKey) && activeRequestsHelpSeekerRender[menuKey.match(/\d+/)[0]]}
-        {menuKey == "active-helper" && activeRequestHelper != null &&
-          <div>
-            {needFeedBackHelper &&
-              <DashboardFeedBackHelper
-                processId={activeRequestHelper.process}
-                name={activeRequestHelper.name}
-                feedBackSent={() => refreshRequests()}
-              />
-            }
-            <DashboardHelperActiveRequest
-              name={activeRequestHelper.name}
-              phoneHelpSeeker={123456789}
-              status={activeRequestHelper.status}
-              requestType={activeRequestHelper.requestType}
-              urgency={activeRequestHelper.urgency}
-              carNecessary={activeRequestHelper.extras.carNecessary}
-              prescriptionRequired={activeRequestHelper.extras.prescriptionRequired}
-              address={activeRequestHelper.address}
-              startedAt={activeRequestHelper.startedAt}
-              processId={activeRequestHelper.process}
-              refreshRequests={() => refreshRequestsBackground()}
-            />
-          </div>
-        }
+        {/^h\d+$/.test(menuKey) && activeRequestsHelperRender[menuKey.match(/\d+/)[0]]}
         {menuKey == "finished-helpseeker" &&
           <DashboardHelpSeekerFinishedRequests requestList={finishedRequestsHelpSeeker} />
         }
@@ -133,11 +139,9 @@ function DashboardHelpSeeker({
 }
 DashboardHelpSeeker.propTypes = {
   activeRequestsHelpSeeker: PropTypes.array.isRequired,
-  activeRequestHelper: PropTypes.object,
+  activeRequestsHelper: PropTypes.array.isRequired,
   finishedRequestsHelpSeeker: PropTypes.array.isRequired,
   finishedRequestsHelper: PropTypes.array.isRequired,
-  needFeedBackHelpSeeker: PropTypes.array.isRequired,
-  needFeedBackHelper: PropTypes.bool.isRequired,
   refreshRequests: PropTypes.func.isRequired,
   refreshRequestsBackground: PropTypes.func.isRequired
 }

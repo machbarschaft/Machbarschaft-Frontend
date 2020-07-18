@@ -1,37 +1,10 @@
 import apiUrl from './apiUrl';
 
 /**
- * Check if feedback is required for a process
- * @returns boolean whether feedback is required
- */
-export const getFeedbackNeeded = async (processId) => {
-  const endpoint = `${apiUrl()}feedback/exists?processId=${processId}`;
-
-  return fetch(endpoint, {
-    method: 'GET',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    credentials: 'include',
-  }).then(async (res) => {
-    if (res.status === 200) {
-      res = await res.json();
-      return {
-        process: processId,
-        needFeedback: res
-      };
-    }
-    res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
-  });
-};
-
-/**
  * Send feedback
  */
-export const putFeedback = async (processId, isHelpSeeker, needContact, comment) => {
-  const endpoint = `${apiUrl()}feedback/${isHelpSeeker ? "request" : "response"}?id=${processId}`;
+export const postFeedback = async (id, isHelpSeeker, needContact, comment) => {
+  const endpoint = `${apiUrl()}feedback/${isHelpSeeker ? "request" : "response"}/${id}`;
 
   const tmp = { needContact, comment };
   const body = Object.keys(tmp)
@@ -40,7 +13,7 @@ export const putFeedback = async (processId, isHelpSeeker, needContact, comment)
 
   console.log("send feedback to '" + endpoint + "' with body: ", body);
   return fetch(endpoint, {
-    method: 'PUT',
+    method: 'POST',
     cache: 'no-cache',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
@@ -48,9 +21,8 @@ export const putFeedback = async (processId, isHelpSeeker, needContact, comment)
     credentials: 'include',
     body: body
   }).then(async (res) => {
-    if (res.status === 200) {
-      res = await res.json();
-      return res;
+    if (res.status === 201) {
+      return;
     }
     res = await res.json();
     throw Error(res.errors[0]); // ToDo: Throw multiple errors

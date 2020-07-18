@@ -17,17 +17,12 @@ function NavigationMenu({ mode, menuClicked }) {
     // No User
     return (
       <Menu mode={mode} defaultSelectedKeys={[window.location.pathname]} onClick={menuClicked}>
-        <Menu.Item key="1">
+        <Menu.Item key="/">
           <NavLink to="/" exact>
-            ÜBER UNS
+            Startseite
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="2">
-          <NavLink to="/" exact>
-            KONTAKT
-          </NavLink>
-        </Menu.Item>
-        <Menu.Item key="3">
+        <Menu.Item key="/registrieren">
           <NavLink to="/registrieren" exact>
             ALS HELFER REGISTRIEREN
           </NavLink>
@@ -56,8 +51,8 @@ function NavigationMenu({ mode, menuClicked }) {
           AUFTRAG ANNEHMEN
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="4">
-        <NavLink to="/" exact>
+      <Menu.Item key="/support">
+        <NavLink to="/support" exact>
           BRAUCHEN SIE HILFE?
         </NavLink>
       </Menu.Item>

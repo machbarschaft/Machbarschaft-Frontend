@@ -10,7 +10,7 @@ import {
   Select,
   Typography,
   Radio,
-  message,
+  notification,
 } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
 import { postRequestTan, putConfirmTan } from '../../utils/api/phoneApi';
@@ -67,8 +67,14 @@ export default function ValidatePhoneComponent(props) {
       countryCode: validatePhoneNumber.current.countryCode,
       sms: requestType == "sms" ? true : false
     })
-      .then(() => message.success("Erfolgreich angefordert!"))
-      .catch((err) => message.error("Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!"))
+      .then(() => notification.success({
+        message: 'Fertig',
+        description: 'Erfolgreich angefordert!'
+      }))
+      .catch((err) => notification.error({
+        message: 'Fehler',
+        description: 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!'
+      }))
   };
 
   const [form] = Form.useForm();
@@ -238,7 +244,7 @@ export default function ValidatePhoneComponent(props) {
                       <Radio.Button value={"sms"} className={"spacing-left"}>SMS</Radio.Button>
                     </Radio.Group><br/><br/>
                     <Button type="primary" onClick={() => handleRequestTan()}>
-                      {requestType == "call" ? "Erneut anrufen" : "TAN erneut senden"}
+                      {requestType == "call" ? "Jetzt anrufen" : "TAN senden"}
                     </Button>
                   </Paragraph>
                 </Card>

@@ -23,8 +23,7 @@ export const postRegisterRequest = async (formValues) => {
     }
     console.log("res: ", res);
     res = await res.json();
-    console.log("res json: ", res);
-    // ToDo: Return multiple errors
+    console.log("res json: ", res.errors);
     throw new Error(res.errors);
   });
 };

@@ -35,13 +35,14 @@ export default function ValidateMailNotification() {
   return (
     <div style={{ padding: '1rem', background: '#F4B3A3' }}>
       <Alert
+        className="validation-alert"
         message="Bitte bestätige deine E-Mail Adresse"
         description={
           <>
             Bevor du alle Funktionen von Machbarschaft nutzen kannst, musst du
             deine E-Mail Adresse bestätigen. Du hast eine E-Mail von uns
             erhalten.
-            <br />
+            <br /><br/>
             <Button
               type="primary"
               loading={buttonState}

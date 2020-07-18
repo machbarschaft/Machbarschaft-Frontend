@@ -159,6 +159,7 @@ export default function useAuthentication() {
 
     try {
       let registerResult = await postRegisterRequest(formValues);
+      console.log("register result: ", registerResult);
       if (registerResult.status !== 201) {
         // Register: Failure
         switch (registerResult.status) {
@@ -187,10 +188,11 @@ export default function useAuthentication() {
       // ToDo: Das könnten wir noch verbessern. Register könnte direkt einen gültigen Cookie zurückgeben.
       return await performAuthentication(email, password);
     } catch (error) {
+      console.log("catched error: ", error.message);
       dispatch({
         type: 'registerFailure',
         data: {
-          errors: error.message,
+          errors: error,
         },
       });
       return false;

@@ -55,31 +55,28 @@ function DashboardWindow() {
         />
       }
       {!(requestsState.loading && !loadingDisabled) && requestsState.error == null &&
-        requestsState.activeRequests.helpSeeker.length == 0 && requestsState.activeRequests.helper == null &&
+        requestsState.activeRequests.helpSeeker.length == 0 && requestsState.activeRequests.helper.length == 0 &&
         requestsState.finishedRequests.helpSeeker.length == 0 && requestsState.finishedRequests.helper.length == 0 &&
         <Result title="Es gibt noch keinen Auftrag." />
       }
       {!(requestsState.loading && !loadingDisabled) && requestsState.error == null &&
-        (requestsState.activeRequests.helpSeeker.length > 0 || requestsState.activeRequests.helper != null ||
+        (requestsState.activeRequests.helpSeeker.length > 0 || requestsState.activeRequests.helper != 0 ||
         requestsState.finishedRequests.helpSeeker.length > 0 || requestsState.finishedRequests.helper.length > 0) &&
         <>
           {requestsState.isHelpSeeker &&
             <DashboardHelpSeeker
               activeRequestsHelpSeeker={requestsState.activeRequests.helpSeeker}
-              activeRequestHelper={requestsState.activeRequests.helper}
+              activeRequestsHelper={requestsState.activeRequests.helper}
               finishedRequestsHelpSeeker={requestsState.finishedRequests.helpSeeker}
               finishedRequestsHelper={requestsState.finishedRequests.helper}
-              needFeedBackHelpSeeker={requestsState.needFeedBackHelpSeeker}
-              needFeedBackHelper={requestsState.needFeedBackHelper}
               refreshRequests={() => foregroundFetch()}
               refreshRequestsBackground={() => backgroundFetch()}
             />
           }
           {!requestsState.isHelpSeeker &&
             <DashboardHelper
-              activeRequest={requestsState.activeRequests.helper}
+              activeRequests={requestsState.activeRequests.helper}
               finishedRequests={requestsState.finishedRequests.helper}
-              needFeedBackHelper={requestsState.needFeedBackHelper}
               refreshRequests={() => foregroundFetch()}
               refreshRequestsBackground={() => backgroundFetch()}
             />

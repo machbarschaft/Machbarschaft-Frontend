@@ -11,9 +11,11 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
     "open": "Bisher hat kein Helfer den Auftrag angenommen.",
     "accepted": "Der Auftrag wurde angenommen.",
     "called": "Es wurden Details per Telefon besprochen.",
-    "on-the-way": "Der Helfer ist unterwegs."
+    "on-the-way": "Der Helfer ist unterwegs.",
+    "done": "Der Helfer hat den Auftrag als erledigt markiert.",
+    "aborted": "Der Helfer hat den Auftrag abgebrochen.",
+    "did-not-help": "Der Helfer hat angegeben, dass er Ihnen nicht helfen konnte."
   };
-
   if (status == 'open') {
     content = (
       <>
@@ -21,7 +23,8 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
         {statusMapping[status]}
       </>
     );
-  } else if (status == 'accepted' || status == 'called' || status == 'on-the-way') {
+  } else if (status == 'accepted' || status == 'called' || status == 'on-the-way' || status == 'done'
+            || status == 'aborted' || status == 'did-not-help') {
     content = (
       <>
         <div className="dashboard-tile-spacing" />
@@ -48,7 +51,7 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
 DashboardTileHelpSeekerStatus.propTypes = {
   name: PropTypes.string,
   phone: PropTypes.number,
-  status: PropTypes.oneOf(['open', 'accepted', 'called', 'on-the-way'])
+  status: PropTypes.oneOf(["open", "accepted", "called", "on-the-way", "done", "aborted", "did-not-help"])
     .isRequired,
 };
 

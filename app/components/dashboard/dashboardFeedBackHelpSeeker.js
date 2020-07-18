@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Input, Form, Radio, Button, Typography} from 'antd';
-import { putFeedback } from '../../utils/api/feedbackAPI';
+import { postFeedback } from '../../utils/api/feedbackAPI';
 import { putReopenRequest } from '../../utils/api/requestStatusApi';
 
 const { Title, Text } = Typography;
@@ -61,7 +61,7 @@ function sendStateReducer(state, action) {
   throw new Error('Unsupported');
 }
 
-function DashboardFeedBackHelpSeeker({processId, requestId, name, feedBackSent}) {
+function DashboardFeedBackHelpSeeker({requestId, name, status, feedBackSent}) {
   const [form] = Form.useForm();
   const [sendState, dispatchSendState] = React.useReducer(sendStateReducer, {
     loading: false,
@@ -74,9 +74,12 @@ function DashboardFeedBackHelpSeeker({processId, requestId, name, feedBackSent})
 
   const sendFeedback = (formValues, reopenRequest) => {
     dispatchSendState({type: "loading-feedback"});
-    putFeedback(processId, true, formValues.needContact, formValues.comment)
+    postFeedback(requestId, true, formValues.needContact, formValues.comment)
       .then((res) => {
-        if(reopenRequest) sendReopenRequest(formValues);
+        if(reopenRequest) {
+          console.log("feedback successful, now send reopen");
+          sendReopenRequest(formValues);
+        }
         dispatchSendState({type: "success-feedback"});
       })
       .catch((err) => {dispatchSendState({type: "error-feedback", error: err})})
@@ -90,12 +93,17 @@ function DashboardFeedBackHelpSeeker({processId, requestId, name, feedBackSent})
   React.useEffect(() => {
     if(sendState.sendingFinished) feedBackSent();
   }, [sendState.sendingFinished]);
+  const statusMapping = {
+    "done": "hat Ihren Auftrag als erfolgreich markiert",
+    "aborted": "hat Ihren Auftrag abgebrochen",
+    "did-not-help": "hat angegeben, dass er Ihnen nicht helfen konnte"
+  };
 
   return (
     <div className="dashboard-tile">
       <div className="horizontal-center">
         <Title level={3}>
-          {name} hat Ihren Auftrag als erledigt markiert.<br/>
+          {name} {status in statusMapping ? statusMapping[status] : "hat Ihren Auftrag beendet"}.<br/>
           Lief alles erfolgreich?
         </Title>
       </div>
@@ -172,9 +180,9 @@ function DashboardFeedBackHelpSeeker({processId, requestId, name, feedBackSent})
   );
 }
 DashboardFeedBackHelpSeeker.propTypes = {
-  processId: PropTypes.string.isRequired,
   requestId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
   feedBackSent: PropTypes.func.isRequired
 }
 export default DashboardFeedBackHelpSeeker;

@@ -53,8 +53,12 @@ export default function RoutesComponent() {
       <Route path="/resetpassword" component={ResetPassword} />
       <Route path="/telefon-bestaetigen" render={(props) => (
           <>
-            {authenticationState.phoneVerified === true && <Redirect to={"/"} />}
-            {authenticationState.phoneVerified === true && <ValidatePhone />}
+            {authenticationState.phoneVerified && 
+              <Redirect to={"/"} />
+            }
+            {!authenticationState.phoneVerified && 
+              <ValidatePhone />
+            }
           </>
       )}/>
         
