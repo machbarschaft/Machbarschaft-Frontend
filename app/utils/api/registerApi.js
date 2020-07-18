@@ -21,7 +21,9 @@ export const postRegisterRequest = async (formValues) => {
     if (res.status === 201) {
       return res;
     }
+    console.log("res: ", res);
     res = await res.json();
+    console.log("res json: ", res);
     // ToDo: Return multiple errors
     throw new Error(res.errors);
   });

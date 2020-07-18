@@ -32,7 +32,7 @@ export default function RegisterHelperComponent() {
     const registerResult = await authenticationContext.performRegister(
       values.email,
       values.phone,
-      //values.phonePrefix,
+      values.countryCode,
       values.password,
       values.forename,
       values.surname
@@ -45,12 +45,31 @@ export default function RegisterHelperComponent() {
 
 
   const phonePrefixSelector = (
-    <Form.Item name="phonePrefix" noStyle>
+    <Form.Item name="countryCode" noStyle>
       <Select style={{ width: 70 }}>
         <Option value="49">+49</Option>
       </Select>
     </Form.Item>
   );
+
+  const printErrors = (errors) => {
+    //errors = errors["errors"];
+    console.log("errors: ", JSON.stringify(errors));
+    if(errors.length > 0) {
+      var resultString = "";
+      for(var i = 0; i < errors.length; i++) {
+        var printedError = Object.keys(errors[i])
+        .map(
+          (key) =>
+            `${key}: ${errors[key]}`
+        )
+        .join(', ');
+        resultString += printedError + ((i != errors.length-1) ? <br/> : '');
+      }
+      return resultString;
+    }
+      else return "Unbekannter Fehler";
+  }
 
   return (
     <>
@@ -81,7 +100,7 @@ export default function RegisterHelperComponent() {
                   onFinish={handleForm}
                   hideRequiredMark
                   initialValues={{
-                    phonePrefix: '49',
+                    countryCode: '49',
                   }}
                 >
                   <Form.Item
@@ -126,7 +145,7 @@ export default function RegisterHelperComponent() {
 
                   <Form.Item
                     name="phone"
-                    label="Deine Handynummer"
+                    label="Deine Telefonnummer"
                     rules={[
                       {
                         required: true,
@@ -168,7 +187,9 @@ export default function RegisterHelperComponent() {
                 {authenticationContext.authenticationState.registerErrors &&
                   <Alert
                     message="Es ist ein Fehler aufgetreten"
-                    description={authenticationContext.authenticationState.registerErrors}
+                    description={
+                      printErrors(authenticationContext.authenticationState.registerErrors)
+                    }
                     type="error"
                   />
                 }
