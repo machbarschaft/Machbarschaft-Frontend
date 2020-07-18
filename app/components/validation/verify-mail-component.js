@@ -1,10 +1,10 @@
 import React from 'react';
 import { Result, Spin } from 'antd';
-import { getVerifyEmail } from '../../../utils/api/verificationApi';
+import { getVerifyEmail } from '../../utils/api/verificationApi';
 const queryString = require('query-string');
 
 export default function VerifyMail() {
-  const [loading, setLoading] = React.useState(true);
+  /*const [loading, setLoading] = React.useState(true);
   const [verificationSuccess, setVerificationSuccess] = React.useState(false);
   const query = queryString.parse(location.search);
 
@@ -26,12 +26,8 @@ export default function VerifyMail() {
         setVerificationSuccess(false);
         setLoading(false);
       }
-  }, []);
-
-  return (
-    <div className="content-container-default">
-      Hello World!
-      {loading &&
+  }, []);*/
+/*{loading &&
         <Result icon={<Spin size="large" />} />
       }
       {!loading && !verificationSuccess &&
@@ -45,7 +41,11 @@ export default function VerifyMail() {
           status="success"
           title="Ihre E-Mail Adresse wurde erfolgreich bestätigt!"
         />
-      }
+      } */
+  return (
+    <div className="content-container-default">
+      Hello World!
+      
     </div>
   );
 }
