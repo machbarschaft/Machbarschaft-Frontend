@@ -6,7 +6,6 @@ import apiUrl from './apiUrl';
 export const getVerifyEmail = async (token) => {
   const endpoint = `${apiUrl()}auth/verify/${token}`;
 
-  return true;
   return fetch(endpoint, {
     method: 'GET',
     cache: 'no-cache',
@@ -16,8 +15,7 @@ export const getVerifyEmail = async (token) => {
     credentials: 'include',
   }).then(async (res) => {
     if (res.status === 200) {
-      res = await res.json();
-      return res;
+      return;
     }
     res = await res.json();
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
