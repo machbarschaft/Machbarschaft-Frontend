@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Result, Typography} from 'antd';
+import { Result, Typography } from 'antd';
 import DashboardHelperActiveRequest from './dashboardHelperActiveRequest';
 import DashboardHelperFinishedRequests from './dashboardHelperFinishedRequests';
 
-const {Title} = Typography;
+const { Title } = Typography;
 
-function DashboardHelper({activeRequest, finishedRequests}) {
+function DashboardHelper({ activeRequest, finishedRequests }) {
   return (
     <>
-      {activeRequest == null &&
-        <Result title="Sie haben aktuell keinen Auftrag angenommen." />
-      }
-      {activeRequest != null &&
+      {activeRequest == null && (
+        <Result title="Du hast aktuell keinen Auftrag angenommen." />
+      )}
+      {activeRequest != null && (
         <DashboardHelperActiveRequest
           name={activeRequest.name}
           phoneHelpSeeker={123456789}
@@ -24,13 +24,16 @@ function DashboardHelper({activeRequest, finishedRequests}) {
           address={activeRequest.address}
           startedAt={activeRequest.startedAt}
         />
-      }
-      <DashboardHelperFinishedRequests title={"Alte Aufträge"} requestList={finishedRequests} />
+      )}
+      <DashboardHelperFinishedRequests
+        title={'Alte Aufträge'}
+        requestList={finishedRequests}
+      />
     </>
   );
 }
 DashboardHelper.propTypes = {
   activeRequest: PropTypes.object.isRequired,
-  finishedRequests: PropTypes.array.isRequired
-}
+  finishedRequests: PropTypes.array.isRequired,
+};
 export default DashboardHelper;

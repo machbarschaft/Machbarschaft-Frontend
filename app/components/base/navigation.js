@@ -23,7 +23,7 @@ function NavigationMenu({ mode, menuClicked }) {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="2">
-          <NavLink to="/" exact>
+          <NavLink to="/contact" exact>
             KONTAKT
           </NavLink>
         </Menu.Item>

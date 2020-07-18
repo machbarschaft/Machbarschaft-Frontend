@@ -26,6 +26,7 @@ const RegisterHelper = React.lazy(() =>
 const ValidatePhone = React.lazy(() =>
   import('../../components/validation/validate-phone-component')
 );
+const Contact = React.lazy(() => import('../../components/contact/contact'));
 
 export default function RoutesComponent() {
   const authProps = React.useContext(AuthenticationContext);
@@ -33,7 +34,11 @@ export default function RoutesComponent() {
 
   return (
     <Switch>
-      <Route exact path="/" component={authenticationState.uid == null ? LandingPage : Dashboard} />
+      <Route
+        exact
+        path="/"
+        component={authenticationState.uid == null ? LandingPage : Dashboard}
+      />
       <Route
         path="/dashboard"
         render={(props) => (
@@ -48,6 +53,7 @@ export default function RoutesComponent() {
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
       <Route path="/telefon-bestaetigen" component={ValidatePhone} />
+      <Route path="/contact" component={Contact} />
       <Route
         exaxct
         path="/place-request"

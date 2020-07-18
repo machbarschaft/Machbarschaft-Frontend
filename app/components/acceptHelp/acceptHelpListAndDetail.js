@@ -9,29 +9,31 @@ export default function AcceptHelpListAndDetail({
   listEntries,
   listEntriesRender,
   showNoRequestWarning,
-  error
+  error,
 }) {
   return (
     <>
       {selectedMarkerIndex < 0 ? (
         <>
-          {error == null &&
+          {error == null && (
             <div className="accept-help-request-list">
               {error == null && listEntries.length > 0 && listEntriesRender}
-              {error == null && listEntries.length == 0 && showNoRequestWarning &&
-                <div className="accept-help-no-request-text">
-                  Es gibt keine Aufträge im angegebenen Radius in Ihrer Nähe.
-                </div>
-              }
+              {error == null &&
+                listEntries.length == 0 &&
+                showNoRequestWarning && (
+                  <div className="accept-help-no-request-text">
+                    Es gibt keine Aufträge im angegebenen Radius in deiner Nähe.
+                  </div>
+                )}
             </div>
-          }
-          {error != null &&
+          )}
+          {error != null && (
             <Result
               status="error"
               title="Es ist ein Fehler aufgetreten!"
               subTitle={error.toString()}
             />
-          }
+          )}
         </>
       ) : (
         <AcceptRequestDetailView
@@ -48,5 +50,5 @@ AcceptHelpListAndDetail.propTypes = {
   selectedMarkerIndex: PropTypes.number.isRequired,
   setSelectedMarkerIndex: PropTypes.func.isRequired,
   showNoRequestWarning: PropTypes.bool.isRequired,
-  error: PropTypes.object
+  error: PropTypes.object,
 };

@@ -23,6 +23,7 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
+app/assets/config/google-maps-api.js
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build

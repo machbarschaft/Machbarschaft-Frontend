@@ -48,7 +48,7 @@ function ResetPasswordNewPwdLeftCard({ user, token, proceed }) {
           rules={[
             {
               required: true,
-              message: 'Gib dein Passwort ein.',
+              message: 'Geben Sie Ihr Passwort ein.',
             },
           ]}
         >
@@ -61,7 +61,7 @@ function ResetPasswordNewPwdLeftCard({ user, token, proceed }) {
           rules={[
             {
               required: true,
-              message: 'Gib dein Passwort erneut ein.',
+              message: 'Geben Sie Ihr Passwort erneut ein.',
             },
           ]}
         >

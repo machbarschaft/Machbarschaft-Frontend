@@ -5,14 +5,13 @@
  * @returns {Promise<Response>} the unparsed response of the backend
  */
 import apiUrl from './apiUrl';
+import { objectToFormUrlEncoded } from './formUrlEncoder';
 
 export const putLogin = (email, password) => {
   const endpoint = `${apiUrl()}auth/login`;
 
   const tmp = { email, password };
-  const formBody = Object.keys(tmp)
-    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(tmp[key])}`)
-    .join('&');
+  const formBody = objectToFormUrlEncoded(tmp);
 
   return fetch(endpoint, {
     method: 'PUT',

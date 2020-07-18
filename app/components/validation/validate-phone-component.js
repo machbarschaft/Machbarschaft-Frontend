@@ -107,7 +107,10 @@ export default function ValidatePhoneComponent(props) {
     if (authenticationContext.isAuthenticated()) {
       validatePhoneNumber.current =
         authenticationContext.authenticationState.phoneNumber;
-        console.log("is authenticated: ", authenticationContext.authenticationState);
+      console.log(
+        'is authenticated: ',
+        authenticationContext.authenticationState
+      );
     } else {
       const { phoneNumber } = queryString.parse(props.location.search);
       if (typeof phoneNumber !== 'undefined') {
@@ -125,7 +128,7 @@ export default function ValidatePhoneComponent(props) {
           {validatePhoneState.validateSuccess && (
             <Alert
               message="Fertig"
-              description="Deine Telefonnummer wurde erfolgreich validiert. Du kannst nun zurück zur Startseite gehen und deinen Account verwenden."
+              description="Ihre Telefonnummer wurde erfolgreich validiert. Sie können nun zurück zur Startseite gehen und Ihr Konto verwenden."
               type="success"
             />
           )}
@@ -153,11 +156,11 @@ export default function ValidatePhoneComponent(props) {
                   >
                     <Form.Item
                       name="phone"
-                      label="Deine Handynummer"
+                      label="Ihre Handynummer"
                       rules={[
                         {
                           required: true,
-                          message: 'Gib eine gültige Telefonnummer ein.',
+                          message: 'Geben Sie eine gültige Telefonnummer ein.',
                         },
                       ]}
                     >
@@ -176,7 +179,7 @@ export default function ValidatePhoneComponent(props) {
                         {
                           required: true,
                           message:
-                            'Gib den Code ein, den du per SMS oder Anruf erhalten hast.',
+                            'Geben Sie den Code ein, den Sie per SMS oder Anruf erhalten hast.',
                         },
                       ]}
                     >
@@ -198,7 +201,7 @@ export default function ValidatePhoneComponent(props) {
                     {validatePhoneState.validateFailure && (
                       <Alert
                         message="Es ist ein Fehler aufgetreten"
-                        description="Deine Telefonnummer konnte nicht bestätigt werden. Bitte überprüfe deinen Code."
+                        description="Ihre Telefonnummer konnte nicht bestätigt werden. Bitte überprüfen Sie den Code."
                         type="error"
                       />
                     )}
@@ -214,8 +217,11 @@ export default function ValidatePhoneComponent(props) {
                   bordered={false}
                 >
                   <Paragraph>
-                    Ein kurzer Text dazu, warum wir das machen.<br/>
-                    <Button type="primary" onClick={() => handleRequestTan()}>TAN erneut schicken</Button>
+                    Ein kurzer Text dazu, warum wir das machen.
+                    <br />
+                    <Button type="primary" onClick={() => handleRequestTan()}>
+                      TAN erneut schicken
+                    </Button>
                   </Paragraph>
                 </Card>
               </Col>

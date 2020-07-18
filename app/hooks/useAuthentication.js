@@ -219,7 +219,8 @@ export default function useAuthentication() {
       dispatch({
         type: 'loginFailure',
         data: {
-          errors: 'Die Anmeldung konnte nicht durchgeführt werden, bitte versuche es erneut.',
+          errors:
+            'Die Anmeldung konnte nicht durchgeführt werden, bitte versuchen Sie es erneut.',
         },
       });
       return false;

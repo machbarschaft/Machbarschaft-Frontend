@@ -94,7 +94,9 @@ function LoginWindow({ location: { username } = '' }) {
               <Button
                 type="primary"
                 htmlType="submit"
-                loading={authenticationContext.authenticationState.isAuthenticating}
+                loading={
+                  authenticationContext.authenticationState.isAuthenticating
+                }
               >
                 Login
               </Button>
@@ -108,7 +110,7 @@ function LoginWindow({ location: { username } = '' }) {
               Passwort ein.
             </Timeline.Item>
             <Timeline.Item>
-              Passwort vergessen? Dann klicken sie bitte hier:
+              Passwort vergessen? Dann klicken Sie bitte hier:
               <br />
               <Link to="/resetpassword">
                 <Button className="login-description-card-button">
@@ -117,9 +119,13 @@ function LoginWindow({ location: { username } = '' }) {
               </Link>
             </Timeline.Item>
             <Timeline.Item>
-              Wenn Sie noch keinen Account erstellt haben:
+              Wenn Sie noch kein Konto erstellt haben:
               <br />
-              <Button className="login-description-card-button" type="primary" onClick={() => history.push("/registrieren")}>
+              <Button
+                className="login-description-card-button"
+                type="primary"
+                onClick={() => history.push('/registrieren')}
+              >
                 Registrieren
               </Button>
             </Timeline.Item>
