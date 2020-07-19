@@ -7,18 +7,19 @@ const LandingPage = React.lazy(() =>
   import('../../components/landingPage/landingPage')
 );
 const Dashboard = React.lazy(() =>
-  import('../../components/dashboard/dashboard')
+  import('../../components/dashboard/dashboard-component')
 );
-const Examples = React.lazy(() => import('../../components/examples/examples'));
-const Login = React.lazy(() => import('../../components/login/login'));
+const Login = React.lazy(() =>
+  import('../../components/login/login-component')
+);
 const ResetPassword = React.lazy(() =>
-  import('../../components/resetPassword/resetPassword')
+  import('../../components/resetPassword/resetPassword-component')
 );
 const PlaceRequest = React.lazy(() =>
-  import('../../components/seekHelp/place-request')
+  import('../../components/seekHelp/place-request-component')
 );
 const AcceptRequest = React.lazy(() =>
-  import('../../components/acceptHelp/acceptRequest')
+  import('../../components/acceptHelp/acceptRequest-component')
 );
 const RegisterHelper = React.lazy(() =>
   import('../../components/register/register-helper-component')
@@ -26,13 +27,19 @@ const RegisterHelper = React.lazy(() =>
 const ValidatePhone = React.lazy(() =>
   import('../../components/validation/validate-phone-component')
 );
-const Settings = React.lazy(() => import('../../components/base/settings'));
+const Settings = React.lazy(() =>
+  import('../../components/base/settings-component')
+);
 const VerifyMail = React.lazy(() =>
   import('../../components/validation/verify-mail-component')
 );
-const Contact = React.lazy(() => import('../../components/contact/contact'));
+const Contact = React.lazy(() =>
+  import('../../components/contact/contact-component')
+);
 const Imprint = React.lazy(() => import('../../components/misc/imprint'));
-const PrivacyNotice = React.lazy(() => import('../../components/misc/privacy-notice'));
+const PrivacyNotice = React.lazy(() =>
+  import('../../components/misc/privacy-notice')
+);
 const Faq = React.lazy(() => import('../../components/misc/faq'));
 
 export default function RoutesComponent() {
@@ -63,7 +70,6 @@ export default function RoutesComponent() {
           />
         )}
       />
-      <Route path="/examples" component={Examples} />
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/passwort-zuruecksetzen" component={ResetPassword} />

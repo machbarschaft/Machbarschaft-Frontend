@@ -51,7 +51,7 @@ export default function VerifyMail() {
         <Result
           status="success"
           title="Ihre E-Mail Adresse wurde erfolgreich bestätigt!"
-          subTitle="Du kannst nun zurück zur Startseite gehen und deinen Account verwenden."
+          subTitle="Sie können nun zurück zur Startseite gehen und Ihren Account verwenden."
         />
       )}
     </div>

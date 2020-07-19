@@ -13,6 +13,7 @@ import {
 } from 'antd';
 import { useHistory } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
+import { printErrors } from '../../utils/misc/printErrors';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -50,22 +51,6 @@ export default function RegisterHelperComponent() {
       </Select>
     </Form.Item>
   );
-
-  const printErrors = (errors) => {
-    // errors = errors["errors"];
-    console.log('errors: ', JSON.stringify(errors));
-    if (errors.length > 0) {
-      let resultString = '';
-      for (let i = 0; i < errors.length; i++) {
-        const printedError = Object.keys(errors[i])
-          .map((key) => `${key}: ${errors[key]}`)
-          .join(', ');
-        resultString += printedError + (i != errors.length - 1 ? <br /> : '');
-      }
-      return resultString;
-    }
-    return 'Unbekannter Fehler';
-  };
 
   return (
     <>

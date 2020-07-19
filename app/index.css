@@ -826,9 +826,6 @@ h4 {
 .horizontal-container {
 	display: flex;
 }
-.space-left-little {
-	margin-left: 2em;
-}
 .space-top {
   margin-top: 1em;
 }

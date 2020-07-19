@@ -15,11 +15,11 @@ import {
   getUserPreferences,
   putUserPreferences,
   putUserProfile,
-} from '../../utils/api/userAPI';
+} from '../../utils/api/userApi';
 
 const { Title } = Typography;
 
-export default function Settings() {
+export default function SettingsComponent() {
   const authenticationContext = React.useContext(AuthenticationContext);
 
   const [expandState, setExpandState] = React.useState(false);
@@ -241,7 +241,7 @@ export default function Settings() {
                 ]}
               >
                 <Input placeholder="Deutschland" />
-              </Form.Item>{' '}
+              </Form.Item>
             </div>
             <Form.Item
               label="Radius:"

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Form, Radio, Button, notification, Typography } from 'antd';
-import { postFeedback } from '../../utils/api/feedbackAPI';
+import { postFeedback } from '../../utils/api/feedbackApi';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -34,7 +34,7 @@ function DashboardFeedBackHelper({ _id, name, feedBackSent }) {
   return (
     <div className="dashboard-tile">
       <div className="horizontal-center">
-        <Title level={3}>Konnten Sie{name} erfolgreich helfen?</Title>
+        <Title level={3}>Konnten Sie {name} erfolgreich helfen?</Title>
       </div>
       <div className="dashboard-spacing" />
       <div className="horizontal-center">

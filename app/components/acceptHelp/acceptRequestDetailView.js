@@ -45,7 +45,7 @@ export default function AcceptRequestDetailView({
         history.push('/dashboard');
       })
       .catch((err) => {
-        message.error('Es ist ein Fehler aufgetreten!'); // ToDo: more details
+        message.error('Es ist ein Fehler aufgetreten!');
         setLoadingState(false);
       });
   };

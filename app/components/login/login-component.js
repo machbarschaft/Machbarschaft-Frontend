@@ -1,9 +1,20 @@
 import React from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { Card, Input, Button, Timeline, Form, Select, Typography } from 'antd';
+import {
+  Card,
+  Input,
+  Button,
+  Timeline,
+  Form,
+  Select,
+  Typography,
+  Alert,
+} from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import AuthenticationContext from '../../contexts/authentication';
+import { printErrors } from '../../utils/misc/printErrors';
+
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -88,6 +99,15 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
               </Button>
             </Form.Item>
           </Form>
+          {authenticationContext.authenticationState.authenticationErrors && (
+            <Alert
+              message="Es ist ein Fehler aufgetreten"
+              description={printErrors(
+                authenticationContext.authenticationState.authenticationErrors
+              )}
+              type="error"
+            />
+          )}
         </Card>
         <Card className="login-card login-description-card">
           <Timeline>

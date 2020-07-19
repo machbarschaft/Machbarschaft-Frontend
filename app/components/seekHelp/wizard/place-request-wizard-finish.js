@@ -3,7 +3,7 @@ import { Button, Result, Typography, Card } from 'antd';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import RegisterHelpseekerComponent from '../../register/register-helpseeker-component';
-import LoginWindow from '../../login/login';
+import LoginWindow from '../../login/login-component';
 import AuthenticationContext from '../../../contexts/authentication';
 
 /**

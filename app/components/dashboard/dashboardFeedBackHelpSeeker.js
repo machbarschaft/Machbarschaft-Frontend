@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Input, Form, Radio, Button, Typography } from 'antd';
-import { postFeedback } from '../../utils/api/feedbackAPI';
+import { postFeedback } from '../../utils/api/feedbackApi';
 import { putReopenRequest } from '../../utils/api/requestStatusApi';
 
 const { Title, Text } = Typography;
