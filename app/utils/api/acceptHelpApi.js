@@ -26,14 +26,10 @@ export const getOpenRequests = async ({ longitude, latitude, radius }) => {
     credentials: 'include',
   }).then(async (res) => {
     if (res.status === 200) {
-      console.log("got res", res);
       res = await res.json();
-      console.log("got res json", res);
       return res;
     }
-    console.log("got error res", res);
     res = await res.json();
-    console.log("got error res json", res);
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
   });
 };
@@ -56,9 +52,7 @@ export const acceptOpenRequest = async ({ requestId }) => {
     if (res.status === 201) {
       return;
     }
-    console.log("got error res", res);
     res = await res.json();
-    console.log("got error res json", res);
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
   });
 };

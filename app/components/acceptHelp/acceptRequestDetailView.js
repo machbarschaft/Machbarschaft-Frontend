@@ -36,6 +36,7 @@ export default function AcceptRequestDetailView({
 
   const [loadingState, setLoadingState] = React.useState(false);
   const history = useHistory();
+
   const acceptRequest = () => {
     setLoadingState(true);
     acceptOpenRequest({requestId: process})
@@ -45,7 +46,6 @@ export default function AcceptRequestDetailView({
         history.push('/dashboard');
       })
       .catch((err) => {
-        console.log("error: ", err);
         message.error('Es ist ein Fehler aufgetreten!'); // ToDo: more details
         setLoadingState(false);
       })
