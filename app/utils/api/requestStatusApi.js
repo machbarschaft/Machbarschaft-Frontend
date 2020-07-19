@@ -19,7 +19,7 @@ export const putReopenRequest = async (requestId) => {
       return res;
     }
     res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
+    throw Error(res.errors[0]);
   });
 };
 
@@ -41,7 +41,7 @@ export const putAbortRequest = async (processId) => {
       return;
     }
     res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
+    throw Error(res.errors[0]);
   });
 };
 
@@ -63,6 +63,6 @@ export const putUpdateRequestStatus = async (processId) => {
       return;
     }
     res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
+    throw Error(res.errors[0]);
   });
 };

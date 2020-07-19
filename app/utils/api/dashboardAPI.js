@@ -20,7 +20,7 @@ export const getActiveRequests = async () => {
       return res;
     }
     res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
+    throw Error(res.errors[0]);
   });
 };
 
@@ -44,6 +44,6 @@ export const getFinishedRequests = async () => {
       return res;
     }
     res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
+    throw Error(res.errors[0]);
   });
 };

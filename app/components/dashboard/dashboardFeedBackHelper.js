@@ -34,7 +34,7 @@ function DashboardFeedBackHelper({ _id, name, feedBackSent }) {
   return (
     <div className="dashboard-tile">
       <div className="horizontal-center">
-        <Title level={3}>Konnten Sie{name} erfolgreich helfen?</Title>
+        <Title level={3}>Konnten Sie {name} erfolgreich helfen?</Title>
       </div>
       <div className="dashboard-spacing" />
       <div className="horizontal-center">
