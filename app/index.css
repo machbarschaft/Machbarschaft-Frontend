@@ -89,6 +89,7 @@ h4 {
     overflow: hidden;
   }
   .nav-profile-container {
+    display: flex;
     margin-right: 3em;
     margin-left: 3em;
   }
@@ -108,9 +109,10 @@ h4 {
     height: auto;
   }
   .nav-profile-container {
+    display: flex;
     margin-left: 1em;
     margin-right: 1em;
-    text-align: center;
+    justify-items: center;
   }
 }
 .nav-menu-mobile-content {
@@ -842,7 +844,12 @@ h4 {
 	border-radius: 0.3rem;
 }
 .spacing-left {
-	margin-left: 10rem !important;
+	margin-left: 2em;
+}
+@media (min-width: 1000px) {
+  .settings-spacing-left {
+    margin-left: 10rem !important;
+  }
 }
 .center {
 	display: flex;
@@ -985,4 +992,29 @@ h4 {
   text-decoration: none;
   padding: 0.3em 2em;
   border-radius: 1em;
+}
+
+.font-sizer-button {
+  background: transparent !important;
+  border: 1px solid #2d3047 !important;
+  margin-left: 1em !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto !important;
+}
+@media (min-width: 1450px) {
+  .font-sizer-button {
+    padding: 0.2em 0.7em !important;
+    font-size: 140% !important;    
+  }
+}
+@media (max-width: 1450px) {
+  .font-sizer-button {
+    padding: 0.1em 0.7em !important;
+    font-size: 100% !important;    
+  }
+}
+.profile-spacing-left {
+  margin-left: 2em;
 }

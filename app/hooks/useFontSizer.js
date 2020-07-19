@@ -1,5 +1,4 @@
 import React from 'react';
-import { Typography } from 'antd';
 
 export default function useFontSizer() {
   const [fontSize, setFontSize] = React.useState(1);
