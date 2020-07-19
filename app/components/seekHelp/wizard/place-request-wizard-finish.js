@@ -65,7 +65,10 @@ export default function PlaceRequestWizardFinish({
 }
 
 PlaceRequestWizardFinish.propTypes = {
-  formData: PropTypes.object,
-  phoneNumber: PropTypes.string,
-  countryCode: PropTypes.string,
+  handleNextPage: PropTypes.func.isRequired,
+  handlePreviousPage: PropTypes.func.isRequired,
+  wizardState: PropTypes.object.isRequired,
+  formData: PropTypes.object.isRequired,
+  phoneNumber: PropTypes.string.isRequired,
+  countryCode: PropTypes.number.isRequired,
 };

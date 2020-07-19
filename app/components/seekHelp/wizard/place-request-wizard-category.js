@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Typography, Input, Button, Radio, Space, Form } from 'antd';
+import { Typography, Radio, Space, Form } from 'antd';
 import PropTypes from 'prop-types';
 import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
@@ -41,7 +41,8 @@ export default function PlaceRequestWizardCategory({
                 requestType: formData.current[formName].requestType == "" ? null
                               : formData.current[formName].requestType,
                 carNecessary: formData.current[formName].carNecessary,
-                prescriptionRequired: formData.current[formName].prescriptionRequired,
+                prescriptionRequired:
+                  formData.current[formName].prescriptionRequired,
               }
             : {}
         }

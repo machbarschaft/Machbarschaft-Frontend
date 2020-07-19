@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Button } from 'antd';
+import { Menu } from 'antd';
 import { getOpenRequests } from '../../utils/api/acceptHelpApi';
 
 const AcceptHelpSearchBar = React.lazy(() => import('./acceptHelpSearchBar'));
@@ -109,7 +109,7 @@ export default function AcceptRequestWindow() {
               selectedMarkerIndex: index,
             })
           }
-          hover={acceptRequestState.hoverMarkerIndex == index}
+          hover={acceptRequestState.hoverMarkerIndex === index}
           onMouseEnter={() =>
             dispatchAcceptRequestState({
               type: 'hover-index',
@@ -173,7 +173,7 @@ export default function AcceptRequestWindow() {
       listEntries={acceptRequestState.requestList}
       listEntriesRender={requestListRender}
       showNoRequestWarning={
-        currentLocation.lat != 0 || currentLocation.lng != 0
+        currentLocation.lat !== 0 || currentLocation.lng !== 0
       }
       error={acceptRequestState.error}
     />

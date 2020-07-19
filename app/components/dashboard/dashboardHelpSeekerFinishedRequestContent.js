@@ -1,13 +1,10 @@
 import React from 'react';
-import { Typography } from 'antd';
 import PropTypes from 'prop-types';
 import DashboardTileContact from './dashboardTileContact';
 import DashboardTileUrgency from './dashboardTileUrgency';
 import DashboardTileRequestType from './dashboardTileRequestType';
 import DashboardTileAdditionalInformation from './dashboardTileAdditionalInformation';
 import DashboardTile from './dashboardTile';
-
-const { Text } = Typography;
 
 function DashboardHelpSeekerFinishedRequestContent({
   startedAt,
@@ -23,15 +20,14 @@ function DashboardHelpSeekerFinishedRequestContent({
   return (
     <div className="dashboard-helper-finished-request-grid">
       {name !== undefined && <DashboardTileContact name={name} />}
-      {name === undefined &&
-        <DashboardTile title={"Status"} content={"Der Auftrag wurde von keinem Helfer angenommen."} />
-      }
+      {name === undefined && (
+        <DashboardTile
+          title={'Status'}
+          content={'Der Auftrag wurde von keinem Helfer angenommen.'}
+        />
+      )}
       <DashboardTileUrgency urgency={urgency} />
-      <DashboardTileContact
-        street={street}
-        zipCode={zipCode}
-        city={city}
-      />
+      <DashboardTileContact street={street} zipCode={zipCode} city={city} />
       <DashboardTileRequestType requestType={requestType} />
       <DashboardTileAdditionalInformation
         carNecessary={carNecessary}

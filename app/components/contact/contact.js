@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  Input,
-  Button,
-  notification,
-  Typography,
-  Timeline,
-  Form,
-  Select,
-} from 'antd';
+import { Card, Input, Button, notification, Timeline, Form } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import { postContactRequest } from '../../utils/api/contactApi';
 

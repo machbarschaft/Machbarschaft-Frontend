@@ -14,7 +14,7 @@ function ResetPasswordSecurityCodeRightCard({ user }) {
       setLoadingState(false);
       notification.success({
         message: 'Fertig',
-        description: 'Anfrage erfolgreich verschickt!'
+        description: 'Anfrage erfolgreich verschickt!',
       });
     }, 1000);
   }

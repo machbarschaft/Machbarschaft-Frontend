@@ -1,19 +1,9 @@
 import React from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import {
-  Card,
-  Input,
-  Space,
-  Button,
-  Typography,
-  Timeline,
-  Form,
-  Select,
-} from 'antd';
+import { Card, Input, Button, Timeline, Form } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import AuthenticationContext from '../../contexts/authentication';
-
+import AuthenticationContext from '../../contexts/authentication'
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -34,10 +24,6 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
       values.password
     );
   };
-
-  function onSubmit(data) {
-    authenticationContext.performAuthentication(data.user, data.password);
-  }
 
   React.useEffect(() => {
     if (authenticationContext.authenticationState.uid != null) {

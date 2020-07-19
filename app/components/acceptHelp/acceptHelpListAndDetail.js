@@ -19,7 +19,7 @@ export default function AcceptHelpListAndDetail({
             <div className="accept-help-request-list">
               {error == null && listEntries.length > 0 && listEntriesRender}
               {error == null &&
-                listEntries.length == 0 &&
+                listEntries.length === 0 &&
                 showNoRequestWarning && (
                   <div className="accept-help-no-request-text">
                     Es gibt keine Aufträge im angegebenen Radius in deiner Nähe.

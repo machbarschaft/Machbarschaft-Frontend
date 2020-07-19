@@ -19,7 +19,7 @@ function DashboardTileContact({ name, phone, street, zipCode, city }) {
             {phone !== undefined && (
               <>
                 <span>Telefon:</span>
-                <span>{'0' + phone}</span>
+                <span>{`0${phone}`}</span>
               </>
             )}
             {street !== undefined && (

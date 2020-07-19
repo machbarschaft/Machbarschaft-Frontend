@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 function DashboardTileImgTextRow({ imgSrc, title }) {
   return (
     <div className="dashboard-tile-request-type-row">
-      <img className="dashboard-tile-request-type-image" src={imgSrc} />
+      <img
+        className="dashboard-tile-request-type-image"
+        src={imgSrc}
+        alt="request-type"
+      />
       <div className="dashboard-tile-request-type-title">{title}</div>
     </div>
   );

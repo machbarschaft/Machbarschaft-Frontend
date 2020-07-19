@@ -28,7 +28,7 @@ export default function ValidateMailNotification() {
       .then(() => openSuccessNotification())
       .catch((err) => {
         openErrorNotification();
-        console.log("error: ", err);
+        console.log('error: ', err);
       });
   };
 
@@ -42,7 +42,8 @@ export default function ValidateMailNotification() {
             Bevor du alle Funktionen von Machbarschaft nutzen kannst, musst du
             deine E-Mail Adresse bestätigen. Du hast eine E-Mail von uns
             erhalten.
-            <br /><br/>
+            <br />
+            <br />
             <Button
               type="primary"
               loading={buttonState}

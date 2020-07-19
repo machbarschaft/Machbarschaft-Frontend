@@ -1,10 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Divider, Typography, Result, Spin } from 'antd';
-import ThemeContext, { ThemeProvider } from '../../contexts/examples/theme';
+import { Divider, Result, Spin } from 'antd';
+import { ThemeProvider } from '../../contexts/examples/theme';
 import NavigationExample from './navigation-example';
-
-const { Text } = Typography;
 
 {
   /* Lazy loading of componenents. App-Bundle is split up into different parts, each of which is only loaded if needed. Immense speedup for larger applications. */

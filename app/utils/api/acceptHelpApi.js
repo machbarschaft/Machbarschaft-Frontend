@@ -15,7 +15,6 @@ export const getOpenRequests = async ({ longitude, latitude, radius }) => {
     radius: radius,
   });
   const endpoint = `${apiUrl()}request/open-requests?${params}`;
-  console.log("open requests query: " + endpoint);
 
   return fetch(endpoint, {
     method: 'GET',
@@ -56,4 +55,3 @@ export const acceptOpenRequest = async ({ requestId }) => {
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
   });
 };
-

@@ -1,5 +1,4 @@
 import apiUrl from './apiUrl';
-import { objectToFormUrlEncoded } from './formUrlEncoder';
 
 /**
  * Endpoint to send confirmation email
@@ -18,15 +17,10 @@ export const getConfirmEmail = async () => {
     .then((res) => {
       if (res.status === 200) {
         return;
-      } else {
-        throw Error(
-          'Die Anfrage konnte nicht gesendet werden.'
-        );
       }
+      throw Error('Die Anfrage konnte nicht gesendet werden.');
     })
     .catch((error) => {
-      throw Error(
-        'Die Anfrage konnte nicht gesendet werden.'
-      );
+      throw Error('Die Anfrage konnte nicht gesendet werden.');
     });
 };

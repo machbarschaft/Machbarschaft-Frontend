@@ -23,24 +23,31 @@ export default function AcceptRequestListEntry({
       onMouseEnter={() => onMouseEnter()}
       onMouseLeave={() => onMouseLeave()}
     >
-      <div className="accept-help-request-list-entry-number">
-        {number}
-      </div>
+      <div className="accept-help-request-list-entry-number">{number}</div>
       <div className="accept-help-request-list-entry-address">
-        {address.street}, {address.zipCode}{' '}
-        {address.city}
+        {address.street}, {address.zipCode} {address.city}
       </div>
-      {requestType == 'groceries' &&
-        <img src={RequestTypeGroceries} className="accept-help-request-list-entry-category"/>
-      }
-      {requestType == 'medication' &&
-        <img src={RequestTypeMedication} className="accept-help-request-list-entry-category"
-      />}
-      {requestType == 'other' &&
-        <img src={RequestTypeOther} className="accept-help-request-list-entry-category"
-      />}
+      {requestType === 'groceries' && (
+        <img
+          src={RequestTypeGroceries}
+          className="accept-help-request-list-entry-category"
+        />
+      )}
+      {requestType === 'medication' && (
+        <img
+          src={RequestTypeMedication}
+          className="accept-help-request-list-entry-category"
+        />
+      )}
+      {requestType === 'other' && (
+        <img
+          src={RequestTypeOther}
+          className="accept-help-request-list-entry-category"
+        />
+      )}
       <div className="accept-help-request-list-entry-distance">
-        {(distance/1000).toFixed(1).replace('.', ',')}km
+        {(distance / 1000).toFixed(1).replace('.', ',')}
+        km
       </div>
     </div>
   );

@@ -17,11 +17,10 @@ export const postContactRequest = async (formValues) => {
     .then((res) => {
       if (res.status === 200) {
         return;
-      } else {
-        throw Error(
-          'Beim Absenden der Anfrage ist ein Fehler aufgetreten. Versuchen Sie es später erneut.'
-        );
       }
+      throw Error(
+        'Beim Absenden der Anfrage ist ein Fehler aufgetreten. Versuchen Sie es später erneut.'
+      );
     })
     .catch((error) => {
       throw Error(

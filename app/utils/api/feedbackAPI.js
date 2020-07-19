@@ -4,14 +4,16 @@ import apiUrl from './apiUrl';
  * Send feedback
  */
 export const postFeedback = async (id, isHelpSeeker, needContact, comment) => {
-  const endpoint = `${apiUrl()}feedback/${isHelpSeeker ? "request" : "response"}/${id}`;
+  const endpoint = `${apiUrl()}feedback/${
+    isHelpSeeker ? 'request' : 'response'
+  }/${id}`;
 
   const tmp = { needContact, comment };
   const body = Object.keys(tmp)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(tmp[key])}`)
     .join('&');
 
-  console.log("send feedback to '" + endpoint + "' with body: ", body);
+  console.log(`send feedback to '${endpoint}' with body: `, body);
   return fetch(endpoint, {
     method: 'POST',
     cache: 'no-cache',
@@ -19,7 +21,7 @@ export const postFeedback = async (id, isHelpSeeker, needContact, comment) => {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     credentials: 'include',
-    body: body
+    body: body,
   }).then(async (res) => {
     if (res.status === 201) {
       return;
@@ -28,6 +30,3 @@ export const postFeedback = async (id, isHelpSeeker, needContact, comment) => {
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
   });
 };
-
-
-

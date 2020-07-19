@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography, Button, Result, Spin } from 'antd';
 
 const DashboardHelpSeekerFinishedRequests = React.lazy(() =>
   import('./dashboardHelpSeekerFinishedRequests')
@@ -24,8 +23,6 @@ const DashboardFeedBackHelpSeeker = React.lazy(() =>
   import('./dashboardFeedBackHelpSeeker')
 );
 
-const { Title } = Typography;
-
 function DashboardHelpSeeker({
   activeRequestsHelpSeeker,
   activeRequestsHelper,
@@ -46,20 +43,20 @@ function DashboardHelpSeeker({
 
   const selectMenuKey = () => {
     var changeRequired = false;
-    if (menuKey == '') changeRequired = true;
+    if (menuKey === '') changeRequired = true;
     else if (
-      menuKey == /^hs\d+$/.test(menuKey) &&
+      menuKey === /^hs\d+$/.test(menuKey) &&
       activeRequestsHelpSeeker.length <= menuKey.match(/\d+/)[0]
     )
       changeRequired = true;
-    else if (menuKey == 'active-helper' && activeRequestsHelper == null)
+    else if (menuKey === 'active-helper' && activeRequestsHelper === null)
       changeRequired = true;
     else if (
-      menuKey == 'finished-helpseeker' &&
-      finishedRequestsHelpSeeker.length == 0
+      menuKey === 'finished-helpseeker' &&
+      finishedRequestsHelpSeeker.length === 0
     )
       changeRequired = true;
-    else if (menuKey == 'finished-helper' && finishedRequestsHelper == 0)
+    else if (menuKey === 'finished-helper' && finishedRequestsHelper === 0)
       changeRequired = true;
 
     if (changeRequired) {
@@ -90,7 +87,7 @@ function DashboardHelpSeeker({
             name={entry.name}
             phoneHelpSeeker={entry.phoneHelpSeeker}
             phoneHelper={entry.phoneHelper}
-            status={entry.status == 'open' ? 'open' : entry.helperStatus}
+            status={entry.status === 'open' ? 'open' : entry.helperStatus}
             requestType={entry.requestType}
             urgency={entry.urgency}
             carNecessary={entry.extras.carNecessary}
@@ -165,12 +162,12 @@ function DashboardHelpSeeker({
           activeRequestsHelpSeekerRender[menuKey.match(/\d+/)[0]]}
         {/^h\d+$/.test(menuKey) &&
           activeRequestsHelperRender[menuKey.match(/\d+/)[0]]}
-        {menuKey == 'finished-helpseeker' && (
+        {menuKey === 'finished-helpseeker' && (
           <DashboardHelpSeekerFinishedRequests
             requestList={finishedRequestsHelpSeeker}
           />
         )}
-        {menuKey == 'finished-helper' && (
+        {menuKey === 'finished-helper' && (
           <DashboardHelperFinishedRequests
             requestList={finishedRequestsHelper}
           />

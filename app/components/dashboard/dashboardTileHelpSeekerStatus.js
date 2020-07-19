@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography } from 'antd';
+import { Typography } from 'antd';
 import PropTypes from 'prop-types';
 import DashboardTile from './dashboardTile';
 
@@ -8,23 +8,30 @@ const { Text } = Typography;
 function DashboardTileHelpSeekerStatus({ name, phone, status }) {
   let content;
   const statusMapping = {
-    "open": "Bisher hat kein Helfer den Auftrag angenommen.",
-    "accepted": "Der Auftrag wurde angenommen.",
-    "called": "Es wurden Details per Telefon besprochen.",
-    "on-the-way": "Der Helfer ist unterwegs.",
-    "done": "Der Helfer hat den Auftrag als erledigt markiert.",
-    "aborted": "Der Helfer hat den Auftrag abgebrochen.",
-    "did-not-help": "Der Helfer hat angegeben, dass er Ihnen nicht helfen konnte."
+    open: 'Bisher hat kein Helfer den Auftrag angenommen.',
+    accepted: 'Der Auftrag wurde angenommen.',
+    called: 'Es wurden Details per Telefon besprochen.',
+    'on-the-way': 'Der Helfer ist unterwegs.',
+    done: 'Der Helfer hat den Auftrag als erledigt markiert.',
+    aborted: 'Der Helfer hat den Auftrag abgebrochen.',
+    'did-not-help':
+      'Der Helfer hat angegeben, dass er Ihnen nicht helfen konnte.',
   };
-  if (status == 'open') {
+  if (status === 'open') {
     content = (
       <>
         <div className="dashboard-tile-spacing" />
         {statusMapping[status]}
       </>
     );
-  } else if (status == 'accepted' || status == 'called' || status == 'on-the-way' || status == 'done'
-            || status == 'aborted' || status == 'did-not-help') {
+  } else if (
+    status === 'accepted' ||
+    status === 'called' ||
+    status === 'on-the-way' ||
+    status === 'done' ||
+    status === 'aborted' ||
+    status === 'did-not-help'
+  ) {
     content = (
       <>
         <div className="dashboard-tile-spacing" />
@@ -32,14 +39,12 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
           <span>Name:</span>
           <span>{name}</span>
           <span>Telefon:</span>
-          <span>{'0' + phone}</span>
+          <span>{`0${phone}`}</span>
           <span>
             <Text strong>Status: </Text>
           </span>
           <span>
-            <Text strong>
-              {statusMapping[status]}
-            </Text>
+            <Text strong>{statusMapping[status]}</Text>
           </span>
         </div>
       </>
@@ -51,8 +56,15 @@ function DashboardTileHelpSeekerStatus({ name, phone, status }) {
 DashboardTileHelpSeekerStatus.propTypes = {
   name: PropTypes.string,
   phone: PropTypes.number,
-  status: PropTypes.oneOf(["open", "accepted", "called", "on-the-way", "done", "aborted", "did-not-help"])
-    .isRequired,
+  status: PropTypes.oneOf([
+    'open',
+    'accepted',
+    'called',
+    'on-the-way',
+    'done',
+    'aborted',
+    'did-not-help',
+  ]).isRequired,
 };
 
 export default DashboardTileHelpSeekerStatus;
