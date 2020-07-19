@@ -29,11 +29,12 @@ export default function WelcomeSection() {
   const handleStartHelpRequest = async (formValues) => {
     const parsedPhoneNumber =
       typeof formValues.phoneNumber !== 'undefined'
-        ? formValues.phoneNumber.replace(/\D/g, '')
+        ? formValues.phoneNumber.replace(/\D/g, '').replace(/^0+/, '')
         : 0;
 
     const redirectURL =
-      typeof formValues.phoneNumber !== 'undefined' && typeof formValues.countryCode !== 'undefined'
+      typeof formValues.phoneNumber !== 'undefined' &&
+      typeof formValues.countryCode !== 'undefined'
         ? `/place-request?phoneNumber=${parsedPhoneNumber}&countryCode=${formValues.countryCode}`
         : '/place-request';
 
