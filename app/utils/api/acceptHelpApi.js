@@ -29,7 +29,7 @@ export const getOpenRequests = async ({ longitude, latitude, radius }) => {
       return res;
     }
     res = await res.json();
-    throw Error(res.errors[0]['Fehler']);
+    throw Error(res.errors[0]);
   });
 };
 
