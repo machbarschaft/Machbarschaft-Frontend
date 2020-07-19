@@ -14,7 +14,7 @@ import { AuthenticationProvider } from './contexts/authentication';
 import RoutesComponent from './utils/routing/routes-component';
 import ValidateMailNotification from './components/base/misc/validateMailNotification';
 import ValidatePhoneNotification from './components/base/misc/validatePhoneNotification';
-import useFontSizer from './hooks/examples/useFontSizer';
+import useFontSizer from './hooks/useFontSizer';
 
 function App() {
   const [
