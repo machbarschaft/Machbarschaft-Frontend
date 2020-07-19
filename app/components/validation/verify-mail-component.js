@@ -4,7 +4,7 @@ import { getVerifyEmail } from '../../utils/api/verificationApi';
 const queryString = require('query-string');
 
 export default function VerifyMail() {
-  /*const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState(true);
   const [verificationSuccess, setVerificationSuccess] = React.useState(false);
   const query = queryString.parse(location.search);
 
@@ -26,8 +26,11 @@ export default function VerifyMail() {
         setVerificationSuccess(false);
         setLoading(false);
       }
-  }, []);*/
-/*{loading &&
+  }, []);
+
+  return (
+    <div className="content-container-default">
+      {loading &&
         <Result icon={<Spin size="large" />} />
       }
       {!loading && !verificationSuccess &&
@@ -36,16 +39,12 @@ export default function VerifyMail() {
           title="Die Bestätigung ist fehlgeschlagen, bitte versuchen Sie es erneut."
         />
       }
-      {!loading && !verificationSuccess &&
+      {!loading && verificationSuccess &&
         <Result
           status="success"
           title="Ihre E-Mail Adresse wurde erfolgreich bestätigt!"
         />
-      } */
-  return (
-    <div className="content-container-default">
-      Hello World!
-      
+      }
     </div>
   );
 }

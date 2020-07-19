@@ -27,7 +27,7 @@ const ValidatePhone = React.lazy(() =>
   import('../../components/validation/validate-phone-component')
 );
 const VerifyMail = React.lazy(() =>
-  import('../../components/validation/validate-mail-component')
+  import('../../components/validation/verify-mail-component')
 );
 
 export default function RoutesComponent() {
