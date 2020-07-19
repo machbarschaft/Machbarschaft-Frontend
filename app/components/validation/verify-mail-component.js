@@ -10,9 +10,8 @@ export default function VerifyMail() {
 
   React.useEffect(() => {
     if('token' in query) {
-      console.log("verify mail for token: ", token);
       setLoading(true);
-      getVerifyEmail(token)
+      getVerifyEmail(query.token)
           .then((res) => {
             setVerificationSuccess(true);
             setLoading(false);
