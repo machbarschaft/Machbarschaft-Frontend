@@ -20,6 +20,9 @@ function ContactWindow() {
 
   const [form] = Form.useForm();
 
+  const [loadingState, setLoadingState] = React.useState(false);
+  const [messageState, setMessageState] = React.useState(false);
+
   const handleForm = async (values) => {
     setLoadingState(true);
     await postContactRequest({ email: values.email, text: values.text })
@@ -40,8 +43,6 @@ function ContactWindow() {
         });
       });
   };
-  const [loadingState, setLoadingState] = React.useState(false);
-  const [messageState, setMessageState] = React.useState(false);
 
   return (
     <div className="content-container-default">
