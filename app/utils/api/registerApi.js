@@ -14,12 +14,6 @@ export const postRegisterRequest = async (formValues) => {
     },
     body: formBody,
   }).then(async (res) => {
-    if (res.status === 201) {
-      return res;
-    }
-    console.log('res: ', res);
-    res = await res.json();
-    console.log('res json: ', res.errors);
-    throw new Error(res.errors);
+    return res;
   });
 };

@@ -175,17 +175,21 @@ export default function useAuthentication() {
             dispatch({
               type: 'registerFailure',
               data: {
-                errors: registerResult.errors,
+                errors: [
+                  'Das Passwort muss mindestens fünf Zeichen lang sein.',
+                ],
               },
             });
             return false;
-          case 401:
+          case 400:
             // User exists
             registerResult = await registerResult.json();
             dispatch({
               type: 'registerFailure',
               data: {
-                errors: registerResult.errors,
+                errors: [
+                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
+                ],
               },
             });
             return false;
@@ -203,7 +207,9 @@ export default function useAuthentication() {
       dispatch({
         type: 'registerFailure',
         data: {
-          errors: [error.message],
+          errors: [
+            'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert? Oder hat das Passwort weniger als sechs Zeichen?',
+          ],
         },
       });
       return false;
