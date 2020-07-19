@@ -85,6 +85,7 @@ export default function PlaceRequestWindow(props) {
 
   const processID = React.useRef(null);
   const phoneVerified = React.useRef(false);
+  const phoneVerifiedInitial = React.useRef(false);
   const formData = React.useRef({});
 
   const authenticationContext = React.useContext(AuthenticationContext);
@@ -151,6 +152,7 @@ export default function PlaceRequestWindow(props) {
           res.phoneVerifiedCookieMatch === true
         ) {
           phoneVerified.current = true;
+          phoneVerifiedInitial.current = true;
         }
 
         dispatch({
@@ -173,13 +175,14 @@ export default function PlaceRequestWindow(props) {
     });
 
     // ToDo: Improve Handling
-    if (authenticationContext.isAuthenticated() || phoneVerified.current) {
+    if (authenticationContext.isAuthenticated() || phoneVerifiedInitial.current) {
       wizardSteps = wizardSteps.filter((item) => item.title !== 'Identität');
     }
 
     wizardSteps[wizardState.currentStep]
       .handleBackend(formValues)
       .then((result) => {
+        if(formName == "place-request-wizard-tan") phoneVerified.current = true;
         dispatch({
           type: 'nextPage',
         });
@@ -294,9 +297,11 @@ export default function PlaceRequestWindow(props) {
           formData={formData}
           phoneNumber={phoneNumber}
           countryCode={countryCode}
+          isVerified={authenticationContext.isAuthenticated() || phoneVerified.current}
         />
       ),
       handleBackend: async (formValues) => {
+        if(formValues.tanDone == "true") return;
         await putConfirmTan({
           phone: phoneNumber,
           countryCode: countryCode,
@@ -351,7 +356,7 @@ export default function PlaceRequestWindow(props) {
           .filter((wizardItem) => {
             if (
               wizardItem.title === 'Identität' &&
-              (authenticationContext.isAuthenticated() || phoneVerified.current)
+              (authenticationContext.isAuthenticated() || phoneVerifiedInitial.current)
             ) {
               return false;
             }
@@ -366,7 +371,7 @@ export default function PlaceRequestWindow(props) {
           wizardSteps.filter((wizardItem) => {
             return !(
               wizardItem.title === 'Identität' &&
-              (authenticationContext.isAuthenticated() || phoneVerified.current)
+              (authenticationContext.isAuthenticated() || phoneVerifiedInitial.current)
             );
           })[wizardState.currentStep].content
         }

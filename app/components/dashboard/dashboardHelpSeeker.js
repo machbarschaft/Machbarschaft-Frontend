@@ -115,8 +115,8 @@ function DashboardHelpSeeker({
             />
           )}
           <DashboardHelperActiveRequest
-            name={SingleEntryPlugin.name}
-            phoneHelpSeeker={40299960888}
+            name={entry.name}
+            phoneHelpSeeker={40299960804}
             status={entry.status}
             requestType={entry.requestType}
             urgency={entry.urgency}

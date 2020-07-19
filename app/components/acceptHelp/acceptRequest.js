@@ -38,8 +38,7 @@ function acceptRequestStateReducer(state, action) {
     return {
       ...state,
       loading: true,
-      requestList: [],
-      error: null,
+      error: null
     };
   }
   if (action.type === 'selected-index') {

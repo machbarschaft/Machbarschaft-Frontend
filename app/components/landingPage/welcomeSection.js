@@ -35,8 +35,8 @@ export default function WelcomeSection() {
     const redirectURL =
       typeof formValues.phoneNumber !== 'undefined' &&
       typeof formValues.countryCode !== 'undefined'
-        ? `/place-request?phoneNumber=${parsedPhoneNumber}&countryCode=${formValues.countryCode}`
-        : '/place-request';
+        ? `/auftrag-aufgeben?phoneNumber=${parsedPhoneNumber}&countryCode=${formValues.countryCode}`
+        : '/auftrag-aufgeben';
 
     history.push(redirectURL);
   };
