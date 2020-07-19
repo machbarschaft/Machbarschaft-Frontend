@@ -52,7 +52,8 @@ function ResetPasswordSecurityCodeLeftCard({ user, setToken, proceed }) {
             {
               required: true,
               type: 'code',
-              message: 'Gib den Code ein, den du per E-Mail erhalten hast.',
+              message:
+                'Geben Sie den Code ein, den Sie per E-Mail erhalten hast.',
             },
           ]}
         >

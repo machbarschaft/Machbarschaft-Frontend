@@ -26,6 +26,7 @@ const RegisterHelper = React.lazy(() =>
 const ValidatePhone = React.lazy(() =>
   import('../../components/validation/validate-phone-component')
 );
+const Contact = React.lazy(() => import('../../components/contact/contact'));
 
 export default function RoutesComponent() {
   const authProps = React.useContext(AuthenticationContext);
@@ -33,11 +34,19 @@ export default function RoutesComponent() {
 
   return (
     <Switch>
-      <Route exact path="/" render={(props) => (
+      <Route
+        exact
+        path="/"
+        render={(props) => (
           <>
-            {authenticationState.uid === null ? <LandingPage /> : <Redirect to={"/dashboard"} />}
+            {authenticationState.uid === null ? (
+              <LandingPage />
+            ) : (
+              <Redirect to={'/dashboard'} />
+            )}
           </>
-      )}/>
+        )}
+      />
       <Route
         path="/dashboard"
         render={(props) => (
@@ -51,17 +60,17 @@ export default function RoutesComponent() {
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
-      <Route path="/telefon-bestaetigen" render={(props) => (
+      <Route path="/contact" component={Contact} />
+      <Route
+        path="/telefon-bestaetigen"
+        render={(props) => (
           <>
-            {authenticationState.phoneVerified && 
-              <Redirect to={"/"} />
-            }
-            {!authenticationState.phoneVerified && 
-              <ValidatePhone />
-            }
+            {authenticationState.phoneVerified && <Redirect to={'/'} />}
+            {!authenticationState.phoneVerified && <ValidatePhone />}
           </>
-      )}/>
-        
+        )}
+      />
+
       <Route
         exaxct
         path="/place-request"

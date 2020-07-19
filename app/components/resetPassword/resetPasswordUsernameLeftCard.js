@@ -51,7 +51,7 @@ function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
             {
               required: true,
               type: 'email',
-              message: 'Gib eine gültige E-Mail Adresse ein.',
+              message: 'Geben Sie eine gültige E-Mail Adresse ein.',
             },
           ]}
         >
