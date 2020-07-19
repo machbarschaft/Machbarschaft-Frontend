@@ -19,7 +19,7 @@ export default function WelcomeSection() {
   };
 
   const phonePrefixSelector = (
-    <Form.Item name="phonePrefix" noStyle>
+    <Form.Item name="countryCode" noStyle>
       <Select style={{ width: 70 }}>
         <Option value="49">+49</Option>
       </Select>
@@ -33,8 +33,8 @@ export default function WelcomeSection() {
         : 0;
 
     const redirectURL =
-      typeof formValues.phoneNumber !== 'undefined'
-        ? `/place-request?phoneNumber=${parsedPhoneNumber}`
+      typeof formValues.phoneNumber !== 'undefined' && typeof formValues.countryCode !== 'undefined'
+        ? `/place-request?phoneNumber=${parsedPhoneNumber}&countryCode=${formValues.countryCode}`
         : '/place-request';
 
     history.push(redirectURL);
@@ -71,7 +71,7 @@ export default function WelcomeSection() {
             name="landing-page-phone"
             hideRequiredMark
             initialValues={{
-              phonePrefix: '49',
+              countryCode: '49',
             }}
             onFinish={handleStartHelpRequest}
           >

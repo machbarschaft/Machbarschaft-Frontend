@@ -37,7 +37,15 @@ export default function RoutesComponent() {
       <Route
         exact
         path="/"
-        component={authenticationState.uid == null ? LandingPage : Dashboard}
+        render={(props) => (
+          <>
+            {authenticationState.uid === null ? (
+              <LandingPage />
+            ) : (
+              <Redirect to={'/dashboard'} />
+            )}
+          </>
+        )}
       />
       <Route
         path="/dashboard"
@@ -52,8 +60,17 @@ export default function RoutesComponent() {
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
-      <Route path="/telefon-bestaetigen" component={ValidatePhone} />
       <Route path="/contact" component={Contact} />
+      <Route
+        path="/telefon-bestaetigen"
+        render={(props) => (
+          <>
+            {authenticationState.phoneVerified && <Redirect to={'/'} />}
+            {!authenticationState.phoneVerified && <ValidatePhone />}
+          </>
+        )}
+      />
+
       <Route
         exaxct
         path="/place-request"

@@ -104,5 +104,4 @@ PlaceRequestWizardSummary.propTypes = {
   handlePreviousPage: PropTypes.func.isRequired,
   wizardState: PropTypes.object.isRequired,
   formData: PropTypes.object.isRequired,
-  phoneNumber: PropTypes.string.isRequired,
 };

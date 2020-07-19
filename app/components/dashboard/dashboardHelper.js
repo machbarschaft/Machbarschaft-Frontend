@@ -3,27 +3,51 @@ import PropTypes from 'prop-types';
 import { Result, Typography } from 'antd';
 import DashboardHelperActiveRequest from './dashboardHelperActiveRequest';
 import DashboardHelperFinishedRequests from './dashboardHelperFinishedRequests';
+import DashboardFeedBackHelper from './dashboardFeedBackHelper';
 
 const { Title } = Typography;
 
-function DashboardHelper({ activeRequest, finishedRequests }) {
+function DashboardHelper({
+  activeRequests,
+  finishedRequests,
+  refreshRequests,
+  refreshRequestsBackground,
+}) {
+  const [activeRequestsRender, setActiveRequestsRender] = React.useState([]);
+  React.useEffect(() => {
+    setActiveRequestsRender(
+      activeRequests.map((entry, index) => (
+        <React.Fragment key={index}>
+          {!entry.feedbackSubmitted &&
+            ['done', 'aborted', 'did-not-help'].includes(entry.status) && (
+              <DashboardFeedBackHelper
+                _id={entry._id}
+                name={entry.name}
+                feedBackSent={() => refreshRequests()}
+              />
+            )}
+          <DashboardHelperActiveRequest
+            name={entry.name}
+            phoneHelpSeeker={40299960888}
+            status={entry.status}
+            requestType={entry.requestType}
+            urgency={entry.urgency}
+            carNecessary={entry.extras.carNecessary}
+            prescriptionRequired={entry.extras.prescriptionRequired}
+            address={entry.address}
+            startedAt={entry.startedAt}
+            processId={entry.process}
+            refreshRequests={() => refreshRequestsBackground()}
+          />
+        </React.Fragment>
+      ))
+    );
+  }, [activeRequests]);
   return (
     <>
-      {activeRequest == null && (
+      {activeRequests.length > 0 && activeRequestsRender}
+      {activeRequests.length == 0 && (
         <Result title="Du hast aktuell keinen Auftrag angenommen." />
-      )}
-      {activeRequest != null && (
-        <DashboardHelperActiveRequest
-          name={activeRequest.name}
-          phoneHelpSeeker={123456789}
-          status={activeRequest.status}
-          requestType={activeRequest.requestType}
-          urgency={activeRequest.urgency}
-          carNecessary={activeRequest.extras.carNecessary}
-          prescriptionRequired={activeRequest.extras.prescriptionRequired}
-          address={activeRequest.address}
-          startedAt={activeRequest.startedAt}
-        />
       )}
       <DashboardHelperFinishedRequests
         title={'Alte Aufträge'}
@@ -33,7 +57,9 @@ function DashboardHelper({ activeRequest, finishedRequests }) {
   );
 }
 DashboardHelper.propTypes = {
-  activeRequest: PropTypes.object.isRequired,
+  activeRequests: PropTypes.array.isRequired,
   finishedRequests: PropTypes.array.isRequired,
+  refreshRequests: PropTypes.func.isRequired,
+  refreshRequestsBackground: PropTypes.func.isRequired,
 };
 export default DashboardHelper;

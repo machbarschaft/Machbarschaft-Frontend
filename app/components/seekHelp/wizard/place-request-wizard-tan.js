@@ -18,6 +18,7 @@ export default function PlaceRequestWizardTan({
   wizardState,
   formData,
   phoneNumber,
+  countryCode,
 }) {
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-tan';
@@ -33,6 +34,8 @@ export default function PlaceRequestWizardTan({
     setRequestTanState(true);
     await postRequestTan({
       phone: phoneNumber,
+      countryCode: countryCode,
+      sms: false,
     });
     setRequestTanState(false);
   };
@@ -52,7 +55,7 @@ export default function PlaceRequestWizardTan({
         </Title>
 
         <Button
-          type={'primary'}
+          type="primary"
           onClick={handleRequestTan}
           loading={requestTanState}
         >
@@ -106,4 +109,5 @@ PlaceRequestWizardTan.propTypes = {
   wizardState: PropTypes.object.isRequired,
   formData: PropTypes.object.isRequired,
   phoneNumber: PropTypes.string.isRequired,
+  countryCode: PropTypes.number.isRequired,
 };

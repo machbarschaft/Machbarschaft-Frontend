@@ -44,10 +44,7 @@ export const putConfirmTan = async (formValues) => {
 export const postRequestTan = async (formValues) => {
   const endpoint = `${apiUrl()}phone/tan`;
 
-  let formBody = objectToFormUrlEncoded(formValues);
-
-  // Right now: Only phone
-  formBody += '&sms=false';
+  const formBody = objectToFormUrlEncoded(formValues);
 
   return fetch(endpoint, {
     method: 'POST',

@@ -11,6 +11,7 @@ const initialAuthenticationState = {
   uid: null,
   email: null,
   phoneNumber: null,
+  countryCode: null,
 
   // Verification
   emailVerified: false,
@@ -60,6 +61,7 @@ function authenticationReducer(state, action) {
         authenticationErrors: action.data.errors,
       };
     case 'registerFailure':
+      console.log("got error: ", action.data.errors);
       return {
         ...initialAuthenticationState,
         isInitialLoading: false,
@@ -79,6 +81,7 @@ function authenticationReducer(state, action) {
         uid: action.data.uid,
         email: action.data.email,
         phoneNumber: action.data.phoneNumber,
+        countryCode: action.data.countryCode,
 
         profile: action.data.profile,
         address: action.data.address,
@@ -138,12 +141,13 @@ export default function useAuthentication() {
    * @param forename the forename of the user to be registered
    * @param surname the surname of the user to be registered
    */
-  const performRegister = async (email, phone, password, forename, surname) => {
+  const performRegister = async (email, phone, countryCode, password, forename, surname) => {
     phone = phone.replace(/\D/g, '');
 
     const formValues = {
       email,
       phone,
+      countryCode,
       password,
       forename,
       surname,
@@ -155,6 +159,7 @@ export default function useAuthentication() {
 
     try {
       let registerResult = await postRegisterRequest(formValues);
+      console.log("register result: ", registerResult);
       if (registerResult.status !== 201) {
         // Register: Failure
         switch (registerResult.status) {
@@ -183,10 +188,11 @@ export default function useAuthentication() {
       // ToDo: Das könnten wir noch verbessern. Register könnte direkt einen gültigen Cookie zurückgeben.
       return await performAuthentication(email, password);
     } catch (error) {
+      console.log("catched error: ", error.message);
       dispatch({
         type: 'registerFailure',
         data: {
-          errors: error.message,
+          errors: error,
         },
       });
       return false;
@@ -241,6 +247,7 @@ export default function useAuthentication() {
             uid: authenticateResult.uid,
             email: authenticateResult.email,
             phoneNumber: authenticateResult.phone,
+            countryCode: authenticateResult.countryCode,
 
             emailVerified: authenticateResult.emailVerified,
             phoneVerified: authenticateResult.phoneVerified,

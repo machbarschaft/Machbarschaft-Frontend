@@ -73,7 +73,7 @@ function PlaceRequestReducer(state, action) {
 }
 
 export default function PlaceRequestWindow(props) {
-  const { phoneNumber } = queryString.parse(props.location.search);
+  const { phoneNumber, countryCode } = queryString.parse(props.location.search);
 
   const [wizardState, dispatch] = React.useReducer(PlaceRequestReducer, {
     currentStep: 0,
@@ -102,19 +102,29 @@ export default function PlaceRequestWindow(props) {
     } else {
       // ToDo: Throw Error
     }
+    if (isAuthenticated) {
+      formValues.countryCode =
+        authenticationContext.authenticationState.countryCode;
+    } else if (typeof countryCode !== 'undefined') {
+      formValues.countryCode = countryCode;
+    } else {
+      // ToDo: Throw Error
+    }
 
     postPlaceRequest({ formValues, isAuthenticated })
       .then((res) => {
-        processID.current = res._id;
+        console.log(res);
+
+        processID.current = res.request._id;
 
         // Pre-Fill
         if (
-          typeof res.forename !== 'undefined' &&
-          typeof res.surname !== 'undefined'
+          typeof res.request.forename !== 'undefined' &&
+          typeof res.request.surname !== 'undefined'
         ) {
           formData.current['place-request-wizard-name'] = {
-            forename: res.forename,
-            surname: res.surname,
+            forename: res.request.forename,
+            surname: res.request.surname,
           };
         } else if (authenticationContext.isAuthenticated()) {
           formData.current['place-request-wizard-name'] = {
@@ -125,18 +135,18 @@ export default function PlaceRequestWindow(props) {
         }
 
         formData.current['place-request-wizard-address'] = {
-          street: res.address.street,
-          houseNumber: res.address.houseNumber,
-          zipCode: res.address.zipCode,
-          city: res.address.city,
+          street: res.request.address.street,
+          houseNumber: res.request.address.houseNumber,
+          zipCode: res.request.address.zipCode,
+          city: res.request.address.city,
         };
         formData.current['place-request-wizard-category'] = {
-          requestType: res.requestType,
-          carNecessary: res.extras.carNecessary,
-          prescriptionRequired: res.extras.prescriptionRequired,
+          requestType: res.request.requestType,
+          carNecessary: res.request.extras.carNecessary,
+          prescriptionRequired: res.request.extras.prescriptionRequired,
         };
         formData.current['place-request-wizard-urgency'] = {
-          urgency: res.urgency,
+          urgency: res.request.urgency,
         };
 
         if (
@@ -195,6 +205,7 @@ export default function PlaceRequestWindow(props) {
     await putPlaceRequest({
       processID: processID.current,
       phoneNumber,
+      countryCode,
       formValues,
       isAuthenticated: authenticationContext.isAuthenticated(),
     });
@@ -213,6 +224,7 @@ export default function PlaceRequestWindow(props) {
     await putPublishRequest({
       processID: processID.current,
       phoneNumber,
+      countryCode,
       isAuthenticated: authenticationContext.isAuthenticated(),
     });
   };
@@ -284,11 +296,13 @@ export default function PlaceRequestWindow(props) {
           wizardState={wizardState}
           formData={formData}
           phoneNumber={phoneNumber}
+          countryCode={countryCode}
         />
       ),
       handleBackend: async (formValues) => {
         await putConfirmTan({
           phone: phoneNumber,
+          countryCode: countryCode,
           tan: formValues.code,
         });
       },
@@ -302,6 +316,7 @@ export default function PlaceRequestWindow(props) {
           wizardState={wizardState}
           formData={formData}
           phoneNumber={phoneNumber}
+          countryCode={countryCode}
         />
       ),
       handleBackend: async (formValues) => {
