@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import RegisterHelpseekerComponent from '../../register/register-helpseeker-component';
 import LoginWindow from '../../login/login';
+import AuthenticationContext from '../../../contexts/authentication';
 
 /**
  * Optional component of seek help wizard. Used, if user account has been found.
@@ -16,6 +17,8 @@ export default function PlaceRequestWizardFinish({
   countryCode,
 }) {
   const [viewState, setViewState] = React.useState('initial');
+  const authProps = React.useContext(AuthenticationContext);
+  const { authenticationState } = authProps;
 
   return (
     <>
@@ -30,7 +33,7 @@ export default function PlaceRequestWizardFinish({
         ]}
       />
       <div className="dashboard-spacing" />
-      {viewState === 'initial' && (
+      {viewState === 'initial' && authenticationState.uid == null && (
         <Card
           bodyStyle={{ textAlign: 'center' }}
           bordered={false}

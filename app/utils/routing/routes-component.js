@@ -31,6 +31,9 @@ const VerifyMail = React.lazy(() =>
   import('../../components/validation/verify-mail-component')
 );
 const Contact = React.lazy(() => import('../../components/contact/contact'));
+const Imprint = React.lazy(() => import('../../components/misc/imprint'));
+const PrivacyNotice = React.lazy(() => import('../../components/misc/privacy-notice'));
+const Faq = React.lazy(() => import('../../components/misc/faq'));
 
 export default function RoutesComponent() {
   const authProps = React.useContext(AuthenticationContext);
@@ -91,6 +94,9 @@ export default function RoutesComponent() {
           />
         )}
       />
+      <Route path="/impressum" component={Imprint} />
+      <Route path="/datenschutz" component={PrivacyNotice} />
+      <Route path="/faq" component={Faq} />
       <Route render={() => <h1>404</h1>} />
     </Switch>
   );
