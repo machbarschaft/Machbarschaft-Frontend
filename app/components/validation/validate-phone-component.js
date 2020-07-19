@@ -60,21 +60,29 @@ export default function ValidatePhoneComponent(props) {
       validateErrorMsg: '',
     }
   );
-  const validatePhoneNumber = React.useRef({phoneNumber: '', countryCode: ''});
+  const validatePhoneNumber = React.useRef({
+    phoneNumber: '',
+    countryCode: '',
+  });
   const handleRequestTan = () => {
     postRequestTan({
       phone: validatePhoneNumber.current.phoneNumber,
       countryCode: validatePhoneNumber.current.countryCode,
-      sms: requestType == "sms" ? true : false
+      sms: requestType == 'sms' ? true : false,
     })
-      .then(() => notification.success({
-        message: 'Fertig',
-        description: 'Erfolgreich angefordert!'
-      }))
-      .catch((err) => notification.error({
-        message: 'Fehler',
-        description: 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!'
-      }))
+      .then(() =>
+        notification.success({
+          message: 'Fertig',
+          description: 'Erfolgreich angefordert!',
+        })
+      )
+      .catch((err) =>
+        notification.error({
+          message: 'Fehler',
+          description:
+            'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!',
+        })
+      );
   };
 
   const [form] = Form.useForm();
@@ -121,11 +129,12 @@ export default function ValidatePhoneComponent(props) {
     if (authenticationContext.isAuthenticated()) {
       validatePhoneNumber.current.phoneNumber =
         authenticationContext.authenticationState.phoneNumber;
-        validatePhoneNumber.current.countryCode =
+      validatePhoneNumber.current.countryCode =
         authenticationContext.authenticationState.countryCode;
-        console.log("is authenticated: ", authenticationContext.authenticationState);
     } else {
-      const { phoneNumber, countryCode } = queryString.parse(props.location.search);
+      const { phoneNumber, countryCode } = queryString.parse(
+        props.location.search
+      );
       if (typeof phoneNumber !== 'undefined') {
         validatePhoneNumber.current.phoneNumber = phoneNumber;
       } else {
@@ -138,7 +147,7 @@ export default function ValidatePhoneComponent(props) {
       }
     }
   }, []);
-  const [requestType, setRequestType] = React.useState("call");
+  const [requestType, setRequestType] = React.useState('call');
 
   return (
     <>
@@ -175,11 +184,11 @@ export default function ValidatePhoneComponent(props) {
                   >
                     <Form.Item
                       name="phone"
-                      label="Deine Handynummer"
+                      label="Ihre Handynummer"
                       rules={[
                         {
                           required: true,
-                          message: 'Gib eine gültige Telefonnummer ein.',
+                          message: 'Geben Sie eine gültige Telefonnummer ein.',
                         },
                       ]}
                     >
@@ -198,7 +207,7 @@ export default function ValidatePhoneComponent(props) {
                         {
                           required: true,
                           message:
-                            'Gib den Code ein, den du per SMS oder Anruf erhalten hast.',
+                            'Geben Sie den Code ein, den Sie per SMS oder Anruf erhalten hast.',
                         },
                       ]}
                     >
@@ -235,15 +244,29 @@ export default function ValidatePhoneComponent(props) {
                   bordered={false}
                 >
                   <Paragraph>
-                  Bitte verifizieren Sie Ihre Telefonnummer.
-                  Dies dient als Schutz, damit nur Sie Ihre Telefonnummer als Identifikation nutzen können.<br/>
-                  Dieser Sicherheitsschritt bedeutet auch, dass alle Personen mit denen Sie über unsere Website in Kontakt kommen eindeutig identifiziert werden können, falls sie sich missbräuchlich verhalten.<br/><br/>
-                    <Radio.Group size="large" onChange={(e) => setRequestType(e.target.value)}>
-                      <Radio.Button value={"call"}>Anruf</Radio.Button>
-                      <Radio.Button value={"sms"} className={"spacing-left"}>SMS</Radio.Button>
-                    </Radio.Group><br/><br/>
+                    Bitte verifizieren Sie Ihre Telefonnummer. Dies dient als
+                    Schutz, damit nur Sie Ihre Telefonnummer als Identifikation
+                    nutzen können.
+                    <br />
+                    Dieser Sicherheitsschritt bedeutet auch, dass alle Personen
+                    mit denen Sie über unsere Website in Kontakt kommen
+                    eindeutig identifiziert werden können, falls sie sich
+                    missbräuchlich verhalten.
+                    <br />
+                    <br />
+                    <Radio.Group
+                      size="large"
+                      onChange={(e) => setRequestType(e.target.value)}
+                    >
+                      <Radio.Button value={'call'}>Anruf</Radio.Button>
+                      <Radio.Button value={'sms'} className={'spacing-left'}>
+                        SMS
+                      </Radio.Button>
+                    </Radio.Group>
+                    <br />
+                    <br />
                     <Button type="primary" onClick={() => handleRequestTan()}>
-                      {requestType == "call" ? "Jetzt anrufen" : "TAN senden"}
+                      {requestType == 'call' ? 'Jetzt anrufen' : 'TAN senden'}
                     </Button>
                   </Paragraph>
                 </Card>

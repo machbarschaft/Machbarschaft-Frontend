@@ -29,6 +29,7 @@ const ValidatePhone = React.lazy(() =>
 const VerifyMail = React.lazy(() =>
   import('../../components/validation/verify-mail-component')
 );
+const Contact = React.lazy(() => import('../../components/contact/contact'));
 
 export default function RoutesComponent() {
   const authProps = React.useContext(AuthenticationContext);
@@ -36,11 +37,19 @@ export default function RoutesComponent() {
 
   return (
     <Switch>
-      <Route exact path="/" render={(props) => (
+      <Route
+        exact
+        path="/"
+        render={(props) => (
           <>
-            {authenticationState.uid === null ? <LandingPage /> : <Redirect to={"/dashboard"} />}
+            {authenticationState.uid === null ? (
+              <LandingPage />
+            ) : (
+              <Redirect to={'/dashboard'} />
+            )}
           </>
-      )}/>
+        )}
+      />
       <Route
         path="/dashboard"
         render={(props) => (
@@ -56,6 +65,8 @@ export default function RoutesComponent() {
       <Route path="/resetpassword" component={ResetPassword} />
       <Route path="/telefon-bestaetigen" component={ValidatePhone} />
       <Route path="/email-bestaetigen" component={VerifyMail} />
+      <Route path="/contact" component={Contact} />
+
       <Route
         exaxct
         path="/place-request"

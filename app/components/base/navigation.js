@@ -16,10 +16,19 @@ function NavigationMenu({ mode, menuClicked }) {
   if (authenticationState.uid == null) {
     // No User
     return (
-      <Menu mode={mode} defaultSelectedKeys={[window.location.pathname]} onClick={menuClicked}>
+      <Menu
+        mode={mode}
+        defaultSelectedKeys={[window.location.pathname]}
+        onClick={menuClicked}
+      >
         <Menu.Item key="/">
           <NavLink to="/" exact>
             Startseite
+          </NavLink>
+        </Menu.Item>
+        <Menu.Item key="2">
+          <NavLink to="/contact" exact>
+            KONTAKT
           </NavLink>
         </Menu.Item>
         <Menu.Item key="/registrieren">
@@ -32,8 +41,13 @@ function NavigationMenu({ mode, menuClicked }) {
   }
   // User
   return (
-    <Menu mode={mode}
-      defaultSelectedKeys={[window.location.pathname == '/' ? "/dashboard" : window.location.pathname]}
+    <Menu
+      mode={mode}
+      defaultSelectedKeys={[
+        window.location.pathname == '/'
+          ? '/dashboard'
+          : window.location.pathname,
+      ]}
       onClick={menuClicked}
     >
       <Menu.Item key="/dashboard">
