@@ -179,7 +179,7 @@ export default function Settings() {
                 )}
               </a>
             </Form.Item>
-            <div className="spacing-left" hidden={!expandState}>
+            <div className="spacing-left-large" hidden={!expandState}>
               <Form.Item
                 label="Straße:"
                 name="street"
@@ -241,7 +241,7 @@ export default function Settings() {
                 ]}
               >
                 <Input placeholder="Deutschland" />
-              </Form.Item>{' '}
+              </Form.Item>
             </div>
             <Form.Item
               label="Radius:"

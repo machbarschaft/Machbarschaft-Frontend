@@ -15,17 +15,7 @@ export default function RegisterHelpseekerComponent({
   const authenticationContext = React.useContext(AuthenticationContext);
   const history = useHistory();
 
-  const specialCharacters = [
-    '!',
-    '#',
-    ';',
-    '-',
-    '_',
-    '$',
-    '%',
-    '&',
-    '+',
-  ];
+  const specialCharacters = ['!', '#', ';', '-', '_', '$', '%', '&', '+'];
   const questions = [
     'Wo sind Sie geboren?',
     'Was ist Ihr Hobby?',
@@ -75,8 +65,11 @@ export default function RegisterHelpseekerComponent({
     );
     if (registerResult === true) {
       history.push('/');
-    }
-      else setErrorState("Es ist ein Fehler aufgetreten: " + authenticationContext.authenticationState.registerErrors);
+    } else
+      setErrorState(
+        'Es ist ein Fehler aufgetreten: ' +
+          authenticationContext.authenticationState.registerErrors
+      );
   };
 
   const formLayoutVertical = {
@@ -203,11 +196,7 @@ export default function RegisterHelpseekerComponent({
               <Button type="primary" onClick={() => setShowFormState('email')}>
                 Zurück
               </Button>
-              <Button
-                className="space-left-little"
-                type="primary"
-                htmlType="submit"
-              >
+              <Button className="spacing-left" type="primary" htmlType="submit">
                 Weiter
               </Button>
             </Form.Item>
@@ -230,14 +219,14 @@ export default function RegisterHelpseekerComponent({
                 Zurück
               </Button>
               <Button
-                className="space-left-little"
+                className="spacing-left"
                 type="primary"
                 onClick={() => handleForm(emailState, passwordState)}
               >
                 Abschicken
               </Button>
             </div>
-            <br/>
+            <br />
             <Text type="danger">{errorState}</Text>
           </>
         )}

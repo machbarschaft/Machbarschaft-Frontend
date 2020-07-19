@@ -824,9 +824,6 @@ h4 {
 .horizontal-container {
 	display: flex;
 }
-.space-left-little {
-	margin-left: 2em;
-}
 .space-top {
   margin-top: 1em;
 }
@@ -841,7 +838,7 @@ h4 {
 	padding: 1em 1em;
 	border-radius: 0.3rem;
 }
-.spacing-left {
+.spacing-left-large {
 	margin-left: 10rem !important;
 }
 .center {
