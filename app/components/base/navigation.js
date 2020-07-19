@@ -84,6 +84,30 @@ NavigationMenu.propTypes = {
   menuClicked: PropTypes.func.isRequired,
 };
 
+function NavigationFontResizer({increaseFontSize, decreaseFontSize}) {
+  return (
+    <>
+      <Button
+        className={'font-sizer-button'}
+        onClick={increaseFontSize}
+      >
+        +
+      </Button>
+      <Button
+        className={'font-sizer-button'}
+        onClick={decreaseFontSize}
+      >
+        -
+      </Button>
+    </>
+  );
+}
+NavigationFontResizer.propTypes = {
+  increaseFontSize: PropTypes.func.isRequired,
+  decreaseFontSize: PropTypes.func.isRequired
+}
+
+
 function NavigationProfileIndicator() {
   const authProps = React.useContext(AuthenticationContext);
 
@@ -105,7 +129,7 @@ function NavigationProfileIndicator() {
   );
 
   return (
-    <div className="nav-profile-container">
+    <div className={'profile-spacing-left'}>
       {!authProps.isAuthenticated() ? (
         <NavLink to="/login" exact>
           <Text strong style={{ fontSize: '120%' }}>
@@ -126,7 +150,7 @@ function NavigationProfileIndicator() {
   );
 }
 
-export default function Navigation() {
+export default function Navigation({increaseFontSize, decreaseFontSize}) {
   const [mobileNavState, setState] = React.useState(false);
 
   return (
@@ -145,7 +169,13 @@ export default function Navigation() {
             menuClicked={() => setState(false)}
           />
         </div>
-        <NavigationProfileIndicator />
+        <div className="nav-profile-container">
+          <NavigationFontResizer
+            increaseFontSize={increaseFontSize}
+            decreaseFontSize={decreaseFontSize}
+          />
+          <NavigationProfileIndicator />
+        </div>
       </div>
       <div className="nav-menu-mobile">
         <div
@@ -160,4 +190,8 @@ export default function Navigation() {
       </div>
     </>
   );
+}
+Navigation.propTypes = {
+  increaseFontSize: PropTypes.func.isRequired,
+  decreaseFontSize: PropTypes.func.isRequired
 }

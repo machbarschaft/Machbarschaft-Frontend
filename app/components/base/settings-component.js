@@ -179,7 +179,7 @@ export default function SettingsComponent() {
                 )}
               </a>
             </Form.Item>
-            <div className="spacing-left-large" hidden={!expandState}>
+            <div className="settings-spacing-left" hidden={!expandState}>
               <Form.Item
                 label="Straße:"
                 name="street"

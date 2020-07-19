@@ -14,6 +14,7 @@ import { AuthenticationProvider } from './contexts/authentication';
 import RoutesComponent from './utils/routing/routes-component';
 import ValidateMailNotification from './components/base/misc/validateMailNotification';
 import ValidatePhoneNotification from './components/base/misc/validatePhoneNotification';
+import useFontSizer from './hooks/useFontSizer';
 
 function App() {
   const [
@@ -38,6 +39,7 @@ function App() {
     isPhoneVerified,
     performRegister,
   };
+  const [fontSize, fontSizerAttrs] = useFontSizer();
 
   if (authenticationState.isInitialLoading) {
     return <Loading loading background="#F4B3A3" loaderColor="#2D3047" />;
@@ -47,21 +49,32 @@ function App() {
     <Router>
       <AuthenticationProvider value={authProps}>
         <Layout>
-          <Navigation />
+          <Navigation
+            increaseFontSize={fontSizerAttrs.increaseFontSize}
+            decreaseFontSize={fontSizerAttrs.decreaseFontSize}
+          />
           <div className="site-layout">
             <div className="main-content">
-              {isAuthenticated() && !isMailVerified() && (
-                <ValidateMailNotification />
-              )}
-              {isAuthenticated() && !isPhoneVerified() && (
-                <ValidatePhoneNotification />
-              )}
-
-              <React.Suspense
-                fallback={<Result icon={<Spin size="large" />} />}
+              <div
+                ref={(node) => {
+                  if (node) {
+                    node.style.setProperty('font-size', `${fontSize}em`, 'important');
+                  }
+                }}
               >
-                <RoutesComponent />
-              </React.Suspense>
+                {isAuthenticated() && !isMailVerified() && (
+                  <ValidateMailNotification />
+                )}
+                {isAuthenticated() && !isPhoneVerified() && (
+                  <ValidatePhoneNotification />
+                )}
+
+                <React.Suspense
+                  fallback={<Result icon={<Spin size="large" />} />}
+                >
+                  <RoutesComponent />
+                </React.Suspense>
+              </div>
             </div>
 
             <Footer />
