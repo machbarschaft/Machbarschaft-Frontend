@@ -57,7 +57,7 @@ export default function AcceptRequestDetailView({
           <img src={ArrowLeft} onClick={() => closeDetailView()} />
         </div>
         <div className="accept-help-request-detail-title">
-          {address.street},{address.zipCode} {address.city}
+          {address.street}, {address.zipCode} {address.city}
         </div>
       </div>
       <div className="accept-help-request-detail-main">
