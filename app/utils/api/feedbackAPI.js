@@ -27,6 +27,6 @@ export const postFeedback = async (id, isHelpSeeker, needContact, comment) => {
       return;
     }
     res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
+    throw Error(res.errors[0]);
   });
 };

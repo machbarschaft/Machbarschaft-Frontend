@@ -61,7 +61,6 @@ function authenticationReducer(state, action) {
         authenticationErrors: action.data.errors,
       };
     case 'registerFailure':
-      console.log('got error: ', action.data.errors);
       return {
         ...initialAuthenticationState,
         isInitialLoading: false,
@@ -173,9 +172,16 @@ export default function useAuthentication() {
           case 422:
             // Invalid Request
             registerResult = await registerResult.json();
+            dispatch({
+              type: 'registerFailure',
+              data: {
+                errors: registerResult.errors,
+              },
+            });
             return false;
           case 401:
             // User exists
+            registerResult = await registerResult.json();
             dispatch({
               type: 'registerFailure',
               data: {
@@ -192,14 +198,12 @@ export default function useAuthentication() {
         }
       }
 
-      // ToDo: Das könnten wir noch verbessern. Register könnte direkt einen gültigen Cookie zurückgeben.
       return await performAuthentication(email, password);
     } catch (error) {
-      console.log('catched error: ', error.message);
       dispatch({
         type: 'registerFailure',
         data: {
-          errors: error,
+          errors: [error.message],
         },
       });
       return false;
@@ -224,7 +228,7 @@ export default function useAuthentication() {
       dispatch({
         type: 'loginFailure',
         data: {
-          errors: 'Zu dieser Kombination konnten wir keinen Benutzer finden.',
+          errors: ['Zu dieser Kombination konnten wir keinen Benutzer finden.'],
         },
       });
       return false;
@@ -232,8 +236,9 @@ export default function useAuthentication() {
       dispatch({
         type: 'loginFailure',
         data: {
-          errors:
+          errors: [
             'Die Anmeldung konnte nicht durchgeführt werden, bitte versuchen Sie es erneut.',
+          ],
         },
       });
       return false;

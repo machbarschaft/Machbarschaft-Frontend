@@ -137,33 +137,29 @@ export default function ValidatePhoneComponent(props) {
       );
       if (typeof phoneNumber !== 'undefined') {
         validatePhoneNumber.current.phoneNumber = phoneNumber;
-      } else {
-        // ToDo: Error
       }
       if (typeof countryCode !== 'undefined') {
         validatePhoneNumber.current.countryCode = countryCode;
-      } else {
-        // ToDo: Error
       }
     }
-    if(authenticationContext.authenticationState.isPhoneVerified) {
+    if (authenticationContext.authenticationState.isPhoneVerified) {
       postRequestTan({
-      phone: validatePhoneNumber.current.phoneNumber,
-      countryCode: validatePhoneNumber.current.countryCode,
-      sms: false,
-    })
-      .then(() =>
-        notification.success({
-          message: 'Sie werden in Kürze einen Anruf erhalten!',
-        })
-      )
-      .catch((err) =>
-        notification.error({
-          message: 'Fehler',
-          description:
-            'Es ist ein Fehler aufgetreten. Bitte versuchen Sie erneut, die TAN anzufordern!',
-        })
-      );
+        phone: validatePhoneNumber.current.phoneNumber,
+        countryCode: validatePhoneNumber.current.countryCode,
+        sms: false,
+      })
+        .then(() =>
+          notification.success({
+            message: 'Sie werden in Kürze einen Anruf erhalten!',
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Fehler',
+            description:
+              'Es ist ein Fehler aufgetreten. Bitte versuchen Sie erneut, die TAN anzufordern!',
+          })
+        );
     }
   }, []);
   const [requestType, setRequestType] = React.useState('call');

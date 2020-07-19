@@ -199,7 +199,7 @@ h4 {
 }
 
 /* landing page */
-.landing-page-container {
+.welcome-section-container {
   background: #f4b3a3;
 }
 .landing-page-split-element {
@@ -905,4 +905,81 @@ h4 {
   background: white !important;
   border: none !important;
   box-shadow: 0px 1px 4px 0px rgba(30, 30, 30, 0.2);
+}
+
+/* landing page */
+.landingpage-spacing {
+  width: 100%;
+  height: 2em;
+}
+.landingpage-wirvsvirus {
+  height: 10em;
+  width: auto;
+}
+.landingpage-text {
+  font-size: 140%;;
+}
+.landingpage-element {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.landingpage-divider {
+  width: 5em;
+  height: 2px;
+  background: #e0e0e0;
+}
+.overflow-scroll {
+  overflow-y: scroll;
+}
+.landingpage-two-section {
+  display: grid;
+  width: fit-content;
+  justify-items: center;
+}
+@media (min-width: 1000px) {
+  .landingpage-text {
+    width: 50%;
+  }
+  .landingpage-two-section {
+    grid-template-columns: auto auto;
+    grid-column-gap: 8em;
+  }
+  .landingpage-two-section-text {
+    max-width: 40vw;
+  }
+}
+@media (max-width: 1000px) {
+  .landingpage-text {
+    width: 90%;
+  }
+  .landingpage-two-section {
+    grid-template-columns: 1fr;
+    grid-row-gap: 2em;
+  }
+  .landingpage-two-section-text {
+    max-width: 100%;
+  }
+}
+.landing-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+}
+.landingpage-two-section-image {
+  width: 10vw;
+  height: auto;
+}
+.text-align-center {
+  text-align: center;
+}
+.headline-red {
+  color: #e64b40 !important;
+}
+.landingpage-download-button {
+  color: white;
+  background: black;
+  text-decoration: none;
+  padding: 0.3em 2em;
+  border-radius: 1em;
 }
