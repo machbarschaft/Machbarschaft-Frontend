@@ -8,7 +8,7 @@ import {
   putPublishRequest,
 } from '../../utils/api/placeRequestApi';
 import { putConfirmTan } from '../../utils/api/phoneApi';
-import RegisterHelpseekerComponent from "../register/register-helpseeker-component";
+import RegisterHelpseekerComponent from '../register/register-helpseeker-component';
 
 const queryString = require('query-string');
 
@@ -118,12 +118,12 @@ export default function PlaceRequestWindow(props) {
 
         // Pre-Fill
         if (
-          typeof res.request.forename !== 'undefined' &&
-          typeof res.request.surname !== 'undefined'
+          typeof res.forename !== 'undefined' &&
+          typeof res.surname !== 'undefined'
         ) {
           formData.current['place-request-wizard-name'] = {
-            forename: res.request.forename,
-            surname: res.request.surname,
+            forename: res.forename,
+            surname: res.surname,
           };
         } else if (authenticationContext.isAuthenticated()) {
           formData.current['place-request-wizard-name'] = {
@@ -134,18 +134,18 @@ export default function PlaceRequestWindow(props) {
         }
 
         formData.current['place-request-wizard-address'] = {
-          street: res.request.address.street,
-          houseNumber: res.request.address.houseNumber,
-          zipCode: res.request.address.zipCode,
-          city: res.request.address.city,
+          street: res.address.street,
+          houseNumber: res.address.houseNumber,
+          zipCode: res.address.zipCode,
+          city: res.address.city,
         };
         formData.current['place-request-wizard-category'] = {
-          requestType: res.request.requestType,
-          carNecessary: res.request.extras.carNecessary,
-          prescriptionRequired: res.request.extras.prescriptionRequired,
+          requestType: res.requestType,
+          carNecessary: res.extras.carNecessary,
+          prescriptionRequired: res.extras.prescriptionRequired,
         };
         formData.current['place-request-wizard-urgency'] = {
-          urgency: res.request.urgency,
+          urgency: res.urgency,
         };
 
         if (
