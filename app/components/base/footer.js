@@ -5,9 +5,9 @@ export default function Footer() {
   return (
     <footer>
       <Space>
-        <a href="#">FAQ</a>
-        <a href="#">Datenschutz</a>
-        <a href="#">Impressum</a>
+        <a href="/faq">FAQ</a>
+        <a href="/datenschutz">Datenschutz</a>
+        <a href="/impressum">Impressum</a>
       </Space>
     </footer>
   );
