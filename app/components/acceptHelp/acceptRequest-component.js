@@ -38,7 +38,7 @@ function acceptRequestStateReducer(state, action) {
     return {
       ...state,
       loading: true,
-      error: null
+      error: null,
     };
   }
   if (action.type === 'selected-index') {
@@ -91,9 +91,10 @@ export default function AcceptRequestWindow() {
         .then((res) =>
           dispatchAcceptRequestState({ type: 'success', requestList: res })
         )
-        .catch((err) =>
-          dispatchAcceptRequestState({ type: 'error', error: err })
-        );
+        .catch((err) => {
+          console.log(err);
+          dispatchAcceptRequestState({ type: 'error', error: err });
+        });
     }
   }, [currentLocation]);
 
