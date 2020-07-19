@@ -7,7 +7,7 @@ import AuthenticationContext from '../../contexts/authentication';
 const { Text } = Typography;
 const { Option } = Select;
 
-export default function WelcomeSection() {
+export default function WelcomeComponent() {
   const authenticationContext = React.useContext(AuthenticationContext);
   const [form] = Form.useForm();
 

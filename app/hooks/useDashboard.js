@@ -2,7 +2,7 @@ import React from 'react';
 import {
   getActiveRequests,
   getFinishedRequests,
-} from '../utils/api/dashboardAPI';
+} from '../utils/api/dashboardApi';
 
 function isLoading(state) {
   if (state.loadingActiveRequests) return true;
