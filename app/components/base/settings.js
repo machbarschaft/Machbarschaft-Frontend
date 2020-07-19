@@ -139,6 +139,11 @@ export default function Settings() {
             hideRequiredMark
             initialValues={preferenceState}
             onFinish={(formValues) => {
+              Object.keys(formValues).forEach(
+                (key) =>
+                  (formValues[key] === undefined || formValues[key] === '') &&
+                  delete formValues[key]
+              );
               console.log(formValues);
               putUserPreferences(formValues)
                 .then(() => {
@@ -148,7 +153,10 @@ export default function Settings() {
                   });
                 })
                 .catch((error) => {
-                  notification.error({ message: 'Fehler', description: error });
+                  notification.error({
+                    message: 'Fehler',
+                    description: error.message,
+                  });
                 });
             }}
           >
