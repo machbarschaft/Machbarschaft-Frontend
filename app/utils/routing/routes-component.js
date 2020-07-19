@@ -70,7 +70,6 @@ export default function RoutesComponent() {
           />
         )}
       />
-      <Route path="/examples" component={Examples} />
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/passwort-zuruecksetzen" component={ResetPassword} />
