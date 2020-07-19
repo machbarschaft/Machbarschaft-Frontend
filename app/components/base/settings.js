@@ -144,7 +144,6 @@ export default function Settings() {
                   (formValues[key] === undefined || formValues[key] === '') &&
                   delete formValues[key]
               );
-              console.log(formValues);
               putUserPreferences(formValues)
                 .then(() => {
                   notification.success({
