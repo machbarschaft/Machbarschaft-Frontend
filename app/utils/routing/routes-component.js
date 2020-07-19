@@ -26,6 +26,9 @@ const RegisterHelper = React.lazy(() =>
 const ValidatePhone = React.lazy(() =>
   import('../../components/validation/validate-phone-component')
 );
+const Settings = React.lazy( () =>
+    import('../../components/base/settings')
+);
 const VerifyMail = React.lazy(() =>
   import('../../components/validation/verify-mail-component')
 );
@@ -64,9 +67,15 @@ export default function RoutesComponent() {
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
       <Route path="/telefon-bestaetigen" component={ValidatePhone} />
+      <Route exact path="/einstellungen" render={(props) => (
+          <RouteAuthenticated
+              render={() => <Settings {...props} />}
+              redirectTo="/login"
+          />
+      )}
+      />
       <Route path="/email-bestaetigen" component={VerifyMail} />
       <Route path="/contact" component={Contact} />
-
       <Route
         exaxct
         path="/place-request"
