@@ -47,7 +47,7 @@ export const postRequestTan = async (formValues) => {
   let formBody = objectToFormUrlEncoded(formValues);
 
   // Right now: Only phone
-  //formBody += '&sms=false';
+  formBody += '&sms=false';
 
   return fetch(endpoint, {
     method: 'POST',
