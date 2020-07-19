@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Divider, Typography } from 'antd';
+import { Divider, Typography, Result, Spin } from 'antd';
 import ThemeContext, { ThemeProvider } from '../../contexts/examples/theme';
 import NavigationExample from './navigation-example';
 
@@ -33,7 +33,7 @@ export default function Examples() {
         <Divider />
 
         {/* React.Suspense is necessary to provide a fallback, if imports are still being lazy loaded. */}
-        <React.Suspense fallback={<Text>Lädt...</Text>}>
+        <React.Suspense fallback={<Result icon={<Spin size="large" />} />}>
           <Switch>
             {/* Just define the respective component per route */}
             <Route

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space, Steps, Typography } from 'antd';
+import { Space, Steps, Typography, Result, Spin } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
 import {
   postAddress,
@@ -337,7 +337,7 @@ export default function PlaceRequestWindow(props) {
   ];
 
   if (wizardState.isLoading) {
-    return <Paragraph>Lädt...</Paragraph>;
+    return <Result icon={<Spin size="large" />} />;
   }
 
   return (

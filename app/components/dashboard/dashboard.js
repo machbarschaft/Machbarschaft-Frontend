@@ -8,31 +8,21 @@ import AuthenticationContext from '../../contexts/authentication';
 function DashboardWindow() {
   const authProps = React.useContext(AuthenticationContext);
   const [requestsState, fetchRequests] = useDashboard("helper");
-  const [loadingDisabled, setLoadingDisabled] = React.useState(false);
-  const [fgFetchRequested, setFgFetchRequested] = React.useState(false);
-  const [bgFetchRequested, setBgFetchRequested] = React.useState(false);
+  const [localRequestsState, setLocalRequestsState] = React.useState(requestsState);
+  const [loadingEnabled, setLoadingEnabled] = React.useState(true);
   const intervalRef = React.useRef();
 
   const backgroundFetch = () => {
-    setLoadingDisabled(true);
-    setBgFetchRequested(true);
+    setLoadingEnabled(false);
+    fetchRequests();
   };
   const foregroundFetch = () => {
-    setLoadingDisabled(false);
-    setFgFetchRequested(true);
+    setLoadingEnabled(true);
+    fetchRequests();
   }
   React.useEffect(() => {
-    if(fgFetchRequested && !loadingDisabled) {
-      fetchRequests();
-      setFgFetchRequested(false);
-    }
-  }, [loadingDisabled, fgFetchRequested]);
-  React.useEffect(() => {
-    if(bgFetchRequested && loadingDisabled) {
-      fetchRequests();
-      setBgFetchRequested(false);
-    }
-  }, [loadingDisabled, bgFetchRequested]);
+    if(loadingEnabled || !requestsState.loading) setLocalRequestsState(requestsState);
+  }, [requestsState]);
   React.useEffect(() => {
     intervalRef.current = setInterval(backgroundFetch, 5000);
     return () => clearInterval(intervalRef.current);
@@ -40,10 +30,10 @@ function DashboardWindow() {
 
   return (
     <div className="content-container-default background-light-grey">
-      {requestsState.loading && !loadingDisabled &&
+      {localRequestsState.loading &&
         <Result icon={<Spin size="large" />} />
       }
-      {!(requestsState.loading && !loadingDisabled) && requestsState.error != null &&
+      {!localRequestsState.loading && localRequestsState.error != null &&
         <Result
           status="warning"
           title="Es ist ein Fehler beim Laden aufgetreten."
@@ -54,29 +44,29 @@ function DashboardWindow() {
           }
         />
       }
-      {!(requestsState.loading && !loadingDisabled) && requestsState.error == null &&
-        requestsState.activeRequests.helpSeeker.length == 0 && requestsState.activeRequests.helper.length == 0 &&
-        requestsState.finishedRequests.helpSeeker.length == 0 && requestsState.finishedRequests.helper.length == 0 &&
+      {!localRequestsState.loading && localRequestsState.error == null &&
+        localRequestsState.activeRequests.helpSeeker.length == 0 && localRequestsState.activeRequests.helper.length == 0 &&
+        localRequestsState.finishedRequests.helpSeeker.length == 0 && localRequestsState.finishedRequests.helper.length == 0 &&
         <Result title="Es gibt noch keinen Auftrag." />
       }
-      {!(requestsState.loading && !loadingDisabled) && requestsState.error == null &&
-        (requestsState.activeRequests.helpSeeker.length > 0 || requestsState.activeRequests.helper != 0 ||
-        requestsState.finishedRequests.helpSeeker.length > 0 || requestsState.finishedRequests.helper.length > 0) &&
+      {!localRequestsState.loading && localRequestsState.error == null &&
+        (localRequestsState.activeRequests.helpSeeker.length > 0 || localRequestsState.activeRequests.helper != 0 ||
+        localRequestsState.finishedRequests.helpSeeker.length > 0 || localRequestsState.finishedRequests.helper.length > 0) &&
         <>
-          {requestsState.isHelpSeeker &&
+          {localRequestsState.isHelpSeeker &&
             <DashboardHelpSeeker
-              activeRequestsHelpSeeker={requestsState.activeRequests.helpSeeker}
-              activeRequestsHelper={requestsState.activeRequests.helper}
-              finishedRequestsHelpSeeker={requestsState.finishedRequests.helpSeeker}
-              finishedRequestsHelper={requestsState.finishedRequests.helper}
+              activeRequestsHelpSeeker={localRequestsState.activeRequests.helpSeeker}
+              activeRequestsHelper={localRequestsState.activeRequests.helper}
+              finishedRequestsHelpSeeker={localRequestsState.finishedRequests.helpSeeker}
+              finishedRequestsHelper={localRequestsState.finishedRequests.helper}
               refreshRequests={() => foregroundFetch()}
               refreshRequestsBackground={() => backgroundFetch()}
             />
           }
-          {!requestsState.isHelpSeeker &&
+          {!localRequestsState.isHelpSeeker &&
             <DashboardHelper
-              activeRequests={requestsState.activeRequests.helper}
-              finishedRequests={requestsState.finishedRequests.helper}
+              activeRequests={localRequestsState.activeRequests.helper}
+              finishedRequests={localRequestsState.finishedRequests.helper}
               refreshRequests={() => foregroundFetch()}
               refreshRequestsBackground={() => backgroundFetch()}
             />

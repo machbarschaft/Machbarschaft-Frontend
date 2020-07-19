@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Button, Space } from 'antd';
+import { Typography, Button, Space, Result, Spin } from 'antd';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -37,7 +37,7 @@ export default function UseReducerExample() {
     <>
       <Title level={3}>React.useReducer</Title>
       <Paragraph>
-        {isLoading && <Text>Lädt...</Text>}
+        {isLoading && <Result icon={<Spin size="large" />} />}
         {state.error !== null && (
           <Text>
             Error:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Typography } from 'antd';
+import { Menu, Typography, Result, Spin } from 'antd';
 import { fetchUserData } from '../../utils/examples/api';
 
 const { Title, Text } = Typography;
@@ -59,7 +59,7 @@ export default function APICallExample() {
         <Menu.Item key="2">Two</Menu.Item>
       </Menu>
 
-      {isLoading() && <Text>Lädt...</Text>}
+      {isLoading() && <Result icon={<Spin size="large" />} />}
 
       {state.error && (
         <Text>

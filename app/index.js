@@ -4,7 +4,7 @@ import './index.css';
 import 'antd/dist/antd.less';
 
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Layout, Result, Spin } from 'antd';
 
 import Loading from 'react-fullscreen-loading';
 import Navigation from './components/base/navigation';
@@ -57,7 +57,7 @@ function App() {
                 <ValidatePhoneNotification />
               )}
 
-              <React.Suspense fallback={<p>Lädt...</p>}>
+              <React.Suspense fallback={<Result icon={<Spin size="large" />} />}>
                 <RoutesComponent />
               </React.Suspense>
             </div>
