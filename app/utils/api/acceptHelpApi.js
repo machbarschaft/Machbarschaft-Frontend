@@ -29,7 +29,7 @@ export const getOpenRequests = async ({ longitude, latitude, radius }) => {
       return res;
     }
     res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
+    throw Error(res.errors[0]);
   });
 };
 
@@ -52,6 +52,6 @@ export const acceptOpenRequest = async ({ requestId }) => {
       return;
     }
     res = await res.json();
-    throw Error(res.errors[0]); // ToDo: Throw multiple errors
+    throw Error(res.errors[0]);
   });
 };

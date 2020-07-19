@@ -99,16 +99,12 @@ export default function PlaceRequestWindow(props) {
         authenticationContext.authenticationState.phoneNumber;
     } else if (typeof phoneNumber !== 'undefined') {
       formValues.phoneNumber = phoneNumber;
-    } else {
-      // ToDo: Throw Error
     }
     if (isAuthenticated) {
       formValues.countryCode =
         authenticationContext.authenticationState.countryCode;
     } else if (typeof countryCode !== 'undefined') {
       formValues.countryCode = countryCode;
-    } else {
-      // ToDo: Throw Error
     }
     if(isAuthenticated) phoneVerifiedInitial.current = true;
 
@@ -163,7 +159,7 @@ export default function PlaceRequestWindow(props) {
       .catch((error) => {
         dispatch({
           type: 'error',
-          data: error.toString(), // ToDo: Pretty Print
+          data: error.toString(),
         });
       });
   }, []);
@@ -175,15 +171,18 @@ export default function PlaceRequestWindow(props) {
       type: 'validating',
     });
 
-    // ToDo: Improve Handling
-    if (authenticationContext.isAuthenticated() || phoneVerifiedInitial.current) {
+    if (
+      authenticationContext.isAuthenticated() ||
+      phoneVerifiedInitial.current
+    ) {
       wizardSteps = wizardSteps.filter((item) => item.title !== 'Identität');
     }
 
     wizardSteps[wizardState.currentStep]
       .handleBackend(formValues)
       .then((result) => {
-        if(formName == "place-request-wizard-tan") phoneVerified.current = true;
+        if (formName === 'place-request-wizard-tan')
+          phoneVerified.current = true;
         dispatch({
           type: 'nextPage',
         });
@@ -298,11 +297,13 @@ export default function PlaceRequestWindow(props) {
           formData={formData}
           phoneNumber={phoneNumber}
           countryCode={countryCode}
-          isVerified={authenticationContext.isAuthenticated() || phoneVerified.current}
+          isVerified={
+            authenticationContext.isAuthenticated() || phoneVerified.current
+          }
         />
       ),
       handleBackend: async (formValues) => {
-        if(formValues.tanDone == "true") return;
+        if (formValues.tanDone == 'true') return;
         await putConfirmTan({
           phone: phoneNumber,
           countryCode: countryCode,
