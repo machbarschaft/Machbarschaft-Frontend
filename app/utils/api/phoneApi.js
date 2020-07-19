@@ -23,11 +23,10 @@ export const putConfirmTan = async (formValues) => {
     .then((res) => {
       if (res.status === 200) {
         return;
-      } else {
-        throw Error(
-          'Bei der Validierung deiner TAN ist ein Fehler aufgetreten. Verwendest du die richtige TAN?'
-        );
       }
+      throw Error(
+        'Bei der Validierung deiner TAN ist ein Fehler aufgetreten. Verwendest du die richtige TAN?'
+      );
     })
     .catch((error) => {
       throw Error(
@@ -58,11 +57,10 @@ export const postRequestTan = async (formValues) => {
     .then((res) => {
       if (res.status === 201) {
         return;
-      } else {
-        throw Error(
-          'Der Validierungsprozess konnte nicht gestartet werden. Bitte wende dich an den Support von MACHBARSCHAFT.'
-        );
       }
+      throw Error(
+        'Der Validierungsprozess konnte nicht gestartet werden. Bitte wende dich an den Support von MACHBARSCHAFT.'
+      );
     })
     .catch((error) => {
       throw Error(

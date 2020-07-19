@@ -68,7 +68,7 @@ export default function ValidatePhoneComponent(props) {
     postRequestTan({
       phone: validatePhoneNumber.current.phoneNumber,
       countryCode: validatePhoneNumber.current.countryCode,
-      sms: requestType == 'sms' ? true : false,
+      sms: requestType === 'sms',
     })
       .then(() =>
         notification.success({
@@ -153,7 +153,7 @@ export default function ValidatePhoneComponent(props) {
     })
       .then(() =>
         notification.success({
-          message: 'Sie werden in Kürze einen Anruf erhalten!'
+          message: 'Sie werden in Kürze einen Anruf erhalten!',
         })
       )
       .catch((err) =>
@@ -170,126 +170,131 @@ export default function ValidatePhoneComponent(props) {
     <>
       <div className="content-container-default">
         <div className="login-container">
-          {(validatePhoneState.validateSuccess || authenticationContext.authenticationState.phoneVerified) && (
+          {(validatePhoneState.validateSuccess ||
+            authenticationContext.authenticationState.phoneVerified) && (
             <Result
               status="success"
               title="Deine Telefonnummer wurde erfolgreich validiert."
               subTitle="Du kannst nun zurück zur Startseite gehen und deinen Account verwenden."
             />
           )}
-          {!authenticationContext.authenticationState.phoneVerified && !validatePhoneState.validateSuccess && (
-            <Row type="flex" style={{ alignItems: 'center' }}>
-              <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
-                <Card
-                  title="Telefon bestätigen"
-                  headStyle={{ textAlign: 'center', fontSize: '150%' }}
-                  bodyStyle={{ textAlign: 'center' }}
-                  bordered={false}
-                  className="login-card"
-                >
-                  <Form
-                    {...layout}
-                    form={form}
-                    name="validate-phone"
-                    style={{ width: '100%' }}
-                    onFinish={handleForm}
-                    hideRequiredMark
-                    initialValues={{
-                      countryCode: validatePhoneNumber.current.countryCode,
-                      phone: validatePhoneNumber.current.phoneNumber,
-                    }}
+          {!authenticationContext.authenticationState.phoneVerified &&
+            !validatePhoneState.validateSuccess && (
+              <Row type="flex" style={{ alignItems: 'center' }}>
+                <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
+                  <Card
+                    title="Telefon bestätigen"
+                    headStyle={{ textAlign: 'center', fontSize: '150%' }}
+                    bodyStyle={{ textAlign: 'center' }}
+                    bordered={false}
+                    className="login-card"
                   >
-                    <Form.Item
-                      name="phone"
-                      label="Ihre Handynummer"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Geben Sie eine gültige Telefonnummer ein.',
-                        },
-                      ]}
+                    <Form
+                      {...layout}
+                      form={form}
+                      name="validate-phone"
+                      style={{ width: '100%' }}
+                      onFinish={handleForm}
+                      hideRequiredMark
+                      initialValues={{
+                        countryCode: validatePhoneNumber.current.countryCode,
+                        phone: validatePhoneNumber.current.phoneNumber,
+                      }}
                     >
-                      <Input
-                        addonBefore={phonePrefixSelector}
-                        style={{ width: '100%' }}
-                        size="large"
-                        disabled
-                      />
-                    </Form.Item>
-
-                    <Form.Item
-                      name="code"
-                      label="Code zur Bestätigung"
-                      rules={[
-                        {
-                          required: true,
-                          message:
-                            'Geben Sie den Code ein, den Sie per SMS oder Anruf erhalten hast.',
-                        },
-                      ]}
-                    >
-                      <Input size="large" />
-                    </Form.Item>
-
-                    <Form.Item>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        loading={validatePhoneState.validateInProgress}
+                      <Form.Item
+                        name="phone"
+                        label="Ihre Handynummer"
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              'Geben Sie eine gültige Telefonnummer ein.',
+                          },
+                        ]}
                       >
-                        Bestätigen
-                      </Button>
-                    </Form.Item>
-                  </Form>
+                        <Input
+                          addonBefore={phonePrefixSelector}
+                          style={{ width: '100%' }}
+                          size="large"
+                          disabled
+                        />
+                      </Form.Item>
 
-                  <Row>
-                    {validatePhoneState.validateFailure && (
-                      <Result
-                        status="warning"
-                        title="Deine Telefonnummer konnte nicht bestätigt werden. Bitte überprüfe deinen Code."
-                      />
-                    )}
-                  </Row>
-                </Card>
-              </Col>
-              <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
-                <Card
-                  className="login-card"
-                  title="Warum ist das wichtig?"
-                  headStyle={{ textAlign: 'center', fontSize: '150%' }}
-                  bodyStyle={{ textAlign: 'center' }}
-                  bordered={false}
-                >
-                  <Paragraph>
-                    Bitte verifizieren Sie Ihre Telefonnummer. Dies dient als
-                    Schutz, damit nur Sie Ihre Telefonnummer als Identifikation
-                    nutzen können.
-                    <br />
-                    Dieser Sicherheitsschritt bedeutet auch, dass alle Personen
-                    mit denen Sie über unsere Website in Kontakt kommen
-                    eindeutig identifiziert werden können, falls sie sich
-                    missbräuchlich verhalten.
-                    <br />
-                    <br />
-                    <Radio.Group
-                      size="large"
-                      onChange={(e) => setRequestType(e.target.value)}
-                    >
-                      <Radio.Button value={'call'}>Anruf</Radio.Button>
-                      <Radio.Button value={'sms'} className={'spacing-left'}>
-                        SMS
-                      </Radio.Button>
-                    </Radio.Group>
-                    <br />
-                    <br />
-                    <Button type="primary" onClick={() => handleRequestTan()}>
-                      {requestType == 'call' ? 'Jetzt erneut anrufen' : 'TAN erneut senden'}
-                    </Button>
-                  </Paragraph>
-                </Card>
-              </Col>
-            </Row>
-          )}
+                      <Form.Item
+                        name="code"
+                        label="Code zur Bestätigung"
+                        rules={[
+                          {
+                            required: true,
+                            message:
+                              'Geben Sie den Code ein, den Sie per SMS oder Anruf erhalten hast.',
+                          },
+                        ]}
+                      >
+                        <Input size="large" />
+                      </Form.Item>
+
+                      <Form.Item>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          loading={validatePhoneState.validateInProgress}
+                        >
+                          Bestätigen
+                        </Button>
+                      </Form.Item>
+                    </Form>
+
+                    <Row>
+                      {validatePhoneState.validateFailure && (
+                        <Result
+                          status="warning"
+                          title="Deine Telefonnummer konnte nicht bestätigt werden. Bitte überprüfe deinen Code."
+                        />
+                      )}
+                    </Row>
+                  </Card>
+                </Col>
+                <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
+                  <Card
+                    className="login-card"
+                    title="Warum ist das wichtig?"
+                    headStyle={{ textAlign: 'center', fontSize: '150%' }}
+                    bodyStyle={{ textAlign: 'center' }}
+                    bordered={false}
+                  >
+                    <Paragraph>
+                      Bitte verifizieren Sie Ihre Telefonnummer. Dies dient als
+                      Schutz, damit nur Sie Ihre Telefonnummer als
+                      Identifikation nutzen können.
+                      <br />
+                      Dieser Sicherheitsschritt bedeutet auch, dass alle
+                      Personen mit denen Sie über unsere Website in Kontakt
+                      kommen eindeutig identifiziert werden können, falls sie
+                      sich missbräuchlich verhalten.
+                      <br />
+                      <br />
+                      <Radio.Group
+                        size="large"
+                        onChange={(e) => setRequestType(e.target.value)}
+                      >
+                        <Radio.Button value="call">Anruf</Radio.Button>
+                        <Radio.Button value="sms" className="spacing-left">
+                          SMS
+                        </Radio.Button>
+                      </Radio.Group>
+                      <br />
+                      <br />
+                      <Button type="primary" onClick={() => handleRequestTan()}>
+                        {requestType === 'call'
+                          ? 'Jetzt erneut anrufen'
+                          : 'TAN erneut senden'}
+                      </Button>
+                    </Paragraph>
+                  </Card>
+                </Col>
+              </Row>
+            )}
         </div>
       </div>
     </>

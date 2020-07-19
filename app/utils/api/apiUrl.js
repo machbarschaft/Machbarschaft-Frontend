@@ -3,7 +3,5 @@ export default function apiUrl() {
     return 'http://localhost:3000/';
   }
 
-  if (process.env.NODE_ENV === 'production') {
-    return 'https://api.demo.machbarschaft.jetzt/';
-  }
+  return 'https://api.demo.machbarschaft.jetzt/';
 }

@@ -7,7 +7,6 @@ const DashboardHelper = React.lazy(() => import('./dashboardHelper'));
 const DashboardHelpSeeker = React.lazy(() => import('./dashboardHelpSeeker'));
 
 function DashboardWindow() {
-  const authProps = React.useContext(AuthenticationContext);
   const [requestsState, fetchRequests] = useDashboard('helper');
   const [localRequestsState, setLocalRequestsState] = React.useState(
     requestsState
@@ -47,17 +46,17 @@ function DashboardWindow() {
         />
       )}
       {!localRequestsState.loading &&
-        localRequestsState.error == null &&
-        localRequestsState.activeRequests.helpSeeker.length == 0 &&
-        localRequestsState.activeRequests.helper.length == 0 &&
-        localRequestsState.finishedRequests.helpSeeker.length == 0 &&
-        localRequestsState.finishedRequests.helper.length == 0 && (
+        localRequestsState.error === null &&
+        localRequestsState.activeRequests.helpSeeker.length === 0 &&
+        localRequestsState.activeRequests.helper.length === 0 &&
+        localRequestsState.finishedRequests.helpSeeker.length === 0 &&
+        localRequestsState.finishedRequests.helper.length === 0 && (
           <Result title="Es gibt noch keinen Auftrag." />
         )}
       {!localRequestsState.loading &&
-        localRequestsState.error == null &&
+        localRequestsState.error === null &&
         (localRequestsState.activeRequests.helpSeeker.length > 0 ||
-          localRequestsState.activeRequests.helper != 0 ||
+          localRequestsState.activeRequests.helper !== 0 ||
           localRequestsState.finishedRequests.helpSeeker.length > 0 ||
           localRequestsState.finishedRequests.helper.length > 0) && (
           <>

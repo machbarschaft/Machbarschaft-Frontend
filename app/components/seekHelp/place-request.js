@@ -1,5 +1,5 @@
 import React from 'react';
-import { Space, Steps, Typography, Result, Spin } from 'antd';
+import { Space, Steps, Result, Spin } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
 import {
   postAddress,
@@ -8,12 +8,10 @@ import {
   putPublishRequest,
 } from '../../utils/api/placeRequestApi';
 import { putConfirmTan } from '../../utils/api/phoneApi';
-import RegisterHelpseekerComponent from '../register/register-helpseeker-component';
 
 const queryString = require('query-string');
 
 const { Step } = Steps;
-const { Paragraph } = Typography;
 
 const PlaceRequestWizardAddress = React.lazy(() =>
   import('./wizard/place-request-wizard-address')

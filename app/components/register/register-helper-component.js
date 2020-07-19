@@ -37,12 +37,11 @@ export default function RegisterHelperComponent() {
       values.forename,
       values.surname
     );
-    console.log("phone: " + values.phone);
+    console.log(`phone: ${values.phone}`);
     if (registerResult === true) {
       history.push('/');
     }
   };
-
 
   const phonePrefixSelector = (
     <Form.Item name="countryCode" noStyle>
@@ -53,23 +52,20 @@ export default function RegisterHelperComponent() {
   );
 
   const printErrors = (errors) => {
-    //errors = errors["errors"];
-    console.log("errors: ", JSON.stringify(errors));
-    if(errors.length > 0) {
-      var resultString = "";
-      for(var i = 0; i < errors.length; i++) {
-        var printedError = Object.keys(errors[i])
-        .map(
-          (key) =>
-            `${key}: ${errors[key]}`
-        )
-        .join(', ');
-        resultString += printedError + ((i != errors.length-1) ? <br/> : '');
+    // errors = errors["errors"];
+    console.log('errors: ', JSON.stringify(errors));
+    if (errors.length > 0) {
+      let resultString = '';
+      for (let i = 0; i < errors.length; i++) {
+        const printedError = Object.keys(errors[i])
+          .map((key) => `${key}: ${errors[key]}`)
+          .join(', ');
+        resultString += printedError + (i != errors.length - 1 ? <br /> : '');
       }
       return resultString;
     }
-      else return "Unbekannter Fehler";
-  }
+    return 'Unbekannter Fehler';
+  };
 
   return (
     <>
@@ -100,7 +96,7 @@ export default function RegisterHelperComponent() {
                   onFinish={handleForm}
                   hideRequiredMark
                   initialValues={{
-                    countryCode: '49'
+                    countryCode: '49',
                   }}
                 >
                   <Form.Item
@@ -178,21 +174,23 @@ export default function RegisterHelperComponent() {
                     <Button
                       type="primary"
                       htmlType="submit"
-                      loading={authenticationContext.authenticationState.isRegistering}
+                      loading={
+                        authenticationContext.authenticationState.isRegistering
+                      }
                     >
                       Registrieren
                     </Button>
                   </Form.Item>
                 </Form>
-                {authenticationContext.authenticationState.registerErrors &&
+                {authenticationContext.authenticationState.registerErrors && (
                   <Alert
                     message="Es ist ein Fehler aufgetreten"
-                    description={
-                      printErrors(authenticationContext.authenticationState.registerErrors)
-                    }
+                    description={printErrors(
+                      authenticationContext.authenticationState.registerErrors
+                    )}
                     type="error"
                   />
-                }
+                )}
               </Card>
             </Col>
             <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>

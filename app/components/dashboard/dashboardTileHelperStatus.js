@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 import DashboardTile from './dashboardTile';
 import { putUpdateRequestStatus } from '../../utils/api/requestStatusApi';
 
-function DashboardTileHelperStatus({ name, status, processId, refreshRequests }) {
+function DashboardTileHelperStatus({
+  name,
+  status,
+  processId,
+  refreshRequests,
+}) {
   const [updateLoading, setUpdateLoading] = React.useState(false);
   const updateStatus = () => {
     setUpdateLoading(true);
@@ -16,10 +21,11 @@ function DashboardTileHelperStatus({ name, status, processId, refreshRequests })
       .catch((err) => {
         notification.error({
           message: 'Fehler',
-          description: 'Es ist ein Fehler aufgetreten, bitte versuche es erneut!'
+          description:
+            'Es ist ein Fehler aufgetreten, bitte versuche es erneut!',
         });
         setUpdateLoading(false);
-      })
+      });
   };
   const content = {
     accepted: (
@@ -44,7 +50,11 @@ function DashboardTileHelperStatus({ name, status, processId, refreshRequests })
             Sobald du losgehst, klicke diesen Button:
           </div>
         </div>
-        <Button type="primary" onClick={() => updateStatus()} loading={updateLoading}>
+        <Button
+          type="primary"
+          onClick={() => updateStatus()}
+          loading={updateLoading}
+        >
           ICH GEHE JETZT LOS
         </Button>
       </>
@@ -54,19 +64,23 @@ function DashboardTileHelperStatus({ name, status, processId, refreshRequests })
         <div className="dashboard-tile-helper-status-bold">
           Wenn Sie alles erledigt haben, klicken Sies diesen Button:
         </div>
-        <Button type="primary" onClick={() => updateStatus()} loading={updateLoading}>
+        <Button
+          type="primary"
+          onClick={() => updateStatus()}
+          loading={updateLoading}
+        >
           AUFTRAG ABSCHLIESSEN
         </Button>
       </>
     ),
-    'done': (
+    done: (
       <>
         <div className="dashboard-tile-helper-status-bold">
           Sie haben den Auftrag als erledigt markiert.
         </div>
       </>
     ),
-    'aborted': (
+    aborted: (
       <>
         <div className="dashboard-tile-helper-status-bold">
           Sie haben den Auftrag als abgebrochen markiert.
@@ -79,7 +93,7 @@ function DashboardTileHelperStatus({ name, status, processId, refreshRequests })
           Sie haben angegeben, dass Sie nicht helfen konnten.
         </div>
       </>
-    )
+    ),
   };
 
   return (
@@ -95,9 +109,16 @@ function DashboardTileHelperStatus({ name, status, processId, refreshRequests })
 }
 DashboardTileHelperStatus.propTypes = {
   name: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(["accepted", "called", "on-the-way", "done", "aborted", "did-not-help"]).isRequired,
+  status: PropTypes.oneOf([
+    'accepted',
+    'called',
+    'on-the-way',
+    'done',
+    'aborted',
+    'did-not-help',
+  ]).isRequired,
   processId: PropTypes.string,
-  refreshRequests: PropTypes.func.isRequired
+  refreshRequests: PropTypes.func.isRequired,
 };
 
 export default DashboardTileHelperStatus;

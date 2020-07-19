@@ -17,92 +17,105 @@ function DashboardHelpSeekerMenu({
   activeRequestsHelpSeeker,
   activeRequestsHelper,
   finishedRequestsHelpSeeker,
-  finishedRequestsHelper
+  finishedRequestsHelper,
 }) {
   const requestTypeImages = {
     groceries: RequestTypeGroceries,
     medication: RequestTypeMedication,
-    other: RequestTypeOther
+    other: RequestTypeOther,
   };
   const requestTypeImagesWhite = {
     groceries: RequestTypeGroceriesWhite,
     medication: RequestTypeMedicationWhite,
-    other: RequestTypeOtherWhite
+    other: RequestTypeOtherWhite,
   };
-  const dashboardHelpSeekerMenuActiveItem = (key, selectedKey, requestType, title) =>
+  const dashboardHelpSeekerMenuActiveItem = (
+    key,
+    selectedKey,
+    requestType,
+    title
+  ) => (
     <Menu.Item
       key={key}
       className={
-      mode == 'vertical' &&
-      ("dashboard-menu-button" + (selectedKey == key ? " dashboard-menu-button-selected" : " dashboard-menu-button-default"))
-      }
-      >
-      {mode == 'vertical' && (
-      <div className="dashboard-menu-request-types">
-          <img
-          className="dashboard-menu-request-type-image"
-          src={
-            selectedKey == key
-              ? requestTypeImagesWhite[requestType]
-              : requestTypeImages[requestType]
-          }
-          />
-      </div>
-      )}
-      <span>{title}</span>
-  </Menu.Item>;
-  const dashboardHelpSeekerMenuFinishedItem = (key, selectedKey, title) =>
-    <Menu.Item
-      key={key}
-      className={
-        mode == 'vertical' &&
-        ("dashboard-menu-button" + (menuKey == key ? " dashboard-menu-button-selected" : " dashboard-menu-button-default"))
+        mode === 'vertical' &&
+        `dashboard-menu-button${
+          selectedKey === key
+            ? ' dashboard-menu-button-selected'
+            : ' dashboard-menu-button-default'
+        }`
       }
     >
-      {mode == 'vertical' && (
+      {mode === 'vertical' && (
         <div className="dashboard-menu-request-types">
           <img
             className="dashboard-menu-request-type-image"
-            src={selectedKey == key ? ClockIconWhite : ClockIcon}
+            src={
+              selectedKey === key
+                ? requestTypeImagesWhite[requestType]
+                : requestTypeImages[requestType]
+            }
           />
         </div>
       )}
       <span>{title}</span>
-    </Menu.Item>;
+    </Menu.Item>
+  );
+  const dashboardHelpSeekerMenuFinishedItem = (key, selectedKey, title) => (
+    <Menu.Item
+      key={key}
+      className={
+        mode === 'vertical' &&
+        `dashboard-menu-button${
+          menuKey === key
+            ? ' dashboard-menu-button-selected'
+            : ' dashboard-menu-button-default'
+        }`
+      }
+    >
+      {mode === 'vertical' && (
+        <div className="dashboard-menu-request-types">
+          <img
+            className="dashboard-menu-request-type-image"
+            src={selectedKey === key ? ClockIconWhite : ClockIcon}
+          />
+        </div>
+      )}
+      <span>{title}</span>
+    </Menu.Item>
+  );
 
   return (
     <Menu onClick={(e) => setMenuKey(e.key)} selectedKeys={menuKey} mode={mode}>
       {activeRequestsHelpSeeker.map((entry, key) =>
         dashboardHelpSeekerMenuActiveItem(
-          "hs" + key,
+          `hs${key}`,
           menuKey,
           entry.requestType,
-          "AUFTRAG " + (key+1)
+          `AUFTRAG ${key + 1}`
         )
       )}
-      
+
       {activeRequestsHelper.map((entry, key) =>
         dashboardHelpSeekerMenuActiveItem(
-          "h" + key,
+          `h${key}`,
           menuKey,
           entry.requestType,
-          "MEIN AUFTRAG " + (key+1)
+          `MEIN AUFTRAG ${key + 1}`
         )
       )}
       {finishedRequestsHelpSeeker &&
         dashboardHelpSeekerMenuFinishedItem(
-          "finished-helpseeker",
+          'finished-helpseeker',
           menuKey,
-          "ALTE AUFTRÄGE (AUFTRAGGEBER)"
-        )
-      }
+          'ALTE AUFTRÄGE (AUFTRAGGEBER)'
+        )}
       {finishedRequestsHelper &&
         dashboardHelpSeekerMenuFinishedItem(
-          "finished-helper",
+          'finished-helper',
           menuKey,
-          "ALTE AUFTRÄGE (AUFTRAGNEHMER)"
-        )
-      }
+          'ALTE AUFTRÄGE (AUFTRAGNEHMER)'
+        )}
     </Menu>
   );
 }
@@ -113,6 +126,6 @@ DashboardHelpSeekerMenu.propTypes = {
   activeRequestsHelpSeeker: PropTypes.array.isRequired,
   activeRequestsHelper: PropTypes.array.isRequired,
   finishedRequestsHelpSeeker: PropTypes.bool.isRequired,
-  finishedRequestsHelper: PropTypes.bool.isRequired
+  finishedRequestsHelper: PropTypes.bool.isRequired,
 };
 export default DashboardHelpSeekerMenu;

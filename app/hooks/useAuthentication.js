@@ -61,7 +61,7 @@ function authenticationReducer(state, action) {
         authenticationErrors: action.data.errors,
       };
     case 'registerFailure':
-      console.log("got error: ", action.data.errors);
+      console.log('got error: ', action.data.errors);
       return {
         ...initialAuthenticationState,
         isInitialLoading: false,
@@ -141,7 +141,14 @@ export default function useAuthentication() {
    * @param forename the forename of the user to be registered
    * @param surname the surname of the user to be registered
    */
-  const performRegister = async (email, phone, countryCode, password, forename, surname) => {
+  const performRegister = async (
+    email,
+    phone,
+    countryCode,
+    password,
+    forename,
+    surname
+  ) => {
     phone = phone.replace(/\D/g, '');
 
     const formValues = {
@@ -159,7 +166,7 @@ export default function useAuthentication() {
 
     try {
       let registerResult = await postRegisterRequest(formValues);
-      console.log("register result: ", registerResult);
+      console.log('register result: ', registerResult);
       if (registerResult.status !== 201) {
         // Register: Failure
         switch (registerResult.status) {
@@ -188,7 +195,7 @@ export default function useAuthentication() {
       // ToDo: Das könnten wir noch verbessern. Register könnte direkt einen gültigen Cookie zurückgeben.
       return await performAuthentication(email, password);
     } catch (error) {
-      console.log("catched error: ", error.message);
+      console.log('catched error: ', error.message);
       dispatch({
         type: 'registerFailure',
         data: {

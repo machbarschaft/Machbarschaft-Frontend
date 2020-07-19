@@ -28,22 +28,18 @@ export default function Settings() {
   React.useEffect(() => {
     getUserPreferences().then((preferences) => {
       console.log(preferences);
-      let formValuesPreference = {
+      const formValuesPreference = {
         radius: preferences.radius.toString(),
         notifyNearbyRequests: preferences.notifyNearbyRequests,
         useGps: preferences.useGps,
         country: 'Deutschland',
       };
       if (preferences.staticPosition) {
-        formValuesPreference['street'] = preferences.staticPosition.street;
-        formValuesPreference[
-          'houseNumber'
-        ] = preferences.staticPosition.houseNumber.toString();
-        formValuesPreference[
-          'zipCode'
-        ] = preferences.staticPosition.zipCode.toString();
-        formValuesPreference['city'] = preferences.staticPosition.city;
-        formValuesPreference['country'] = preferences.staticPosition.country;
+        formValuesPreference.street = preferences.staticPosition.street;
+        formValuesPreference.houseNumber = preferences.staticPosition.houseNumber.toString();
+        formValuesPreference.zipCode = preferences.staticPosition.zipCode.toString();
+        formValuesPreference.city = preferences.staticPosition.city;
+        formValuesPreference.country = preferences.staticPosition.country;
       }
       setPreferenceState(formValuesPreference);
       setLoadingState(false);
@@ -61,20 +57,20 @@ export default function Settings() {
   const formNamePreferences = 'preferences-form';
 
   return (
-    <div className={'content-container-default background-light-grey'}>
+    <div className="content-container-default background-light-grey">
       <Card
-        title={'Profil'}
+        title="Profil"
         headStyle={{ textAlign: 'center', fontSize: '150%' }}
         bodyStyle={{ textAlign: 'center' }}
         bordered={false}
         className="login-card"
       >
-        <div className={'dashboard-tile-spacing'} />
+        <div className="dashboard-tile-spacing" />
         <Form
           {...formLayout}
           form={formProfile}
           name={formNameProfile}
-          hideRequiredMark={true}
+          hideRequiredMark
           initialValues={{
             forename:
               authenticationContext.authenticationState.profile.forename,
@@ -94,8 +90,8 @@ export default function Settings() {
           }}
         >
           <Form.Item
-            label={'Vorname:'}
-            name={'forename'}
+            label="Vorname:"
+            name="forename"
             rules={[
               {
                 type: 'string',
@@ -107,8 +103,8 @@ export default function Settings() {
             <Input />
           </Form.Item>
           <Form.Item
-            label={'Nachname:'}
-            name={'surname'}
+            label="Nachname:"
+            name="surname"
             rules={[
               {
                 type: 'string',
@@ -119,28 +115,28 @@ export default function Settings() {
           >
             <Input />
           </Form.Item>
-          <Form.Item className={'center'}>
+          <Form.Item className="center">
             <Button type="primary" htmlType="submit">
               Speichern
             </Button>
           </Form.Item>
         </Form>
       </Card>
-      {loadingState && <Spin size={'large'}></Spin>}
+      {loadingState && <Spin size="large" />}
       {!loadingState && (
         <Card
-          title={'Einstellungen'}
+          title="Einstellungen"
           headStyle={{ textAlign: 'center', fontSize: '150%' }}
           bodyStyle={{ textAlign: 'center' }}
           bordered={false}
           className="login-card"
         >
-          <div className={'dashboard-tile-spacing'} />
+          <div className="dashboard-tile-spacing" />
           <Form
             {...formLayout}
             form={formPreferences}
             name={formNamePreferences}
-            hideRequiredMark={true}
+            hideRequiredMark
             initialValues={preferenceState}
             onFinish={(formValues) => {
               console.log(formValues);
@@ -156,7 +152,7 @@ export default function Settings() {
                 });
             }}
           >
-            <Form.Item label={'Adresse:'} name={'address'}>
+            <Form.Item label="Adresse:" name="address">
               <a
                 style={{
                   fontSize: 12,
@@ -176,10 +172,10 @@ export default function Settings() {
                 )}
               </a>
             </Form.Item>
-            <div className={'spacing-left'} hidden={!expandState}>
+            <div className="spacing-left" hidden={!expandState}>
               <Form.Item
-                label={'Straße:'}
-                name={'street'}
+                label="Straße:"
+                name="street"
                 rules={[
                   {
                     type: 'string',
@@ -190,8 +186,8 @@ export default function Settings() {
                 <Input />
               </Form.Item>
               <Form.Item
-                label={'Hausnummer:'}
-                name={'houseNumber'}
+                label="Hausnummer:"
+                name="houseNumber"
                 rules={[
                   {
                     type: 'string',
@@ -204,8 +200,8 @@ export default function Settings() {
                 <Input />
               </Form.Item>
               <Form.Item
-                label={'Postleitzahl:'}
-                name={'zipCode'}
+                label="Postleitzahl:"
+                name="zipCode"
                 rules={[
                   {
                     type: 'string',
@@ -217,8 +213,8 @@ export default function Settings() {
                 <Input />
               </Form.Item>
               <Form.Item
-                label={'Stadt:'}
-                name={'city'}
+                label="Stadt:"
+                name="city"
                 rules={[
                   {
                     type: 'string',
@@ -229,20 +225,20 @@ export default function Settings() {
                 <Input />
               </Form.Item>
               <Form.Item
-                label={'Land:'}
-                name={'country'}
+                label="Land:"
+                name="country"
                 rules={[
                   {
                     type: 'string',
                   },
                 ]}
               >
-                <Input placeholder={'Deutschland'} />
+                <Input placeholder="Deutschland" />
               </Form.Item>{' '}
             </div>
             <Form.Item
-              label={'Radius:'}
-              name={'radius'}
+              label="Radius:"
+              name="radius"
               rules={[
                 {
                   type: 'string',
@@ -261,19 +257,19 @@ export default function Settings() {
                   <br /> Aufträgen in der Nähe
                 </>
               }
-              name={'notifyNearbyRequests'}
+              name="notifyNearbyRequests"
               valuePropName="checked"
             >
               <Switch />
             </Form.Item>
             <Form.Item
-              label={'GPS erlauben:'}
-              name={'useGps'}
+              label="GPS erlauben:"
+              name="useGps"
               valuePropName="checked"
             >
               <Switch />
             </Form.Item>
-            <Form.Item className={'center'}>
+            <Form.Item className="center">
               <Button type="primary" htmlType="submit">
                 Speichern
               </Button>

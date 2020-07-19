@@ -7,7 +7,7 @@ import DashboardHelperFinishedRequestContent from './dashboardHelperFinishedRequ
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-function DashboardHelperFinishedRequests({title, requestList}) {
+function DashboardHelperFinishedRequests({ title, requestList }) {
   const panelRender = requestList.map((entry, index) => (
     <Panel
       header={
@@ -32,7 +32,11 @@ function DashboardHelperFinishedRequests({title, requestList}) {
 
   return (
     <div>
-      {title && <Title level={2} style={{ marginTop: '1em' }}>{title}</Title>}
+      {title && (
+        <Title level={2} style={{ marginTop: '1em' }}>
+          {title}
+        </Title>
+      )}
       {requestList.length == 0 ? (
         <Result title="Es gibt keine alten Aufträge" />
       ) : (
@@ -44,9 +48,7 @@ function DashboardHelperFinishedRequests({title, requestList}) {
                 Weniger anzeigen
               </span>
             ) : (
-              <span className="dashboard-collapse-button">
-                Mehr anzeigen
-              </span>
+              <span className="dashboard-collapse-button">Mehr anzeigen</span>
             )
           }
           expandIconPosition="right"
@@ -59,6 +61,6 @@ function DashboardHelperFinishedRequests({title, requestList}) {
 }
 DashboardHelperFinishedRequests.propTypes = {
   title: PropTypes.string,
-  requestList: PropTypes.array.isRequired
-}
+  requestList: PropTypes.array.isRequired,
+};
 export default DashboardHelperFinishedRequests;

@@ -42,11 +42,20 @@ function DashboardHelperFinishedRequestContent({
   const startedDate = new Date(Date.parse(startedAt));
   const startedDateString = `${startedDate.getDate()}. ${
     monthNames[startedDate.getMonth()]
-  } ${startedDate.getFullYear()}, ${startedDate.getHours().toString().padStart(2, '0')}:${startedDate.getMinutes().toString().padStart(2, '0')}`;
+  } ${startedDate.getFullYear()}, ${startedDate
+    .getHours()
+    .toString()
+    .padStart(2, '0')}:${startedDate.getMinutes().toString().padStart(2, '0')}`;
   const finishedDate = new Date(Date.parse(finishedAt));
   const finishedDateString = `${finishedDate.getDate()}. ${
     monthNames[finishedDate.getMonth()]
-  } ${finishedDate.getFullYear()}, ${finishedDate.getHours().toString().padStart(2, '0')}:${finishedDate.getMinutes().toString().padStart(2, '0')}`;
+  } ${finishedDate.getFullYear()}, ${finishedDate
+    .getHours()
+    .toString()
+    .padStart(2, '0')}:${finishedDate
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}`;
 
   return (
     <div className="dashboard-collapse-content">
@@ -76,7 +85,8 @@ DashboardHelperFinishedRequestContent.propTypes = {
   finishedAt: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
-  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
+  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week'])
+    .isRequired,
   carNecessary: PropTypes.bool.isRequired,
   prescriptionRequired: PropTypes.bool.isRequired,
 };

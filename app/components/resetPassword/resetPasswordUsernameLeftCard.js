@@ -1,12 +1,9 @@
 import React from 'react';
-import { Space, Button, Input, Typography, Form, Select } from 'antd';
+import { Button, Input, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { MailOutlined } from '@ant-design/icons';
 
 import resetPasswordSubmissionStateReducer from './resetPasswordSubmissionStateReducer';
-
-const { Text } = Typography;
-const { Option } = Select;
 
 function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
   const [form] = Form.useForm();

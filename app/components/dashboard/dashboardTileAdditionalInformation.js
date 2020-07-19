@@ -14,7 +14,13 @@ function DashboardTileAdditionalInformation({
   timestamp,
 }) {
   const creationDate = new Date(Date.parse(timestamp));
-  const timeString = `${creationDate.toLocaleDateString()},${creationDate.getHours().toString().padStart(2, '0')}:${creationDate.getMinutes().toString().padStart(2, '0')}`;
+  const timeString = `${creationDate.toLocaleDateString()},${creationDate
+    .getHours()
+    .toString()
+    .padStart(2, '0')}:${creationDate
+    .getMinutes()
+    .toString()
+    .padStart(2, '0')}`;
 
   return (
     <DashboardTile

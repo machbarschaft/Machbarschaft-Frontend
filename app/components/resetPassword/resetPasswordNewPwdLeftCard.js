@@ -1,10 +1,7 @@
 import React from 'react';
-import { Space, Button, Input, Typography, Form, Select } from 'antd';
+import { Button, Input, Form } from 'antd';
 import PropTypes from 'prop-types';
 import resetPasswordSubmissionStateReducer from './resetPasswordSubmissionStateReducer';
-
-const { Text } = Typography;
-const { Option } = Select;
 
 function ResetPasswordNewPwdLeftCard({ user, token, proceed }) {
   const [form] = Form.useForm();
@@ -84,7 +81,7 @@ function ResetPasswordNewPwdLeftCard({ user, token, proceed }) {
 
 ResetPasswordNewPwdLeftCard.propTypes = {
   user: PropTypes.string.isRequired,
-  setToken: PropTypes.string.isRequired,
+  token: PropTypes.string.isRequired,
   proceed: PropTypes.func.isRequired,
 };
 

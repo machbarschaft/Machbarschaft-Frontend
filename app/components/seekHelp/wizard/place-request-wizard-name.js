@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Form, Input, Space, Typography } from 'antd';
 import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
-import AuthenticationContext from '../../../contexts/authentication';
 
 const { Title } = Typography;
 

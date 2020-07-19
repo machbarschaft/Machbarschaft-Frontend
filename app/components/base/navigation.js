@@ -1,12 +1,11 @@
 import React from 'react';
-import { Button, Layout, Menu, Popover, Space, Typography } from 'antd';
+import { Button, Menu, Popover, Space, Typography } from 'antd';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MachbarschaftLogo from '../../assets/img/logo/machbarschaft-logo.png';
 import AuthenticationContext from '../../contexts/authentication';
 
-const { Header, Content, Footer } = Layout;
 const { Text } = Typography;
 
 function NavigationMenu({ mode, menuClicked }) {
@@ -44,7 +43,7 @@ function NavigationMenu({ mode, menuClicked }) {
     <Menu
       mode={mode}
       defaultSelectedKeys={[
-        window.location.pathname == '/'
+        window.location.pathname === '/'
           ? '/dashboard'
           : window.location.pathname,
       ]}
@@ -122,7 +121,6 @@ function NavigationProfileIndicator() {
 }
 
 export default function Navigation() {
-  const authProps = React.useContext(AuthenticationContext);
   const [mobileNavState, setState] = React.useState(false);
 
   return (

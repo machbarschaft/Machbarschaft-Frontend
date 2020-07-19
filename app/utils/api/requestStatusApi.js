@@ -6,7 +6,7 @@ import apiUrl from './apiUrl';
 export const putReopenRequest = async (requestId) => {
   const endpoint = `${apiUrl()}request/${requestId}/reopen`;
 
-  console.log("reopen request (" + endpoint + ")");
+  console.log(`reopen request (${endpoint})`);
   return fetch(endpoint, {
     method: 'PUT',
     cache: 'no-cache',
@@ -66,4 +66,3 @@ export const putUpdateRequestStatus = async (processId) => {
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
   });
 };
-

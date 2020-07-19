@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Divider, Form, Space } from 'antd';
 
 export default function PlaceRequestWizardNavigation({
@@ -27,3 +28,8 @@ export default function PlaceRequestWizardNavigation({
     </>
   );
 }
+
+PlaceRequestWizardNavigation.propTypes = {
+  handlePreviousPage: PropTypes.func.isRequired,
+  wizardState: PropTypes.object.isRequired,
+};

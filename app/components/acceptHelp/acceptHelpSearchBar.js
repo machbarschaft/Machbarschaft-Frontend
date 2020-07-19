@@ -6,7 +6,11 @@ import geolocationNotFixed from '../../assets/img/maps/geolocation-not-fixed.svg
 import useGeolocation from '../../hooks/useGeolocation';
 import SearchBox from './searchBox';
 
-export default function AcceptHelpSearchBar({ loading, setCurrentLocation, setCurrentRadius }) {
+export default function AcceptHelpSearchBar({
+  loading,
+  setCurrentLocation,
+  setCurrentRadius,
+}) {
   const [geolocationState, startGeolocation] = useGeolocation((pos) =>
     setCurrentLocation(pos)
   );
@@ -16,27 +20,29 @@ export default function AcceptHelpSearchBar({ loading, setCurrentLocation, setCu
       if (geolocationState.error === 'NOT_SUPPORTED')
         notification.error({
           message: 'Fehler',
-          description: 'Dein Browsers unterstützt die Standortermittlung leider nicht!'
+          description:
+            'Dein Browsers unterstützt die Standortermittlung leider nicht!',
         });
-      else if (typeof geolocationState.error.code !== undefined) {
+      else if (typeof geolocationState.error.code !== 'undefined') {
         if (
           geolocationState.error.code ===
           geolocationState.error.PERMISSION_DENIED
         )
           notification.error({
             message: 'Fehler',
-            description: 'Bitte erlaube die Standortermittlung in deinem Browser!'
+            description:
+              'Bitte erlaube die Standortermittlung in deinem Browser!',
           });
         else {
           notification.error({
             message: 'Fehler',
-            description: 'Dein Standort konnte nicht ermittelt werden!'
+            description: 'Dein Standort konnte nicht ermittelt werden!',
           });
         }
       } else {
         notification.error({
           message: 'Fehler',
-          description: 'Dein Standort konnte nicht ermittelt werden!'
+          description: 'Dein Standort konnte nicht ermittelt werden!',
         });
       }
     }
@@ -49,8 +55,7 @@ export default function AcceptHelpSearchBar({ loading, setCurrentLocation, setCu
         onPlacesChanged={(pos) => {
           if (pos != null) {
             setCurrentLocation(pos);
-          }
-          else {
+          } else {
             setCurrentLocation(0, 0);
           }
         }}
@@ -64,6 +69,7 @@ export default function AcceptHelpSearchBar({ loading, setCurrentLocation, setCu
             : ''
         }`}
         onClick={() => startGeolocation()}
+        alt="geolocation-icon"
       />
       <Select
         defaultValue={25000}

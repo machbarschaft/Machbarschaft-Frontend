@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Typography, message } from 'antd';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import ArrowLeft from '../../assets/img/navigation/arrow-left.svg';
 import RequestTypeOther from '../../assets/img/request-category/request-category-other.svg';
 import RequestTypeGroceries from '../../assets/img/request-category/request-category-groceries.svg';
@@ -10,7 +11,6 @@ import CarNotRequired from '../../assets/img/request-requirements/car-not-requir
 import PrescriptionRequired from '../../assets/img/request-requirements/prescription-required.svg';
 import PrescriptionNotRequired from '../../assets/img/request-requirements/prescription-not-required.svg';
 import { acceptOpenRequest } from '../../utils/api/acceptHelpApi';
-import { useHistory } from 'react-router-dom';
 
 const { Text } = Typography;
 
@@ -30,8 +30,7 @@ export default function AcceptRequestDetailView({
     tomorrow: 'morgen',
     'this-week': 'diese Woche',
   };
-  if (requestType.length == 0)
-    categoryTitle = 'Keine Kategorie angegeben';
+  if (requestType.length === 0) categoryTitle = 'Keine Kategorie angegeben';
   else categoryTitle = 'Kategorie: ';
 
   const [loadingState, setLoadingState] = React.useState(false);
@@ -39,7 +38,7 @@ export default function AcceptRequestDetailView({
 
   const acceptRequest = () => {
     setLoadingState(true);
-    acceptOpenRequest({requestId: process})
+    acceptOpenRequest({ requestId: process })
       .then(() => {
         message.success('Auftrag erfolgreich angenommen!');
         setLoadingState(false);
@@ -48,7 +47,7 @@ export default function AcceptRequestDetailView({
       .catch((err) => {
         message.error('Es ist ein Fehler aufgetreten!'); // ToDo: more details
         setLoadingState(false);
-      })
+      });
   };
 
   return (
@@ -58,27 +57,26 @@ export default function AcceptRequestDetailView({
           <img src={ArrowLeft} onClick={() => closeDetailView()} />
         </div>
         <div className="accept-help-request-detail-title">
-          {address.street}, {address.zipCode}{' '}
-          {address.city}
+          {address.street},{address.zipCode} {address.city}
         </div>
       </div>
       <div className="accept-help-request-detail-main">
         <div className="accept-help-request-detail-info">
           <Text strong>{categoryTitle}</Text>
           <div className="display-flex">
-            {requestType == 'groceries' && (
+            {requestType === 'groceries' && (
               <img
                 className="accept-help-request-detail-icon"
                 src={RequestTypeGroceries}
               />
             )}
-            {requestType == 'medication' && (
+            {requestType === 'medication' && (
               <img
                 className="accept-help-request-detail-icon"
                 src={RequestTypeMedication}
               />
             )}
-            {requestType == 'other' && (
+            {requestType === 'other' && (
               <img
                 className="accept-help-request-detail-icon"
                 src={RequestTypeOther}
@@ -86,12 +84,13 @@ export default function AcceptRequestDetailView({
             )}
           </div>
           <Text strong>Distanz:</Text>
-          <div>{(distance/1000).toFixed(1).replace('.', ',')}km</div>
+          <div>
+            {(distance / 1000).toFixed(1).replace('.', ',')}
+            km
+          </div>
           <Text strong>Dringlichkeit:</Text>
           <div>
-            {urgency in urgencyMapping
-              ? urgencyMapping[urgency]
-              : 'unbekannt'}
+            {urgency in urgencyMapping ? urgencyMapping[urgency] : 'unbekannt'}
           </div>
           <Text strong>Auto benötigt:</Text>
           <img
@@ -126,7 +125,8 @@ AcceptRequestDetailView.propTypes = {
   process: PropTypes.string,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
   address: PropTypes.object.isRequired,
-  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week']).isRequired,
+  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week'])
+    .isRequired,
   distance: PropTypes.number.isRequired,
   extras: PropTypes.object.isRequired,
   closeDetailView: PropTypes.func.isRequired,

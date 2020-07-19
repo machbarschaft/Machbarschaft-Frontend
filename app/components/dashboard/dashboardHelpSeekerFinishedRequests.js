@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography, Collapse, Result } from 'antd';
+import { Collapse, Result } from 'antd';
 import DashboardFinishedRequestHeader from './dashboardFinishedRequestHeader';
 import DashboardHelpSeekerFinishedRequestContent from './dashboardHelpSeekerFinishedRequestContent';
 
-const { Title } = Typography;
 const { Panel } = Collapse;
 
 function DashboardHelpSeekerFinishedRequests({ requestList }) {
@@ -34,11 +33,11 @@ function DashboardHelpSeekerFinishedRequests({ requestList }) {
 
   return (
     <>
-      {requestList.length == 0 ? (
+      {requestList.length === 0 ? (
         <Result title="Es gibt keine alten Aufträge" />
       ) : (
         <div>
-          {requestList.length == 0 ? (
+          {requestList.length === 0 ? (
             'Sie haben noch keinen Auftrag abgeschlossen.'
           ) : (
             <Collapse

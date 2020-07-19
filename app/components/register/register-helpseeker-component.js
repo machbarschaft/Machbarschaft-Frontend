@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form, Input, Typography, Button } from 'antd';
-import AuthenticationContext from '../../contexts/authentication';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import AuthenticationContext from '../../contexts/authentication';
 
 const { Title } = Typography;
 
@@ -43,7 +43,7 @@ export default function RegisterHelpseekerComponent({
       data.answer3.toString() +
       specialCharacters[getRandomInt(specialCharacters.length)] +
       specialCharacters[getRandomInt(specialCharacters.length)];
-    password = password.replace(/\s/g, ''); //remove whitespace
+    password = password.replace(/\s/g, ''); // remove whitespace
     while (password.length < 12) {
       password += specialCharacters[getRandomInt(specialCharacters.length)];
     }
@@ -56,7 +56,7 @@ export default function RegisterHelpseekerComponent({
 
   function pickQuestionsRandomly() {
     form.resetFields(['answer1', 'answer2', 'answer3']);
-    let newSetQuestions = [];
+    const newSetQuestions = [];
     while (newSetQuestions.length < 3) {
       const currentQuestion = questions[getRandomInt(5)];
       if (!newSetQuestions.includes(currentQuestion))
@@ -99,9 +99,9 @@ export default function RegisterHelpseekerComponent({
 
   return (
     <>
-      <div className={'dashboard-tile register-component'}>
+      <div className="dashboard-tile register-component">
         <Title level={3}>Jetzt registrieren</Title>
-        <div className={'dashboard-tile-spacing'} />
+        <div className="dashboard-tile-spacing" />
         {showFormState === 'start' && (
           <Button
             type="primary"
@@ -117,10 +117,10 @@ export default function RegisterHelpseekerComponent({
           <>
             <Form
               {...formLayoutVertical}
-              layout={'vertical'}
+              layout="vertical"
               form={form}
               name={formNameEmail}
-              hideRequiredMark={true}
+              hideRequiredMark
               onFinish={(formValues) => {
                 setEmailState(formValues.email);
                 pickQuestionsRandomly();
@@ -128,8 +128,8 @@ export default function RegisterHelpseekerComponent({
               }}
             >
               <Form.Item
-                label={'Bitte geben Sie ihre Email-Adresse an:'}
-                name={'email'}
+                label="Bitte geben Sie ihre Email-Adresse an:"
+                name="email"
                 rules={[
                   {
                     type: 'email',
@@ -140,7 +140,7 @@ export default function RegisterHelpseekerComponent({
               >
                 <Input />
               </Form.Item>
-              <Form.Item className={'register-component'}>
+              <Form.Item className="register-component">
                 <Button type="primary" htmlType="submit">
                   Weiter
                 </Button>
@@ -152,10 +152,10 @@ export default function RegisterHelpseekerComponent({
         {showFormState === 'questions' && (
           <Form
             {...formLayoutVertical}
-            layout={'vertical'}
+            layout="vertical"
             form={form}
             name={formNamePassword}
-            hideRequiredMark={true}
+            hideRequiredMark
             onFinish={(formValues) => {
               generatePassword(formValues);
               setShowFormState('summary');
@@ -163,7 +163,7 @@ export default function RegisterHelpseekerComponent({
           >
             <Form.Item
               label={currentQuestionsState[0]}
-              name={'answer1'}
+              name="answer1"
               rules={[
                 {
                   required: true,
@@ -176,7 +176,7 @@ export default function RegisterHelpseekerComponent({
 
             <Form.Item
               label={currentQuestionsState[1]}
-              name={'answer2'}
+              name="answer2"
               rules={[
                 {
                   required: true,
@@ -189,7 +189,7 @@ export default function RegisterHelpseekerComponent({
 
             <Form.Item
               label={currentQuestionsState[2]}
-              name={'answer3'}
+              name="answer3"
               rules={[
                 {
                   required: true,
@@ -199,12 +199,12 @@ export default function RegisterHelpseekerComponent({
             >
               <Input />
             </Form.Item>
-            <Form.Item className={'register-component'}>
+            <Form.Item className="register-component">
               <Button type="primary" onClick={() => setShowFormState('email')}>
                 Zurück
               </Button>
               <Button
-                className={'space-left-little'}
+                className="space-left-little"
                 type="primary"
                 htmlType="submit"
               >
@@ -219,7 +219,7 @@ export default function RegisterHelpseekerComponent({
             Ihr Passwort: {passwordState} <br /> Bitte notieren Sie sich ihr
             Passwort.
             <br />
-            <div className={'horizontal-container space-top'}>
+            <div className="horizontal-container space-top">
               <Button
                 type="primary"
                 onClick={() => {
@@ -230,7 +230,7 @@ export default function RegisterHelpseekerComponent({
                 Zurück
               </Button>
               <Button
-                className={'space-left-little'}
+                className="space-left-little"
                 type="primary"
                 onClick={() => handleForm(emailState, passwordState)}
               >
@@ -245,6 +245,7 @@ export default function RegisterHelpseekerComponent({
 }
 
 RegisterHelpseekerComponent.propTypes = {
+  countryCode: PropTypes.number.isRequired,
   phone: PropTypes.string.isRequired,
   forename: PropTypes.string.isRequired,
   surname: PropTypes.string.isRequired,

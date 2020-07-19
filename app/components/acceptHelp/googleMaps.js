@@ -40,15 +40,15 @@ export default function MapContainer({
             lat={entry.address.geoLocation.latitude}
             lng={entry.address.geoLocation.longitude}
             onMarkerSelect={() => onMarkerSelect(index)}
-            selected={selectedMarkerIndex == index}
-            hover={hoverMarkerIndex == index}
+            selected={selectedMarkerIndex === index}
+            hover={hoverMarkerIndex === index}
             onMarkerEnter={() => onMarkerEnter(index)}
             onMarkerLeave={() => onMarkerLeave()}
             key={index}
           />
         ))}
 
-        {currentLocation.lat != 0 && currentLocation.lng != 0 && (
+        {currentLocation.lat !== 0 && currentLocation.lng !== 0 && (
           <CurrentLocationMarker
             lat={currentLocation.lat}
             lng={currentLocation.lng}

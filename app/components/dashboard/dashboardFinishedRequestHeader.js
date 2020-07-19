@@ -28,9 +28,15 @@ function DashboardHelperFinishedRequestHeader({ finishedAt, requestType }) {
     <div className="display-flex">
       {dateString}
       <div className="dashboard-collapse-request-category">
-        {requestType == 'groceries' && <img src={RequestTypeGroceries}/>}
-        {requestType == 'medication' && <img src={RequestTypeMedication}/>}
-        {requestType == 'other' && <img src={RequestTypeOther}/>}
+        {requestType === 'groceries' && (
+          <img src={RequestTypeGroceries} alt="grociers-icon" />
+        )}
+        {requestType === 'medication' && (
+          <img src={RequestTypeMedication} alt="medication-icon" />
+        )}
+        {requestType === 'other' && (
+          <img src={RequestTypeOther} alt="other-icon" />
+        )}
       </div>
     </div>
   );

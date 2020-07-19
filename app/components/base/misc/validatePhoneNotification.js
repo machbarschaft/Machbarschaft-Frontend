@@ -12,8 +12,9 @@ export default function ValidatePhoneNotification() {
           <>
             Bevor du alle Funktionen von Machbarschaft nutzen kannst, musst du
             deine Telefonnummer bestätigen.
-            <br /><br/>
-            <Button type={'primary'}>
+            <br />
+            <br />
+            <Button type="primary">
               <NavLink to="/telefon-bestaetigen" exact>
                 Bestätigen
               </NavLink>

@@ -1,4 +1,3 @@
-import React from 'react';
 import apiUrl from './apiUrl';
 import { objectToFormUrlEncoded } from './formUrlEncoder';
 
@@ -11,7 +10,9 @@ import { objectToFormUrlEncoded } from './formUrlEncoder';
 export const postPlaceRequest = async ({ formValues, isAuthenticated }) => {
   const endpoint = isAuthenticated
     ? `${apiUrl()}request`
-    : `${apiUrl()}request/guest?phone=${formValues.phoneNumber}&countryCode=${encodeURIComponent(formValues.countryCode)}`;
+    : `${apiUrl()}request/guest?phone=${
+        formValues.phoneNumber
+      }&countryCode=${encodeURIComponent(formValues.countryCode)}`;
 
   return fetch(endpoint, {
     method: 'POST',
@@ -131,8 +132,7 @@ export const postAddress = (formValues) => {
     if (res.status === 200) {
       const jsonRes = await res.json();
       return jsonRes._id;
-    } else {
-      throw Error('Die Adresse konnte nicht angelegt werden.');
     }
+    throw Error('Die Adresse konnte nicht angelegt werden.');
   });
 };

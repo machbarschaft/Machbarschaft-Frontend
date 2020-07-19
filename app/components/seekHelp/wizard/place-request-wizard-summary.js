@@ -35,7 +35,6 @@ export default function PlaceRequestWizardSummary({
     other: 'Produkte',
   };
 
-
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
       <Title level={1}>Stimmt alles?</Title>
@@ -66,16 +65,29 @@ export default function PlaceRequestWizardSummary({
         </Descriptions.Item>
 
         <Descriptions.Item label="Art">
-          {requestTypeMapping[formData.current['place-request-wizard-category'].requestType]}
+          {
+            requestTypeMapping[
+              formData.current['place-request-wizard-category'].requestType
+            ]
+          }
         </Descriptions.Item>
         <Descriptions.Item label="Auto benötigt">
-          {formData.current['place-request-wizard-category'].carNecessary ? "Ja": "Nein"}
+          {formData.current['place-request-wizard-category'].carNecessary
+            ? 'Ja'
+            : 'Nein'}
         </Descriptions.Item>
         <Descriptions.Item label="Rezept benötigt">
-          {formData.current['place-request-wizard-category'].prescriptionRequired ? "Ja": "Nein"}
+          {formData.current['place-request-wizard-category']
+            .prescriptionRequired
+            ? 'Ja'
+            : 'Nein'}
         </Descriptions.Item>
         <Descriptions.Item label="Dringlichkeit">
-          {urgencyMapping[formData.current['place-request-wizard-urgency'].urgency]}
+          {
+            urgencyMapping[
+              formData.current['place-request-wizard-urgency'].urgency
+            ]
+          }
         </Descriptions.Item>
       </Descriptions>
 

@@ -57,7 +57,9 @@ function App() {
                 <ValidatePhoneNotification />
               )}
 
-              <React.Suspense fallback={<Result icon={<Spin size="large" />} />}>
+              <React.Suspense
+                fallback={<Result icon={<Spin size="large" />} />}
+              >
                 <RoutesComponent />
               </React.Suspense>
             </div>

@@ -53,7 +53,7 @@ function DashboardHelper({
   return (
     <>
       {activeRequests.length > 0 && activeRequestsRender}
-      {activeRequests.length == 0 && (
+      {activeRequests.length === 0 && (
         <Result title="Du hast aktuell keinen Auftrag angenommen." />
       )}
       <DashboardHelperFinishedRequests
