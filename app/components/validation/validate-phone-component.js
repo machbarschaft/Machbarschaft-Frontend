@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Alert,
+  Result,
   Button,
   Card,
   Col,
@@ -153,14 +153,14 @@ export default function ValidatePhoneComponent(props) {
     <>
       <div className="content-container-default">
         <div className="login-container">
-          {validatePhoneState.validateSuccess && (
-            <Alert
-              message="Fertig"
-              description="Ihre Telefonnummer wurde erfolgreich validiert. Sie können nun zurück zur Startseite gehen und Ihr Konto verwenden."
-              type="success"
+          {(validatePhoneState.validateSuccess || authenticationContext.authenticationState.phoneVerified) && (
+            <Result
+              status="success"
+              title="Deine Telefonnummer wurde erfolgreich validiert."
+              subTitle="Du kannst nun zurück zur Startseite gehen und deinen Account verwenden."
             />
           )}
-          {!validatePhoneState.validateSuccess && (
+          {!authenticationContext.authenticationState.phoneVerified && !validatePhoneState.validateSuccess && (
             <Row type="flex" style={{ alignItems: 'center' }}>
               <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
                 <Card
@@ -227,10 +227,9 @@ export default function ValidatePhoneComponent(props) {
 
                   <Row>
                     {validatePhoneState.validateFailure && (
-                      <Alert
-                        message="Es ist ein Fehler aufgetreten"
-                        description="Ihre Telefonnummer konnte nicht bestätigt werden. Bitte überprüfen Sie den Code."
-                        type="error"
+                      <Result
+                        status="warning"
+                        title="Deine Telefonnummer konnte nicht bestätigt werden. Bitte überprüfe deinen Code."
                       />
                     )}
                   </Row>

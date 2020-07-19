@@ -26,6 +26,9 @@ const RegisterHelper = React.lazy(() =>
 const ValidatePhone = React.lazy(() =>
   import('../../components/validation/validate-phone-component')
 );
+const VerifyMail = React.lazy(() =>
+  import('../../components/validation/verify-mail-component')
+);
 const Contact = React.lazy(() => import('../../components/contact/contact'));
 
 export default function RoutesComponent() {
@@ -60,16 +63,9 @@ export default function RoutesComponent() {
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
+      <Route path="/telefon-bestaetigen" component={ValidatePhone} />
+      <Route path="/email-bestaetigen" component={VerifyMail} />
       <Route path="/contact" component={Contact} />
-      <Route
-        path="/telefon-bestaetigen"
-        render={(props) => (
-          <>
-            {authenticationState.phoneVerified && <Redirect to={'/'} />}
-            {!authenticationState.phoneVerified && <ValidatePhone />}
-          </>
-        )}
-      />
 
       <Route
         exaxct
