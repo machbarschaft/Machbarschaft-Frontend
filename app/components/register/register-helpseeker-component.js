@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 const { Title } = Typography;
 
 export default function RegisterHelpseekerComponent({
+  countryCode,
   phone,
   forename,
   surname,
@@ -68,6 +69,7 @@ export default function RegisterHelpseekerComponent({
     const registerResult = await authenticationContext.performRegister(
       email,
       phone,
+      countryCode,
       password,
       forename,
       surname

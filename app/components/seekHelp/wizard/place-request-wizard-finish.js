@@ -3,7 +3,7 @@ import { Button, Result, Typography } from 'antd';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import AuthenticationContext from '../../../contexts/authentication';
-import RegisterHelpseekerComponent from "../../register/register-helpseeker-component";
+import RegisterHelpseekerComponent from '../../register/register-helpseeker-component';
 
 const { Title } = Typography;
 /**
@@ -15,8 +15,9 @@ export default function PlaceRequestWizardFinish({
   handlePreviousPage,
   handleNextPage,
   wizardState,
-    formData,
-    phoneNumber
+  formData,
+  phoneNumber,
+  countryCode,
 }) {
   const authenticationContext = React.useContext(AuthenticationContext);
 
@@ -38,7 +39,12 @@ export default function PlaceRequestWizardFinish({
           </NavLink>,
         ]}
       />
-      <RegisterHelpseekerComponent phone={phoneNumber} surname={formData.current["place-request-wizard-name"].surname} forename={formData.current["place-request-wizard-name"].forename}/>
+      <RegisterHelpseekerComponent
+        countryCode={countryCode}
+        phone={phoneNumber}
+        surname={formData.current['place-request-wizard-name'].surname}
+        forename={formData.current['place-request-wizard-name'].forename}
+      />
     </>
   );
 }
