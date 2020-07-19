@@ -16,7 +16,15 @@ Dev:
 ```
 npm start
 ```
+The backend ist expected to run at 
+```
+http://localhost:3000
+```
 Prod:
 ```
 npm build
+```
+The backend ist expected to run at 
+```
+https://api.demo.machbarschaft.jetzt/
 ```
