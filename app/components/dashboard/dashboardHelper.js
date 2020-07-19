@@ -18,7 +18,7 @@ function DashboardHelper({
     console.log("got active requests: ", activeRequests);
     setActiveRequestsRender(activeRequests.map((entry, index) =>
       <React.Fragment key={index}>
-        {!entry.feedbackSubmitted && entry.status == "done" &&
+        {!entry.feedbackSubmitted && ["done", "aborted", "did-not-help"].includes(entry.status) &&
           <DashboardFeedBackHelper
             _id={entry._id}
             name={entry.name}
@@ -27,7 +27,7 @@ function DashboardHelper({
         }
         <DashboardHelperActiveRequest
           name={entry.name}
-          phoneHelpSeeker={123456789}
+          phoneHelpSeeker={40299960888}
           status={entry.status}
           requestType={entry.requestType}
           urgency={entry.urgency}

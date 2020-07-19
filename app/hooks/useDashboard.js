@@ -24,8 +24,7 @@ function restructureRequests(state) {
   var finishedRequests = {helper: [], helpSeeker: []};
 
   for(var i = 0; i < state.finishedRequestsResult.helper.length; i++) {
-    if(state.finishedRequestsResult.helper[i].feedbackSubmitted ||
-      ["done", "aborted", "did-not-help"].includes(state.finishedRequestsResult.helper[i].status)) {
+    if(state.finishedRequestsResult.helper[i].feedbackSubmitted) {
       finishedRequests.helper.push(state.finishedRequestsResult.helper[i]);
     }
       else {
@@ -50,6 +49,7 @@ function restructureRequests(state) {
     activeRequests: activeRequests,
     finishedRequests: finishedRequests
   };
+  console.log("new state: ", newState);
   return newState;
 }
 
