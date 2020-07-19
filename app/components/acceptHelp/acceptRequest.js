@@ -1,10 +1,15 @@
 import React from 'react';
 import { Menu, Button } from 'antd';
-import MapContainer from './googleMaps';
-import AcceptHelpSearchBar from './acceptHelpSearchBar';
-import AcceptHelpListAndDetail from './acceptHelpListAndDetail';
-import AcceptRequestListEntry from './acceptRequestListEntry';
 import { getOpenRequests } from '../../utils/api/acceptHelpApi';
+
+const AcceptHelpSearchBar = React.lazy(() => import('./acceptHelpSearchBar'));
+const AcceptHelpListAndDetail = React.lazy(() =>
+  import('./acceptHelpListAndDetail')
+);
+const AcceptRequestListEntry = React.lazy(() =>
+  import('./acceptRequestListEntry')
+);
+const MapContainer = React.lazy(() => import('./googleMaps'));
 
 function acceptRequestStateReducer(state, action) {
   if (action.type === 'success') {
@@ -15,7 +20,7 @@ function acceptRequestStateReducer(state, action) {
       mobileMenuKey: 'map',
       loading: false,
       requestList: action.requestList,
-      error: null
+      error: null,
     };
   }
   if (action.type === 'error') {
@@ -26,7 +31,7 @@ function acceptRequestStateReducer(state, action) {
       mobileMenuKey: 'map',
       loading: false,
       requestList: [],
-      error: action.error
+      error: action.error,
     };
   }
   if (action.type === 'loading') {
@@ -39,20 +44,20 @@ function acceptRequestStateReducer(state, action) {
   if (action.type === 'selected-index') {
     return {
       ...state,
-      selectedMarkerIndex: action.selectedMarkerIndex
-    }
+      selectedMarkerIndex: action.selectedMarkerIndex,
+    };
   }
   if (action.type === 'hover-index') {
     return {
       ...state,
-      hoverMarkerIndex: action.hoverMarkerIndex
-    }
+      hoverMarkerIndex: action.hoverMarkerIndex,
+    };
   }
   if (action.type === 'menu-key') {
     return {
       ...state,
-      mobileMenuKey: action.mobileMenuKey
-    }
+      mobileMenuKey: action.mobileMenuKey,
+    };
   }
   throw new Error('Unsupported');
 }
@@ -75,54 +80,101 @@ export default function AcceptRequestWindow() {
     }
   );
 
-
   React.useEffect(() => {
-    if(currentLocation.lat !== 0 || currentLocation.lng !== 0) {
-      dispatchAcceptRequestState({type: 'loading'});
+    if (currentLocation.lat !== 0 || currentLocation.lng !== 0) {
+      dispatchAcceptRequestState({ type: 'loading' });
       getOpenRequests({
         latitude: currentLocation.lat,
         longitude: currentLocation.lng,
-        radius: currentRadius
+        radius: currentRadius,
       })
-          .then((res) => dispatchAcceptRequestState({type: 'success', requestList: res}))
-          .catch((err) => dispatchAcceptRequestState({type: 'error', error: err}));
+        .then((res) =>
+          dispatchAcceptRequestState({ type: 'success', requestList: res })
+        )
+        .catch((err) =>
+          dispatchAcceptRequestState({ type: 'error', error: err })
+        );
     }
   }, [currentLocation]);
-      
-  const requestListRender = acceptRequestState.requestList.map((entry, index) => (
-    <React.Fragment key={index}>
-      <AcceptRequestListEntry
-        number={index + 1}
-        {...entry}
-        onClick={() => dispatchAcceptRequestState({type: 'selected-index', selectedMarkerIndex: index})}
-        hover={acceptRequestState.hoverMarkerIndex == index}
-        onMouseEnter={() => dispatchAcceptRequestState({type: 'hover-index', hoverMarkerIndex: index})}
-        onMouseLeave={() => dispatchAcceptRequestState({type: 'hover-index', hoverMarkerIndex: -1})}
-      />
-      {index < acceptRequestState.requestList.length - 1 && (
-        <div className="accept-help-request-list-divider" />
-      )}
-    </React.Fragment>
-  ));
+
+  const requestListRender = acceptRequestState.requestList.map(
+    (entry, index) => (
+      <React.Fragment key={index}>
+        <AcceptRequestListEntry
+          number={index + 1}
+          {...entry}
+          onClick={() =>
+            dispatchAcceptRequestState({
+              type: 'selected-index',
+              selectedMarkerIndex: index,
+            })
+          }
+          hover={acceptRequestState.hoverMarkerIndex == index}
+          onMouseEnter={() =>
+            dispatchAcceptRequestState({
+              type: 'hover-index',
+              hoverMarkerIndex: index,
+            })
+          }
+          onMouseLeave={() =>
+            dispatchAcceptRequestState({
+              type: 'hover-index',
+              hoverMarkerIndex: -1,
+            })
+          }
+        />
+        {index < acceptRequestState.requestList.length - 1 && (
+          <div className="accept-help-request-list-divider" />
+        )}
+      </React.Fragment>
+    )
+  );
   const mapContainer = (
     <MapContainer
       markers={acceptRequestState.requestList}
       selectedMarkerIndex={acceptRequestState.selectedMarkerIndex}
-      onMarkerSelect={(index) => dispatchAcceptRequestState({type: 'selected-index', selectedMarkerIndex: index})}
-      onMapClick={() => dispatchAcceptRequestState({type: 'selected-index', selectedMarkerIndex: -1})}
+      onMarkerSelect={(index) =>
+        dispatchAcceptRequestState({
+          type: 'selected-index',
+          selectedMarkerIndex: index,
+        })
+      }
+      onMapClick={() =>
+        dispatchAcceptRequestState({
+          type: 'selected-index',
+          selectedMarkerIndex: -1,
+        })
+      }
       hoverMarkerIndex={acceptRequestState.hoverMarkerIndex}
-      onMarkerEnter={(index) => dispatchAcceptRequestState({type: 'hover-index', hoverMarkerIndex: index})}
-      onMarkerLeave={() => dispatchAcceptRequestState({type: 'hover-index', hoverMarkerIndex: -1})}
+      onMarkerEnter={(index) =>
+        dispatchAcceptRequestState({
+          type: 'hover-index',
+          hoverMarkerIndex: index,
+        })
+      }
+      onMarkerLeave={() =>
+        dispatchAcceptRequestState({
+          type: 'hover-index',
+          hoverMarkerIndex: -1,
+        })
+      }
       currentLocation={currentLocation}
     />
   );
   const acceptHelpListAndDetail = (
     <AcceptHelpListAndDetail
       selectedMarkerIndex={acceptRequestState.selectedMarkerIndex}
-      setSelectedMarkerIndex={(index) => dispatchAcceptRequestState({type: 'selected-index', selectedMarkerIndex: index})}
+      setSelectedMarkerIndex={(index) =>
+        dispatchAcceptRequestState({
+          type: 'selected-index',
+          selectedMarkerIndex: index,
+        })
+      }
       listEntries={acceptRequestState.requestList}
       listEntriesRender={requestListRender}
-      showNoRequestWarning={currentLocation.lat != 0 || currentLocation.lng != 0}
+      showNoRequestWarning={
+        currentLocation.lat != 0 || currentLocation.lng != 0
+      }
       error={acceptRequestState.error}
     />
   );
@@ -149,20 +201,28 @@ export default function AcceptRequestWindow() {
         <br />
 
         <Menu
-          onClick={(e) => dispatchAcceptRequestState({type: 'menu-key', mobileMenuKey: e.key})}
+          onClick={(e) =>
+            dispatchAcceptRequestState({
+              type: 'menu-key',
+              mobileMenuKey: e.key,
+            })
+          }
           selectedKeys={acceptRequestState.mobileMenuKey}
           mode="horizontal"
           style={{ textAlign: 'center' }}
         >
           <Menu.Item key="map">KARTE</Menu.Item>
           <Menu.Item key="list-and-detail">
-            {acceptRequestState.selectedMarkerIndex === -1 ? 'LISTE' : 'DETAILS'}
+            {acceptRequestState.selectedMarkerIndex === -1
+              ? 'LISTE'
+              : 'DETAILS'}
           </Menu.Item>
         </Menu>
         <br />
 
         {acceptRequestState.mobileMenuKey === 'map' && mapContainer}
-        {acceptRequestState.mobileMenuKey === 'list-and-detail' && acceptHelpListAndDetail}
+        {acceptRequestState.mobileMenuKey === 'list-and-detail' &&
+          acceptHelpListAndDetail}
       </div>
     </>
   );

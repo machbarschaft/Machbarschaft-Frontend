@@ -1,9 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Result, Typography } from 'antd';
-import DashboardHelperActiveRequest from './dashboardHelperActiveRequest';
-import DashboardHelperFinishedRequests from './dashboardHelperFinishedRequests';
-import DashboardFeedBackHelper from './dashboardFeedBackHelper';
+
+const DashboardHelperActiveRequest = React.lazy(() =>
+  import('./dashboardHelperActiveRequest')
+);
+const DashboardHelperFinishedRequests = React.lazy(() =>
+  import('./dashboardHelperFinishedRequests')
+);
+const DashboardFeedBackHelper = React.lazy(() =>
+  import('./dashboardFeedBackHelper')
+);
 
 const { Title } = Typography;
 
