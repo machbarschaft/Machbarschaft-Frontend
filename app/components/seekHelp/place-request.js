@@ -110,6 +110,7 @@ export default function PlaceRequestWindow(props) {
     } else {
       // ToDo: Throw Error
     }
+    if(isAuthenticated) phoneVerifiedInitial.current = true;
 
     postPlaceRequest({ formValues, isAuthenticated })
       .then((res) => {
@@ -356,7 +357,7 @@ export default function PlaceRequestWindow(props) {
           .filter((wizardItem) => {
             if (
               wizardItem.title === 'Identität' &&
-              (authenticationContext.isAuthenticated() || phoneVerifiedInitial.current)
+              (phoneVerifiedInitial.current)
             ) {
               return false;
             }
@@ -371,7 +372,7 @@ export default function PlaceRequestWindow(props) {
           wizardSteps.filter((wizardItem) => {
             return !(
               wizardItem.title === 'Identität' &&
-              (authenticationContext.isAuthenticated() || phoneVerifiedInitial.current)
+              (phoneVerifiedInitial.current)
             );
           })[wizardState.currentStep].content
         }
