@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Select, message } from 'antd';
+import { Select, notification } from 'antd';
 import geolocationFixed from '../../assets/img/maps/geolocation-fixed.svg';
 import geolocationNotFixed from '../../assets/img/maps/geolocation-not-fixed.svg';
 import useGeolocation from '../../hooks/useGeolocation';
 import SearchBox from './searchBox';
 
-export default function AcceptHelpSearchBar({ setCurrentLocation }) {
+export default function AcceptHelpSearchBar({ loading, setCurrentLocation, setCurrentRadius }) {
   const [geolocationState, startGeolocation] = useGeolocation((pos) =>
     setCurrentLocation(pos)
   );
@@ -14,19 +14,31 @@ export default function AcceptHelpSearchBar({ setCurrentLocation }) {
   React.useEffect(() => {
     if (geolocationState.error != null) {
       if (geolocationState.error === 'NOT_SUPPORTED')
-        message.error(
-          'Dein Browsers unterstützt die Standortermittlung leider nicht!'
-        );
+        notification.error({
+          message: 'Fehler',
+          description: 'Dein Browsers unterstützt die Standortermittlung leider nicht!'
+        });
       else if (typeof geolocationState.error.code !== undefined) {
         if (
           geolocationState.error.code ===
           geolocationState.error.PERMISSION_DENIED
         )
-          message.error(
-            'Bitte erlaube die Standortermittlung in deinem Browser!'
-          );
-        else message.error('Dein Standort konnte nicht ermittelt werden!');
-      } else message.error('Dein Standort konnte nicht ermittelt werden!');
+          notification.error({
+            message: 'Fehler',
+            description: 'Bitte erlaube die Standortermittlung in deinem Browser!'
+          });
+        else {
+          notification.error({
+            message: 'Fehler',
+            description: 'Dein Standort konnte nicht ermittelt werden!'
+          });
+        }
+      } else {
+        notification.error({
+          message: 'Fehler',
+          description: 'Dein Standort konnte nicht ermittelt werden!'
+        });
+      }
     }
   }, [geolocationState.error]);
 
@@ -35,9 +47,14 @@ export default function AcceptHelpSearchBar({ setCurrentLocation }) {
       <SearchBox
         placeholder="Adresse eingeben"
         onPlacesChanged={(pos) => {
-          if (pos != null) setCurrentLocation(pos);
-          else setCurrentLocation(0, 0);
+          if (pos != null) {
+            setCurrentLocation(pos);
+          }
+          else {
+            setCurrentLocation(0, 0);
+          }
         }}
+        loading={loading}
       />
       <img
         src={geolocationState.success ? geolocationFixed : geolocationNotFixed}
@@ -49,20 +66,22 @@ export default function AcceptHelpSearchBar({ setCurrentLocation }) {
         onClick={() => startGeolocation()}
       />
       <Select
-        defaultValue="25"
+        defaultValue={25000}
         bordered={false}
-        onChange={(value) => console.log(`selected ${value}`)}
+        onChange={(value) => setCurrentRadius(value)}
       >
-        <Select.Option value="5">5km</Select.Option>
-        <Select.Option value="10">10km</Select.Option>
-        <Select.Option value="15">15km</Select.Option>
-        <Select.Option value="25">25km</Select.Option>
-        <Select.Option value="50">50km</Select.Option>
-        <Select.Option value="70">70km</Select.Option>
+        <Select.Option value={5000}>5km</Select.Option>
+        <Select.Option value={10000}>10km</Select.Option>
+        <Select.Option value={15000}>15km</Select.Option>
+        <Select.Option value={25000}>25km</Select.Option>
+        <Select.Option value={50000}>50km</Select.Option>
+        <Select.Option value={70000}>70km</Select.Option>
       </Select>
     </div>
   );
 }
 AcceptHelpSearchBar.propTypes = {
+  loading: PropTypes.bool.isRequired,
   setCurrentLocation: PropTypes.func.isRequired,
+  setCurrentRadius: PropTypes.func.isRequired,
 };

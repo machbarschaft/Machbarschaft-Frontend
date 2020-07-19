@@ -1,53 +1,65 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Result, Typography} from 'antd';
-import DashboardTileHelperStatus from './dashboardTileHelperStatus';
-import DashboardTileContact from './dashboardTileContact';
-import DashboardTileUrgency from './dashboardTileUrgency';
-import DashboardTileRequestType from './dashboardTileRequestType';
-import DashboardTileAdditionalInformation from './dashboardTileAdditionalInformation';
+import { Result, Typography } from 'antd';
+import DashboardHelperActiveRequest from './dashboardHelperActiveRequest';
 import DashboardHelperFinishedRequests from './dashboardHelperFinishedRequests';
+import DashboardFeedBackHelper from './dashboardFeedBackHelper';
 
-const {Title} = Typography;
+const { Title } = Typography;
 
-function DashboardHelper({activeRequests, finishedRequests}) {
+function DashboardHelper({
+  activeRequests,
+  finishedRequests,
+  refreshRequests,
+  refreshRequestsBackground,
+}) {
+  const [activeRequestsRender, setActiveRequestsRender] = React.useState([]);
+  React.useEffect(() => {
+    setActiveRequestsRender(
+      activeRequests.map((entry, index) => (
+        <React.Fragment key={index}>
+          {!entry.feedbackSubmitted &&
+            ['done', 'aborted', 'did-not-help'].includes(entry.status) && (
+              <DashboardFeedBackHelper
+                _id={entry._id}
+                name={entry.name}
+                feedBackSent={() => refreshRequests()}
+              />
+            )}
+          <DashboardHelperActiveRequest
+            name={entry.name}
+            phoneHelpSeeker={40299960888}
+            status={entry.status}
+            requestType={entry.requestType}
+            urgency={entry.urgency}
+            carNecessary={entry.extras.carNecessary}
+            prescriptionRequired={entry.extras.prescriptionRequired}
+            address={entry.address}
+            startedAt={entry.startedAt}
+            processId={entry.process}
+            refreshRequests={() => refreshRequestsBackground()}
+          />
+        </React.Fragment>
+      ))
+    );
+  }, [activeRequests]);
   return (
     <>
-      {activeRequests.length == 0 &&
-        <Result title="Sie haben aktuell keinen Auftrag angenommen." />
-      }
-      {activeRequests.length == 1 &&
-        <>
-          <DashboardTileHelperStatus name={activeRequests[0].name} status={activeRequests[0].status} />
-          <div className="dashboard-columns-container">
-            <div className="dashboard-column">
-              <DashboardTileContact
-                name={activeRequests[0].name}
-                phone={activeRequests[0].phone}
-                street={activeRequests[0].address.street}
-                zipCode={activeRequests[0].address.zipCode}
-                city={activeRequests[0].address.city}
-              />
-              <br />
-              <DashboardTileRequestType requestType={activeRequests[0].requestType} />
-            </div>
-            <div className="dashboard-column">
-              <DashboardTileUrgency urgency="now" />
-              <DashboardTileAdditionalInformation
-                carNecessary={activeRequests[0].extras.carNecessary}
-                prescriptionRequired={activeRequests[0].extras.prescriptionRequired}
-                timestamp={activeRequests[0].startedAt}
-              />
-            </div>
-          </div>
-        </>
-      }
-      <DashboardHelperFinishedRequests requestList={finishedRequests} />
+      {activeRequests.length > 0 && activeRequestsRender}
+      {activeRequests.length == 0 && (
+        <Result title="Du hast aktuell keinen Auftrag angenommen." />
+      )}
+      <DashboardHelperFinishedRequests
+        title={'Alte Aufträge'}
+        requestList={finishedRequests}
+      />
     </>
   );
 }
 DashboardHelper.propTypes = {
   activeRequests: PropTypes.array.isRequired,
-  finishedRequests: PropTypes.array.isRequired
-}
+  finishedRequests: PropTypes.array.isRequired,
+  refreshRequests: PropTypes.func.isRequired,
+  refreshRequestsBackground: PropTypes.func.isRequired,
+};
 export default DashboardHelper;

@@ -11,7 +11,7 @@ import { objectToFormUrlEncoded } from './formUrlEncoder';
 export const postPlaceRequest = async ({ formValues, isAuthenticated }) => {
   const endpoint = isAuthenticated
     ? `${apiUrl()}request`
-    : `${apiUrl()}request/guest?phone=${formValues.phoneNumber}`;
+    : `${apiUrl()}request/guest?phone=${formValues.phoneNumber}&countryCode=${encodeURIComponent(formValues.countryCode)}`;
 
   return fetch(endpoint, {
     method: 'POST',
@@ -34,6 +34,7 @@ export const postPlaceRequest = async ({ formValues, isAuthenticated }) => {
  * Updates data in an existing help request.
  * @param processID
  * @param phoneNumber
+ * @param countryCode
  * @param formValues the necessary values (see Swagger backend docs)
  * @param isAuthenticated
  * @returns {Promise<Response>}
@@ -41,6 +42,7 @@ export const postPlaceRequest = async ({ formValues, isAuthenticated }) => {
 export const putPlaceRequest = async ({
   processID,
   phoneNumber,
+  countryCode,
   formValues,
   isAuthenticated,
 }) => {
@@ -48,7 +50,7 @@ export const putPlaceRequest = async ({
     ? `${apiUrl()}request/${processID}`
     : `${apiUrl()}request/guest/${processID}?phone=${encodeURIComponent(
         phoneNumber
-      )}`;
+      )}&countryCode=${encodeURIComponent(countryCode)}`;
 
   const formBody = objectToFormUrlEncoded(formValues);
 
@@ -73,19 +75,21 @@ export const putPlaceRequest = async ({
  * Publish the help request, if all data has been entered.
  * @param processID
  * @param phoneNumber
+ * @param countryCode
  * @param isAuthenticated
  * @returns {Promise<Response>}
  */
 export const putPublishRequest = ({
   processID,
   phoneNumber,
+  countryCode,
   isAuthenticated,
 }) => {
   const endpoint = isAuthenticated
     ? `${apiUrl()}request/${processID}/publish`
     : `${apiUrl()}request/guest/${processID}/publish?phone=${encodeURIComponent(
         phoneNumber
-      )}`;
+      )}&countryCode=${encodeURIComponent(countryCode)}`;
 
   return fetch(endpoint, {
     method: 'PUT',

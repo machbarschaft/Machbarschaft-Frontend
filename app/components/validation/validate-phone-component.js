@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Alert,
+  Result,
   Button,
   Card,
   Col,
@@ -9,6 +9,8 @@ import {
   Row,
   Select,
   Typography,
+  Radio,
+  notification,
 } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
 import { postRequestTan, putConfirmTan } from '../../utils/api/phoneApi';
@@ -58,11 +60,29 @@ export default function ValidatePhoneComponent(props) {
       validateErrorMsg: '',
     }
   );
-  const validatePhoneNumber = React.useRef('');
-  const handleRequestTan = async () => {
-    await postRequestTan({
-      phone: validatePhoneNumber.current,
-    });
+  const validatePhoneNumber = React.useRef({
+    phoneNumber: '',
+    countryCode: '',
+  });
+  const handleRequestTan = () => {
+    postRequestTan({
+      phone: validatePhoneNumber.current.phoneNumber,
+      countryCode: validatePhoneNumber.current.countryCode,
+      sms: requestType == 'sms' ? true : false,
+    })
+      .then(() =>
+        notification.success({
+          message: 'Fertig',
+          description: 'Erfolgreich angefordert!',
+        })
+      )
+      .catch((err) =>
+        notification.error({
+          message: 'Fehler',
+          description:
+            'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut!',
+        })
+      );
   };
 
   const [form] = Form.useForm();
@@ -77,13 +97,15 @@ export default function ValidatePhoneComponent(props) {
       type: 'validateStart',
     });
     putConfirmTan({
-      phone: validatePhoneNumber.current,
+      phone: validatePhoneNumber.current.phoneNumber,
+      countryCode: validatePhoneNumber.current.countryCode,
       tan: values.code,
     })
       .then((result) => {
         dispatch({
           type: 'validateSuccess',
         });
+        authenticationContext.checkAuthentication();
       })
       .catch((error) => {
         dispatch({
@@ -96,7 +118,7 @@ export default function ValidatePhoneComponent(props) {
   };
 
   const phonePrefixSelector = (
-    <Form.Item name="phonePrefix" noStyle>
+    <Form.Item name="countryCode" noStyle>
       <Select style={{ width: 70 }} disabled>
         <Option value="49">+49</Option>
       </Select>
@@ -105,31 +127,40 @@ export default function ValidatePhoneComponent(props) {
 
   React.useState(() => {
     if (authenticationContext.isAuthenticated()) {
-      validatePhoneNumber.current =
+      validatePhoneNumber.current.phoneNumber =
         authenticationContext.authenticationState.phoneNumber;
-        console.log("is authenticated: ", authenticationContext.authenticationState);
+      validatePhoneNumber.current.countryCode =
+        authenticationContext.authenticationState.countryCode;
     } else {
-      const { phoneNumber } = queryString.parse(props.location.search);
+      const { phoneNumber, countryCode } = queryString.parse(
+        props.location.search
+      );
       if (typeof phoneNumber !== 'undefined') {
-        validatePhoneNumber.current = phoneNumber;
+        validatePhoneNumber.current.phoneNumber = phoneNumber;
+      } else {
+        // ToDo: Error
+      }
+      if (typeof countryCode !== 'undefined') {
+        validatePhoneNumber.current.countryCode = countryCode;
       } else {
         // ToDo: Error
       }
     }
   }, []);
+  const [requestType, setRequestType] = React.useState('call');
 
   return (
     <>
       <div className="content-container-default">
         <div className="login-container">
-          {validatePhoneState.validateSuccess && (
-            <Alert
-              message="Fertig"
-              description="Deine Telefonnummer wurde erfolgreich validiert. Du kannst nun zurück zur Startseite gehen und deinen Account verwenden."
-              type="success"
+          {(validatePhoneState.validateSuccess || authenticationContext.authenticationState.phoneVerified) && (
+            <Result
+              status="success"
+              title="Deine Telefonnummer wurde erfolgreich validiert."
+              subTitle="Du kannst nun zurück zur Startseite gehen und deinen Account verwenden."
             />
           )}
-          {!validatePhoneState.validateSuccess && (
+          {!authenticationContext.authenticationState.phoneVerified && !validatePhoneState.validateSuccess && (
             <Row type="flex" style={{ alignItems: 'center' }}>
               <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
                 <Card
@@ -147,17 +178,17 @@ export default function ValidatePhoneComponent(props) {
                     onFinish={handleForm}
                     hideRequiredMark
                     initialValues={{
-                      phonePrefix: '49',
-                      phone: validatePhoneNumber.current,
+                      countryCode: validatePhoneNumber.current.countryCode,
+                      phone: validatePhoneNumber.current.phoneNumber,
                     }}
                   >
                     <Form.Item
                       name="phone"
-                      label="Deine Handynummer"
+                      label="Ihre Handynummer"
                       rules={[
                         {
                           required: true,
-                          message: 'Gib eine gültige Telefonnummer ein.',
+                          message: 'Geben Sie eine gültige Telefonnummer ein.',
                         },
                       ]}
                     >
@@ -176,7 +207,7 @@ export default function ValidatePhoneComponent(props) {
                         {
                           required: true,
                           message:
-                            'Gib den Code ein, den du per SMS oder Anruf erhalten hast.',
+                            'Geben Sie den Code ein, den Sie per SMS oder Anruf erhalten hast.',
                         },
                       ]}
                     >
@@ -196,10 +227,9 @@ export default function ValidatePhoneComponent(props) {
 
                   <Row>
                     {validatePhoneState.validateFailure && (
-                      <Alert
-                        message="Es ist ein Fehler aufgetreten"
-                        description="Deine Telefonnummer konnte nicht bestätigt werden. Bitte überprüfe deinen Code."
-                        type="error"
+                      <Result
+                        status="warning"
+                        title="Deine Telefonnummer konnte nicht bestätigt werden. Bitte überprüfe deinen Code."
                       />
                     )}
                   </Row>
@@ -214,8 +244,30 @@ export default function ValidatePhoneComponent(props) {
                   bordered={false}
                 >
                   <Paragraph>
-                    Ein kurzer Text dazu, warum wir das machen.<br/>
-                    <Button type="primary" onClick={() => handleRequestTan()}>TAN erneut schicken</Button>
+                    Bitte verifizieren Sie Ihre Telefonnummer. Dies dient als
+                    Schutz, damit nur Sie Ihre Telefonnummer als Identifikation
+                    nutzen können.
+                    <br />
+                    Dieser Sicherheitsschritt bedeutet auch, dass alle Personen
+                    mit denen Sie über unsere Website in Kontakt kommen
+                    eindeutig identifiziert werden können, falls sie sich
+                    missbräuchlich verhalten.
+                    <br />
+                    <br />
+                    <Radio.Group
+                      size="large"
+                      onChange={(e) => setRequestType(e.target.value)}
+                    >
+                      <Radio.Button value={'call'}>Anruf</Radio.Button>
+                      <Radio.Button value={'sms'} className={'spacing-left'}>
+                        SMS
+                      </Radio.Button>
+                    </Radio.Group>
+                    <br />
+                    <br />
+                    <Button type="primary" onClick={() => handleRequestTan()}>
+                      {requestType == 'call' ? 'Jetzt anrufen' : 'TAN senden'}
+                    </Button>
                   </Paragraph>
                 </Card>
               </Col>

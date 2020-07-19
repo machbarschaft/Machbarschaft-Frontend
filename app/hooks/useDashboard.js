@@ -4,61 +4,103 @@ import {
   getFinishedRequests
 } from '../utils/api/dashboardAPI';
 
-function checkIfHelpSeeker(requests) {
-  for(var i = 0; i < requests.length; i++) {
-    if(requests[i].isHelpSeeker) return true;
-  }
+function isLoading(state) {
+  if(state.loadingActiveRequests) return true;
+  if(state.loadingFinishedRequests) return true;
   return false;
+}
+function isHelper(state) {
+  if(state.activeRequests.helper != null) return true;
+  if(state.finishedRequests.helper.length > 0) return true;
+  return false;
+}
+function isHelpSeeker(state) {
+  if(state.activeRequests.helpSeeker.length > 0) return true;
+  if(state.finishedRequests.helpSeeker.length > 0) return true;
+  return false;
+}
+function restructureRequests(state) {
+  var activeRequests = {helper: [], helpSeeker: []};
+  var finishedRequests = {helper: [], helpSeeker: []};
+
+  for(var i = 0; i < state.finishedRequestsResult.helper.length; i++) {
+    if(state.finishedRequestsResult.helper[i].feedbackSubmitted) {
+      finishedRequests.helper.push(state.finishedRequestsResult.helper[i]);
+    }
+      else {
+        activeRequests.helper.push(state.finishedRequestsResult.helper[i]);
+      }
+  }
+  if(state.activeRequestsResult.helper != null) activeRequests.helper.push(state.activeRequestsResult.helper);
+
+  for(var i = 0; i < state.finishedRequestsResult.helpSeeker.length; i++) {
+    if(state.finishedRequestsResult.helpSeeker[i].feedbackSubmitted ||
+      ["done", "aborted", "did-not-help"].includes(state.finishedRequestsResult.helpSeeker[i].status)) {
+      finishedRequests.helpSeeker.push(state.finishedRequestsResult.helpSeeker[i]);
+    }
+      else {
+        activeRequests.helpSeeker.push(state.finishedRequestsResult.helpSeeker[i]);
+      }
+  }
+  activeRequests.helpSeeker = activeRequests.helpSeeker.concat(state.activeRequestsResult.helpSeeker);
+
+  var newState = {
+    ...state,
+    activeRequests: activeRequests,
+    finishedRequests: finishedRequests
+  };
+  console.log("new state: ", newState);
+  return newState;
 }
 
 function dashboardStateReducer(state, action) {
   if (action.type === 'success-active') {
-    var isHelpSeeker = checkIfHelpSeeker(action.activeRequests);
-    return {
+    var newState = {
       ...state,
-      loading: state.loadingFinishedRequests,
       loadingActiveRequests: false,
-      activeRequests: action.activeRequests,
-      isHelpSeeker: state.isHelpSeeker || isHelpSeeker,
-      error: null
+      activeRequestsResult: action.activeRequests,
+      isHelper: isHelper(state) || action.activeRequests.helper != null,
+      isHelpSeeker: isHelpSeeker(state) || action.activeRequests.helpSeeker.length > 0,
     };
+    newState.loading = isLoading(newState);
+    if(!newState.loading) newState = restructureRequests(newState);
+    return newState;
   }
   if (action.type === 'success-finished') {
-    var isHelpSeeker = checkIfHelpSeeker(action.finishedRequests);
-    return {
+    var newState = {
       ...state,
-      loading: state.loadingActiveRequests,
       loadingFinishedRequests: false,
-      finishedRequests: action.finishedRequests,
-      isHelpSeeker: state.isHelpSeeker || isHelpSeeker,
-      error: null
+      finishedRequestsResult: action.finishedRequests,
+      isHelper: isHelper(state) || action.finishedRequests.helper.length > 0,
+      isHelpSeeker: isHelpSeeker(state) || action.finishedRequests.helpSeeker.length > 0,
     };
+    newState.loading = isLoading(newState);
+    if(!newState.loading) newState = restructureRequests(newState);
+    return newState;
   }
   if (action.type === 'error-active') {
-    return {
+    var newState = {
       ...state,
-      loading: state.loadingFinishedRequests,
       loadingActiveRequests: false,
-      activeRequests: [],
       error: action.error
     };
+    newState.loading = isLoading(newState);
+    return newState;
   }
   if (action.type === 'error-finished') {
-    return {
+    var newState = {
       ...state,
-      loading: state.loadingActiveRequests,
       loadingFinishedRequests: false,
-      finishedRequests: [],
       error: action.error
     };
+    newState.loading = isLoading(newState);
+    return newState;
   }
   if (action.type == 'loading-active') {
     return {
       ...state,
       loading: true,
       loadingActiveRequests: true,
-      activeRequests: [],
-      isHelpSeeker: false,
       error: null
     }
   }
@@ -67,8 +109,6 @@ function dashboardStateReducer(state, action) {
       ...state,
       loading: true,
       loadingFinishedRequests: true,
-      finishedRequests: [],
-      isHelpSeeker: false,
       error: null
     }
   }
@@ -82,8 +122,11 @@ export default function useDashboard() {
       loading: true,
       loadingActiveRequests: true,
       loadingFinishedRequests: true,
-      activeRequests: [],
-      finishedRequests: [],
+      activeRequests: {helper: [], helpSeeker: []},
+      finishedRequests: {helper: [], helpSeeker: []},
+      activeRequestsResult: {helper: null, helpSeeker: []},
+      finishedRequestsResult: {helper: [], helpSeeker: []},
+      isHelper: false,
       isHelpSeeker: false,
       error: null,
     }
@@ -91,7 +134,9 @@ export default function useDashboard() {
   const fetchActiveRequests = () => {
     dispatchRequestsState({type: "loading-active"});
     getActiveRequests()
-      .then((res) => dispatchRequestsState({type: "success-active", activeRequests: res}))
+      .then((res) => {
+        dispatchRequestsState({type: "success-active", activeRequests: res});
+      })
       .catch((err) => dispatchRequestsState({type: "error-active", error: err}));
   }
   const fetchFinishedRequests = () => {

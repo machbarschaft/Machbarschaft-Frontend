@@ -19,42 +19,24 @@ function DashboardHelperFinishedRequestHeader({ finishedAt, requestType }) {
     'November',
     'Dezember',
   ];
-  const finishedDate = new Date(finishedAt * 1000);
+  const finishedDate = new Date(Date.parse(finishedAt));
   const dateString = `${finishedDate.getDate()}. ${
     monthNames[finishedDate.getMonth()]
   } ${finishedDate.getFullYear()}`;
-  console.log(
-    `Month: ${finishedDate.getMonth()}, name: ${
-      monthNames[finishedDate.getMonth()]
-    }`
-  );
 
   return (
     <div className="display-flex">
       {dateString}
       <div className="dashboard-collapse-request-category">
-        <img
-          src={RequestTypeGroceries}
-          className={
-            requestType.includes('groceries') ? '' : 'visibility-hidden'
-          }
-        />
-        <img
-          src={RequestTypeMedication}
-          className={
-            requestType.includes('medication') ? '' : 'visibility-hidden'
-          }
-        />
-        <img
-          src={RequestTypeOther}
-          className={requestType.includes('other') ? '' : 'visibility-hidden'}
-        />
+        {requestType == 'groceries' && <img src={RequestTypeGroceries}/>}
+        {requestType == 'medication' && <img src={RequestTypeMedication}/>}
+        {requestType == 'other' && <img src={RequestTypeOther}/>}
       </div>
     </div>
   );
 }
 DashboardHelperFinishedRequestHeader.propTypes = {
-  finishedAt: PropTypes.number.isRequired,
+  finishedAt: PropTypes.string.isRequired,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
 };
 export default DashboardHelperFinishedRequestHeader;

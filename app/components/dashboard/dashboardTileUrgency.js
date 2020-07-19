@@ -14,10 +14,7 @@ function DashboardTileUrgency({ urgency }) {
       title="Dringlichkeit"
       content={
         urgency in urgencyMapping ? (
-          <>
-            Der Auftrag soll
-            {urgencyMapping[urgency]} bearbeitet werden.
-          </>
+          <>Der Auftrag soll {urgencyMapping[urgency]} bearbeitet werden.</>
         ) : (
           <>Unbekannte Dringlichkeit</>
         )

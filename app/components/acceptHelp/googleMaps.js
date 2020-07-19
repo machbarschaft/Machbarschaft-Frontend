@@ -37,8 +37,8 @@ export default function MapContainer({
         {markers.map((entry, index) => (
           <MapMarker
             {...entry}
-            lat={entry.request.address.geoLocation.latitude}
-            lng={entry.request.address.geoLocation.longitude}
+            lat={entry.address.geoLocation.latitude}
+            lng={entry.address.geoLocation.longitude}
             onMarkerSelect={() => onMarkerSelect(index)}
             selected={selectedMarkerIndex == index}
             hover={hoverMarkerIndex == index}

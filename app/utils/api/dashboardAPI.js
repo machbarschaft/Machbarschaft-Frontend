@@ -8,42 +8,62 @@ import apiUrl from './apiUrl';
 export const getActiveRequests = async () => {
   const endpoint = `${apiUrl()}dashboard/active-requests`;
 
-  return [{
-    name: "Max Schmidt",
-    status: "accepted",
-    phone: "01575/12345",
-    requestType: "groceries",
-    urgency: "now",
-    extras: {
-      carNecessary: true,
-      prescriptionRequired: false
-    },
-    address: {
-      street: "Straßenname",
-      zipCode: 1234,
-      city: "München"
-    },
-    startedAt: 0,
-    isHelpSeeker: false
-  }/*,{
-    name: "Max Mustermann",
-    status: "open",
-    phone: "01575/12345",
-    requestType: "medication",
-    urgency: "now",
-    extras: {
-      carNecessary: false,
-      prescriptionRequired: true
-    },
-    address: {
-      street: "Straßenname",
-      zipCode: 1234,
-      city: "München"
-    },
-    startedAt: 100000,
-    isHelpSeeker: false
-  }*/];
-  /*return fetch(endpoint, {
+  /*return {
+    helpSeeker: [{
+      name: "Max Schmidt",
+      status: "called",
+      requestType: "groceries",
+      urgency: "now",
+      phoneHelpSeeker: 40299960980,
+      extras: {
+        carNecessary: true,
+        prescriptionRequired: false
+      },
+      address: {
+        street: "Straßenname",
+        houseNumber: 25,
+        zipCode: 1234,
+        city: "München"
+      },
+      startedAt: "2020-07-14T14:00:37.117Z",
+    },{
+      name: "Max Schmidt",
+      status: "called",
+      requestType: "groceries",
+      urgency: "now",
+      phoneHelpSeeker: 40299960980,
+      extras: {
+        carNecessary: true,
+        prescriptionRequired: false
+      },
+      address: {
+        street: "Straßenname",
+        houseNumber: 25,
+        zipCode: 1234,
+        city: "München"
+      },
+      startedAt: "2020-07-14T14:00:37.117Z",
+    }],
+    helper: {
+      name: "Helfername",
+      status: "accepted",
+      requestType: "groceries",
+      urgency: "now",
+      phoneHelpSeeker: 40299960980,
+      extras: {
+        carNecessary: true,
+        prescriptionRequired: false
+      },
+      address: {
+        street: "Straßenname",
+        houseNumber: 25,
+        zipCode: 1234,
+        city: "München"
+      },
+      startedAt: "2020-07-14T14:00:37.117Z",
+    }
+  };*/
+  return fetch(endpoint, {
     method: 'GET',
     cache: 'no-cache',
     headers: {
@@ -57,7 +77,7 @@ export const getActiveRequests = async () => {
     }
     res = await res.json();
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
-  });*/
+  });
 };
 
 /**
@@ -67,12 +87,12 @@ export const getActiveRequests = async () => {
 export const getFinishedRequests = async () => {
   const endpoint = `${apiUrl()}dashboard/finished-requests`;
 
-  return [
-    {
+  /*return {
+    helpSeeker: [{
       name: 'Erika Müller',
-      phone: '040/299960980',
       address: {
-        street: 'Höhenstadter Str. 56',
+        street: 'Höhenstadter Str.',
+        houseNumber:  25,
         zipCode: '81671',
         city: 'München',
       },
@@ -82,15 +102,14 @@ export const getFinishedRequests = async () => {
         carNecessary: true,
         prescriptionRequired: false,
       },
-      startedAt: 1593774600,
-      finishedAt: 1593869056,
-      isHelpSeeker: false
+      startedAt: "2020-07-14T14:00:37.117Z",
+      finishedAt: "2020-07-14T14:00:37.117Z"
     },
     {
       name: 'Erika Müller',
-      phone: '040/299960980',
       address: {
-        street: 'Höhenstadter Str. 56',
+        street: 'Höhenstadter Str.',
+        houseNumber: 10,
         zipCode: '81671',
         city: 'München',
       },
@@ -100,15 +119,14 @@ export const getFinishedRequests = async () => {
         carNecessary: true,
         prescriptionRequired: false,
       },
-      startedAt: 1593774600,
-      finishedAt: 1593869056,
-      isHelpSeeker: false
-    },
-    {
+      startedAt: "2020-07-14T14:00:37.117Z",
+      finishedAt: "2020-07-14T14:00:37.117Z"
+    }],
+    helper: [{
       name: 'Erika Müller',
-      phone: '040/299960980',
       address: {
-        street: 'Höhenstadter Str. 56',
+        street: 'Höhenstadter Str.',
+        houseNumber: 56,
         zipCode: '81671',
         city: 'München',
       },
@@ -118,15 +136,14 @@ export const getFinishedRequests = async () => {
         carNecessary: true,
         prescriptionRequired: false,
       },
-      startedAt: 1593774600,
-      finishedAt: 1593869056,
-      isHelpSeeker: false
+      startedAt: "2020-07-14T14:00:37.117Z",
+      finishedAt: "2020-07-14T14:00:37.117Z"
     },
     {
       name: 'Erika Müller',
-      phone: '040/299960980',
       address: {
-        street: 'Höhenstadter Str. 56',
+        street: 'Höhenstadter Str.',
+        houseNumber: 2,
         zipCode: '81671',
         city: 'München',
       },
@@ -136,12 +153,11 @@ export const getFinishedRequests = async () => {
         carNecessary: true,
         prescriptionRequired: false,
       },
-      startedAt: 1593774600,
-      finishedAt: 1593869056,
-      isHelpSeeker: false
-    },
-  ];
-  /*return fetch(endpoint, {
+      startedAt: "2020-07-14T14:00:37.117Z",
+      finishedAt: "2020-07-14T14:00:37.117Z"
+    }]
+  };*/
+  return fetch(endpoint, {
     method: 'GET',
     cache: 'no-cache',
     headers: {
@@ -155,7 +171,7 @@ export const getFinishedRequests = async () => {
     }
     res = await res.json();
     throw Error(res.errors[0]); // ToDo: Throw multiple errors
-  });*/
+  });
 };
 
 
