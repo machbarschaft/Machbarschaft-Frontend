@@ -6,7 +6,7 @@ const queryString = require('query-string');
 
 export default function VerifyMail() {
   const authProps = React.useContext(AuthenticationContext);
-  const { authenticationState } = authProps;
+  const { authenticationState, checkAuthentication } = authProps;
   const [loading, setLoading] = React.useState(true);
   const [verificationSuccess, setVerificationSuccess] = React.useState(false);
   const query = queryString.parse(location.search);
@@ -19,6 +19,7 @@ export default function VerifyMail() {
             .then((res) => {
               setVerificationSuccess(true);
               setLoading(false);
+              checkAuthentication();
             })
             .catch((err) => {
               setVerificationSuccess(false);
