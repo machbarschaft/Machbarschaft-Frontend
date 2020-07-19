@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Layout, Menu, Popover, Space, Typography } from 'antd';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MachbarschaftLogo from '../../assets/img/logo/machbarschaft-logo.png';
 import AuthenticationContext from '../../contexts/authentication';
@@ -12,22 +13,26 @@ const { Text } = Typography;
 function NavigationMenu({ mode, menuClicked }) {
   const authProps = React.useContext(AuthenticationContext);
   const { authenticationState } = authProps;
+  const location = useLocation();
+  const [selectedKey, setSelectedKey] = React.useState([location.pathname]);
+
+  React.useEffect(() => setSelectedKey(location.pathname), [location.pathname]);
 
   if (authenticationState.uid == null) {
     // No User
     return (
       <Menu
         mode={mode}
-        defaultSelectedKeys={[window.location.pathname]}
+        selectedKeys={[selectedKey]}
         onClick={menuClicked}
       >
         <Menu.Item key="/">
           <NavLink to="/" exact>
-            Startseite
+            STARTSEITE
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="2">
-          <NavLink to="/contact" exact>
+        <Menu.Item key="/kontakt">
+          <NavLink to="/kontakt" exact>
             KONTAKT
           </NavLink>
         </Menu.Item>
@@ -43,11 +48,7 @@ function NavigationMenu({ mode, menuClicked }) {
   return (
     <Menu
       mode={mode}
-      defaultSelectedKeys={[
-        window.location.pathname == '/'
-          ? '/dashboard'
-          : window.location.pathname,
-      ]}
+      selectedKeys={[selectedKey]}
       onClick={menuClicked}
     >
       <Menu.Item key="/dashboard">
@@ -55,18 +56,18 @@ function NavigationMenu({ mode, menuClicked }) {
           DASHBOARD
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="/place-request">
-        <NavLink to="/place-request" exact>
+      <Menu.Item key="/auftrag-aufgeben">
+        <NavLink to="/auftrag-aufgeben" exact>
           AUFTRAG AUFGEBEN
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="/accept-request">
-        <NavLink to="/accept-request" exact>
+      <Menu.Item key="/auftrag-annehmen">
+        <NavLink to="/auftrag-annehmen" exact>
           AUFTRAG ANNEHMEN
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="/support">
-        <NavLink to="/support" exact>
+      <Menu.Item key="/kontakt">
+        <NavLink to="/kontakt" exact>
           BRAUCHEN SIE HILFE?
         </NavLink>
       </Menu.Item>

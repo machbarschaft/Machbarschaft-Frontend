@@ -146,23 +146,25 @@ export default function ValidatePhoneComponent(props) {
         // ToDo: Error
       }
     }
-    postRequestTan({
-      phone: validatePhoneNumber.current.phoneNumber,
-      countryCode: validatePhoneNumber.current.countryCode,
-      sms: false,
-    })
-      .then(() =>
-        notification.success({
-          message: 'Sie werden in Kürze einen Anruf erhalten!'
-        })
-      )
-      .catch((err) =>
-        notification.error({
-          message: 'Fehler',
-          description:
-            'Es ist ein Fehler aufgetreten. Bitte versuchen Sie erneut, die TAN anzufordern!',
-        })
-      );
+    if(authenticationContext.authenticationState.isPhoneVerified) {
+      postRequestTan({
+        phone: validatePhoneNumber.current.phoneNumber,
+        countryCode: validatePhoneNumber.current.countryCode,
+        sms: false,
+      })
+        .then(() =>
+          notification.success({
+            message: 'Sie werden in Kürze einen Anruf erhalten!'
+          })
+        )
+        .catch((err) =>
+          notification.error({
+            message: 'Fehler',
+            description:
+              'Es ist ein Fehler aufgetreten. Bitte versuchen Sie erneut, die TAN anzufordern!',
+          })
+        );
+    }
   }, []);
   const [requestType, setRequestType] = React.useState('call');
 

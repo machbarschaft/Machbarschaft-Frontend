@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, Space, Typography } from 'antd';
+import { Button, Form, Input, Space, Typography, Result } from 'antd';
 import PropTypes from 'prop-types';
 import PlaceRequestWizardNavigation from './place-request-wizard-navigation';
 import PlaceRequestWizardValidationError from './place-request-wizard-validation-error';
@@ -19,6 +19,7 @@ export default function PlaceRequestWizardTan({
   formData,
   phoneNumber,
   countryCode,
+  isVerified,
 }) {
   const [form] = Form.useForm();
   const formName = 'place-request-wizard-tan';
@@ -41,26 +42,30 @@ export default function PlaceRequestWizardTan({
   };
 
   React.useEffect(() => {
-    handleRequestTan();
+    if(!isVerified) handleRequestTan();
   }, []);
 
   return (
     <>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        <Title level={1}>Bestätigen Sie Ihre Identität</Title>
+        {!isVerified &&
+          <>
+            <Title level={1}>Bestätigen Sie Ihre Identität</Title>
 
-        <Title level={4}>
-          Sie erhalten jeden Moment einen Anruf von uns. Es wird ihnen eine
-          Zahlenkombination mitgeteilt.
-        </Title>
+            <Title level={4}>
+              Sie erhalten jeden Moment einen Anruf von uns. Es wird ihnen eine
+              Zahlenkombination mitgeteilt.
+            </Title>
 
-        <Button
-          type="primary"
-          onClick={handleRequestTan}
-          loading={requestTanState}
-        >
-          Neuer Anruf
-        </Button>
+            <Button
+              type="primary"
+              onClick={handleRequestTan}
+              loading={requestTanState}
+            >
+              Neuer Anruf
+            </Button>
+          </>
+        }
 
         <Form
           {...formLayout}
@@ -79,14 +84,24 @@ export default function PlaceRequestWizardTan({
           <Form.Item
             label="Zahlenkombination"
             name="code"
+            hidden={isVerified}
             rules={[
               {
-                required: true,
+                required: !isVerified,
                 message: 'Bitte geben Sie die Zahlenkombination an.',
               },
             ]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item hidden={true} name="tanDone">
+            <Input value={isVerified ? "true" : "false"}></Input>
+          </Form.Item>
+          <Form.Item hidden={!isVerified}>
+            <Result
+              status="success"
+              title="Die Telefonnummer wurde erfolgreich verifiziert!"
+            />
           </Form.Item>
 
           {wizardState.hasError && (
@@ -109,5 +124,6 @@ PlaceRequestWizardTan.propTypes = {
   wizardState: PropTypes.object.isRequired,
   formData: PropTypes.object.isRequired,
   phoneNumber: PropTypes.string.isRequired,
-  countryCode: PropTypes.number.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  isVerified: PropTypes.bool.isRequired,
 };

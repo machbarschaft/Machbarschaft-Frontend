@@ -17,7 +17,7 @@ import AuthenticationContext from '../../contexts/authentication';
 const { Option } = Select;
 const { Text } = Typography;
 
-function LoginWindow({ location: { username } = '' }) {
+function LoginWindow({ location: { username } = '', showRegister = true }) {
   const authenticationContext = React.useContext(AuthenticationContext);
 
   const layout = {
@@ -106,29 +106,30 @@ function LoginWindow({ location: { username } = '' }) {
         <Card className="login-card login-description-card">
           <Timeline>
             <Timeline.Item>
-              Bitte geben Sie Ihre Telefonnummer oder E-Mail-Adresse und Ihr
-              Passwort ein.
+              Bitte geben Sie Ihre E-Mail-Adresse und Ihr Passwort ein.
             </Timeline.Item>
             <Timeline.Item>
               Passwort vergessen? Dann klicken Sie bitte hier:
               <br />
-              <Link to="/resetpassword">
+              <Link to="/passwort-zuruecksetzen">
                 <Button className="login-description-card-button">
                   Passwort zurücksetzen
                 </Button>
               </Link>
             </Timeline.Item>
-            <Timeline.Item>
-              Wenn Sie noch kein Konto erstellt haben:
-              <br />
-              <Button
-                className="login-description-card-button"
-                type="primary"
-                onClick={() => history.push('/registrieren')}
-              >
-                Registrieren
-              </Button>
-            </Timeline.Item>
+            {showRegister &&
+              <Timeline.Item>
+                Wenn Sie noch kein Konto erstellt haben:
+                <br />
+                <Button
+                  className="login-description-card-button"
+                  type="primary"
+                  onClick={() => history.push('/registrieren')}
+                >
+                  Registrieren
+                </Button>
+              </Timeline.Item>
+            }
           </Timeline>
         </Card>
       </div>
@@ -140,6 +141,7 @@ LoginWindow.propTypes = {
   location: PropTypes.shape({
     username: PropTypes.string,
   }),
+  showRegister: PropTypes.bool,
 };
 
 export default LoginWindow;

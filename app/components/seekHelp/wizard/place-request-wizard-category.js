@@ -38,7 +38,8 @@ export default function PlaceRequestWizardCategory({
         initialValues={
           typeof formData.current[formName] !== 'undefined'
             ? {
-                requestType: formData.current[formName].requestType,
+                requestType: formData.current[formName].requestType == "" ? null
+                              : formData.current[formName].requestType,
                 carNecessary: formData.current[formName].carNecessary,
                 prescriptionRequired: formData.current[formName].prescriptionRequired,
               }

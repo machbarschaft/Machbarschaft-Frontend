@@ -65,7 +65,7 @@ export default function RoutesComponent() {
       <Route path="/examples" component={Examples} />
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={RegisterHelper} />
-      <Route path="/resetpassword" component={ResetPassword} />
+      <Route path="/passwort-zuruecksetzen" component={ResetPassword} />
       <Route path="/telefon-bestaetigen" component={ValidatePhone} />
       <Route exact path="/einstellungen" render={(props) => (
           <RouteAuthenticated
@@ -75,14 +75,14 @@ export default function RoutesComponent() {
       )}
       />
       <Route path="/email-bestaetigen" component={VerifyMail} />
-      <Route path="/contact" component={Contact} />
+      <Route path="/kontakt" component={Contact} />
       <Route
         exaxct
-        path="/place-request"
+        path="/auftrag-aufgeben"
         render={(props) => <PlaceRequest {...props} />}
       />
       <Route
-        path="/accept-request"
+        path="/auftrag-annehmen"
         render={(props) => (
           <RouteAuthenticated
             render={() => <AcceptRequest {...props} />}

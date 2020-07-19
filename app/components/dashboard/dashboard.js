@@ -47,10 +47,10 @@ function DashboardWindow() {
       {!localRequestsState.loading && localRequestsState.error == null &&
         localRequestsState.activeRequests.helpSeeker.length == 0 && localRequestsState.activeRequests.helper.length == 0 &&
         localRequestsState.finishedRequests.helpSeeker.length == 0 && localRequestsState.finishedRequests.helper.length == 0 &&
-        <Result title="Es gibt noch keinen Auftrag." />
+        <Result title="Hier gibt es noch keinen Auftrag anzuzeigen." />
       }
       {!localRequestsState.loading && localRequestsState.error == null &&
-        (localRequestsState.activeRequests.helpSeeker.length > 0 || localRequestsState.activeRequests.helper != 0 ||
+        (localRequestsState.activeRequests.helpSeeker.length > 0 || localRequestsState.activeRequests.helper.length != null ||
         localRequestsState.finishedRequests.helpSeeker.length > 0 || localRequestsState.finishedRequests.helper.length > 0) &&
         <>
           {localRequestsState.isHelpSeeker &&

@@ -4,7 +4,7 @@ import AuthenticationContext from '../../contexts/authentication';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export default function RegisterHelpseekerComponent({
   countryCode,
@@ -17,8 +17,6 @@ export default function RegisterHelpseekerComponent({
 
   const specialCharacters = [
     '!',
-    ',',
-    '.',
     '#',
     ';',
     '-',
@@ -64,6 +62,7 @@ export default function RegisterHelpseekerComponent({
     }
     setCurrentQuestionsState(newSetQuestions);
   }
+  const [errorState, setErrorState] = React.useState(null);
 
   const handleForm = async (email, password) => {
     const registerResult = await authenticationContext.performRegister(
@@ -77,6 +76,7 @@ export default function RegisterHelpseekerComponent({
     if (registerResult === true) {
       history.push('/');
     }
+      else setErrorState("Es ist ein Fehler aufgetreten: " + authenticationContext.authenticationState.registerErrors);
   };
 
   const formLayoutVertical = {
@@ -237,6 +237,8 @@ export default function RegisterHelpseekerComponent({
                 Abschicken
               </Button>
             </div>
+            <br/>
+            <Text type="danger">{errorState}</Text>
           </>
         )}
       </div>
