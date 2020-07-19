@@ -26,6 +26,9 @@ const RegisterHelper = React.lazy(() =>
 const ValidatePhone = React.lazy(() =>
   import('../../components/validation/validate-phone-component')
 );
+const Settings = React.lazy( () =>
+    import('../../components/base/settings')
+);
 
 export default function RoutesComponent() {
   const authProps = React.useContext(AuthenticationContext);
@@ -48,6 +51,13 @@ export default function RoutesComponent() {
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
       <Route path="/telefon-bestaetigen" component={ValidatePhone} />
+      <Route exact path="/einstellungen" render={(props) => (
+          <RouteAuthenticated
+              render={() => <Settings {...props} />}
+              redirectTo="/login"
+          />
+      )}
+      />
       <Route
         exaxct
         path="/place-request"
@@ -87,5 +97,5 @@ function RouteAuthenticated({ render, redirectTo, needVerified = false }) {
 RouteAuthenticated.propTypes = {
   render: PropTypes.func.isRequired,
   redirectTo: PropTypes.string.isRequired,
-  needVerified: PropTypes.boolean,
+  needVerified: PropTypes.bool,
 };

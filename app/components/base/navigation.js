@@ -68,7 +68,7 @@ function NavigationProfileIndicator() {
   const popoverContent = (
     <>
       <Space direction="vertical">
-        <NavLink to="/" exact>
+        <NavLink to="/einstellungen" exact>
           Einstellungen
         </NavLink>
         <NavLink
