@@ -5,7 +5,9 @@ import RequestTypeGroceries from '../../assets/img/request-category/request-cate
 import RequestTypeMedication from '../../assets/img/request-category/request-category-medication.svg';
 
 export default function AcceptRequestListEntry({
-  request,
+  number,
+  address,
+  requestType,
   distance,
   hover,
   onClick,
@@ -22,41 +24,32 @@ export default function AcceptRequestListEntry({
       onMouseLeave={() => onMouseLeave()}
     >
       <div className="accept-help-request-list-entry-number">
-        {request.number}
+        {number}
       </div>
       <div className="accept-help-request-list-entry-address">
-        {request.address.street},{request.address.zipCode}{' '}
-        {request.address.city}
+        {address.street}, {address.zipCode}{' '}
+        {address.city}
       </div>
-      <div className="accept-help-request-list-entry-category">
-        <img
-          src={RequestTypeGroceries}
-          className={
-            request.requestType.includes('groceries') ? '' : 'visibility-hidden'
-          }
-        />
-        <img
-          src={RequestTypeMedication}
-          className={
-            request.requestType.includes('medication')
-              ? ''
-              : 'visibility-hidden'
-          }
-        />
-        <img
-          src={RequestTypeOther}
-          className={
-            request.requestType.includes('other') ? '' : 'visibility-hidden'
-          }
-        />
+      {requestType == 'groceries' &&
+        <img src={RequestTypeGroceries} className="accept-help-request-list-entry-category"/>
+      }
+      {requestType == 'medication' &&
+        <img src={RequestTypeMedication} className="accept-help-request-list-entry-category"
+      />}
+      {requestType == 'other' &&
+        <img src={RequestTypeOther} className="accept-help-request-list-entry-category"
+      />}
+      <div className="accept-help-request-list-entry-distance">
+        {(distance/1000).toFixed(1).replace('.', ',')}km
       </div>
-      <div className="accept-help-request-list-entry-distance">{distance}</div>
     </div>
   );
 }
 AcceptRequestListEntry.propTypes = {
-  request: PropTypes.object.isRequired,
-  distance: PropTypes.string.isRequired,
+  number: PropTypes.number.isRequired,
+  address: PropTypes.object.isRequired,
+  requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
+  distance: PropTypes.number.isRequired,
   hover: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
   onMouseEnter: PropTypes.func.isRequired,

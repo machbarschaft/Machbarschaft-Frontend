@@ -7,7 +7,7 @@ import { objectToFormUrlEncoded } from './formUrlEncoder';
  * @returns {Promise<Response>}
  */
 export const putConfirmTan = async (formValues) => {
-  const endpoint = `${apiUrl()}phone`;
+  const endpoint = `${apiUrl()}phone/tan`;
 
   const formBody = objectToFormUrlEncoded(formValues);
 
@@ -42,12 +42,9 @@ export const putConfirmTan = async (formValues) => {
  * @returns {Promise<Response>}
  */
 export const postRequestTan = async (formValues) => {
-  const endpoint = `${apiUrl()}phone`;
+  const endpoint = `${apiUrl()}phone/tan`;
 
-  let formBody = objectToFormUrlEncoded(formValues);
-
-  // Right now: Only phone
-  formBody += '&sms=false';
+  const formBody = objectToFormUrlEncoded(formValues);
 
   return fetch(endpoint, {
     method: 'POST',

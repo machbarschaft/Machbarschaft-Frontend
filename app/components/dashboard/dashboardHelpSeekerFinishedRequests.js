@@ -7,8 +7,7 @@ import DashboardHelpSeekerFinishedRequestContent from './dashboardHelpSeekerFini
 const { Title } = Typography;
 const { Panel } = Collapse;
 
-function DashboardHelpSeekerFinishedRequests({requestList}) {
-
+function DashboardHelpSeekerFinishedRequests({ requestList }) {
   const panelRender = requestList.map((entry, index) => (
     <Panel
       header={
@@ -22,7 +21,6 @@ function DashboardHelpSeekerFinishedRequests({requestList}) {
       <DashboardHelpSeekerFinishedRequestContent
         startedAt={entry.startedAt}
         name={entry.name}
-        phone={entry.phone}
         street={entry.address.street}
         zipCode={entry.address.zipCode}
         city={entry.address.city}
@@ -39,9 +37,9 @@ function DashboardHelpSeekerFinishedRequests({requestList}) {
       {requestList.length == 0 ? (
         <Result title="Es gibt keine alten Aufträge" />
       ) : (
-        <div className="dashboard-helps-seeker-finished-request">
+        <div>
           {requestList.length == 0 ? (
-            'Du hast noch keinen Auftrag abgeschlossen.'
+            'Sie haben noch keinen Auftrag abgeschlossen.'
           ) : (
             <Collapse
               className="dashboard-collapse"
@@ -51,7 +49,9 @@ function DashboardHelpSeekerFinishedRequests({requestList}) {
                     Weniger anzeigen
                   </span>
                 ) : (
-                  <span className="dashboard-collapse-button">Mehr anzeigen</span>
+                  <span className="dashboard-collapse-button">
+                    Mehr anzeigen
+                  </span>
                 )
               }
               expandIconPosition="right"
@@ -65,6 +65,6 @@ function DashboardHelpSeekerFinishedRequests({requestList}) {
   );
 }
 DashboardHelpSeekerFinishedRequests.propTypes = {
-  requestList: PropTypes.array.isRequired
-}
+  requestList: PropTypes.array.isRequired,
+};
 export default DashboardHelpSeekerFinishedRequests;

@@ -5,7 +5,7 @@ export default function ResetPasswordNewPwdRightCard() {
     <>
       Sie können jetzt ein neues Passwort setzen.
       <br />
-      Es muss den folgenden Reglen entsprechen:
+      Es muss folgenden Regeln entsprechen:
       <br />
       ToDo
     </>

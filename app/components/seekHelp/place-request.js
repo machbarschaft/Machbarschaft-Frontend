@@ -73,7 +73,7 @@ function PlaceRequestReducer(state, action) {
 }
 
 export default function PlaceRequestWindow(props) {
-  const { phoneNumber } = queryString.parse(props.location.search);
+  const { phoneNumber, countryCode } = queryString.parse(props.location.search);
 
   const [wizardState, dispatch] = React.useReducer(PlaceRequestReducer, {
     currentStep: 0,
@@ -102,9 +102,19 @@ export default function PlaceRequestWindow(props) {
     } else {
       // ToDo: Throw Error
     }
+    if (isAuthenticated) {
+      formValues.countryCode =
+        authenticationContext.authenticationState.countryCode;
+    } else if (typeof countryCode !== 'undefined') {
+      formValues.countryCode = countryCode;
+    } else {
+      // ToDo: Throw Error
+    }
 
     postPlaceRequest({ formValues, isAuthenticated })
       .then((res) => {
+        console.log(res);
+
         processID.current = res._id;
 
         // Pre-Fill
@@ -195,6 +205,7 @@ export default function PlaceRequestWindow(props) {
     await putPlaceRequest({
       processID: processID.current,
       phoneNumber,
+      countryCode,
       formValues,
       isAuthenticated: authenticationContext.isAuthenticated(),
     });
@@ -213,6 +224,7 @@ export default function PlaceRequestWindow(props) {
     await putPublishRequest({
       processID: processID.current,
       phoneNumber,
+      countryCode,
       isAuthenticated: authenticationContext.isAuthenticated(),
     });
   };
@@ -284,11 +296,13 @@ export default function PlaceRequestWindow(props) {
           wizardState={wizardState}
           formData={formData}
           phoneNumber={phoneNumber}
+          countryCode={countryCode}
         />
       ),
       handleBackend: async (formValues) => {
         await putConfirmTan({
           phone: phoneNumber,
+          countryCode: countryCode,
           tan: formValues.code,
         });
       },
@@ -302,6 +316,7 @@ export default function PlaceRequestWindow(props) {
           wizardState={wizardState}
           formData={formData}
           phoneNumber={phoneNumber}
+          countryCode={countryCode}
         />
       ),
       handleBackend: async (formValues) => {

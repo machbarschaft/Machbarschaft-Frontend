@@ -22,7 +22,9 @@ export default function MapTooltip({ categories, distance }) {
           {categories.includes('other') && <img src={RequestTypeOther} />}
         </div>
         <div>Distanz:</div>
-        <div className="map-tooltip-centered">{distance}</div>
+        <div className="map-tooltip-centered">
+          {(distance/1000).toFixed(1).replace('.', ',')}km
+        </div>
       </div>
       <div className="map-tooltip-pointer" />
     </div>
@@ -30,5 +32,5 @@ export default function MapTooltip({ categories, distance }) {
 }
 MapTooltip.propTypes = {
   categories: PropTypes.string.isRequired,
-  distance: PropTypes.string.isRequired,
+  distance: PropTypes.number.isRequired,
 };

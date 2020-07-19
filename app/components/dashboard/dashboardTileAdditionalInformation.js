@@ -13,8 +13,8 @@ function DashboardTileAdditionalInformation({
   prescriptionRequired,
   timestamp,
 }) {
-  const creationDate = new Date(timestamp * 1000);
-  const timeString = `${creationDate.toLocaleDateString()}, ${creationDate.getHours()}:${creationDate.getMinutes()}`;
+  const creationDate = new Date(Date.parse(timestamp));
+  const timeString = `${creationDate.toLocaleDateString()},${creationDate.getHours().toString().padStart(2, '0')}:${creationDate.getMinutes().toString().padStart(2, '0')}`;
 
   return (
     <DashboardTile
@@ -47,6 +47,6 @@ function DashboardTileAdditionalInformation({
 DashboardTileAdditionalInformation.propTypes = {
   carNecessary: PropTypes.bool.isRequired,
   prescriptionRequired: PropTypes.bool.isRequired,
-  timestamp: PropTypes.number.isRequired,
+  timestamp: PropTypes.string.isRequired,
 };
 export default DashboardTileAdditionalInformation;

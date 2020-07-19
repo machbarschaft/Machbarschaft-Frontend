@@ -5,13 +5,13 @@ import DashboardTileContact from './dashboardTileContact';
 import DashboardTileUrgency from './dashboardTileUrgency';
 import DashboardTileRequestType from './dashboardTileRequestType';
 import DashboardTileAdditionalInformation from './dashboardTileAdditionalInformation';
+import DashboardTile from './dashboardTile';
 
 const { Text } = Typography;
 
 function DashboardHelpSeekerFinishedRequestContent({
   startedAt,
   name,
-  phone,
   street,
   zipCode,
   city,
@@ -22,29 +22,30 @@ function DashboardHelpSeekerFinishedRequestContent({
 }) {
   return (
     <div className="dashboard-helper-finished-request-grid">
-      <DashboardTileContact name={name} phone={phone} />
-      <DashboardTileUrgency urgency="now" />
+      {name !== undefined && <DashboardTileContact name={name} />}
+      {name === undefined &&
+        <DashboardTile title={"Status"} content={"Der Auftrag wurde von keinem Helfer angenommen."} />
+      }
+      <DashboardTileUrgency urgency={urgency} />
       <DashboardTileContact
-        phone={phone}
         street={street}
         zipCode={zipCode}
         city={city}
       />
-      <DashboardTileRequestType requestType="groceries" />
+      <DashboardTileRequestType requestType={requestType} />
       <DashboardTileAdditionalInformation
-        carNecessary
-        prescriptionRequired={false}
-        timestamp={1593672043}
+        carNecessary={carNecessary}
+        prescriptionRequired={prescriptionRequired}
+        timestamp={startedAt}
       />
     </div>
   );
 }
 DashboardHelpSeekerFinishedRequestContent.propTypes = {
-  startedAt: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
+  startedAt: PropTypes.string.isRequired,
+  name: PropTypes.string,
   street: PropTypes.string.isRequired,
-  zipCode: PropTypes.string.isRequired,
+  zipCode: PropTypes.number.isRequired,
   city: PropTypes.string.isRequired,
   requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
   urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week'])

@@ -1,143 +1,137 @@
 import React from 'react';
-import { Menu } from 'antd';
+import { Menu, Button } from 'antd';
 import MapContainer from './googleMaps';
 import AcceptHelpSearchBar from './acceptHelpSearchBar';
 import AcceptHelpListAndDetail from './acceptHelpListAndDetail';
 import AcceptRequestListEntry from './acceptRequestListEntry';
+import { getOpenRequests } from '../../utils/api/acceptHelpApi';
+
+function acceptRequestStateReducer(state, action) {
+  if (action.type === 'success') {
+    return {
+      ...state,
+      selectedMarkerIndex: -1,
+      hoverMarkerIndex: -1,
+      mobileMenuKey: 'map',
+      loading: false,
+      requestList: action.requestList,
+      error: null
+    };
+  }
+  if (action.type === 'error') {
+    return {
+      ...state,
+      selectedMarkerIndex: -1,
+      hoverMarkerIndex: -1,
+      mobileMenuKey: 'map',
+      loading: false,
+      requestList: [],
+      error: action.error
+    };
+  }
+  if (action.type === 'loading') {
+    return {
+      ...state,
+      loading: true,
+      requestList: [],
+      error: null
+    };
+  }
+  if (action.type === 'selected-index') {
+    return {
+      ...state,
+      selectedMarkerIndex: action.selectedMarkerIndex
+    }
+  }
+  if (action.type === 'hover-index') {
+    return {
+      ...state,
+      hoverMarkerIndex: action.hoverMarkerIndex
+    }
+  }
+  if (action.type === 'menu-key') {
+    return {
+      ...state,
+      mobileMenuKey: action.mobileMenuKey
+    }
+  }
+  throw new Error('Unsupported');
+}
 
 export default function AcceptRequestWindow() {
-  // Anmerkung: hier ist kein Reducer, da sich die states gegenseitig nicht beeinflussen
-  // falls es ein Gegenargument gibt, bitte kommentieren :D
-  const [selectedMarkerIndex, setSelectedMarkerIndex] = React.useState(-1);
-  const [hoverMarkerIndex, setHoverMarkerIndex] = React.useState(-1);
-  const [mobileMenuKey, setMobileMenuKey] = React.useState('map');
   const [currentLocation, setCurrentLocation] = React.useState({
     lat: 0,
     lng: 0,
   });
+  const [currentRadius, setCurrentRadius] = React.useState(25000);
+  const [acceptRequestState, dispatchAcceptRequestState] = React.useReducer(
+    acceptRequestStateReducer,
+    {
+      selectedMarkerIndex: -1,
+      hoverMarkerIndex: -1,
+      mobileMenuKey: 'map',
+      loading: false,
+      requestList: [],
+      error: null,
+    }
+  );
 
-  // test data, should be fetched from backend when endpoint is available
-  const listEntries = [
-    {
-      request: {
-        address: {
-          street: 'Konradstraße',
-          zipCode: '80801',
-          city: 'München',
-          geoLocation: {
-            latitude: 48.18928,
-            longitude: 11.564758,
-          },
-        },
-        requestType: 'groceries',
-        urgency: 'now',
-        extras: {
-          carNecessary: true,
-          prescriptionRequired: false,
-        },
-      },
-      distance: '2,6km',
-    },
-    {
-      request: {
-        address: {
-          street: 'Konradstraße',
-          zipCode: '80801',
-          city: 'München',
-          geoLocation: {
-            latitude: 48.102401,
-            longitude: 11.682987,
-          },
-        },
-        requestType: 'medication',
-        urgency: 'tomorrow',
-        extras: {
-          carNecessary: true,
-          prescriptionRequired: false,
-        },
-      },
-      distance: '2,6km',
-    },
-    {
-      request: {
-        address: {
-          street: 'Konradstraße',
-          zipCode: '80801',
-          city: 'München',
-          geoLocation: {
-            latitude: 48.205928,
-            longitude: 11.682987,
-          },
-        },
-        requestType: 'other',
-        urgency: 'today',
-        extras: {
-          carNecessary: true,
-          prescriptionRequired: false,
-        },
-      },
-      distance: '2,6km',
-    },
-    {
-      request: {
-        address: {
-          street: 'Konradstraße',
-          zipCode: '80801',
-          city: 'München',
-          geoLocation: {
-            latitude: 48.113395,
-            longitude: 11.613363,
-          },
-        },
-        requestType: 'other',
-        urgency: 'this-week',
-        extras: {
-          carNecessary: true,
-          prescriptionRequired: false,
-        },
-      },
-      distance: '2,6km',
-    },
-  ];
 
-  const listEntriesRender = listEntries.map((entry, index) => (
+  React.useEffect(() => {
+    if(currentLocation.lat !== 0 || currentLocation.lng !== 0) {
+      dispatchAcceptRequestState({type: 'loading'});
+      getOpenRequests({
+        latitude: currentLocation.lat,
+        longitude: currentLocation.lng,
+        radius: currentRadius
+      })
+          .then((res) => dispatchAcceptRequestState({type: 'success', requestList: res}))
+          .catch((err) => dispatchAcceptRequestState({type: 'error', error: err}));
+    }
+  }, [currentLocation]);
+      
+  const requestListRender = acceptRequestState.requestList.map((entry, index) => (
     <React.Fragment key={index}>
       <AcceptRequestListEntry
         number={index + 1}
         {...entry}
-        onClick={() => setSelectedMarkerIndex(index)}
-        hover={hoverMarkerIndex == index}
-        onMouseEnter={() => setHoverMarkerIndex(index)}
-        onMouseLeave={() => setHoverMarkerIndex(-1)}
+        onClick={() => dispatchAcceptRequestState({type: 'selected-index', selectedMarkerIndex: index})}
+        hover={acceptRequestState.hoverMarkerIndex == index}
+        onMouseEnter={() => dispatchAcceptRequestState({type: 'hover-index', hoverMarkerIndex: index})}
+        onMouseLeave={() => dispatchAcceptRequestState({type: 'hover-index', hoverMarkerIndex: -1})}
       />
-      {index < listEntries.length - 1 && (
+      {index < acceptRequestState.requestList.length - 1 && (
         <div className="accept-help-request-list-divider" />
       )}
     </React.Fragment>
   ));
   const mapContainer = (
     <MapContainer
-      markers={listEntries}
-      selectedMarkerIndex={selectedMarkerIndex}
-      onMarkerSelect={(index) => setSelectedMarkerIndex(index)}
-      onMapClick={() => setSelectedMarkerIndex(-1)}
-      hoverMarkerIndex={hoverMarkerIndex}
-      onMarkerEnter={(index) => setHoverMarkerIndex(index)}
-      onMarkerLeave={() => setHoverMarkerIndex(-1)}
+      markers={acceptRequestState.requestList}
+      selectedMarkerIndex={acceptRequestState.selectedMarkerIndex}
+      onMarkerSelect={(index) => dispatchAcceptRequestState({type: 'selected-index', selectedMarkerIndex: index})}
+      onMapClick={() => dispatchAcceptRequestState({type: 'selected-index', selectedMarkerIndex: -1})}
+      hoverMarkerIndex={acceptRequestState.hoverMarkerIndex}
+      onMarkerEnter={(index) => dispatchAcceptRequestState({type: 'hover-index', hoverMarkerIndex: index})}
+      onMarkerLeave={() => dispatchAcceptRequestState({type: 'hover-index', hoverMarkerIndex: -1})}
       currentLocation={currentLocation}
     />
   );
   const acceptHelpListAndDetail = (
     <AcceptHelpListAndDetail
-      selectedMarkerIndex={selectedMarkerIndex}
-      setSelectedMarkerIndex={setSelectedMarkerIndex}
-      listEntries={listEntries}
-      listEntriesRender={listEntriesRender}
+      selectedMarkerIndex={acceptRequestState.selectedMarkerIndex}
+      setSelectedMarkerIndex={(index) => dispatchAcceptRequestState({type: 'selected-index', selectedMarkerIndex: index})}
+      listEntries={acceptRequestState.requestList}
+      listEntriesRender={requestListRender}
+      showNoRequestWarning={currentLocation.lat != 0 || currentLocation.lng != 0}
+      error={acceptRequestState.error}
     />
   );
   const acceptHelpSearchBar = (
     <AcceptHelpSearchBar
       setCurrentLocation={(pos) => setCurrentLocation(pos)}
+      setCurrentRadius={(radius) => setCurrentRadius(radius)}
+      loading={acceptRequestState.loading}
     />
   );
 
@@ -156,20 +150,20 @@ export default function AcceptRequestWindow() {
         <br />
 
         <Menu
-          onClick={(e) => setMobileMenuKey(e.key)}
-          selectedKeys={mobileMenuKey}
+          onClick={(e) => dispatchAcceptRequestState({type: 'menu-key', mobileMenuKey: e.key})}
+          selectedKeys={acceptRequestState.mobileMenuKey}
           mode="horizontal"
           style={{ textAlign: 'center' }}
         >
           <Menu.Item key="map">KARTE</Menu.Item>
           <Menu.Item key="list-and-detail">
-            {selectedMarkerIndex === -1 ? 'LISTE' : 'DETAILS'}
+            {acceptRequestState.selectedMarkerIndex === -1 ? 'LISTE' : 'DETAILS'}
           </Menu.Item>
         </Menu>
         <br />
 
-        {mobileMenuKey === 'map' && mapContainer}
-        {mobileMenuKey === 'list-and-detail' && acceptHelpListAndDetail}
+        {acceptRequestState.mobileMenuKey === 'map' && mapContainer}
+        {acceptRequestState.mobileMenuKey === 'list-and-detail' && acceptHelpListAndDetail}
       </div>
     </>
   );
