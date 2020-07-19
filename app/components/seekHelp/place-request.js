@@ -8,6 +8,7 @@ import {
   putPublishRequest,
 } from '../../utils/api/placeRequestApi';
 import { putConfirmTan } from '../../utils/api/phoneApi';
+import RegisterHelpseekerComponent from '../register/register-helpseeker-component';
 
 const queryString = require('query-string');
 
@@ -113,8 +114,6 @@ export default function PlaceRequestWindow(props) {
 
     postPlaceRequest({ formValues, isAuthenticated })
       .then((res) => {
-        console.log(res);
-
         processID.current = res._id;
 
         // Pre-Fill
@@ -330,6 +329,9 @@ export default function PlaceRequestWindow(props) {
           handleNextPage={handleNextPage}
           handlePreviousPage={handlePreviousPage}
           wizardState={wizardState}
+          formData={formData}
+          phoneNumber={phoneNumber}
+          countryCode={countryCode}
         />
       ),
       handleBackend: async (formValues) => {},
