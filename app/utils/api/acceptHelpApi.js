@@ -50,8 +50,7 @@ export const acceptOpenRequest = async ({ requestId }) => {
     credentials: 'include',
   }).then(async (res) => {
     if (res.status === 201) {
-      res = await res.json();
-      return res;
+      return;
     }
     res = await res.json();
     throw Error(res.errors[0]); // ToDo: Throw multiple errors

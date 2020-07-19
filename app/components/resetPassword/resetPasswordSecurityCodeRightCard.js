@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Typography } from 'antd';
+import { Button, Typography, notification } from 'antd';
 import PropTypes from 'prop-types';
 
 const { Text } = Typography;
@@ -12,7 +12,10 @@ function ResetPasswordSecurityCodeRightCard({ user }) {
     console.log(`ToDo: send reset request for user '${user}' to backend`);
     setTimeout(() => {
       setLoadingState(false);
-      message.success('Anfrage erfolgreich verschickt!');
+      notification.success({
+        message: 'Fertig',
+        description: 'Anfrage erfolgreich verschickt!'
+      });
     }, 1000);
   }
 

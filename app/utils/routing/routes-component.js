@@ -33,7 +33,11 @@ export default function RoutesComponent() {
 
   return (
     <Switch>
-      <Route exact path="/" component={authenticationState.uid == null ? LandingPage : Dashboard} />
+      <Route exact path="/" render={(props) => (
+          <>
+            {authenticationState.uid === null ? <LandingPage /> : <Redirect to={"/dashboard"} />}
+          </>
+      )}/>
       <Route
         path="/dashboard"
         render={(props) => (
@@ -47,7 +51,17 @@ export default function RoutesComponent() {
       <Route path="/login" component={Login} />
       <Route path="/registrieren" component={RegisterHelper} />
       <Route path="/resetpassword" component={ResetPassword} />
-      <Route path="/telefon-bestaetigen" component={ValidatePhone} />
+      <Route path="/telefon-bestaetigen" render={(props) => (
+          <>
+            {authenticationState.phoneVerified && 
+              <Redirect to={"/"} />
+            }
+            {!authenticationState.phoneVerified && 
+              <ValidatePhone />
+            }
+          </>
+      )}/>
+        
       <Route
         exaxct
         path="/place-request"

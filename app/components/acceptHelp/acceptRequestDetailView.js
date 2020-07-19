@@ -35,11 +35,12 @@ export default function AcceptRequestDetailView({
   else categoryTitle = 'Kategorie: ';
 
   const [loadingState, setLoadingState] = React.useState(false);
+  const history = useHistory();
+
   const acceptRequest = () => {
     setLoadingState(true);
     acceptOpenRequest({requestId: process})
       .then(() => {
-        const history = useHistory();
         message.success('Auftrag erfolgreich angenommen!');
         setLoadingState(false);
         history.push('/dashboard');
