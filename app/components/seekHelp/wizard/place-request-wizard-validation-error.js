@@ -17,9 +17,7 @@ export default function PlaceRequestWizardValidationError({ wizardState }) {
           Es sind folgende Fehler aufgetreten:
         </Text>
       </Paragraph>
-      <Paragraph>
-        {wizardState.errorMsg} {/* ToDo: Support multiple errors */}
-      </Paragraph>
+      <Paragraph>{wizardState.errorMsg}</Paragraph>
     </>
   );
 }

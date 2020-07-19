@@ -1,9 +1,9 @@
 import React from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import { Card, Input, Button, Timeline, Form } from 'antd';
+import { Card, Input, Button, Timeline, Form, Select, Typography } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import AuthenticationContext from '../../contexts/authentication'
+import AuthenticationContext from '../../contexts/authentication';
 const { Option } = Select;
 const { Text } = Typography;
 
@@ -103,7 +103,7 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
                 </Button>
               </Link>
             </Timeline.Item>
-            {showRegister &&
+            {showRegister && (
               <Timeline.Item>
                 Wenn Sie noch kein Konto erstellt haben:
                 <br />
@@ -115,7 +115,7 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
                   Registrieren
                 </Button>
               </Timeline.Item>
-            }
+            )}
           </Timeline>
         </Card>
       </div>

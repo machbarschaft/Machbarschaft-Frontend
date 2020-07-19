@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 import RegisterHelpseekerComponent from '../../register/register-helpseeker-component';
 import LoginWindow from '../../login/login';
 
-const { Title } = Typography;
 /**
  * Optional component of seek help wizard. Used, if user account has been found.
  * @returns {*}
@@ -16,7 +15,7 @@ export default function PlaceRequestWizardFinish({
   phoneNumber,
   countryCode,
 }) {
-  const [viewState, setViewState] = React.useState("initial");
+  const [viewState, setViewState] = React.useState('initial');
 
   return (
     <>
@@ -30,36 +29,49 @@ export default function PlaceRequestWizardFinish({
           </NavLink>,
         ]}
       />
-      <div className="dashboard-spacing"></div>
-      {viewState == "initial" &&
+      <div className="dashboard-spacing" />
+      {viewState === 'initial' && (
         <Card
           bodyStyle={{ textAlign: 'center' }}
           bordered={false}
           className="login-card"
         >
-          Um den Status Ihres Auftrags auf dieser Webseite zu sehen, können Sie sich hier registrieren:<br/>
-          <Button type="primary" onClick={() => setViewState("register")}>Registrieren</Button><br/><br/>
-          Wenn Sie bereits einen Account haben, können Sie sich hier einloggen:<br/>
-          <Button type="primary" onClick={() => setViewState("login")}>Einloggen</Button>
+          Um den Status Ihres Auftrags auf dieser Webseite zu sehen, können Sie
+          sich hier registrieren:
+          <br />
+          <Button type="primary" onClick={() => setViewState('register')}>
+            Registrieren
+          </Button>
+          <br />
+          <br />
+          Wenn Sie bereits einen Account haben, können Sie sich hier einloggen:
+          <br />
+          <Button type="primary" onClick={() => setViewState('login')}>
+            Einloggen
+          </Button>
         </Card>
-      }
-      {viewState != "initial" &&
+      )}
+      {viewState !== 'initial' && (
         <div className="centered">
-          <Button type="primary" onClick={() => setViewState("initial")}>Abbrechen</Button>
+          <Button type="primary" onClick={() => setViewState('initial')}>
+            Abbrechen
+          </Button>
         </div>
-      }
-      <div className="dashboard-spacing"></div>
-      {viewState == "register" &&
+      )}
+      <div className="dashboard-spacing" />
+      {viewState === 'register' && (
         <RegisterHelpseekerComponent
           countryCode={countryCode}
           phone={phoneNumber}
-          surname={formData && formData.current['place-request-wizard-name'].surname}
-          forename={formData && formData.current['place-request-wizard-name'].forename}
+          surname={
+            formData && formData.current['place-request-wizard-name'].surname
+          }
+          forename={
+            formData && formData.current['place-request-wizard-name'].forename
+          }
         />
-      }
-      {viewState == "login" &&
-        <LoginWindow showRegister={false} />
-      }
+      )}
+      {viewState === 'login' && <LoginWindow showRegister={false} />}
     </>
   );
 }

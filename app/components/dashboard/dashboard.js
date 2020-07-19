@@ -34,7 +34,7 @@ function DashboardWindow() {
   return (
     <div className="content-container-default background-light-grey">
       {localRequestsState.loading && <Result icon={<Spin size="large" />} />}
-      {!localRequestsState.loading && localRequestsState.error != null &&
+      {!localRequestsState.loading && localRequestsState.error != null && (
         <Result
           status="warning"
           title="Es ist ein Fehler beim Laden aufgetreten."
@@ -44,36 +44,48 @@ function DashboardWindow() {
             </Button>
           }
         />
-      }
-      {!localRequestsState.loading && localRequestsState.error == null &&
-        localRequestsState.activeRequests.helpSeeker.length == 0 && localRequestsState.activeRequests.helper.length == 0 &&
-        localRequestsState.finishedRequests.helpSeeker.length == 0 && localRequestsState.finishedRequests.helper.length == 0 &&
-        <Result title="Hier gibt es noch keinen Auftrag anzuzeigen." />
-      }
-      {!localRequestsState.loading && localRequestsState.error == null &&
-        (localRequestsState.activeRequests.helpSeeker.length > 0 || localRequestsState.activeRequests.helper.length != null ||
-        localRequestsState.finishedRequests.helpSeeker.length > 0 || localRequestsState.finishedRequests.helper.length > 0) &&
-        <>
-          {localRequestsState.isHelpSeeker &&
-            <DashboardHelpSeeker
-              activeRequestsHelpSeeker={localRequestsState.activeRequests.helpSeeker}
-              activeRequestsHelper={localRequestsState.activeRequests.helper}
-              finishedRequestsHelpSeeker={localRequestsState.finishedRequests.helpSeeker}
-              finishedRequestsHelper={localRequestsState.finishedRequests.helper}
-              refreshRequests={() => foregroundFetch()}
-              refreshRequestsBackground={() => backgroundFetch()}
-            />
-          }
-          {!localRequestsState.isHelpSeeker &&
-            <DashboardHelper
-              activeRequests={localRequestsState.activeRequests.helper}
-              finishedRequests={localRequestsState.finishedRequests.helper}
-              refreshRequests={() => foregroundFetch()}
-              refreshRequestsBackground={() => backgroundFetch()}
-            />
-          }
-        </>
-      }
+      )}
+      {!localRequestsState.loading &&
+        localRequestsState.error === null &&
+        localRequestsState.activeRequests.helpSeeker.length === 0 &&
+        localRequestsState.activeRequests.helper.length === 0 &&
+        localRequestsState.finishedRequests.helpSeeker.length === 0 &&
+        localRequestsState.finishedRequests.helper.length === 0 && (
+          <Result title="Hier gibt es noch keinen Auftrag anzuzeigen." />
+        )}
+      {!localRequestsState.loading &&
+        localRequestsState.error === null &&
+        (localRequestsState.activeRequests.helpSeeker.length > 0 ||
+          localRequestsState.activeRequests.helper.length != null ||
+          localRequestsState.finishedRequests.helpSeeker.length > 0 ||
+          localRequestsState.finishedRequests.helper.length > 0) && (
+          <>
+            {localRequestsState.isHelpSeeker && (
+              <DashboardHelpSeeker
+                activeRequestsHelpSeeker={
+                  localRequestsState.activeRequests.helpSeeker
+                }
+                activeRequestsHelper={localRequestsState.activeRequests.helper}
+                finishedRequestsHelpSeeker={
+                  localRequestsState.finishedRequests.helpSeeker
+                }
+                finishedRequestsHelper={
+                  localRequestsState.finishedRequests.helper
+                }
+                refreshRequests={() => foregroundFetch()}
+                refreshRequestsBackground={() => backgroundFetch()}
+              />
+            )}
+            {!localRequestsState.isHelpSeeker && (
+              <DashboardHelper
+                activeRequests={localRequestsState.activeRequests.helper}
+                finishedRequests={localRequestsState.finishedRequests.helper}
+                refreshRequests={() => foregroundFetch()}
+                refreshRequestsBackground={() => backgroundFetch()}
+              />
+            )}
+          </>
+        )}
     </div>
   );
 }
