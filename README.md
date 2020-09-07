@@ -28,3 +28,15 @@ The backend ist expected to run at
 ```
 https://api.demo.machbarschaft.jetzt/
 ```
+Deploy on Netlify:
+```
+npm run-script build
+```
+Folder:
+```
+dist
+```
+Further Config:
+```
+Add IP 2 Cloudflare & Add Domain 2 Netlify
+```
