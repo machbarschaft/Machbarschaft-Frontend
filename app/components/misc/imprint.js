@@ -23,11 +23,13 @@ export default function ImprintWindow() {
         <div>
           Inhaltlich Verantwortlicher gemäß § 55 Abs. 2 RStV:
           <br />
-          Marc Sommer
+          Machbarschaft e.V.
           <br />
-          Paul-Hindemith-Allee 4 / 0501
+          Herkulesstraße 95
           <br />
-          80939 München
+          34119 Kassel
+          <br /><br />
+          Vertretungsberechtigter Vorstand: Manuela Greipel, Alexander Hodes, Niklas Schöllhorn
         </div>
         <br />
         <br />
