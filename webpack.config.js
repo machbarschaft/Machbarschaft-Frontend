@@ -5,6 +5,7 @@ const { googleMapsApiKey } = require('./app/assets/config/google-maps-api.js');
 
 module.exports = {
   entry: './app/index.js',
+  devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'index_bundle.js',
@@ -34,7 +35,15 @@ module.exports = {
         ],
       },
       { test: /\.(key)$/, use: 'raw-loader' },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: '/node_modules',
+      },
     ],
+  },
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ],
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   plugins: [
