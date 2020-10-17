@@ -25,6 +25,7 @@ chrome-user-data
 *.swp
 *.swo
 app/assets/config/google-maps-api.js
+*.env
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
