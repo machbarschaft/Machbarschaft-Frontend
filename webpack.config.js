@@ -4,11 +4,11 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { googleMapsApiKey } = require('./app/assets/config/google-maps-api.js');
 
 module.exports = {
-  entry: './app/index.js',
+  entry: 'index.js',
   devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'index_bundle.js',
+    filename: 'app.js',
     publicPath: '/',
   },
   module: {
@@ -43,7 +43,8 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
+    extensions: ['.tsx', '.ts', '.js'],
+    modules: ['app', 'node_modules'],
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   plugins: [

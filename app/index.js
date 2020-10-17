@@ -58,7 +58,11 @@ function App() {
               <div
                 ref={(node) => {
                   if (node) {
-                    node.style.setProperty('font-size', `${fontSize}em`, 'important');
+                    node.style.setProperty(
+                      'font-size',
+                      `${fontSize}em`,
+                      'important',
+                    );
                   }
                 }}
               >
