@@ -37,13 +37,13 @@
    */
 
   /**
-   * Constructs a new AdminRestServiceApi. 
+   * Constructs a new AdminRestServiceApi.
    * @alias module:api/AdminRestServiceApi
    * @class
    * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
    * default to {@link module:ApiClient#instance} if unspecified.
    */
-  var exports = function(apiClient) {
+  let exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
 
 

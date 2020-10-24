@@ -44,7 +44,7 @@ export default function AcceptRequestDetailView({
         setLoadingState(false);
         history.push('/dashboard');
       })
-      .catch((err) => {
+      .catch(() => {
         message.error('Es ist ein Fehler aufgetreten!');
         setLoadingState(false);
       });
@@ -54,7 +54,7 @@ export default function AcceptRequestDetailView({
     <div className="accept-help-request-detail">
       <div className="accept-help-request-detail-header">
         <div className="accept-help-request-detail-back">
-          <img src={ArrowLeft} onClick={() => closeDetailView()} />
+          <img src={ArrowLeft} onClick={() => closeDetailView()} alt="" />
         </div>
         <div className="accept-help-request-detail-title">
           {address.street}, {address.zipCode} {address.city}
@@ -68,18 +68,21 @@ export default function AcceptRequestDetailView({
               <img
                 className="accept-help-request-detail-icon"
                 src={RequestTypeGroceries}
+                alt=""
               />
             )}
             {requestType === 'medication' && (
               <img
                 className="accept-help-request-detail-icon"
                 src={RequestTypeMedication}
+                alt=""
               />
             )}
             {requestType === 'other' && (
               <img
                 className="accept-help-request-detail-icon"
                 src={RequestTypeOther}
+                alt=""
               />
             )}
           </div>
@@ -96,6 +99,7 @@ export default function AcceptRequestDetailView({
           <img
             className="accept-help-request-detail-icon"
             src={extras.carNecessary ? CarRequired : CarNotRequired}
+            alt=""
           />
           <Text strong>Rezept benötigt:</Text>
           <img
@@ -105,6 +109,7 @@ export default function AcceptRequestDetailView({
                 ? PrescriptionRequired
                 : PrescriptionNotRequired
             }
+            alt=""
           />
         </div>
       </div>

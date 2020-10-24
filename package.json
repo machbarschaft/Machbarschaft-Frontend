@@ -25,6 +25,7 @@
   "license": "GPL-3.0",
   "homepage": "https://github.com/Leenert/Machbarschaft-Frontend#readme",
   "dependencies": {
+    "@ant-design/icons": "^4.2.2",
     "antd": "^4.2.5",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "google-map-react": "^1.1.7",

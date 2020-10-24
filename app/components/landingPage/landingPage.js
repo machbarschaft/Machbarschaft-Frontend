@@ -18,7 +18,7 @@ export default function LandingPage() {
       <div className="landing-page-container">
         <div className="landingpage-spacing" />
         <div className="landingpage-element">
-          <img src={WirVsVirus} className="landingpage-wirvsvirus" />
+          <img src={WirVsVirus} className="landingpage-wirvsvirus" alt="" />
         </div>
         <div className="landingpage-text landingpage-element">
           Wir sind 1 von 20 ausgewählten Projekten aus insgesamt 1.500
@@ -33,7 +33,7 @@ export default function LandingPage() {
           Mach mit uns deine Nachbarschaften zu Machbarschaften.
         </Title>
         <div className="landingpage-two-section landingpage-element landingpage-text">
-          <img src={GrafikFive} className="landingpage-two-section-image" />
+          <img src={GrafikFive} className="landingpage-two-section-image" alt="" />
           <div className="landingpage-two-section-text">
             Deine Daten werden an unsere Datenbank übertragen und dein Auftrag
             kommt bereits real in unserer App an. Wird dein Auftrag nicht
