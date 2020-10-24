@@ -1,6 +1,10 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const dotenv = require('dotenv').config({
+  path: path.join(__dirname, '.env'),
+});
 const { googleMapsApiKey } = require('./app/assets/config/google-maps-api.js');
 
 module.exports = {
@@ -43,6 +47,9 @@ module.exports = {
       googleMapsApiKey,
     }),
     new CopyPlugin({ patterns: [{ from: '_redirects' }] }),
+    new webpack.DefinePlugin({
+      'provess.env': dotenv.parsed,
+    }),
   ],
   devServer: {
     historyApiFallback: true,

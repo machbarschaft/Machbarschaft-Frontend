@@ -14,11 +14,14 @@ import { MailOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import AuthenticationContext from '../../contexts/authentication';
 import { printErrors } from '../../utils/misc/printErrors';
+import Firebase, { withFirebase } from '../firebase';
 
 const { Option } = Select;
 const { Text } = Typography;
 
-function LoginWindow({ location: { username } = '', showRegister = true }) {
+function LoginWindow(props) {
+  const { location, showRegister, firebase } = props;
+
   const authenticationContext = React.useContext(AuthenticationContext);
 
   const layout = {
@@ -30,10 +33,19 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
   const history = useHistory();
 
   const handleForm = async (values) => {
+    console.debug('Signing');
+    const result = await firebase.doSignInWithEmailAndPassword(
+      values.user,
+      values.password,
+    );
+    console.debug('Sigining result', result);
+
+    // Old auth
+    /*
     await authenticationContext.performAuthentication(
       values.user,
       values.password
-    );
+    ); */
   };
 
   React.useEffect(() => {
@@ -148,6 +160,7 @@ LoginWindow.propTypes = {
     username: PropTypes.string,
   }),
   showRegister: PropTypes.bool,
+  firebase: PropTypes.any,
 };
 
-export default LoginWindow;
+export default withFirebase(LoginWindow);

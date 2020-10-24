@@ -15,6 +15,7 @@ import RoutesComponent from './utils/routing/routes-component';
 import ValidateMailNotification from './components/base/misc/validateMailNotification';
 import ValidatePhoneNotification from './components/base/misc/validatePhoneNotification';
 import useFontSizer from './hooks/useFontSizer';
+import Firebase, { FirebaseContext } from './components/firebase';
 
 function App() {
   const [
@@ -58,7 +59,11 @@ function App() {
               <div
                 ref={(node) => {
                   if (node) {
-                    node.style.setProperty('font-size', `${fontSize}em`, 'important');
+                    node.style.setProperty(
+                      'font-size',
+                      `${fontSize}em`,
+                      'important',
+                    );
                   }
                 }}
               >
@@ -85,4 +90,9 @@ function App() {
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(
+  <FirebaseContext.Provider value={new Firebase()}>
+    <App />
+  </FirebaseContext.Provider>,
+  document.getElementById('app'),
+);
