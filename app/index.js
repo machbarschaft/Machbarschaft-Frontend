@@ -1,21 +1,19 @@
+import { Layout, Result, Spin } from 'antd';
+import 'antd/dist/antd.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import 'antd/dist/antd.less';
-
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Layout, Result, Spin } from 'antd';
-
 import Loading from 'react-fullscreen-loading';
-import Navigation from './components/base/navigation';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Footer from './components/base/footer';
-import useAuthentication from './hooks/useAuthentication';
-import { AuthenticationProvider } from './contexts/authentication';
-import RoutesComponent from './utils/routing/routes-component';
 import ValidateMailNotification from './components/base/misc/validateMailNotification';
 import ValidatePhoneNotification from './components/base/misc/validatePhoneNotification';
+import Navigation from './components/base/navigation';
+import firebase, { FirebaseContext } from './components/firebase';
+import { AuthenticationProvider } from './contexts/authentication';
+import useAuthentication from './hooks/useAuthentication';
 import useFontSizer from './hooks/useFontSizer';
-import Firebase, { FirebaseContext } from './components/firebase';
+import './index.css';
+import RoutesComponent from './utils/routing/routes-component';
 
 function App() {
   const [
@@ -48,51 +46,48 @@ function App() {
 
   return (
     <Router>
-      <AuthenticationProvider value={authProps}>
-        <Layout>
-          <Navigation
-            increaseFontSize={fontSizerAttrs.increaseFontSize}
-            decreaseFontSize={fontSizerAttrs.decreaseFontSize}
-          />
-          <div className="site-layout">
-            <div className="main-content">
-              <div
-                ref={(node) => {
-                  if (node) {
-                    node.style.setProperty(
-                      'font-size',
-                      `${fontSize}em`,
-                      'important',
-                    );
-                  }
-                }}
-              >
-                {isAuthenticated() && !isMailVerified() && (
-                  <ValidateMailNotification />
-                )}
-                {isAuthenticated() && !isPhoneVerified() && (
-                  <ValidatePhoneNotification />
-                )}
-
-                <React.Suspense
-                  fallback={<Result icon={<Spin size="large" />} />}
+      <FirebaseContext.Provider value={firebase}>
+        <AuthenticationProvider value={authProps}>
+          <Layout>
+            <Navigation
+              increaseFontSize={fontSizerAttrs.increaseFontSize}
+              decreaseFontSize={fontSizerAttrs.decreaseFontSize}
+            />
+            <div className="site-layout">
+              <div className="main-content">
+                <div
+                  ref={(node) => {
+                    if (node) {
+                      node.style.setProperty(
+                        'font-size',
+                        `${fontSize}em`,
+                        'important'
+                      );
+                    }
+                  }}
                 >
-                  <RoutesComponent />
-                </React.Suspense>
-              </div>
-            </div>
+                  {isAuthenticated() && !isMailVerified() && (
+                    <ValidateMailNotification />
+                  )}
+                  {isAuthenticated() && !isPhoneVerified() && (
+                    <ValidatePhoneNotification />
+                  )}
 
-            <Footer />
-          </div>
-        </Layout>
-      </AuthenticationProvider>
+                  <React.Suspense
+                    fallback={<Result icon={<Spin size="large" />} />}
+                  >
+                    <RoutesComponent />
+                  </React.Suspense>
+                </div>
+              </div>
+
+              <Footer />
+            </div>
+          </Layout>
+        </AuthenticationProvider>
+      </FirebaseContext.Provider>
     </Router>
   );
 }
 
-ReactDOM.render(
-  <FirebaseContext.Provider value={new Firebase()}>
-    <App />
-  </FirebaseContext.Provider>,
-  document.getElementById('app'),
-);
+ReactDOM.render(<App />, document.getElementById('app'));

@@ -1,5 +1,5 @@
-import React from 'react';
 import {
+  Alert,
   Button,
   Card,
   Col,
@@ -9,8 +9,8 @@ import {
   Select,
   Timeline,
   Typography,
-  Alert,
 } from 'antd';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
 import { printErrors } from '../../utils/misc/printErrors';
@@ -18,8 +18,8 @@ import { printErrors } from '../../utils/misc/printErrors';
 const { Option } = Select;
 const { Title } = Typography;
 
-export default function RegisterHelperComponent() {
-  const authenticationContext = React.useContext(AuthenticationContext);
+function RegisterHelperComponent() {
+  const authenticationContext = useContext(AuthenticationContext);
 
   const [form] = Form.useForm();
   const history = useHistory();
@@ -38,7 +38,7 @@ export default function RegisterHelperComponent() {
       values.forename,
       values.surname
     );
-    console.log(`phone: ${values.phone}`);
+
     if (registerResult === true) {
       history.push('/');
     }
@@ -60,7 +60,7 @@ export default function RegisterHelperComponent() {
             Mach mit uns deine Nachbarschaft zur Machbarschaft.
           </Title>
           <Title level={3}>
-            Cool, dass <strong>DU</strong> dabei bist!
+            Cool, dass <b>Du</b> dabei bist!
           </Title>
         </div>
         <div className="login-container">
@@ -73,6 +73,15 @@ export default function RegisterHelperComponent() {
                 bordered={false}
                 className="login-card"
               >
+                {authenticationContext.authenticationState.registerErrors && (
+                  <Alert
+                    message="Es ist ein Fehler aufgetreten"
+                    description={printErrors(
+                      authenticationContext.authenticationState.registerErrors
+                    )}
+                    type="error"
+                  />
+                )}
                 <Form
                   {...layout}
                   form={form}
@@ -167,15 +176,6 @@ export default function RegisterHelperComponent() {
                     </Button>
                   </Form.Item>
                 </Form>
-                {authenticationContext.authenticationState.registerErrors && (
-                  <Alert
-                    message="Es ist ein Fehler aufgetreten"
-                    description={printErrors(
-                      authenticationContext.authenticationState.registerErrors
-                    )}
-                    type="error"
-                  />
-                )}
               </Card>
             </Col>
             <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
@@ -203,3 +203,5 @@ export default function RegisterHelperComponent() {
     </>
   );
 }
+
+export default RegisterHelperComponent;

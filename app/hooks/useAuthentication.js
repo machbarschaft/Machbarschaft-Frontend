@@ -4,7 +4,7 @@ import {
   putLogin,
   putLogout,
 } from '../utils/api/authenticationApi';
-import { postRegisterRequest } from '../utils/api/registerApi';
+import postRegisterRequest from '../utils/api/registerApi';
 
 const initialAuthenticationState = {
   // User Data
@@ -165,9 +165,10 @@ export default function useAuthentication() {
 
     try {
       let registerResult = await postRegisterRequest(formValues);
-      console.log('register result: ', registerResult);
-      if (registerResult.status !== 201) {
+      // TODO: requires a backend change to return a normal 201 for create a new object
+      if (registerResult.status !== 200) {
         // Register: Failure
+        // TODO: clarify why we do this here - because we do not dispatch the data
         switch (registerResult.status) {
           case 422:
             // Invalid Request
@@ -195,13 +196,28 @@ export default function useAuthentication() {
             return false;
           case 500:
             // Internal server error
+            dispatch({
+              type: 'registerFailure',
+              data: {
+                errors: [
+                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
+                ],
+              },
+            });
             return false;
           default:
             // Unknown Error
+            dispatch({
+              type: 'registerFailure',
+              data: {
+                errors: [
+                  'Registrierung fehlgeschlagen. Versuchen Sie es noch einmal',
+                ],
+              },
+            });
             return false;
         }
       }
-
       return await performAuthentication(email, password);
     } catch (error) {
       dispatch({
@@ -228,7 +244,7 @@ export default function useAuthentication() {
 
     try {
       const loginResult = await putLogin(email, password);
-      if (loginResult.status === 200) {
+      if (loginResult.user.email === email) {
         return await checkAuthentication();
       }
       dispatch({
@@ -256,9 +272,9 @@ export default function useAuthentication() {
    */
   const checkAuthentication = async () => {
     try {
-      let authenticateResult = await getAuthenticate();
-      if (authenticateResult.status === 200) {
-        authenticateResult = await authenticateResult.json();
+      const authResult = await getAuthenticate();
+      if (authResult.status === 200) {
+        const authenticateResult = await authResult.json();
         dispatch({
           type: 'authenticationSuccess',
           data: {
