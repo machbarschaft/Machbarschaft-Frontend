@@ -16,6 +16,8 @@ module.exports = {
   },
   module: {
     rules: [
+      // {test: /\.tsx?$/,use: 'ts-loader',exclude: /node_modules/,},
+      { test: /\.(ts|tsx)$/, loader: 'awesome-typescript-loader' },
       { test: /\.(js)$/, use: 'babel-loader' },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       { test: /\.(png|svg|jpg|gif|pdf)$/, use: 'file-loader' },
@@ -40,6 +42,7 @@ module.exports = {
       { test: /\.(key)$/, use: 'raw-loader' },
     ],
   },
+  resolve: { extensions: ['.js', '.json', '.ts', '.tsx'] },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   plugins: [
     new HtmlWebpackPlugin({
@@ -53,5 +56,11 @@ module.exports = {
   ],
   devServer: {
     historyApiFallback: true,
+    proxy: {
+      '/v1': {
+        target: 'http://localhost:8080',
+        secure: false,
+      },
+    },
   },
 };
