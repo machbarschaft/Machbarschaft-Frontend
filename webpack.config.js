@@ -14,6 +14,7 @@ module.exports = {
     filename: 'index_bundle.js',
     publicPath: '/',
   },
+  devtool: 'source-map',
   module: {
     rules: [
       // {test: /\.tsx?$/,use: 'ts-loader',exclude: /node_modules/,},
@@ -55,6 +56,7 @@ module.exports = {
     }),
   ],
   devServer: {
+    port: 9000,
     historyApiFallback: true,
     proxy: {
       '/v1': {
