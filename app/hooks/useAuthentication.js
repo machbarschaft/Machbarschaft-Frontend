@@ -278,36 +278,24 @@ export default function useAuthentication() {
         dispatch({
           type: 'authenticationSuccess',
           data: {
-            uid: authenticateResult.uid,
+            uid: authenticateResult.id,
             email: authenticateResult.email,
             phoneNumber: authenticateResult.phone,
-            countryCode: authenticateResult.countryCode,
+            countryCode: 'DE', // TODO
 
             emailVerified: authenticateResult.emailVerified,
             phoneVerified: authenticateResult.phoneVerified,
 
             profile: {
-              forename: authenticateResult.profile
-                ? authenticateResult.profile.forename
-                : null,
-              surname: authenticateResult.profile
-                ? authenticateResult.profile.surname
-                : null,
+              forename: authenticateResult.firstName,
+              surname: authenticateResult.lastName,
             },
 
             address: {
-              street: authenticateResult.address
-                ? authenticateResult.address.street
-                : null,
-              houseNumber: authenticateResult.address
-                ? authenticateResult.address.houseNumber
-                : null,
-              zipCode: authenticateResult.address
-                ? authenticateResult.address.zipCode
-                : null,
-              country: authenticateResult.address
-                ? authenticateResult.address.country
-                : null,
+              street: authenticateResult.street,
+              houseNumber: authenticateResult.streetNo,
+              zipCode: authenticateResult.zipCode,
+              country: 'Deutschland', // TODO
             },
           },
         });

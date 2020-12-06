@@ -19,12 +19,27 @@ export const putLogin = (email, password) => {
  * HTTP request to perform user lookup (i.e. 'who is authenticated?')
  * @returns {Promise<Response>} the unparsed response of the backend (contains user information)
  */
-export const getAuthenticate = () => {
-  return firebase
-    .auth()
-    .currentUser()
-    .then((res) => res)
-    .catch((err) => console.error(err));
+export const getAuthenticate = async() => {
+  if (!firebase.auth().currentUser) return;
+  const idToken = await firebase.auth().currentUser.getIdToken();
+  const response = await fetch(`${apiUrl()}/user`, {
+    method: 'GET',
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer', // no-referrer, *client
+  });
+
+  if (response.status >= 400) {
+    throw response;
+  }
+  return response;
 };
 
 /**
