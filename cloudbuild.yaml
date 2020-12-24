@@ -1,0 +1,19 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build',
+         '--build-arg',
+         'FIREBASE_API_KEY=${_FIREBASE_API_KEY}',
+         '--build-arg',
+         ',MAPS_API_KEY=${_MAPS_API_KEY}',
+         '--build-arg',
+         'API_URL_SUB=${_API_URL_SUB}',
+         '--build-arg',
+         'PROJECT_ID=${PROJECT_ID}',
+         '-t',
+         'gcr.io/${PROJECT_ID}/machbarschaft-webapp',
+         '.']
+substitutions:
+    _FIREBASE_API_KEY: ""
+    _MAPS_API_KEY: ""
+    _API_URL_SUB: "api-sta"
+images: [ 'gcr.io/${PROJECT_ID}/machbarschaft-webapp']
