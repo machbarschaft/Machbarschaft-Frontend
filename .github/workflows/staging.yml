@@ -79,7 +79,7 @@ jobs:
             --platform managed
         env:
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY_STA }}
-          MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
+          MAPS_API_KEY: ${{ secrets.MAPS_API_KEY_STA }}
           PROJECT_ID: ${{ secrets.PROJECT_ID_STA }}
 
 
