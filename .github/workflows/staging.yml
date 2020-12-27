@@ -71,7 +71,7 @@ jobs:
 
           gcloud builds submit \
             --config=cloudbuild.yaml \
-            --substitutions ^--^_FIREBASE_API_KEY=${FIREBASE_API_KEY}--_MAPS_API_KEY=${MAPS_API_KEY}--_API_URL_SUB=api-sta
+            --substitutions=_FIREBASE_API_KEY=${FIREBASE_API_KEY},_MAPS_API_KEY=${MAPS_API_KEY},_API_URL_SUB="api-sta"
 
           gcloud run deploy machbarschaft-webapp-sta \
             --image gcr.io/${PROJECT_ID}/machbarschaft-webapp:latest \
