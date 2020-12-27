@@ -15,5 +15,5 @@ steps:
 substitutions:
     _FIREBASE_API_KEY: ""
     _MAPS_API_KEY: ""
-    _API_URL_SUB: "api-sta"
+    _API_URL_SUB: api
 images: [ 'gcr.io/${PROJECT_ID}/machbarschaft-webapp']
