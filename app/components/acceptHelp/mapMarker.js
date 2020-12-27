@@ -25,6 +25,7 @@ export default function MapMarker({
         onMouseEnter={() => onMarkerEnter()}
         onMouseLeave={() => onMarkerLeave()}
         src={PlacePin}
+        alt=""
       />
       {($hover || hover || selected) && (
         <MapTooltip categories={requestType} distance={distance} />

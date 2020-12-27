@@ -1,17 +1,17 @@
-import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
-import {
-  Card,
-  Input,
-  Button,
-  Timeline,
-  Form,
-  Select,
-  Typography,
-  Alert,
-} from 'antd';
 import { MailOutlined } from '@ant-design/icons';
+import {
+  Alert,
+  Button,
+  Card,
+  Form,
+  Input,
+  Select,
+  Timeline,
+  Typography,
+} from 'antd';
 import PropTypes from 'prop-types';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
 import { printErrors } from '../../utils/misc/printErrors';
 

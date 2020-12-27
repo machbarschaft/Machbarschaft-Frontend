@@ -1,7 +1,11 @@
 export default function apiUrl() {
   if (process.env.NODE_ENV === 'development') {
-    return 'http://localhost:3000/';
+    return '/v1';
   }
 
-  return 'https://api.demo.machbarschaft.jetzt/';
+  if (process.env.REACT_APP_API_URL_SUB) {
+    return `${process.env.REACT_APP_API_URL_SUB}.machbarschaft.jetzt`;
+  }
+
+  return 'https://api.machbarschaft.jetzt';
 }

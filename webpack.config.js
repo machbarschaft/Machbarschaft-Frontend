@@ -1,6 +1,10 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const dotenv = require('dotenv').config({
+  path: path.join(__dirname, '.env'),
+});
 const { googleMapsApiKey } = require('./app/assets/config/google-maps-api.js');
 
 module.exports = {
@@ -10,8 +14,11 @@ module.exports = {
     filename: 'index_bundle.js',
     publicPath: '/',
   },
+  devtool: 'source-map',
   module: {
     rules: [
+      // {test: /\.tsx?$/,use: 'ts-loader',exclude: /node_modules/,},
+      { test: /\.(ts|tsx)$/, loader: 'awesome-typescript-loader' },
       { test: /\.(js)$/, use: 'babel-loader' },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
       { test: /\.(png|svg|jpg|gif|pdf)$/, use: 'file-loader' },
@@ -36,6 +43,7 @@ module.exports = {
       { test: /\.(key)$/, use: 'raw-loader' },
     ],
   },
+  resolve: { extensions: ['.js', '.json', '.ts', '.tsx'] },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   plugins: [
     new HtmlWebpackPlugin({
@@ -43,8 +51,18 @@ module.exports = {
       googleMapsApiKey,
     }),
     new CopyPlugin({ patterns: [{ from: '_redirects' }] }),
+    new webpack.DefinePlugin({
+      'provess.env': dotenv.parsed,
+    }),
   ],
   devServer: {
+    port: 9000,
     historyApiFallback: true,
+    proxy: {
+      '/v1': {
+        target: 'http://localhost:8080',
+        secure: false,
+      },
+    },
   },
 };

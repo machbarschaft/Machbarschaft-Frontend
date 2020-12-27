@@ -31,5 +31,8 @@
   "parser": "babel-eslint",
   "globals": {
     "fetch": false
+  },
+  "env": {
+    "browser": true
   }
 }

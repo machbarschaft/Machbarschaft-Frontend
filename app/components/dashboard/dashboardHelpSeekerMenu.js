@@ -55,6 +55,7 @@ function DashboardHelpSeekerMenu({
                 ? requestTypeImagesWhite[requestType]
                 : requestTypeImages[requestType]
             }
+            alt=""
           />
         </div>
       )}
@@ -78,6 +79,7 @@ function DashboardHelpSeekerMenu({
           <img
             className="dashboard-menu-request-type-image"
             src={selectedKey === key ? ClockIconWhite : ClockIcon}
+            alt=""
           />
         </div>
       )}

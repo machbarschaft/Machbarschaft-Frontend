@@ -1,1 +1,1 @@
-module.exports.googleMapsApiKey = 'AIzaSyDMWZgvcLRwoEDla1yxBIXPzOtuL6cW6L8';
+module.exports.googleMapsApiKey = process.env.REACT_APP_MAPS_API_KEY;

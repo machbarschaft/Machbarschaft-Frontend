@@ -4,38 +4,42 @@
  * @param password is the password of the user to be authenticated
  * @returns {Promise<Response>} the unparsed response of the backend
  */
+// import { objectToFormUrlEncoded } from './formUrlEncoder';
+import firebase from '../../components/firebase';
 import apiUrl from './apiUrl';
-import { objectToFormUrlEncoded } from './formUrlEncoder';
 
 export const putLogin = (email, password) => {
-  const endpoint = `${apiUrl()}auth/login`;
-
-  const tmp = { email, password };
-  const formBody = objectToFormUrlEncoded(tmp);
-
-  return fetch(endpoint, {
-    method: 'PUT',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    credentials: 'include',
-    body: formBody,
-  }).then((res) => res);
+  return firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then((res) => res);
 };
 
 /**
  * HTTP request to perform user lookup (i.e. 'who is authenticated?')
  * @returns {Promise<Response>} the unparsed response of the backend (contains user information)
  */
-export const getAuthenticate = () => {
-  const endpoint = `${apiUrl()}auth/authenticate`;
-
-  return fetch(endpoint, {
+export const getAuthenticate = async() => {
+  if (!firebase.auth().currentUser) return;
+  const idToken = await firebase.auth().currentUser.getIdToken();
+  const response = await fetch(`${apiUrl()}/user`, {
     method: 'GET',
-    cache: 'no-cache',
-    credentials: 'include',
-  }).then((res) => res);
+    mode: 'cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer', // no-referrer, *client
+  });
+
+  if (response.status >= 400) {
+    throw response;
+  }
+  return response;
 };
 
 /**
@@ -43,7 +47,7 @@ export const getAuthenticate = () => {
  * @returns {Promise<Response>} the unparsed response of the backend
  */
 export const putLogout = () => {
-  const endpoint = `${apiUrl()}auth/logout`;
+  const endpoint = `${apiUrl()}/auth/logout`;
 
   return fetch(endpoint, {
     method: 'PUT',

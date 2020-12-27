@@ -31,18 +31,21 @@ export default function AcceptRequestListEntry({
         <img
           src={RequestTypeGroceries}
           className="accept-help-request-list-entry-category"
+          alt=""
         />
       )}
       {requestType === 'medication' && (
         <img
           src={RequestTypeMedication}
           className="accept-help-request-list-entry-category"
+          alt=""
         />
       )}
       {requestType === 'other' && (
         <img
           src={RequestTypeOther}
           className="accept-help-request-list-entry-category"
+          alt=""
         />
       )}
       <div className="accept-help-request-list-entry-distance">
