@@ -2,7 +2,7 @@ import apiUrl from './apiUrl';
 import { objectToFormUrlEncoded } from './formUrlEncoder';
 
 export const postContactRequest = async (formValues) => {
-  const endpoint = `${apiUrl()}contact`;
+  const endpoint = `${apiUrl()}/contact`;
 
   const formBody = objectToFormUrlEncoded(formValues);
 

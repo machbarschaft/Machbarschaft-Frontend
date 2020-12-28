@@ -14,7 +14,7 @@ export const getOpenRequests = async ({ longitude, latitude, radius }) => {
     latitude: latitude,
     radius: radius,
   });
-  const endpoint = `${apiUrl()}request/open-requests?${params}`;
+  const endpoint = `${apiUrl()}/request/open-requests?${params}`;
 
   return fetch(endpoint, {
     method: 'GET',
@@ -38,7 +38,7 @@ export const getOpenRequests = async ({ longitude, latitude, radius }) => {
  * @param requestId
  */
 export const acceptOpenRequest = async ({ requestId }) => {
-  const endpoint = `${apiUrl()}process/${requestId}/response`;
+  const endpoint = `${apiUrl()}/process/${requestId}/response`;
 
   return fetch(endpoint, {
     method: 'POST',

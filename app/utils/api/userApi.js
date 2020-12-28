@@ -7,7 +7,7 @@ import { objectToFormUrlEncoded } from './formUrlEncoder';
  * @returns {Promise<Response>}
  */
 export const putUserProfile = async (formValues) => {
-  const endpoint = `${apiUrl()}user/profile`;
+  const endpoint = `${apiUrl()}/user/profile`;
 
   const formBody = objectToFormUrlEncoded(formValues);
 
@@ -37,7 +37,7 @@ export const putUserProfile = async (formValues) => {
  * @returns {Promise<Response>}
  */
 export const putUserPreferences = async (formValues) => {
-  const endpoint = `${apiUrl()}user/preferences`;
+  const endpoint = `${apiUrl()}/user/preferences`;
 
   const formBody = objectToFormUrlEncoded(formValues);
 
@@ -66,7 +66,7 @@ export const putUserPreferences = async (formValues) => {
  * @returns {Promise<Response>}
  */
 export const getUserPreferences = async () => {
-  const endpoint = `${apiUrl()}user/preferences`;
+  const endpoint = `${apiUrl()}/user/preferences`;
 
   return fetch(endpoint, {
     method: 'GET',

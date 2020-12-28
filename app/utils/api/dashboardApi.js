@@ -5,7 +5,7 @@ import apiUrl from './apiUrl';
  * @returns current request
  */
 export const getActiveRequests = async () => {
-  const endpoint = `${apiUrl()}dashboard/active-requests`;
+  const endpoint = `${apiUrl()}/dashboard/active-requests`;
 
   return fetch(endpoint, {
     method: 'GET',
@@ -29,7 +29,7 @@ export const getActiveRequests = async () => {
  * @returns old requests
  */
 export const getFinishedRequests = async () => {
-  const endpoint = `${apiUrl()}dashboard/finished-requests`;
+  const endpoint = `${apiUrl()}/dashboard/finished-requests`;
 
   return fetch(endpoint, {
     method: 'GET',

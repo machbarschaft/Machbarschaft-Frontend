@@ -4,7 +4,7 @@ import apiUrl from './apiUrl';
  * Helper can abort request
  */
 export const putAbortResponse = async (processId) => {
-  const endpoint = `${apiUrl()}process/${processId}/response/abort`;
+  const endpoint = `${apiUrl()}/process/${processId}/response/abort`;
 
   return fetch(endpoint, {
     method: 'PUT',

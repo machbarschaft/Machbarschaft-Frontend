@@ -46,6 +46,7 @@
     "react-fullscreen-loading": "0.0.4",
     "react-icons": "^3.10.0",
     "react-router-dom": "^5.1.2",
+    "regenerator-runtime": "^0.13.7",
     "typescript": "^4.1.2"
   },
   "devDependencies": {
