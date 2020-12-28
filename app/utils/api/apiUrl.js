@@ -3,8 +3,8 @@ export default function apiUrl() {
     return '/v1';
   }
 
-  if (process.env.REACT_APP_API_URL_SUB) {
-    return `${process.env.REACT_APP_API_URL_SUB}.machbarschaft.jetzt`;
+  if (process.env.API_URL_SUB) {
+    return `${process.env.API_URL_SUB}.machbarschaft.jetzt`;
   }
 
   return 'https://api.machbarschaft.jetzt';
