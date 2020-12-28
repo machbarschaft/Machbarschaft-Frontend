@@ -4,7 +4,7 @@ import apiUrl from './apiUrl';
  * Help seeker can reopen request
  */
 export const putReopenRequest = async (requestId) => {
-  const endpoint = `${apiUrl()}request/${requestId}/reopen`;
+  const endpoint = `${apiUrl()}/request/${requestId}/reopen`;
 
   console.log(`reopen request (${endpoint})`);
   return fetch(endpoint, {
@@ -27,7 +27,7 @@ export const putReopenRequest = async (requestId) => {
  * Help seeker can abort request
  */
 export const putAbortRequest = async (processId) => {
-  const endpoint = `${apiUrl()}process/${processId}/request/abort`;
+  const endpoint = `${apiUrl()}/process/${processId}/request/abort`;
 
   return fetch(endpoint, {
     method: 'PUT',
