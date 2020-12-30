@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import GoogleMapReact from 'google-map-react';
-import MapMarker from './mapMarker';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { googleMapsApiKey } from '../../assets/config/google-maps-api';
 import CurrentLocationMarker from './currentLocationMarker';
-import { googleMapsApiKey } from '../../assets/config/google-maps-api.js';
+import MapMarker from './mapMarker';
 
 export default function MapContainer({
   currentLocation,

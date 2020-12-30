@@ -9,8 +9,8 @@ import { objectToFormUrlEncoded } from './formUrlEncoder';
  */
 export const postPlaceRequest = async ({ formValues, isAuthenticated }) => {
   const endpoint = isAuthenticated
-    ? `${apiUrl()}request`
-    : `${apiUrl()}request/guest?phone=${
+    ? `${apiUrl()}/request`
+    : `${apiUrl()}/request/guest?phone=${
         formValues.phoneNumber
       }&countryCode=${encodeURIComponent(formValues.countryCode)}`;
 
@@ -48,8 +48,8 @@ export const putPlaceRequest = async ({
   isAuthenticated,
 }) => {
   const endpoint = isAuthenticated
-    ? `${apiUrl()}request/${processID}`
-    : `${apiUrl()}request/guest/${processID}?phone=${encodeURIComponent(
+    ? `${apiUrl()}/request/${processID}`
+    : `${apiUrl()}/request/guest/${processID}?phone=${encodeURIComponent(
         phoneNumber
       )}&countryCode=${encodeURIComponent(countryCode)}`;
 
@@ -87,8 +87,8 @@ export const putPublishRequest = ({
   isAuthenticated,
 }) => {
   const endpoint = isAuthenticated
-    ? `${apiUrl()}request/${processID}/publish`
-    : `${apiUrl()}request/guest/${processID}/publish?phone=${encodeURIComponent(
+    ? `${apiUrl()}/request/${processID}/publish`
+    : `${apiUrl()}/request/guest/${processID}/publish?phone=${encodeURIComponent(
         phoneNumber
       )}&countryCode=${encodeURIComponent(countryCode)}`;
 
@@ -113,7 +113,7 @@ export const putPublishRequest = ({
  * @returns {Promise<Response>}
  */
 export const postAddress = (formValues) => {
-  const endpoint = `${apiUrl()}address`;
+  const endpoint = `${apiUrl()}/address`;
 
   let formBody = objectToFormUrlEncoded(formValues);
 

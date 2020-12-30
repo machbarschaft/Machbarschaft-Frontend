@@ -4,7 +4,7 @@ import apiUrl from './apiUrl';
  * verify email
  */
 export const getVerifyEmail = async (token) => {
-  const endpoint = `${apiUrl()}auth/verify/${token}`;
+  const endpoint = `${apiUrl()}/auth/verify/${token}`;
 
   return fetch(endpoint, {
     method: 'GET',

@@ -4,7 +4,7 @@ import apiUrl from './apiUrl';
  * Send feedback
  */
 export const postFeedback = async (id, isHelpSeeker, needContact, comment) => {
-  const endpoint = `${apiUrl()}feedback/${
+  const endpoint = `${apiUrl()}/feedback/${
     isHelpSeeker ? 'request' : 'response'
   }/${id}`;
 
@@ -13,7 +13,6 @@ export const postFeedback = async (id, isHelpSeeker, needContact, comment) => {
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(tmp[key])}`)
     .join('&');
 
-  console.log(`send feedback to '${endpoint}' with body: `, body);
   return fetch(endpoint, {
     method: 'POST',
     cache: 'no-cache',

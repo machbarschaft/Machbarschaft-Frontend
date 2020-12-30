@@ -4,7 +4,7 @@ import apiUrl from './apiUrl';
  * Endpoint to send confirmation email
  */
 export const getConfirmEmail = async () => {
-  const endpoint = `${apiUrl()}auth/resendEmail`;
+  const endpoint = `${apiUrl()}/auth/resendEmail`;
 
   return fetch(endpoint, {
     method: 'GET',

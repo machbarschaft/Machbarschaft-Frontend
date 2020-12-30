@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Loading from 'react-fullscreen-loading';
 import { BrowserRouter as Router } from 'react-router-dom';
+import 'regenerator-runtime/runtime';
 import Footer from './components/base/footer';
 import ValidateMailNotification from './components/base/misc/validateMailNotification';
 import ValidatePhoneNotification from './components/base/misc/validatePhoneNotification';
