@@ -14,37 +14,13 @@ import {
 } from 'antd';
 import AuthenticationContext from '../../contexts/authentication';
 import { postRequestTan, putConfirmTan } from '../../utils/api/phoneApi';
+import ValidatePhoneReducer from '../../contexts/validatePhone/validatePhoneReducer';
+import { VALIDATE_FAILURE, VALIDATE_START, VALIDATE_SUCCESS } from '../../contexts/validatePhone/types';
 
 const { Option } = Select;
 const { Paragraph } = Typography;
 
 const queryString = require('query-string');
-
-function ValidatePhoneReducer(state, action) {
-  switch (action.type) {
-    case 'validateStart':
-      return {
-        ...state,
-        validateFailure: false,
-        validateSuccess: false,
-      };
-    case 'validateSuccess':
-      return {
-        ...state,
-        validateFailure: false,
-        validateSuccess: true,
-      };
-    case 'validateFailure':
-      return {
-        ...state,
-        validateSuccess: false,
-        validateFailure: true,
-        validateErrorMsg: action.data.validateErrorMsg,
-      };
-    default:
-      throw Error('Unsupported Type');
-  }
-}
 
 export default function ValidatePhoneComponent(props) {
   const authenticationContext = React.useContext(AuthenticationContext);
@@ -94,7 +70,7 @@ export default function ValidatePhoneComponent(props) {
 
   const handleForm = async (values) => {
     dispatch({
-      type: 'validateStart',
+      type: VALIDATE_START,
     });
     putConfirmTan({
       phone: validatePhoneNumber.current.phoneNumber,
@@ -103,13 +79,13 @@ export default function ValidatePhoneComponent(props) {
     })
       .then((result) => {
         dispatch({
-          type: 'validateSuccess',
+          type: VALIDATE_SUCCESS,
         });
         authenticationContext.checkAuthentication();
       })
       .catch((error) => {
         dispatch({
-          type: 'validateFailure',
+          type: VALIDATE_FAILURE,
           data: {
             validateErrorMsg: error.toString(),
           },

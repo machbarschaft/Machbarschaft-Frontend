@@ -5,108 +5,17 @@ import {
   putLogout,
 } from '../utils/api/authenticationApi';
 import postRegisterRequest from '../utils/api/registerApi';
-
-const initialAuthenticationState = {
-  // User Data
-  uid: null,
-  email: null,
-  phoneNumber: null,
-  countryCode: null,
-
-  // Verification
-  emailVerified: false,
-  phoneVerified: false,
-
-  // Profile
-  profile: {
-    forename: '',
-    surname: '',
-  },
-
-  // Adresse
-  address: {
-    street: '',
-    houseNumber: '',
-    zipCode: '',
-    country: '',
-  },
-
-  // Process Information
-  isInitialLoading: true,
-  isAuthenticating: false,
-  isRegistering: false,
-  authenticationErrors: null,
-  registerErrors: null,
-};
-
-function authenticationReducer(state, action) {
-  switch (action.type) {
-    case 'loginInit':
-      return {
-        ...initialAuthenticationState,
-        isAuthenticating: true,
-        isInitialLoading: false,
-      };
-    case 'registerInit':
-      return {
-        ...initialAuthenticationState,
-        isInitialLoading: false,
-        isRegistering: true,
-      };
-    case 'loginFailure':
-      return {
-        ...initialAuthenticationState,
-        isAuthenticating: false,
-        isInitialLoading: false,
-        authenticationErrors: action.data.errors,
-      };
-    case 'registerFailure':
-      return {
-        ...initialAuthenticationState,
-        isInitialLoading: false,
-        isRegistering: false,
-        registerErrors: action.data.errors,
-      };
-    case 'authenticationSuccess':
-      return {
-        ...state,
-
-        isAuthenticating: false,
-        isInitialLoading: false,
-
-        emailVerified: action.data.emailVerified,
-        phoneVerified: action.data.phoneVerified,
-
-        uid: action.data.uid,
-        email: action.data.email,
-        phoneNumber: action.data.phoneNumber,
-        countryCode: action.data.countryCode,
-
-        profile: action.data.profile,
-        address: action.data.address,
-      };
-    case 'registerSuccess':
-      return {
-        ...state,
-
-        isAuthenticating: false,
-        isInitialLoading: false,
-      };
-    case 'authenticationFailure':
-      return {
-        ...initialAuthenticationState,
-        isAuthenticating: false,
-        isInitialLoading: false,
-      };
-    case 'invalidateSuccess':
-      return {
-        ...initialAuthenticationState,
-        isInitialLoading: false,
-      };
-    default:
-      throw new Error('Unsupported Type');
-  }
-}
+import authenticationReducer, { initialAuthenticationState } from '../contexts/authentication/authenticationReducer';
+import {
+  AUTHENTICATION_FAILURE,
+  AUTHENTICATION_SUCCESS,
+  INVALIDATE_FAILURE,
+  INVALIDATE_SUCCESS,
+  LOGIN_FAILURE,
+  LOGIN_INIT,
+  REGISTER_FAILURE,
+  REGISTER_INIT,
+} from '../contexts/authentication/types';
 
 /**
  * The custom hook useAuthentication holds the current authentication data. It provides information about the authenticated user (if any)
@@ -160,7 +69,7 @@ export default function useAuthentication() {
     };
 
     dispatch({
-      type: 'registerInit',
+      type: REGISTER_INIT,
     });
 
     try {
@@ -174,7 +83,7 @@ export default function useAuthentication() {
             // Invalid Request
             registerResult = await registerResult.json();
             dispatch({
-              type: 'registerFailure',
+              type: REGISTER_FAILURE,
               data: {
                 errors: [
                   'Das Passwort muss mindestens fünf Zeichen lang sein.',
@@ -186,7 +95,7 @@ export default function useAuthentication() {
             // User exists
             registerResult = await registerResult.json();
             dispatch({
-              type: 'registerFailure',
+              type: REGISTER_FAILURE,
               data: {
                 errors: [
                   'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
@@ -197,7 +106,7 @@ export default function useAuthentication() {
           case 500:
             // Internal server error
             dispatch({
-              type: 'registerFailure',
+              type: REGISTER_FAILURE,
               data: {
                 errors: [
                   'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
@@ -208,7 +117,7 @@ export default function useAuthentication() {
           default:
             // Unknown Error
             dispatch({
-              type: 'registerFailure',
+              type: REGISTER_FAILURE,
               data: {
                 errors: [
                   'Registrierung fehlgeschlagen. Versuchen Sie es noch einmal',
@@ -221,7 +130,7 @@ export default function useAuthentication() {
       return await performAuthentication(email, password);
     } catch (error) {
       dispatch({
-        type: 'registerFailure',
+        type: REGISTER_FAILURE,
         data: {
           errors: [
             'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert? Oder hat das Passwort weniger als sechs Zeichen?',
@@ -239,7 +148,7 @@ export default function useAuthentication() {
    */
   const performAuthentication = async (email, password) => {
     dispatch({
-      type: 'loginInit',
+      type: LOGIN_INIT,
     });
 
     try {
@@ -248,7 +157,7 @@ export default function useAuthentication() {
         return await checkAuthentication();
       }
       dispatch({
-        type: 'loginFailure',
+        type: LOGIN_FAILURE,
         data: {
           errors: ['Zu dieser Kombination konnten wir keinen Benutzer finden.'],
         },
@@ -256,7 +165,7 @@ export default function useAuthentication() {
       return false;
     } catch (error) {
       dispatch({
-        type: 'loginFailure',
+        type: LOGIN_FAILURE,
         data: {
           errors: [
             'Die Anmeldung konnte nicht durchgeführt werden, bitte versuchen Sie es erneut.',
@@ -276,7 +185,7 @@ export default function useAuthentication() {
       if (authResult.status === 200) {
         const authenticateResult = await authResult.json();
         dispatch({
-          type: 'authenticationSuccess',
+          type: AUTHENTICATION_SUCCESS,
           data: {
             uid: authenticateResult.id,
             email: authenticateResult.email,
@@ -302,7 +211,7 @@ export default function useAuthentication() {
         return true;
       }
       dispatch({
-        type: 'authenticationFailure',
+        type: AUTHENTICATION_FAILURE,
         data: {
           errors: 'E-Mail Adresse oder Passwort ist nicht korrekt.',
         },
@@ -310,7 +219,7 @@ export default function useAuthentication() {
       return false;
     } catch (error) {
       dispatch({
-        type: 'authenticationFailure',
+        type: AUTHENTICATION_FAILURE,
       });
       return false;
     }
@@ -324,16 +233,21 @@ export default function useAuthentication() {
       const logoutResult = await putLogout();
       if (logoutResult.status === 200) {
         dispatch({
-          type: 'invalidateSuccess',
+          type: INVALIDATE_SUCCESS,
         });
       } else {
         dispatch({
-          type: 'invalidateFailure',
+          type: INVALIDATE_FAILURE,
+          data: {
+            errors: [
+              'Beim Abmelden ist ein Fehler aufgetreten.',
+            ],
+          }
         });
       }
     } catch (error) {
       dispatch({
-        type: 'authenticationFailure',
+        type: AUTHENTICATION_FAILURE,
       });
     }
   };

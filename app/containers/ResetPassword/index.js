@@ -1,14 +1,14 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { Space, Steps } from 'antd';
-import ResetPasswordUsernameLeftCard from './resetPasswordUsernameLeftCard';
-import ResetPasswordUsernameRightCard from './resetPasswordUsernameRightCard';
-import ResetPasswordSecurityCodeLeftCard from './resetPasswordSecurityCodeLeftCard';
-import ResetPasswordSecurityCodeRightCard from './resetPasswordSecurityCodeRightCard';
-import ResetPasswordNewPwdLeftCard from './resetPasswordNewPwdLeftCard';
-import ResetPasswordNewPwdRightCard from './resetPasswordNewPwdRightCard';
-import ResetPasswordDoneLeftCard from './resetPasswordDoneLeftCard';
-import ResetPasswordCardsComponent from './resetPasswordCardsComponent';
+import ResetPasswordUsernameLeftCard from '../../components/resetPassword/resetPasswordUsernameLeftCard';
+import ResetPasswordUsernameRightCard from '../../components/resetPassword/resetPasswordUsernameRightCard';
+import ResetPasswordSecurityCodeLeftCard from '../../components/resetPassword/resetPasswordSecurityCodeLeftCard';
+import ResetPasswordSecurityCodeRightCard from '../../components/resetPassword/resetPasswordSecurityCodeRightCard';
+import ResetPasswordNewPwdLeftCard from '../../components/resetPassword/resetPasswordNewPwdLeftCard';
+import ResetPasswordNewPwdRightCard from '../../components/resetPassword/resetPasswordNewPwdRightCard';
+import ResetPasswordDoneLeftCard from '../../components/resetPassword/resetPasswordDoneLeftCard';
+import ResetPasswordCardsComponent from '../../components/resetPassword/resetPasswordCardsComponent';
 
 const queryString = require('query-string');
 

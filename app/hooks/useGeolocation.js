@@ -1,36 +1,6 @@
 import React from 'react';
-
-function geolocationStateReducer(state, action) {
-  if (action.type === 'start') {
-    return {
-      ...state,
-      running: true,
-      success: false,
-      error: null,
-      used: true,
-      location: null,
-    };
-  }
-  if (action.type === 'success') {
-    return {
-      ...state,
-      running: false,
-      success: true,
-      error: null,
-      location: action.location,
-    };
-  }
-  if (action.type === 'error') {
-    return {
-      ...state,
-      running: false,
-      success: false,
-      error: action.error,
-      location: null,
-    };
-  }
-  throw new Error('Unsupported');
-}
+import geolocationStateReducer from '../contexts/geolocation/geolocationStateReducer';
+import { ERROR, START, SUCCESS } from '../contexts/geolocation/types';
 
 export default function useGeolocation(setLocation) {
   const [geolocationState, dispatchGeolocationState] = React.useReducer(
@@ -53,16 +23,16 @@ export default function useGeolocation(setLocation) {
               lng: position.coords.longitude,
             };
             setLocation(pos);
-            dispatchGeolocationState({ type: 'success', position: pos });
+            dispatchGeolocationState({ type: SUCCESS, position: pos });
           },
-          (error) => dispatchGeolocationState({ type: 'error', error })
+          (error) => dispatchGeolocationState({ type: ERROR, error })
         );
       } else
-        dispatchGeolocationState({ type: 'error', error: 'NOT_SUPPORTED' });
+        dispatchGeolocationState({ type: ERROR, error: 'NOT_SUPPORTED' });
     }
   }, [geolocationState.running]);
 
-  const startGeolocation = () => dispatchGeolocationState({ type: 'start' });
+  const startGeolocation = () => dispatchGeolocationState({ type: START });
 
   return [geolocationState, startGeolocation];
 }

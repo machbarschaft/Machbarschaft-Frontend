@@ -2,7 +2,8 @@ import React from 'react';
 import { Button, Input, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { MailOutlined } from '@ant-design/icons';
-import resetPasswordSubmissionStateReducer from './resetPasswordSubmissionStateReducer';
+import resetPasswordSubmissionStateReducer from '../../contexts/resetPassword/resetPasswordSubmissionStateReducer';
+import { SUBMIT, SUCCESS } from '../../contexts/resetPassword/types';
 
 function ResetPasswordSecurityCodeLeftCard({ user, setToken, proceed }) {
   const [submissionState, dispatchSubmissionState] = React.useReducer(
@@ -21,13 +22,13 @@ function ResetPasswordSecurityCodeLeftCard({ user, setToken, proceed }) {
   const [form] = Form.useForm();
 
   const handleForm = async (values) => {
-    dispatchSubmissionState({ type: 'submit' });
+    dispatchSubmissionState({ type: SUBMIT });
     console.log(
       `ToDo: send security code check request for user '${user}', code '${data.code}' to backend`
     );
     setToken('demo_token');
     setTimeout(() => {
-      dispatchSubmissionState({ type: 'success' });
+      dispatchSubmissionState({ type: SUCCESS });
       proceed();
     }, 1000);
   };

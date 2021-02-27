@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Input, Form } from 'antd';
 import PropTypes from 'prop-types';
-import resetPasswordSubmissionStateReducer from './resetPasswordSubmissionStateReducer';
+import resetPasswordSubmissionStateReducer from '../../contexts/resetPassword/resetPasswordSubmissionStateReducer';
+import { SUBMIT, SUCCESS } from '../../contexts/resetPassword/types';
 
 function ResetPasswordNewPwdLeftCard({ user, token, proceed }) {
   const [form] = Form.useForm();
@@ -19,12 +20,12 @@ function ResetPasswordNewPwdLeftCard({ user, token, proceed }) {
   };
 
   const handleForm = async (values) => {
-    dispatchSubmissionState({ type: 'submit' });
+    dispatchSubmissionState({ type: SUBMIT });
     console.log(
       `ToDo: send password set request for user '${user}', token '${token}', password '${data.password}' to backend`
     );
     setTimeout(() => {
-      dispatchSubmissionState({ type: 'success' });
+      dispatchSubmissionState({ type: SUCCESS });
       proceed();
     }, 1000);
   };

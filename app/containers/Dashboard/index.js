@@ -3,8 +3,8 @@ import { Result, Spin, Button } from 'antd';
 import useDashboard from '../../hooks/useDashboard';
 import AuthenticationContext from '../../contexts/authentication';
 
-const DashboardHelper = React.lazy(() => import('./dashboardHelper'));
-const DashboardHelpSeeker = React.lazy(() => import('./dashboardHelpSeeker'));
+const DashboardHelper = React.lazy(() => import('../../components/dashboard/dashboardHelper'));
+const DashboardHelpSeeker = React.lazy(() => import('../../components/dashboard/dashboardHelpSeeker'));
 
 function DashboardWindow() {
   const [requestsState, fetchRequests] = useDashboard('helper');

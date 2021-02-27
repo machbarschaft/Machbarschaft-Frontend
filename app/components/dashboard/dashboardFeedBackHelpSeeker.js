@@ -3,63 +3,18 @@ import PropTypes from 'prop-types';
 import { Input, Form, Radio, Button, Typography } from 'antd';
 import { postFeedback } from '../../utils/api/feedbackApi';
 import { putReopenRequest } from '../../utils/api/requestStatusApi';
+import sendStateReducer from '../../contexts/dashboard/sendStateReducer';
+import {
+  ERROR_FEEDBACK,
+  ERROR_REOPEN_REQUEST,
+  LOADING_FEEDBACK,
+  LOADING_REOPEN_REQUEST,
+  SUCCESS_FEEDBACK,
+  SUCCESS_REOPEN_REQUEST,
+} from '../../contexts/dashboard/types';
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
-
-function sendStateReducer(state, action) {
-  if (action.type === 'success-feedback') {
-    return {
-      ...state,
-      loading: state.loadingReopenRequest,
-      loadingFeedback: false,
-      sendingFinished: !state.loadingReopenRequest,
-    };
-  }
-  if (action.type === 'success-reopenrequest') {
-    return {
-      ...state,
-      loading: state.loadingFeedback,
-      loadingReopenRequest: false,
-      sendingFinished: !state.loadingFeedback,
-    };
-  }
-  if (action.type === 'error-feedback') {
-    console.log('error: ', action.error);
-    return {
-      ...state,
-      loading: state.loadingReopenRequest,
-      loadingFeedback: false,
-      error: action.error,
-    };
-  }
-  if (action.type === 'error-reopenrequest') {
-    console.log('error: ', action.error);
-    return {
-      ...state,
-      loading: state.loadingFeedback,
-      loadingReopenRequest: false,
-      error: action.error,
-    };
-  }
-  if (action.type === 'loading-feedback') {
-    return {
-      ...state,
-      loading: true,
-      loadingFeedback: true,
-      error: null,
-    };
-  }
-  if (action.type === 'loading-reopenrequest') {
-    return {
-      ...state,
-      loading: true,
-      loadingReopenRequest: true,
-      error: null,
-    };
-  }
-  throw new Error('Unsupported');
-}
 
 function DashboardFeedBackHelpSeeker({
   requestId,
@@ -78,25 +33,25 @@ function DashboardFeedBackHelpSeeker({
   const [formState, setFormState] = React.useState('initial');
 
   const sendFeedback = (formValues, reopenRequest) => {
-    dispatchSendState({ type: 'loading-feedback' });
+    dispatchSendState({ type: LOADING_FEEDBACK });
     postFeedback(requestId, true, formValues.needContact, formValues.comment)
       .then((res) => {
         if (reopenRequest) {
           console.log('feedback successful, now send reopen');
           sendReopenRequest(formValues);
         }
-        dispatchSendState({ type: 'success-feedback' });
+        dispatchSendState({ type: SUCCESS_FEEDBACK });
       })
       .catch((err) => {
-        dispatchSendState({ type: 'error-feedback', error: err });
+        dispatchSendState({ type: ERROR_FEEDBACK, error: err });
       });
   };
   const sendReopenRequest = (formValues) => {
-    dispatchSendState({ type: 'loading-reopenrequest' });
+    dispatchSendState({ type: LOADING_REOPEN_REQUEST });
     putReopenRequest(requestId)
-      .then((res) => dispatchSendState({ type: 'success-reopenrequest' }))
+      .then((res) => dispatchSendState({ type: SUCCESS_REOPEN_REQUEST }))
       .catch((err) =>
-        dispatchSendState({ type: 'error-reopenrequest', error: err })
+        dispatchSendState({ type: ERROR_REOPEN_REQUEST, error: err })
       );
   };
   React.useEffect(() => {
