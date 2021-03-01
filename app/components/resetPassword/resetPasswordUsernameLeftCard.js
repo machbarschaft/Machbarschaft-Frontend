@@ -3,7 +3,8 @@ import { Button, Input, Form } from 'antd';
 import PropTypes from 'prop-types';
 import { MailOutlined } from '@ant-design/icons';
 
-import resetPasswordSubmissionStateReducer from './resetPasswordSubmissionStateReducer';
+import resetPasswordSubmissionStateReducer from '../../contexts/resetPassword/resetPasswordSubmissionStateReducer';
+import { SUBMIT, SUCCESS } from '../../contexts/resetPassword/types';
 
 function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
   const [form] = Form.useForm();
@@ -22,11 +23,11 @@ function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
   );
 
   const handleForm = async (values) => {
-    dispatchSubmissionState({ type: 'submit' });
+    dispatchSubmissionState({ type: SUBMIT });
     setUser(data.user);
     console.log(`ToDo: send reset request for user '${data.user}' to backend`);
     setTimeout(() => {
-      dispatchSubmissionState({ type: 'success' });
+      dispatchSubmissionState({ type: SUCCESS });
       proceed();
     }, 1000);
   };

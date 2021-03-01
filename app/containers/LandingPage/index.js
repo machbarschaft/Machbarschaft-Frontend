@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import WelcomeComponent from './welcome-component.js';
+import WelcomeComponent from '../../components/landingPage/welcome-component.js';
 import AuthenticationContext from '../../contexts/authentication';
 import WirVsVirus from '../../assets/img/landingpage/wirvsvirus_logo.jpg';
 import GrafikFive from '../../assets/img/landingpage/Grafik_5.png';

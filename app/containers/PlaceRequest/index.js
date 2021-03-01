@@ -8,73 +8,39 @@ import {
   putPublishRequest,
 } from '../../utils/api/placeRequestApi';
 import { putConfirmTan } from '../../utils/api/phoneApi';
+import placeRequestReducer from '../../contexts/placeRequest/placeRequestReducer';
+import { ERROR, LOADED, NEXT_PAGE, PREV_PAGE, VALIDATING } from '../../contexts/placeRequest/types';
 
 const queryString = require('query-string');
 
 const { Step } = Steps;
 
 const PlaceRequestWizardAddress = React.lazy(() =>
-  import('./wizard/place-request-wizard-address')
+  import('../../components/seekHelp/wizard/place-request-wizard-address')
 );
 const PlaceRequestWizardCategory = React.lazy(() =>
-  import('./wizard/place-request-wizard-category')
+  import('../../components/seekHelp/wizard/place-request-wizard-category')
 );
 const PlaceRequestWizardFinish = React.lazy(() =>
-  import('./wizard/place-request-wizard-finish')
+  import('../../components/seekHelp/wizard/place-request-wizard-finish')
 );
 const PlaceRequestWizardName = React.lazy(() =>
-  import('./wizard/place-request-wizard-name')
+  import('../../components/seekHelp/wizard/place-request-wizard-name')
 );
 const PlaceRequestWizardTan = React.lazy(() =>
-  import('./wizard/place-request-wizard-tan')
+  import('../../components/seekHelp/wizard/place-request-wizard-tan')
 );
 const PlaceRequestWizardUrgency = React.lazy(() =>
-  import('./wizard/place-request-wizard-urgency')
+  import('../../components/seekHelp/wizard/place-request-wizard-urgency')
 );
 const PlaceRequestWizardSummary = React.lazy(() =>
-  import('./wizard/place-request-wizard-summary')
+  import('../../components/seekHelp/wizard/place-request-wizard-summary')
 );
-
-function PlaceRequestReducer(state, action) {
-  switch (action.type) {
-    case 'loaded':
-      return {
-        ...state,
-        isLoading: false,
-      };
-    case 'validating':
-      return {
-        ...state,
-        isValidating: true,
-        hasError: false,
-        errorMsg: '',
-      };
-    case 'error':
-      return {
-        ...state,
-        isValidating: false,
-        hasError: true,
-        errorMsg: action.data,
-      };
-    case 'nextPage':
-      return {
-        ...state,
-        currentStep: state.currentStep + 1,
-      };
-    case 'prevPage':
-      return {
-        ...state,
-        currentStep: state.currentStep - 1,
-      };
-    default:
-      throw new Error('Unsupported Type');
-  }
-}
 
 export default function PlaceRequestWindow(props) {
   const { phoneNumber, countryCode } = queryString.parse(props.location.search);
 
-  const [wizardState, dispatch] = React.useReducer(PlaceRequestReducer, {
+  const [wizardState, dispatch] = React.useReducer(placeRequestReducer, {
     currentStep: 0,
     formData: [],
     isValidating: false,
@@ -153,12 +119,12 @@ export default function PlaceRequestWindow(props) {
         }
 
         dispatch({
-          type: 'loaded',
+          type: LOADED,
         });
       })
       .catch((error) => {
         dispatch({
-          type: 'error',
+          type: ERROR,
           data: error.toString(),
         });
       });
@@ -168,7 +134,7 @@ export default function PlaceRequestWindow(props) {
     formData.current[formName] = formValues;
 
     dispatch({
-      type: 'validating',
+      type: VALIDATING,
     });
 
     if (
@@ -184,12 +150,12 @@ export default function PlaceRequestWindow(props) {
         if (formName === 'place-request-wizard-tan')
           phoneVerified.current = true;
         dispatch({
-          type: 'nextPage',
+          type: NEXT_PAGE,
         });
       })
       .catch((error) => {
         dispatch({
-          type: 'error',
+          type: ERROR,
           data: `${error}`,
         });
       });
@@ -197,7 +163,7 @@ export default function PlaceRequestWindow(props) {
 
   const handlePreviousPage = () => {
     dispatch({
-      type: 'prevPage',
+      type: PREV_PAGE,
     });
   };
 
