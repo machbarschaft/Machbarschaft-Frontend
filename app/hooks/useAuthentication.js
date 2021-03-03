@@ -2,20 +2,19 @@ import React from 'react';
 import {
   getAuthenticate,
   putLogin,
-  putLogout,
 } from '../utils/api/authenticationApi';
 import postRegisterRequest from '../utils/api/registerApi';
 import authenticationReducer, { initialAuthenticationState } from '../contexts/authentication/authenticationReducer';
 import {
   AUTHENTICATION_FAILURE,
   AUTHENTICATION_SUCCESS,
-  INVALIDATE_FAILURE,
   INVALIDATE_SUCCESS,
   LOGIN_FAILURE,
   LOGIN_INIT,
   REGISTER_FAILURE,
   REGISTER_INIT,
 } from '../contexts/authentication/types';
+import firebase from '../components/firebase';
 
 /**
  * The custom hook useAuthentication holds the current authentication data. It provides information about the authenticated user (if any)
@@ -81,7 +80,6 @@ export default function useAuthentication() {
         switch (registerResult.status) {
           case 422:
             // Invalid Request
-            registerResult = await registerResult.json();
             dispatch({
               type: REGISTER_FAILURE,
               data: {
@@ -93,7 +91,6 @@ export default function useAuthentication() {
             return false;
           case 400:
             // User exists
-            registerResult = await registerResult.json();
             dispatch({
               type: REGISTER_FAILURE,
               data: {
@@ -182,28 +179,29 @@ export default function useAuthentication() {
   const checkAuthentication = async () => {
     try {
       const authResult = await getAuthenticate();
-      if (authResult.status === 200) {
-        const authenticateResult = await authResult.json();
+      if (authResult) {
+        const idToken = await firebase.auth().currentUser?.getIdToken() || localStorage.getItem('token');
+        localStorage.setItem('token', idToken);
         dispatch({
           type: AUTHENTICATION_SUCCESS,
           data: {
-            uid: authenticateResult.id,
-            email: authenticateResult.email,
-            phoneNumber: authenticateResult.phone,
+            uid: authResult.id,
+            email: authResult.email,
+            phoneNumber: authResult.phone,
             countryCode: 'DE', // TODO
 
-            emailVerified: authenticateResult.emailVerified,
-            phoneVerified: authenticateResult.phoneVerified,
+            emailVerified: authResult.emailVerified,
+            phoneVerified: authResult.phoneVerified,
 
             profile: {
-              forename: authenticateResult.firstName,
-              surname: authenticateResult.lastName,
+              forename: authResult.firstName,
+              surname: authResult.lastName,
             },
 
             address: {
-              street: authenticateResult.street,
-              houseNumber: authenticateResult.streetNo,
-              zipCode: authenticateResult.zipCode,
+              street: authResult.street,
+              houseNumber: authResult.streetNo,
+              zipCode: authResult.zipCode,
               country: 'Deutschland', // TODO
             },
           },
@@ -230,21 +228,12 @@ export default function useAuthentication() {
    */
   const invalidateAuthentication = async () => {
     try {
-      const logoutResult = await putLogout();
-      if (logoutResult.status === 200) {
-        dispatch({
-          type: INVALIDATE_SUCCESS,
-        });
-      } else {
-        dispatch({
-          type: INVALIDATE_FAILURE,
-          data: {
-            errors: [
-              'Beim Abmelden ist ein Fehler aufgetreten.',
-            ],
-          }
-        });
-      }
+      await firebase.auth().signOut();
+
+      localStorage.removeItem('token');
+      dispatch({
+        type: INVALIDATE_SUCCESS,
+      });
     } catch (error) {
       dispatch({
         type: AUTHENTICATION_FAILURE,

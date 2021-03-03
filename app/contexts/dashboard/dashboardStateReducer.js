@@ -1,14 +1,14 @@
 import {
   ERROR_ACTIVE,
-  ERROR_FINISHED,
+  ERROR_FINISHED, ERROR_HELP_REQUEST,
   LOADING_ACTIVE,
-  LOADING_FINISHED,
+  LOADING_FINISHED, LOADING_HELP_REQUEST,
   SUCCESS_ACTIVE,
-  SUCCESS_FINISHED,
+  SUCCESS_FINISHED, SUCCESS_HELP_REQUEST,
 } from './types';
 
 function isLoading(state) {
-  return state.loadingActiveRequests || state.loadingFinishedRequests;
+  return state.loadingHelpRequests;
 }
 function isHelper(state) {
   return state.activeRequests.helper != null || state.finishedRequests.helper.length > 0;
@@ -120,6 +120,33 @@ export default function dashboardStateReducer(state, action) {
       loadingFinishedRequests: true,
       error: null,
     };
+  }
+  if (action.type === LOADING_HELP_REQUEST) {
+    return {
+      ...state,
+      loading: true,
+      loadingHelpRequests: true,
+      error: null,
+    };
+  }
+  if (action.type === SUCCESS_HELP_REQUEST) {
+    newState = {
+      ...state,
+      loadingHelpRequests: false,
+      helpRequestsResult: action.helpRequests
+    };
+    newState.loading = isLoading(newState);
+
+    return newState;
+  }
+  if (action.type === ERROR_HELP_REQUEST) {
+    newState = {
+      ...state,
+      loadingHelpRequests: false,
+      error: action.error,
+    };
+    newState.loading = isLoading(newState);
+    return newState;
   }
   throw new Error('Unsupported');
 };
