@@ -1,7 +1,7 @@
 import React from 'react';
 import { Result, Spin, Button } from 'antd';
 import useDashboard from '../../hooks/useDashboard';
-import AuthenticationContext from '../../contexts/authentication';
+import DashboardHelpRequestList from '../../components/dashboard/dashboardHelpRequestList';
 
 const DashboardHelper = React.lazy(() => import('../../components/dashboard/dashboardHelper'));
 const DashboardHelpSeeker = React.lazy(() => import('../../components/dashboard/dashboardHelpSeeker'));
@@ -27,7 +27,7 @@ function DashboardWindow() {
       setLocalRequestsState(requestsState);
   }, [requestsState]);
   React.useEffect(() => {
-    intervalRef.current = setInterval(backgroundFetch, 5000);
+    intervalRef.current = setInterval(backgroundFetch, 30000);
     return () => clearInterval(intervalRef.current);
   }, []);
 
@@ -45,14 +45,20 @@ function DashboardWindow() {
           }
         />
       )}
-      {!localRequestsState.loading &&
+      {
+        !localRequestsState.loading &&
         localRequestsState.error === null &&
-        localRequestsState.activeRequests.helpSeeker.length === 0 &&
-        localRequestsState.activeRequests.helper.length === 0 &&
-        localRequestsState.finishedRequests.helpSeeker.length === 0 &&
-        localRequestsState.finishedRequests.helper.length === 0 && (
+        localRequestsState.helpRequestsResult?.length === 0 && (
           <Result title="Hier gibt es noch keinen Auftrag anzuzeigen." />
-        )}
+        )
+      }
+      {
+        !localRequestsState.loading &&
+        localRequestsState.error === null &&
+        localRequestsState.helpRequestsResult?.length && (
+          <DashboardHelpRequestList helpRequests={localRequestsState.helpRequestsResult} />
+        )
+      }
       {!localRequestsState.loading &&
         localRequestsState.error === null &&
         (localRequestsState.activeRequests.helpSeeker.length > 0 ||

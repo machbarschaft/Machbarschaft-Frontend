@@ -1,16 +1,10 @@
 import React from 'react';
-import {
-  getActiveRequests,
-  getFinishedRequests,
-} from '../utils/api/dashboardApi';
+import { getHelpRequests } from '../utils/api/dashboardApi';
 import dashboardStateReducer from '../contexts/dashboard/dashboardStateReducer';
 import {
-  ERROR_ACTIVE,
-  ERROR_FINISHED,
-  LOADING_ACTIVE,
-  LOADING_FINISHED,
-  SUCCESS_ACTIVE,
-  SUCCESS_FINISHED,
+  ERROR_HELP_REQUEST,
+  LOADING_HELP_REQUEST,
+  SUCCESS_HELP_REQUEST,
 } from '../contexts/dashboard/types';
 
 export default function useDashboard() {
@@ -29,32 +23,18 @@ export default function useDashboard() {
       error: null,
     }
   );
-  const fetchActiveRequests = () => {
-    dispatchRequestsState({ type: LOADING_ACTIVE });
-    getActiveRequests()
+  const fetchHelpRequests = () => {
+    dispatchRequestsState({ type: LOADING_HELP_REQUEST });
+    getHelpRequests()
       .then((res) => {
-        dispatchRequestsState({ type: SUCCESS_ACTIVE, activeRequests: res });
+        dispatchRequestsState({ type: SUCCESS_HELP_REQUEST, helpRequests: res });
       })
       .catch((err) =>
-        dispatchRequestsState({ type: ERROR_ACTIVE, error: err })
-      );
-  };
-  const fetchFinishedRequests = () => {
-    dispatchRequestsState({ type: LOADING_FINISHED });
-    getFinishedRequests()
-      .then((res) =>
-        dispatchRequestsState({
-          type: SUCCESS_FINISHED,
-          finishedRequests: res,
-        })
-      )
-      .catch((err) =>
-        dispatchRequestsState({ type: ERROR_FINISHED, error: err })
+        dispatchRequestsState({ type: ERROR_HELP_REQUEST, error: err })
       );
   };
   const fetchRequests = () => {
-    fetchActiveRequests();
-    fetchFinishedRequests();
+    fetchHelpRequests();
   };
   React.useEffect(() => fetchRequests(), []);
 
