@@ -19,7 +19,8 @@ export default function apiCall(params) {
   const instance = axios.create(configParams);
 
   instance.interceptors.request.use(async (config) => {
-    const idToken = await firebase.auth().currentUser?.getIdToken() || localStorage.getItem('token');
+    const idToken = await firebase.auth().currentUser?.getIdToken(true) || localStorage.getItem('token');
+    localStorage.setItem('token', idToken);
     if (idToken) {
       config.headers.Authorization = `Bearer ${idToken}`;
     }
