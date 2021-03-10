@@ -2,7 +2,7 @@ import axios from 'axios';
 import apiUrl from './apiUrl';
 import firebase from '../../components/firebase';
 
-export default function apiCall(params) {
+export default function apiCall(params, authorized = true) {
   const defaultParams = {
     baseURL: `${apiUrl()}/`,
     method: 'get',
@@ -19,8 +19,8 @@ export default function apiCall(params) {
   const instance = axios.create(configParams);
 
   instance.interceptors.request.use(async (config) => {
-    const idToken = await firebase.auth().currentUser?.getIdToken() || localStorage.getItem('token');
-    if (idToken) {
+    const idToken = await firebase.auth().currentUser?.getIdToken(true) || localStorage.getItem('token');
+    if (idToken && authorized) {
       config.headers.Authorization = `Bearer ${idToken}`;
     }
     return config;

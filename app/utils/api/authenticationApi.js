@@ -19,7 +19,7 @@ export const putLogin = (email, password) => {
  * @returns {Promise<Response>} the unparsed response of the backend (contains user information)
  */
 export const getAuthenticate = async() => {
-  const idToken = await firebase.auth().currentUser?.getIdToken() || localStorage.getItem('token');
+  const idToken = await firebase.auth().currentUser?.getIdToken(true) || localStorage.getItem('token');
   if (!idToken) return;
 
   const response = await apiCall({

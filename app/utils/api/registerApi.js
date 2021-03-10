@@ -16,7 +16,9 @@ const postRegisterRequest = async (formValues) => {
 
   if (firebaseResult.user) {
     const token = firebaseResult.user.ya;
+    const refreshToken = firebaseResult.user.refreshToken;
     localStorage.setItem('token', token);
+    localStorage.setItem('refreshToken', refreshToken);
 
     return apiCall({
       url: 'user',
