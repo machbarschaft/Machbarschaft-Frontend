@@ -15,6 +15,8 @@ import {
   REGISTER_INIT,
 } from '../contexts/authentication/types';
 import firebase from '../components/firebase';
+import apiCall from '../utils/api/apiCall';
+import firebaseConfig from '../assets/config/firebase';
 
 /**
  * The custom hook useAuthentication holds the current authentication data. It provides information about the authenticated user (if any)
@@ -37,7 +39,7 @@ export default function useAuthentication() {
 
   /* Check for authentication on first build */
   React.useEffect(() => {
-    checkAuthentication();
+    refreshTokenOnMount();
   }, []);
 
   /**
@@ -150,6 +152,9 @@ export default function useAuthentication() {
 
     try {
       const loginResult = await putLogin(email, password);
+      localStorage.setItem('token', loginResult.user.ya);
+      localStorage.setItem('refreshToken', loginResult.user.refreshToken);
+
       if (loginResult.user.email === email) {
         return await checkAuthentication();
       }
@@ -174,14 +179,42 @@ export default function useAuthentication() {
   };
 
   /**
+   * Makes a request to refresh an idToken if refreshToken is present
+   */
+  const refreshTokenOnMount = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (refreshToken) {
+      try {
+        const res = await apiCall({
+          baseURL: 'https://securetoken.googleapis.com/v1/',
+          url: `token?key=${firebaseConfig.apiKey}`,
+          method: 'POST',
+          data: {
+            grant_type: 'refresh_token',
+            refresh_token: localStorage.getItem('refreshToken')
+          }
+        }, false);
+
+        if (res?.data) {
+          localStorage.setItem('token', res.data.id_token);
+          localStorage.setItem('refreshToken', res.data.refresh_token);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    await checkAuthentication();
+  }
+
+  /**
    * Makes a request to the backend in order to get information about the authenticated user (if any) and modifies state accordingly
    */
   const checkAuthentication = async () => {
     try {
       const authResult = await getAuthenticate();
       if (authResult) {
-        const idToken = await firebase.auth().currentUser?.getIdToken(true) || localStorage.getItem('token');
-        localStorage.setItem('token', idToken);
         dispatch({
           type: AUTHENTICATION_SUCCESS,
           data: {
@@ -231,6 +264,7 @@ export default function useAuthentication() {
       await firebase.auth().signOut();
 
       localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
       dispatch({
         type: INVALIDATE_SUCCESS,
       });
