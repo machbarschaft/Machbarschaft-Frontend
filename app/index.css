@@ -1030,3 +1030,35 @@ h4 {
 .full-width-table tr:nth-child(even) {
   background-color: #dddddd;
 }
+
+.status-switcher {
+}
+
+.status-switcher-disabled {
+  pointer-events:none;
+}
+
+.status-switcher .round-button-status {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.status-switcher .round-button-status.passed-status {
+  background-color: #f4b3a3;
+}
+
+.status-switcher .round-button-status:focus, .status-switcher .round-button-status:active {
+  outline: none;
+}
+
+.edit-role h2 {
+  text-align: center;
+}
+
+.edit-role .edit-role-form {
+  width: calc(100vw - 45%);
+  margin: auto;
+}

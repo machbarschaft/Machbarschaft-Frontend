@@ -1,9 +1,17 @@
 import React from 'react';
+import StatusSwitcher from '../StatusSwitcher';
+import AuthenticationContext from '../../contexts/authentication';
 
-export default function DashboardHelpRequestList({helpRequests}) {
+export default function DashboardHelpRequestList({helpRequests, updateHelpRequestStatus}) {
+  const authenticationContext = React.useContext(AuthenticationContext);
+  const isAdmin = authenticationContext.authenticationState.role === 'ADMIN';
   const dateTransform = (date) => {
     return new Date(date).toLocaleString();
   };
+
+  const changeStatus = async (helpRequest, status) => {
+    updateHelpRequestStatus(helpRequest, status);
+  }
 
   return (
     <div>
@@ -22,7 +30,7 @@ export default function DashboardHelpRequestList({helpRequests}) {
             <tr key={helpRequest.id}>
               <td>{dateTransform(helpRequest.updatedAt)}</td>
               <td>{helpRequest.helpSeeker.fullName}</td>
-              <td>{helpRequest.requestStatus}</td>
+              <td>{<StatusSwitcher isAdmin={isAdmin} onStatusChange={(status) => changeStatus(helpRequest, status)} helpRequest={helpRequest} />}</td>
               <td>{helpRequest.requestText}</td>
             </tr>
           ))

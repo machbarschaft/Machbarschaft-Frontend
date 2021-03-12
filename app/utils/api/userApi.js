@@ -1,5 +1,6 @@
 import apiUrl from './apiUrl';
 import { objectToFormUrlEncoded } from './formUrlEncoder';
+import apiCall from './apiCall';
 
 /**
  * Endpoint to save user preferences.
@@ -86,4 +87,12 @@ export const getUserPreferences = async () => {
     .catch(() => {
       throw Error('Einstellungen konnten nicht geladen werden.');
     });
+};
+
+export const updateUserRole = async (email) => {
+  return apiCall({
+    url: `admin/users/${email}`,
+    method: 'PUT',
+    data: {}
+  });
 };

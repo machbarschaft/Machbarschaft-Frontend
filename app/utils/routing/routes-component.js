@@ -36,6 +36,9 @@ const VerifyMail = React.lazy(() =>
 const Contact = React.lazy(() =>
   import('../../containers/Contact')
 );
+const EditRole = React.lazy(() =>
+  import('../../containers/EditRole')
+);
 const Imprint = React.lazy(() => import('../../containers/Imprint'));
 const PrivacyNotice = React.lazy(() =>
   import('../../containers/PrivacyNotice')
@@ -96,6 +99,15 @@ export default function RoutesComponent() {
         render={(props) => (
           <RouteAuthenticated
             render={() => <AcceptRequest {...props} />}
+            redirectTo="/login"
+          />
+        )}
+      />
+      <Route
+        path="/role"
+        render={(props) => (
+          <RouteAuthenticated
+            render={() => <EditRole {...props} />}
             redirectTo="/login"
           />
         )}

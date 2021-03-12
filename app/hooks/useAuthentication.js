@@ -221,6 +221,7 @@ export default function useAuthentication() {
             uid: authResult.id,
             email: authResult.email,
             phoneNumber: authResult.phone,
+            role: authResult.role,
             countryCode: 'DE', // TODO
 
             emailVerified: authResult.emailVerified,

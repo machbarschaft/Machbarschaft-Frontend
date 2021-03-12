@@ -7,7 +7,7 @@ const DashboardHelper = React.lazy(() => import('../../components/dashboard/dash
 const DashboardHelpSeeker = React.lazy(() => import('../../components/dashboard/dashboardHelpSeeker'));
 
 function DashboardWindow() {
-  const [requestsState, fetchRequests] = useDashboard('helper');
+  const [requestsState, fetchRequests, updateHelpRequestStatus] = useDashboard('helper');
   const [localRequestsState, setLocalRequestsState] = React.useState(
     requestsState
   );
@@ -56,7 +56,7 @@ function DashboardWindow() {
         !localRequestsState.loading &&
         localRequestsState.error === null &&
         localRequestsState.helpRequestsResult?.length && (
-          <DashboardHelpRequestList helpRequests={localRequestsState.helpRequestsResult} />
+          <DashboardHelpRequestList updateHelpRequestStatus={updateHelpRequestStatus} helpRequests={localRequestsState.helpRequestsResult} />
         )
       }
       {!localRequestsState.loading &&
