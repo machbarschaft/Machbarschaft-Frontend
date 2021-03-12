@@ -4,43 +4,43 @@ import PropTypes from 'prop-types';
 import AuthenticationContext from '../../contexts/authentication';
 
 const LandingPage = React.lazy(() =>
-  import('../../components/landingPage/landingPage')
+  import('../../containers/LandingPage')
 );
 const Dashboard = React.lazy(() =>
-  import('../../components/dashboard/dashboard-component')
+  import('../../containers/Dashboard')
 );
 const Login = React.lazy(() =>
-  import('../../components/login/login-component')
+  import('../../containers/Login')
 );
 const ResetPassword = React.lazy(() =>
-  import('../../components/resetPassword/resetPassword-component')
+  import('../../containers/ResetPassword')
 );
 const PlaceRequest = React.lazy(() =>
-  import('../../components/seekHelp/place-request-component')
+  import('../../containers/PlaceRequest')
 );
 const AcceptRequest = React.lazy(() =>
-  import('../../components/acceptHelp/acceptRequest-component')
+  import('../../containers/AcceptRequest')
 );
 const RegisterHelper = React.lazy(() =>
-  import('../../components/register/register-helper-component')
+  import('../../containers/RegisterHelper')
 );
 const ValidatePhone = React.lazy(() =>
-  import('../../components/validation/validate-phone-component')
+  import('../../containers/ValidatePhone')
 );
 const Settings = React.lazy(() =>
-  import('../../components/base/settings-component')
+  import('../../containers/Settings')
 );
 const VerifyMail = React.lazy(() =>
-  import('../../components/validation/verify-mail-component')
+  import('../../containers/VerifyMail')
 );
 const Contact = React.lazy(() =>
-  import('../../components/contact/contact-component')
+  import('../../containers/Contact')
 );
-const Imprint = React.lazy(() => import('../../components/misc/imprint'));
+const Imprint = React.lazy(() => import('../../containers/Imprint'));
 const PrivacyNotice = React.lazy(() =>
-  import('../../components/misc/privacy-notice')
+  import('../../containers/PrivacyNotice')
 );
-const Faq = React.lazy(() => import('../../components/misc/faq'));
+const Faq = React.lazy(() => import('../../containers/Faq'));
 
 export default function RoutesComponent() {
   const authProps = React.useContext(AuthenticationContext);
@@ -85,7 +85,7 @@ export default function RoutesComponent() {
         )}
       />
       <Route path="/email-bestaetigen" component={VerifyMail} />
-      <Route path="/kontakt" component={Contact} />
+      {/*<Route path="/kontakt" component={Contact} />*/}
       <Route
         exaxct
         path="/auftrag-aufgeben"

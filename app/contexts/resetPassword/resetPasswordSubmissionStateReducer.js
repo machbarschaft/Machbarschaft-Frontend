@@ -1,19 +1,21 @@
+import { INVALID_TOKEN, OFFLINE, SUBMIT, SUCCESS } from './types';
+
 export default function resetPasswordSubmissionStateReducer(state, action) {
-  if (action.type === 'success') {
+  if (action.type === SUCCESS) {
     return {
       ...state,
       error: null,
       loading: false,
     };
   }
-  if (action.type === 'submit') {
+  if (action.type === SUBMIT) {
     return {
       ...state,
       error: null,
       loading: true,
     };
   }
-  if (action.type === 'offline') {
+  if (action.type === OFFLINE) {
     return {
       ...state,
       error:
@@ -21,7 +23,7 @@ export default function resetPasswordSubmissionStateReducer(state, action) {
       loading: false,
     };
   }
-  if (action.type === 'invalid_token') {
+  if (action.type === INVALID_TOKEN) {
     return {
       ...state,
       error:

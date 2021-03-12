@@ -1,66 +1,17 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { getOpenRequests } from '../../utils/api/acceptHelpApi';
+import { ERROR, HOVER_INDEX, LOADING, MENU_KEY, SELECTED_INDEX, SUCCESS } from '../../contexts/acceptRequest/types';
+import acceptRequestStateReducer from '../../contexts/acceptRequest/acceptRequestStateReducer';
 
-const AcceptHelpSearchBar = React.lazy(() => import('./acceptHelpSearchBar'));
+const AcceptHelpSearchBar = React.lazy(() => import('../../components/acceptHelp/acceptHelpSearchBar'));
 const AcceptHelpListAndDetail = React.lazy(() =>
-  import('./acceptHelpListAndDetail')
+  import('../../components/acceptHelp/acceptHelpListAndDetail')
 );
 const AcceptRequestListEntry = React.lazy(() =>
-  import('./acceptRequestListEntry')
+  import('../../components/acceptHelp/acceptRequestListEntry')
 );
-const MapContainer = React.lazy(() => import('./googleMaps'));
-
-function acceptRequestStateReducer(state, action) {
-  if (action.type === 'success') {
-    return {
-      ...state,
-      selectedMarkerIndex: -1,
-      hoverMarkerIndex: -1,
-      mobileMenuKey: 'map',
-      loading: false,
-      requestList: action.requestList,
-      error: null,
-    };
-  }
-  if (action.type === 'error') {
-    return {
-      ...state,
-      selectedMarkerIndex: -1,
-      hoverMarkerIndex: -1,
-      mobileMenuKey: 'map',
-      loading: false,
-      requestList: [],
-      error: action.error,
-    };
-  }
-  if (action.type === 'loading') {
-    return {
-      ...state,
-      loading: true,
-      error: null
-    };
-  }
-  if (action.type === 'selected-index') {
-    return {
-      ...state,
-      selectedMarkerIndex: action.selectedMarkerIndex,
-    };
-  }
-  if (action.type === 'hover-index') {
-    return {
-      ...state,
-      hoverMarkerIndex: action.hoverMarkerIndex,
-    };
-  }
-  if (action.type === 'menu-key') {
-    return {
-      ...state,
-      mobileMenuKey: action.mobileMenuKey,
-    };
-  }
-  throw new Error('Unsupported');
-}
+const MapContainer = React.lazy(() => import('../../components/acceptHelp/googleMaps'));
 
 export default function AcceptRequestWindow() {
   const [currentLocation, setCurrentLocation] = React.useState({
@@ -82,17 +33,17 @@ export default function AcceptRequestWindow() {
 
   React.useEffect(() => {
     if (currentLocation.lat !== 0 || currentLocation.lng !== 0) {
-      dispatchAcceptRequestState({ type: 'loading' });
+      dispatchAcceptRequestState({ type: LOADING });
       getOpenRequests({
         latitude: currentLocation.lat,
         longitude: currentLocation.lng,
         radius: currentRadius,
       })
         .then((res) =>
-          dispatchAcceptRequestState({ type: 'success', requestList: res })
+          dispatchAcceptRequestState({ type: SUCCESS, requestList: res })
         )
         .catch((err) =>
-          dispatchAcceptRequestState({ type: 'error', error: err })
+          dispatchAcceptRequestState({ type: ERROR, error: err })
         );
     }
   }, [currentLocation]);
@@ -105,20 +56,20 @@ export default function AcceptRequestWindow() {
           {...entry}
           onClick={() =>
             dispatchAcceptRequestState({
-              type: 'selected-index',
+              type: SELECTED_INDEX,
               selectedMarkerIndex: index,
             })
           }
           hover={acceptRequestState.hoverMarkerIndex === index}
           onMouseEnter={() =>
             dispatchAcceptRequestState({
-              type: 'hover-index',
+              type: HOVER_INDEX,
               hoverMarkerIndex: index,
             })
           }
           onMouseLeave={() =>
             dispatchAcceptRequestState({
-              type: 'hover-index',
+              type: HOVER_INDEX,
               hoverMarkerIndex: -1,
             })
           }
@@ -135,26 +86,26 @@ export default function AcceptRequestWindow() {
       selectedMarkerIndex={acceptRequestState.selectedMarkerIndex}
       onMarkerSelect={(index) =>
         dispatchAcceptRequestState({
-          type: 'selected-index',
+          type: SELECTED_INDEX,
           selectedMarkerIndex: index,
         })
       }
       onMapClick={() =>
         dispatchAcceptRequestState({
-          type: 'selected-index',
+          type: SELECTED_INDEX,
           selectedMarkerIndex: -1,
         })
       }
       hoverMarkerIndex={acceptRequestState.hoverMarkerIndex}
       onMarkerEnter={(index) =>
         dispatchAcceptRequestState({
-          type: 'hover-index',
+          type: HOVER_INDEX,
           hoverMarkerIndex: index,
         })
       }
       onMarkerLeave={() =>
         dispatchAcceptRequestState({
-          type: 'hover-index',
+          type: HOVER_INDEX,
           hoverMarkerIndex: -1,
         })
       }
@@ -166,7 +117,7 @@ export default function AcceptRequestWindow() {
       selectedMarkerIndex={acceptRequestState.selectedMarkerIndex}
       setSelectedMarkerIndex={(index) =>
         dispatchAcceptRequestState({
-          type: 'selected-index',
+          type: SELECTED_INDEX,
           selectedMarkerIndex: index,
         })
       }
@@ -203,7 +154,7 @@ export default function AcceptRequestWindow() {
         <Menu
           onClick={(e) =>
             dispatchAcceptRequestState({
-              type: 'menu-key',
+              type: MENU_KEY,
               mobileMenuKey: e.key,
             })
           }

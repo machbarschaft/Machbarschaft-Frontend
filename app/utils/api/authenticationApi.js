@@ -4,9 +4,8 @@
  * @param password is the password of the user to be authenticated
  * @returns {Promise<Response>} the unparsed response of the backend
  */
-// import { objectToFormUrlEncoded } from './formUrlEncoder';
 import firebase from '../../components/firebase';
-import apiUrl from './apiUrl';
+import apiCall from './apiCall';
 
 export const putLogin = (email, password) => {
   return firebase
@@ -20,38 +19,15 @@ export const putLogin = (email, password) => {
  * @returns {Promise<Response>} the unparsed response of the backend (contains user information)
  */
 export const getAuthenticate = async() => {
-  if (!firebase.auth().currentUser) return;
-  const idToken = await firebase.auth().currentUser.getIdToken();
-  const response = await fetch(`${apiUrl()}/user`, {
-    method: 'GET',
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${idToken}`
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer', // no-referrer, *client
+  const idToken = await firebase.auth().currentUser?.getIdToken(true) || localStorage.getItem('token');
+  if (!idToken) return;
+
+  const response = await apiCall({
+    url: 'user'
   });
 
   if (response.status >= 400) {
-    throw response;
+    throw response.data;
   }
-  return response;
-};
-
-/**
- * HTTP request to invalidate (logout) a user
- * @returns {Promise<Response>} the unparsed response of the backend
- */
-export const putLogout = () => {
-  const endpoint = `${apiUrl()}/auth/logout`;
-
-  return fetch(endpoint, {
-    method: 'PUT',
-    cache: 'no-cache',
-    credentials: 'include',
-  }).then((res) => res);
+  return response.data;
 };

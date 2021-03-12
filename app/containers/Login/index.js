@@ -5,18 +5,13 @@ import {
   Card,
   Form,
   Input,
-  Select,
   Timeline,
-  Typography,
 } from 'antd';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
 import { printErrors } from '../../utils/misc/printErrors';
-
-const { Option } = Select;
-const { Text } = Typography;
 
 function LoginWindow({ location: { username } = '', showRegister = true }) {
   const authenticationContext = React.useContext(AuthenticationContext);

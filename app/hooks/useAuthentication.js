@@ -2,111 +2,21 @@ import React from 'react';
 import {
   getAuthenticate,
   putLogin,
-  putLogout,
 } from '../utils/api/authenticationApi';
 import postRegisterRequest from '../utils/api/registerApi';
-
-const initialAuthenticationState = {
-  // User Data
-  uid: null,
-  email: null,
-  phoneNumber: null,
-  countryCode: null,
-
-  // Verification
-  emailVerified: false,
-  phoneVerified: false,
-
-  // Profile
-  profile: {
-    forename: '',
-    surname: '',
-  },
-
-  // Adresse
-  address: {
-    street: '',
-    houseNumber: '',
-    zipCode: '',
-    country: '',
-  },
-
-  // Process Information
-  isInitialLoading: true,
-  isAuthenticating: false,
-  isRegistering: false,
-  authenticationErrors: null,
-  registerErrors: null,
-};
-
-function authenticationReducer(state, action) {
-  switch (action.type) {
-    case 'loginInit':
-      return {
-        ...initialAuthenticationState,
-        isAuthenticating: true,
-        isInitialLoading: false,
-      };
-    case 'registerInit':
-      return {
-        ...initialAuthenticationState,
-        isInitialLoading: false,
-        isRegistering: true,
-      };
-    case 'loginFailure':
-      return {
-        ...initialAuthenticationState,
-        isAuthenticating: false,
-        isInitialLoading: false,
-        authenticationErrors: action.data.errors,
-      };
-    case 'registerFailure':
-      return {
-        ...initialAuthenticationState,
-        isInitialLoading: false,
-        isRegistering: false,
-        registerErrors: action.data.errors,
-      };
-    case 'authenticationSuccess':
-      return {
-        ...state,
-
-        isAuthenticating: false,
-        isInitialLoading: false,
-
-        emailVerified: action.data.emailVerified,
-        phoneVerified: action.data.phoneVerified,
-
-        uid: action.data.uid,
-        email: action.data.email,
-        phoneNumber: action.data.phoneNumber,
-        countryCode: action.data.countryCode,
-
-        profile: action.data.profile,
-        address: action.data.address,
-      };
-    case 'registerSuccess':
-      return {
-        ...state,
-
-        isAuthenticating: false,
-        isInitialLoading: false,
-      };
-    case 'authenticationFailure':
-      return {
-        ...initialAuthenticationState,
-        isAuthenticating: false,
-        isInitialLoading: false,
-      };
-    case 'invalidateSuccess':
-      return {
-        ...initialAuthenticationState,
-        isInitialLoading: false,
-      };
-    default:
-      throw new Error('Unsupported Type');
-  }
-}
+import authenticationReducer, { initialAuthenticationState } from '../contexts/authentication/authenticationReducer';
+import {
+  AUTHENTICATION_FAILURE,
+  AUTHENTICATION_SUCCESS,
+  INVALIDATE_SUCCESS,
+  LOGIN_FAILURE,
+  LOGIN_INIT,
+  REGISTER_FAILURE,
+  REGISTER_INIT,
+} from '../contexts/authentication/types';
+import firebase from '../components/firebase';
+import apiCall from '../utils/api/apiCall';
+import firebaseConfig from '../assets/config/firebase';
 
 /**
  * The custom hook useAuthentication holds the current authentication data. It provides information about the authenticated user (if any)
@@ -129,7 +39,7 @@ export default function useAuthentication() {
 
   /* Check for authentication on first build */
   React.useEffect(() => {
-    checkAuthentication();
+    refreshTokenOnMount();
   }, []);
 
   /**
@@ -160,7 +70,7 @@ export default function useAuthentication() {
     };
 
     dispatch({
-      type: 'registerInit',
+      type: REGISTER_INIT,
     });
 
     try {
@@ -172,9 +82,8 @@ export default function useAuthentication() {
         switch (registerResult.status) {
           case 422:
             // Invalid Request
-            registerResult = await registerResult.json();
             dispatch({
-              type: 'registerFailure',
+              type: REGISTER_FAILURE,
               data: {
                 errors: [
                   'Das Passwort muss mindestens fünf Zeichen lang sein.',
@@ -184,9 +93,8 @@ export default function useAuthentication() {
             return false;
           case 400:
             // User exists
-            registerResult = await registerResult.json();
             dispatch({
-              type: 'registerFailure',
+              type: REGISTER_FAILURE,
               data: {
                 errors: [
                   'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
@@ -197,7 +105,7 @@ export default function useAuthentication() {
           case 500:
             // Internal server error
             dispatch({
-              type: 'registerFailure',
+              type: REGISTER_FAILURE,
               data: {
                 errors: [
                   'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
@@ -208,7 +116,7 @@ export default function useAuthentication() {
           default:
             // Unknown Error
             dispatch({
-              type: 'registerFailure',
+              type: REGISTER_FAILURE,
               data: {
                 errors: [
                   'Registrierung fehlgeschlagen. Versuchen Sie es noch einmal',
@@ -221,7 +129,7 @@ export default function useAuthentication() {
       return await performAuthentication(email, password);
     } catch (error) {
       dispatch({
-        type: 'registerFailure',
+        type: REGISTER_FAILURE,
         data: {
           errors: [
             'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert? Oder hat das Passwort weniger als sechs Zeichen?',
@@ -239,16 +147,19 @@ export default function useAuthentication() {
    */
   const performAuthentication = async (email, password) => {
     dispatch({
-      type: 'loginInit',
+      type: LOGIN_INIT,
     });
 
     try {
       const loginResult = await putLogin(email, password);
+      localStorage.setItem('token', loginResult.user.ya);
+      localStorage.setItem('refreshToken', loginResult.user.refreshToken);
+
       if (loginResult.user.email === email) {
         return await checkAuthentication();
       }
       dispatch({
-        type: 'loginFailure',
+        type: LOGIN_FAILURE,
         data: {
           errors: ['Zu dieser Kombination konnten wir keinen Benutzer finden.'],
         },
@@ -256,7 +167,7 @@ export default function useAuthentication() {
       return false;
     } catch (error) {
       dispatch({
-        type: 'loginFailure',
+        type: LOGIN_FAILURE,
         data: {
           errors: [
             'Die Anmeldung konnte nicht durchgeführt werden, bitte versuchen Sie es erneut.',
@@ -268,33 +179,62 @@ export default function useAuthentication() {
   };
 
   /**
+   * Makes a request to refresh an idToken if refreshToken is present
+   */
+  const refreshTokenOnMount = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (refreshToken) {
+      try {
+        const res = await apiCall({
+          baseURL: 'https://securetoken.googleapis.com/v1/',
+          url: `token?key=${firebaseConfig.apiKey}`,
+          method: 'POST',
+          data: {
+            grant_type: 'refresh_token',
+            refresh_token: localStorage.getItem('refreshToken')
+          }
+        }, false);
+
+        if (res?.data) {
+          localStorage.setItem('token', res.data.id_token);
+          localStorage.setItem('refreshToken', res.data.refresh_token);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    await checkAuthentication();
+  }
+
+  /**
    * Makes a request to the backend in order to get information about the authenticated user (if any) and modifies state accordingly
    */
   const checkAuthentication = async () => {
     try {
       const authResult = await getAuthenticate();
-      if (authResult.status === 200) {
-        const authenticateResult = await authResult.json();
+      if (authResult) {
         dispatch({
-          type: 'authenticationSuccess',
+          type: AUTHENTICATION_SUCCESS,
           data: {
-            uid: authenticateResult.id,
-            email: authenticateResult.email,
-            phoneNumber: authenticateResult.phone,
+            uid: authResult.id,
+            email: authResult.email,
+            phoneNumber: authResult.phone,
             countryCode: 'DE', // TODO
 
-            emailVerified: authenticateResult.emailVerified,
-            phoneVerified: authenticateResult.phoneVerified,
+            emailVerified: authResult.emailVerified,
+            phoneVerified: authResult.phoneVerified,
 
             profile: {
-              forename: authenticateResult.firstName,
-              surname: authenticateResult.lastName,
+              forename: authResult.firstName,
+              surname: authResult.lastName,
             },
 
             address: {
-              street: authenticateResult.street,
-              houseNumber: authenticateResult.streetNo,
-              zipCode: authenticateResult.zipCode,
+              street: authResult.street,
+              houseNumber: authResult.streetNo,
+              zipCode: authResult.zipCode,
               country: 'Deutschland', // TODO
             },
           },
@@ -302,7 +242,7 @@ export default function useAuthentication() {
         return true;
       }
       dispatch({
-        type: 'authenticationFailure',
+        type: AUTHENTICATION_FAILURE,
         data: {
           errors: 'E-Mail Adresse oder Passwort ist nicht korrekt.',
         },
@@ -310,7 +250,7 @@ export default function useAuthentication() {
       return false;
     } catch (error) {
       dispatch({
-        type: 'authenticationFailure',
+        type: AUTHENTICATION_FAILURE,
       });
       return false;
     }
@@ -321,19 +261,16 @@ export default function useAuthentication() {
    */
   const invalidateAuthentication = async () => {
     try {
-      const logoutResult = await putLogout();
-      if (logoutResult.status === 200) {
-        dispatch({
-          type: 'invalidateSuccess',
-        });
-      } else {
-        dispatch({
-          type: 'invalidateFailure',
-        });
-      }
+      await firebase.auth().signOut();
+
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      dispatch({
+        type: INVALIDATE_SUCCESS,
+      });
     } catch (error) {
       dispatch({
-        type: 'authenticationFailure',
+        type: AUTHENTICATION_FAILURE,
       });
     }
   };

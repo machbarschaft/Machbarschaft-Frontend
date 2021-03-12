@@ -1015,3 +1015,18 @@ h4 {
 .profile-spacing-left {
   margin-left: 2em;
 }
+
+.full-width-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.full-width-table td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.full-width-table tr:nth-child(even) {
+  background-color: #dddddd;
+}
