@@ -85,7 +85,7 @@ export default function RoutesComponent() {
         )}
       />
       <Route path="/email-bestaetigen" component={VerifyMail} />
-      <Route path="/kontakt" component={Contact} />
+      {/*<Route path="/kontakt" component={Contact} />*/}
       <Route
         exaxct
         path="/auftrag-aufgeben"

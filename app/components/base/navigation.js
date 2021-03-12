@@ -25,11 +25,11 @@ function NavigationMenu({ mode, menuClicked }) {
             STARTSEITE
           </NavLink>
         </Menu.Item>
-        <Menu.Item key="/kontakt">
-          <NavLink to="/kontakt" exact>
-            KONTAKT
-          </NavLink>
-        </Menu.Item>
+        {/*<Menu.Item key="/kontakt">*/}
+        {/*  <NavLink to="/kontakt" exact>*/}
+        {/*    KONTAKT*/}
+        {/*  </NavLink>*/}
+        {/*</Menu.Item>*/}
         <Menu.Item key="/registrieren">
           <NavLink to="/registrieren" exact>
             ALS HELFER REGISTRIEREN
@@ -65,11 +65,11 @@ function NavigationMenu({ mode, menuClicked }) {
           AUFTRAG ANNEHMEN
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="/kontakt">
-        <NavLink to="/kontakt" exact>
-          BRAUCHEN SIE HILFE?
-        </NavLink>
-      </Menu.Item>
+      {/*<Menu.Item key="/kontakt">*/}
+      {/*  <NavLink to="/kontakt" exact>*/}
+      {/*    BRAUCHEN SIE HILFE?*/}
+      {/*  </NavLink>*/}
+      {/*</Menu.Item>*/}
     </Menu>
   );
 }
