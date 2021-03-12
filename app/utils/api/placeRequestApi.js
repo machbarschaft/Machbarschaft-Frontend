@@ -1,5 +1,6 @@
 import apiUrl from './apiUrl';
 import { objectToFormUrlEncoded } from './formUrlEncoder';
+import apiCall from './apiCall';
 
 /**
  * Creates a new help request, either for a guest or an authentciated user.
@@ -30,6 +31,31 @@ export const postPlaceRequest = async ({ formValues, isAuthenticated }) => {
     throw Error(res.errors[0]);
   });
 };
+
+export const createHelpRequest = async (helpSeeker, requestText) => {
+  try {
+    const helpSeekerResponse = await apiCall({
+      url: 'help-seeker',
+      method: 'POST',
+      data: helpSeeker
+    });
+
+    const helpRequest = await apiCall({
+      url: 'help-request',
+      method: 'POST',
+      data: {
+        requestText: requestText,
+        requestStatus: 'OPEN',
+        helpSeeker: helpSeekerResponse.data.id
+      }
+    });
+
+    return helpRequest.data;
+  } catch (e) {
+    throw Error(e.data.message);
+  }
+}
+
 
 /**
  * Updates data in an existing help request.
