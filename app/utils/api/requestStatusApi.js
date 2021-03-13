@@ -1,4 +1,5 @@
 import apiUrl from './apiUrl';
+import apiCall from './apiCall';
 
 /**
  * Help seeker can reopen request
@@ -6,7 +7,6 @@ import apiUrl from './apiUrl';
 export const putReopenRequest = async (requestId) => {
   const endpoint = `${apiUrl()}/request/${requestId}/reopen`;
 
-  console.log(`reopen request (${endpoint})`);
   return fetch(endpoint, {
     method: 'PUT',
     cache: 'no-cache',
@@ -65,4 +65,21 @@ export const putUpdateRequestStatus = async (processId) => {
     res = await res.json();
     throw Error(res.errors[0]);
   });
+};
+
+/**
+ * Update status of request
+ */
+export const updateRequestStatus = async (request, status) => {
+  try {
+    if (request.requestStatus !== status) {
+      return apiCall({
+        url: `help-request/${request.id}/status`,
+        method: 'PUT',
+        data: { status }
+      });
+    }
+  } catch (e) {
+    console.warn(e);
+  }
 };

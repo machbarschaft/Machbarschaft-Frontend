@@ -4,7 +4,9 @@ import {
   LOADING_ACTIVE,
   LOADING_FINISHED, LOADING_HELP_REQUEST,
   SUCCESS_ACTIVE,
-  SUCCESS_FINISHED, SUCCESS_HELP_REQUEST,
+  SUCCESS_FINISHED,
+  SUCCESS_HELP_REQUEST,
+  SUCCESS_HELP_REQUEST_STATUS,
 } from './types';
 
 function isLoading(state) {
@@ -146,6 +148,16 @@ export default function dashboardStateReducer(state, action) {
       error: action.error,
     };
     newState.loading = isLoading(newState);
+    return newState;
+  }
+  if (action.type === SUCCESS_HELP_REQUEST_STATUS) {
+    newState = {
+      ...state,
+      loadingHelpRequests: false,
+      helpRequestsResult: state.helpRequestsResult.map(helpRequest => helpRequest.id === action.helpRequest.id ? action.helpRequest : helpRequest)
+    };
+    newState.loading = isLoading(newState);
+
     return newState;
   }
   throw new Error('Unsupported');

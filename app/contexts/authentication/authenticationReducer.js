@@ -16,6 +16,7 @@ export const initialAuthenticationState = {
   email: null,
   phoneNumber: null,
   countryCode: null,
+  role: null,
 
   // Verification
   emailVerified: false,
@@ -84,6 +85,7 @@ export default function authenticationReducer(state, action) {
         uid: action.data.uid,
         email: action.data.email,
         phoneNumber: action.data.phoneNumber,
+        role: action.data.role,
         countryCode: action.data.countryCode,
 
         profile: action.data.profile,

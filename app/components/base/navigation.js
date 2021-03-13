@@ -65,6 +65,11 @@ function NavigationMenu({ mode, menuClicked }) {
           AUFTRAG ANNEHMEN
         </NavLink>
       </Menu.Item>
+      <Menu.Item key="/role">
+        <NavLink to="/role" exact>
+          ROLLEN BEARBEITEN
+        </NavLink>
+      </Menu.Item>
       {/*<Menu.Item key="/kontakt">*/}
       {/*  <NavLink to="/kontakt" exact>*/}
       {/*    BRAUCHEN SIE HILFE?*/}
