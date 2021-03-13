@@ -5,7 +5,9 @@ import {
   ERROR_HELP_REQUEST,
   LOADING_HELP_REQUEST,
   SUCCESS_HELP_REQUEST,
+  SUCCESS_HELP_REQUEST_STATUS,
 } from '../contexts/dashboard/types';
+import { updateRequestStatus } from '../utils/api/requestStatusApi';
 
 export default function useDashboard() {
   const [requestsState, dispatchRequestsState] = React.useReducer(
@@ -33,10 +35,15 @@ export default function useDashboard() {
         dispatchRequestsState({ type: ERROR_HELP_REQUEST, error: err })
       );
   };
+  const updateHelpRequestStatus = async (helpRequest, status) => {
+    dispatchRequestsState({ type: LOADING_HELP_REQUEST });
+    const updatedHelpRequest = await updateRequestStatus(helpRequest, status);
+    dispatchRequestsState({ type: SUCCESS_HELP_REQUEST_STATUS, helpRequest: updatedHelpRequest.data });
+  };
   const fetchRequests = () => {
     fetchHelpRequests();
   };
   React.useEffect(() => fetchRequests(), []);
 
-  return [requestsState, fetchRequests];
+  return [requestsState, fetchRequests, updateHelpRequestStatus];
 }
