@@ -42,31 +42,10 @@ export default function useAuthentication() {
     refreshTokenOnMount();
   }, []);
 
-  /**
-   * Makes a request to the backend to register a user. If successful, authenticates in one go
-   * @param email the email of the user to be registered
-   * @param phone the phone number of the user to be registered
-   * @param password the password of the user to be registered
-   * @param forename the forename of the user to be registered
-   * @param surname the surname of the user to be registered
-   */
-  const performRegister = async (
-    email,
-    phone,
-    countryCode,
-    password,
-    forename,
-    surname
-  ) => {
-    phone = phone.replace(/\D/g, '');
-
+  const performRegister = async (values) => {
     const formValues = {
-      email,
-      phone,
-      countryCode,
-      password,
-      forename,
-      surname,
+      ...values,
+      phone: values.phone.replace(/\D/g, '')
     };
 
     dispatch({
@@ -126,7 +105,7 @@ export default function useAuthentication() {
             return false;
         }
       }
-      return await performAuthentication(email, password);
+      return await performAuthentication(values.email, values.password);
     } catch (error) {
       dispatch({
         type: REGISTER_FAILURE,
