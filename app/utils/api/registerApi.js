@@ -3,7 +3,7 @@ import apiCall from './apiCall';
 
 const postRegisterRequest = async (formValues) => {
   const preparedValues = {
-    email: formValues.email,
+    ...formValues,
     firstName: formValues.forename,
     lastName: formValues.surname,
     phone: `${formValues.countryCode}${formValues.phone}`,
