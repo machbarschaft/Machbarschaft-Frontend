@@ -10,37 +10,74 @@ import {
   Timeline,
   Typography,
 } from 'antd';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Geocode from "react-geocode";
 import AuthenticationContext from '../../contexts/authentication';
 import { printErrors } from '../../utils/misc/printErrors';
+import { googleMapsApiKey } from '../../assets/config/google-maps-api';
 
 const { Option } = Select;
 const { Title } = Typography;
+
+Geocode.setApiKey(googleMapsApiKey);
 
 function RegisterHelperComponent() {
   const authenticationContext = useContext(AuthenticationContext);
 
   const [form] = Form.useForm();
   const history = useHistory();
+  const [step, setStep] = useState(1);
+  const [firstStep, setFirstStep] = useState();
 
   const layout = {
     labelCol: { span: 10 },
     wrapperCol: { span: 14 },
   };
 
-  const handleForm = async (values) => {
-    const registerResult = await authenticationContext.performRegister(
-      values.email,
-      values.phone,
-      values.countryCode,
-      values.password,
-      values.forename,
-      values.surname
-    );
+  const handleFirstStep = async (values) => {
+    setFirstStep(values);
 
-    if (registerResult === true) {
-      history.push('/');
+    setStep(2);
+  };
+
+  const handleForm = async (values) => {
+    if (values.city && values.street) {
+      const address = `${values.country} ${values.city} ${values.street} ${values.streetNo}`;
+
+      const addressResponse = await Geocode.fromAddress(address);
+      if (addressResponse.results?.length) {
+        const location = {
+          latitude: addressResponse.results[0].geometry.location.lat,
+          longitude: addressResponse.results[0].geometry.location.lng
+        };
+
+        const registerResult = await authenticationContext.performRegister({
+          ...values,
+          ...firstStep,
+          location
+        });
+
+        if (registerResult) {
+          history.push('/');
+        }
+      } else {
+        const registerResult = await authenticationContext.performRegister({
+          ...firstStep
+        });
+
+        if (registerResult) {
+          history.push('/');
+        }
+      }
+    } else {
+      const registerResult = await authenticationContext.performRegister({
+        ...firstStep
+      });
+
+      if (registerResult) {
+        history.push('/');
+      }
     }
   };
 
@@ -77,105 +114,180 @@ function RegisterHelperComponent() {
                   <Alert
                     message="Es ist ein Fehler aufgetreten"
                     description={printErrors(
-                      authenticationContext.authenticationState.registerErrors
+                      authenticationContext.authenticationState.registerErrors,
                     )}
                     type="error"
                   />
                 )}
-                <Form
-                  {...layout}
-                  form={form}
-                  name="register-helper"
-                  style={{ width: '100%' }}
-                  onFinish={handleForm}
-                  hideRequiredMark
-                  initialValues={{
-                    countryCode: '49',
-                  }}
-                >
-                  <Form.Item
-                    name="forename"
-                    label="Vorname"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Gib deinen Vornamen ein',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="surname"
-                    label="Nachname"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Gib deinen Nachname ein',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="email"
-                    label="Deine E-Mail Adresse"
-                    rules={[
-                      {
-                        required: true,
-                        type: 'email',
-                        message: 'Gib eine gültige E-Mail Adresse ein.',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="phone"
-                    label="Deine Telefonnummer"
-                    rules={[
-                      {
-                        required: true,
-                        pattern:
-                          '(\\(?([\\d \\-\\)\\–\\+\\/\\(]+){6,}\\)?([ .\\-–\\/]?)([\\d]+))',
-                        message: 'Gib eine gültige Telefonnummer ein.',
-                      },
-                    ]}
-                  >
-                    <Input
-                      addonBefore={phonePrefixSelector}
+                {
+                  step === 1 && (
+                    <Form
+                      {...layout}
+                      form={form}
+                      name="register-helper"
                       style={{ width: '100%' }}
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="password"
-                    label="Dein Passwort"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Gib ein Passwort ein.',
-                      },
-                    ]}
-                  >
-                    <Input.Password />
-                  </Form.Item>
-
-                  <Form.Item>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      loading={
-                        authenticationContext.authenticationState.isRegistering
-                      }
+                      onFinish={handleFirstStep}
+                      hideRequiredMark
+                      initialValues={{
+                        countryCode: '49',
+                      }}
                     >
-                      Registrieren
-                    </Button>
-                  </Form.Item>
-                </Form>
+                      <Form.Item
+                        name="forename"
+                        label="Vorname"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Gib deinen Vornamen ein',
+                          },
+                        ]}
+                      >
+                        <Input/>
+                      </Form.Item>
+
+                      <Form.Item
+                        name="surname"
+                        label="Nachname"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Gib deinen Nachname ein',
+                          },
+                        ]}
+                      >
+                        <Input/>
+                      </Form.Item>
+
+                      <Form.Item
+                        name="email"
+                        label="Deine E-Mail Adresse"
+                        rules={[
+                          {
+                            required: true,
+                            type: 'email',
+                            message: 'Gib eine gültige E-Mail Adresse ein.',
+                          },
+                        ]}
+                      >
+                        <Input/>
+                      </Form.Item>
+
+                      <Form.Item
+                        name="phone"
+                        label="Deine Telefonnummer"
+                        rules={[
+                          {
+                            required: true,
+                            pattern:
+                              '(\\(?([\\d \\-\\)\\–\\+\\/\\(]+){6,}\\)?([ .\\-–\\/]?)([\\d]+))',
+                            message: 'Gib eine gültige Telefonnummer ein.',
+                          },
+                        ]}
+                      >
+                        <Input
+                          addonBefore={phonePrefixSelector}
+                          style={{ width: '100%' }}
+                        />
+                      </Form.Item>
+
+                      <Form.Item
+                        name="password"
+                        label="Dein Passwort"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Gib ein Passwort ein.',
+                          },
+                        ]}
+                      >
+                        <Input.Password/>
+                      </Form.Item>
+
+                      <Form.Item>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                        >
+                          Nächste
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  )
+                }
+
+                {
+                  step === 2 && (
+                    <Form
+                      {...layout}
+                      form={form}
+                      name="register-helper"
+                      style={{ width: '100%' }}
+                      onFinish={handleForm}
+                      hideRequiredMark
+                      initialValues={{
+                        countryCode: '49',
+                        country: 'Deutschland',
+                      }}
+                    >
+                      <Form.Item
+                        name="street"
+                        label="Strasse"
+                      >
+                        <Input/>
+                      </Form.Item>
+
+                      <Form.Item
+                        name="streetNo"
+                        label="Strasse Nummer"
+                      >
+                        <Input/>
+                      </Form.Item>
+
+                      <Form.Item
+                        name="zipCode"
+                        label="ZIP"
+                      >
+                        <Input/>
+                      </Form.Item>
+
+                      <Form.Item
+                        name="city"
+                        label="Stadt"
+                      >
+                        <Input/>
+                      </Form.Item>
+
+                      <Form.Item
+                        name="country"
+                        label="Land"
+                      >
+                        <Input disabled/>
+                      </Form.Item>
+
+                      <Form.Item>
+                        <Button
+                          type="primary"
+                          htmlType="button"
+                          onClick={() => setStep(1)}
+                        >
+                          Zurück
+                        </Button>
+                      </Form.Item>
+
+                      <Form.Item>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          loading={
+                            authenticationContext.authenticationState.isRegistering
+                          }
+                        >
+                          Registrieren
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  )
+                }
               </Card>
             </Col>
             <Col xs={{ span: 24 }} xl={{ span: 12 }} xxl={{ span: 12 }}>
