@@ -238,14 +238,14 @@ function RegisterHelperComponent() {
 
                       <Form.Item
                         name="streetNo"
-                        label="Strasse Nummer"
+                        label="Hausnummer"
                       >
                         <Input/>
                       </Form.Item>
 
                       <Form.Item
                         name="zipCode"
-                        label="ZIP"
+                        label="Postleitzahl"
                       >
                         <Input/>
                       </Form.Item>

@@ -32,7 +32,7 @@ function NavigationMenu({ mode, menuClicked }) {
         {/*</Menu.Item>*/}
         <Menu.Item key="/registrieren">
           <NavLink to="/registrieren" exact>
-            ALS HELFER REGISTRIEREN
+            REGISTRIEREN
           </NavLink>
         </Menu.Item>
       </Menu>
