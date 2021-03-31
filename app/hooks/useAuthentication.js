@@ -205,6 +205,8 @@ export default function useAuthentication() {
 
             emailVerified: authResult.emailVerified,
             phoneVerified: authResult.phoneVerified,
+            location: authResult.location,
+            source: authResult.source,
 
             profile: {
               forename: authResult.firstName,
@@ -213,8 +215,9 @@ export default function useAuthentication() {
 
             address: {
               street: authResult.street,
-              houseNumber: authResult.streetNo,
+              streetNo: authResult.streetNo,
               zipCode: authResult.zipCode,
+              city: authResult.city,
               country: 'Deutschland', // TODO
             },
           },

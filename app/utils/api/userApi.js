@@ -3,6 +3,19 @@ import { objectToFormUrlEncoded } from './formUrlEncoder';
 import apiCall from './apiCall';
 
 /**
+ * Endpoint to update user.
+ * @param formValues
+ * @returns {Promise<Response>}
+ */
+export const updateUser = async (formValues) => {
+  return apiCall({
+    url: `user`,
+    method: 'PUT',
+    data: {...formValues}
+  });
+};
+
+/**
  * Endpoint to save user preferences.
  * @param formValues include forename and surname
  * @returns {Promise<Response>}
