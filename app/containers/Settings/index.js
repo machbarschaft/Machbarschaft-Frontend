@@ -69,6 +69,8 @@ export default function SettingsComponent() {
 
     updateUser(userRequest)
       .then(() => {
+        const { checkAuthentication } = authenticationContext;
+        checkAuthentication();
         notification.success({
           message: 'Fertig',
           description: 'Profil erfolgreich gespeichert.',
