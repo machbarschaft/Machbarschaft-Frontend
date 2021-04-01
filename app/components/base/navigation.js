@@ -13,6 +13,7 @@ function NavigationMenu({ mode, menuClicked }) {
   const { authenticationState } = authProps;
   const location = useLocation();
   const [selectedKey, setSelectedKey] = React.useState([location.pathname]);
+  const isAdmin = authenticationState.role === 'ADMIN';
 
   React.useEffect(() => setSelectedKey(location.pathname), [location.pathname]);
 
@@ -65,11 +66,15 @@ function NavigationMenu({ mode, menuClicked }) {
           AUFTRAG ANNEHMEN
         </NavLink>
       </Menu.Item>
-      <Menu.Item key="/role">
-        <NavLink to="/role" exact>
-          ROLLEN BEARBEITEN
-        </NavLink>
-      </Menu.Item>
+      {
+        isAdmin && (
+          <Menu.Item key="/role">
+            <NavLink to="/role" exact>
+              ROLLEN BEARBEITEN
+            </NavLink>
+          </Menu.Item>
+        )
+      }
       {/*<Menu.Item key="/kontakt">*/}
       {/*  <NavLink to="/kontakt" exact>*/}
       {/*    BRAUCHEN SIE HILFE?*/}
