@@ -4,46 +4,28 @@ import {
   Input,
   Typography,
   Button,
-  Switch,
   Spin,
   Card,
   notification,
 } from 'antd';
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import AuthenticationContext from '../../contexts/authentication';
-import {
-  getUserPreferences,
-  putUserPreferences,
-  putUserProfile,
-} from '../../utils/api/userApi';
+import { updateUser } from '../../utils/api/userApi';
+import Geocode from 'react-geocode';
+import { googleMapsApiKey } from '../../assets/config/google-maps-api';
 
-const { Title } = Typography;
+Geocode.setApiKey(googleMapsApiKey);
 
 export default function SettingsComponent() {
   const authenticationContext = React.useContext(AuthenticationContext);
-
-  const [expandState, setExpandState] = React.useState(false);
   const [preferenceState, setPreferenceState] = React.useState(null);
   const [loadingState, setLoadingState] = React.useState(true);
+
   React.useEffect(() => {
-    getUserPreferences().then((preferences) => {
-      console.log(preferences);
-      const formValuesPreference = {
-        radius: preferences.radius.toString(),
-        notifyNearbyRequests: preferences.notifyNearbyRequests,
-        useGps: preferences.useGps,
-        country: 'Deutschland',
-      };
-      if (preferences.staticPosition) {
-        formValuesPreference.street = preferences.staticPosition.street;
-        formValuesPreference.houseNumber = preferences.staticPosition.houseNumber.toString();
-        formValuesPreference.zipCode = preferences.staticPosition.zipCode.toString();
-        formValuesPreference.city = preferences.staticPosition.city;
-        formValuesPreference.country = preferences.staticPosition.country;
-      }
-      setPreferenceState(formValuesPreference);
+    if (authenticationContext?.authenticationState) {
+      const formValuesAddress = authenticationContext.authenticationState.address;
+      setPreferenceState({...formValuesAddress, ...authenticationContext.authenticationState.profile });
       setLoadingState(false);
-    });
+    }
   }, []);
 
   const formLayout = {
@@ -52,9 +34,52 @@ export default function SettingsComponent() {
   };
 
   const [formProfile] = Form.useForm();
-  const [formPreferences] = Form.useForm();
   const formNameProfile = 'profile-form';
-  const formNamePreferences = 'preferences-form';
+
+  const updateUserHandler = async (formValues) => {
+    const authState = authenticationContext.authenticationState;
+    const cityValue = formValues.city || authState.address.city;
+    const streetValue = formValues.street || authState.address.street;
+    const streetNoValue = formValues.streetNo || authState.address.streetNo;
+    let locationValue = authState.location;
+    const address = `${authState.address.country} ${cityValue} ${streetValue} ${streetNoValue}`;
+
+    const addressResponse = await Geocode.fromAddress(address);
+
+    if (addressResponse.results?.length) {
+      locationValue = {
+        latitude: addressResponse.results[0].geometry.location.lat,
+        longitude: addressResponse.results[0].geometry.location.lng
+      };
+    }
+
+    const userRequest = {
+      city: cityValue,
+      email: authState.email,
+      firstName: formValues.forename || authState.profile.forename,
+      id: authState.uid,
+      lastName: formValues.surname || authState.profile.surname,
+      location: locationValue,
+      phone: authState.phoneNumber,
+      source: authState.source,
+      street: streetValue,
+      streetNo: streetNoValue,
+      zipCode: formValues.zipCode || authState.address.zipCode
+    };
+
+    updateUser(userRequest)
+      .then(() => {
+        const { checkAuthentication } = authenticationContext;
+        checkAuthentication();
+        notification.success({
+          message: 'Fertig',
+          description: 'Profil erfolgreich gespeichert.',
+        });
+      })
+      .catch((error) => {
+        notification.error({ message: 'Fehler', description: error });
+      });
+  }
 
   return (
     <div className="content-container-default background-light-grey">
@@ -66,120 +91,42 @@ export default function SettingsComponent() {
         className="login-card"
       >
         <div className="dashboard-tile-spacing" />
-        <Form
-          {...formLayout}
-          form={formProfile}
-          name={formNameProfile}
-          hideRequiredMark
-          initialValues={{
-            forename:
-              authenticationContext.authenticationState.profile.forename,
-            surname: authenticationContext.authenticationState.profile.surname,
-          }}
-          onFinish={(formValues) => {
-            putUserProfile(formValues)
-              .then(() => {
-                notification.success({
-                  message: 'Fertig',
-                  description: 'Profil erfolgreich gespeichert.',
-                });
-              })
-              .catch((error) => {
-                notification.error({ message: 'Fehler', description: error });
-              });
-          }}
-        >
-          <Form.Item
-            label="Vorname:"
-            name="forename"
-            rules={[
-              {
-                type: 'string',
-                required: true,
-                message: 'Bitte geben Sie Ihren Vornamen an.',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Nachname:"
-            name="surname"
-            rules={[
-              {
-                type: 'string',
-                required: true,
-                message: 'Bitte geben Sie Ihren Nachnamen an.',
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item className="center">
-            <Button type="primary" htmlType="submit">
-              Speichern
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-      {loadingState && <Spin size="large" />}
-      {!loadingState && (
-        <Card
-          title="Einstellungen"
-          headStyle={{ textAlign: 'center', fontSize: '150%' }}
-          bodyStyle={{ textAlign: 'center' }}
-          bordered={false}
-          className="login-card"
-        >
-          <div className="dashboard-tile-spacing" />
-          <Form
-            {...formLayout}
-            form={formPreferences}
-            name={formNamePreferences}
-            hideRequiredMark
-            initialValues={preferenceState}
-            onFinish={(formValues) => {
-              Object.keys(formValues).forEach(
-                (key) =>
-                  (formValues[key] === undefined || formValues[key] === '') &&
-                  delete formValues[key]
-              );
-              putUserPreferences(formValues)
-                .then(() => {
-                  notification.success({
-                    message: 'Fertig',
-                    description: 'Einstellungen erfolgreich gespeichert.',
-                  });
-                })
-                .catch((error) => {
-                  notification.error({
-                    message: 'Fehler',
-                    description: error.message,
-                  });
-                });
-            }}
-          >
-            <Form.Item label="Adresse:" name="address">
-              <a
-                style={{
-                  fontSize: 12,
-                }}
-                onClick={() => {
-                  setExpandState(!expandState);
-                }}
+        {
+          preferenceState && (
+            <Form
+              {...formLayout}
+              form={formProfile}
+              name={formNameProfile}
+              hideRequiredMark
+              initialValues={preferenceState}
+              onFinish={updateUserHandler}
+            >
+              <Form.Item
+                label="Vorname:"
+                name="forename"
+                rules={[
+                  {
+                    type: 'string',
+                    required: true,
+                    message: 'Bitte geben Sie Ihren Vornamen an.',
+                  },
+                ]}
               >
-                {expandState ? (
-                  <>
-                    <DownOutlined /> Weniger anzeigen
-                  </>
-                ) : (
-                  <>
-                    <UpOutlined /> Mehr anzeigen
-                  </>
-                )}
-              </a>
-            </Form.Item>
-            <div className="settings-spacing-left" hidden={!expandState}>
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Nachname:"
+                name="surname"
+                rules={[
+                  {
+                    type: 'string',
+                    required: true,
+                    message: 'Bitte geben Sie Ihren Nachnamen an.',
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
               <Form.Item
                 label="Straße:"
                 name="street"
@@ -194,7 +141,7 @@ export default function SettingsComponent() {
               </Form.Item>
               <Form.Item
                 label="Hausnummer:"
-                name="houseNumber"
+                name="streetNo"
                 rules={[
                   {
                     type: 'string',
@@ -231,59 +178,16 @@ export default function SettingsComponent() {
               >
                 <Input />
               </Form.Item>
-              <Form.Item
-                label="Land:"
-                name="country"
-                rules={[
-                  {
-                    type: 'string',
-                  },
-                ]}
-              >
-                <Input placeholder="Deutschland" />
+              <Form.Item className="center">
+                <Button type="primary" htmlType="submit">
+                  Speichern
+                </Button>
               </Form.Item>
-            </div>
-            <Form.Item
-              label="Radius:"
-              name="radius"
-              rules={[
-                {
-                  type: 'string',
-                  pattern: '^[0-9]+$',
-                  message:
-                    'Bitte geben Sie den Radius an in dem Sie nach Aufträgen suchen möchten.',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label={
-                <>
-                  Email-Benachrichtigung bei
-                  <br /> Aufträgen in der Nähe
-                </>
-              }
-              name="notifyNearbyRequests"
-              valuePropName="checked"
-            >
-              <Switch />
-            </Form.Item>
-            <Form.Item
-              label="GPS erlauben:"
-              name="useGps"
-              valuePropName="checked"
-            >
-              <Switch />
-            </Form.Item>
-            <Form.Item className="center">
-              <Button type="primary" htmlType="submit">
-                Speichern
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      )}
+            </Form>
+          )
+        }
+      </Card>
+      {loadingState && <Spin size="large" />}
     </div>
   );
 }

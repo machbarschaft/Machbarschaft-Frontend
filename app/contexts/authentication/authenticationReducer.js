@@ -17,6 +17,8 @@ export const initialAuthenticationState = {
   phoneNumber: null,
   countryCode: null,
   role: null,
+  location: null,
+  source: null,
 
   // Verification
   emailVerified: false,
@@ -31,7 +33,8 @@ export const initialAuthenticationState = {
   // Adresse
   address: {
     street: '',
-    houseNumber: '',
+    streetNo: '',
+    city: '',
     zipCode: '',
     country: '',
   },
@@ -87,6 +90,8 @@ export default function authenticationReducer(state, action) {
         phoneNumber: action.data.phoneNumber,
         role: action.data.role,
         countryCode: action.data.countryCode,
+        location: action.data.location,
+        source: action.data.source,
 
         profile: action.data.profile,
         address: action.data.address,
