@@ -1,14 +1,20 @@
 import React from 'react';
-import { Space, Form, Input, Button } from 'antd';
-import {
-  createHelpRequest,
-} from '../../utils/api/placeRequestApi';
+import { useHistory } from 'react-router-dom';
+import { Space, Form, Input, Button, notification } from 'antd';
+import Geocode from 'react-geocode';
+import { createHelpRequest } from '../../utils/api/placeRequestApi';
 import placeRequestReducer from '../../contexts/placeRequest/placeRequestReducer';
 import { ERROR, LOADED } from '../../contexts/placeRequest/types';
-import { useHistory } from 'react-router-dom';
+import AuthenticationContext from '../../contexts/authentication';
+import { googleMapsApiKey } from '../../assets/config/google-maps-api';
+import { updateUser } from '../../utils/api/userApi';
+
+Geocode.setApiKey(googleMapsApiKey);
 
 export default function PlaceRequestWindow(props) {
   const history = useHistory();
+  const [address, setAddress] = React.useState(null);
+  const authenticationContext = React.useContext(AuthenticationContext);
 
   const [wizardState, dispatch] = React.useReducer(placeRequestReducer, {
     currentStep: 0,
@@ -19,7 +25,21 @@ export default function PlaceRequestWindow(props) {
     errorMsg: '',
   });
 
+  React.useEffect(() => {
+    if (authenticationContext?.authenticationState) {
+      setAddress(authenticationContext.authenticationState.address);
+    } else {
+      setAddress({
+        city: '',
+        street: '',
+        streetNo: '',
+        zipCode: ''
+      });
+    }
+  }, []);
+
   const onFinish = async (values) => {
+    const authState = authenticationContext.authenticationState;
     const helpSeeker = {
       fullName: values.fullName,
       phone: values.phone,
@@ -27,6 +47,47 @@ export default function PlaceRequestWindow(props) {
     };
 
     await createHelpRequest(helpSeeker, values.requestText);
+
+    const cityValue = values.city || authState.address.city;
+    const streetValue = values.street || authState.address.street;
+    const streetNoValue = values.streetNo || authState.address.streetNo;
+    const zipCodeValue = values.zipCode || authState.address.zipCode;
+    const address = `${authState.address.country} ${cityValue} ${streetValue} ${streetNoValue}`;
+    const addressResponse = await Geocode.fromAddress(address);
+
+    if (addressResponse.results?.length) {
+      const locationValue = {
+        latitude: addressResponse.results[0].geometry.location.lat,
+        longitude: addressResponse.results[0].geometry.location.lng
+      };
+
+      const userRequest = {
+        city: cityValue,
+        email: authState.email,
+        firstName: authState.profile.forename,
+        id: authState.uid,
+        lastName: authState.profile.surname,
+        location: locationValue,
+        phone: authState.phoneNumber,
+        source: authState.source,
+        street: streetValue,
+        streetNo: streetNoValue,
+        zipCode: zipCodeValue
+      };
+
+      updateUser(userRequest)
+        .then(() => {
+          const { checkAuthentication } = authenticationContext;
+          checkAuthentication();
+          notification.success({
+            message: 'Fertig',
+            description: 'Profil erfolgreich gespeichert.',
+          });
+        })
+        .catch((error) => {
+          notification.error({ message: 'Fehler', description: error });
+        });
+    }
 
     dispatch({
       type: LOADED,
@@ -48,42 +109,98 @@ export default function PlaceRequestWindow(props) {
       size="large"
       className="content-container-default"
     >
-      <Form
-        name="basic"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <Form.Item
-          label="Vor- und Nachname"
-          name="fullName"
-          rules={[{ required: true, message: 'Bitte geben Sie einen Hilfesuchenden ein.' }]}
-        >
-          <Input />
-        </Form.Item>
+      {
+        address && (
+          <Form
+            name="basic"
+            initialValues={{...address, remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+          >
+            <Form.Item
+              label="Vor- und Nachname"
+              name="fullName"
+              rules={[{ required: true, message: 'Bitte geben Sie einen Hilfesuchenden ein.' }]}
+            >
+              <Input />
+            </Form.Item>
 
-        <Form.Item
-          label="Telefonnummer"
-          name="phone"
-          rules={[{ required: true, message: 'Bitte geben Sie eine Telefonnummer ein.' }]}
-        >
-          <Input />
-        </Form.Item>
+            <Form.Item
+              label="Telefonnummer"
+              name="phone"
+              rules={[{ required: true, message: 'Bitte geben Sie eine Telefonnummer ein.' }]}
+            >
+              <Input />
+            </Form.Item>
 
-        <Form.Item
-          label="Hinweis"
-          name="requestText"
-          rules={[{ required: true, message: 'Bitte geben Sie einen Hinweis ein.' }]}
-        >
-          <Input.TextArea />
-        </Form.Item>
+            <Form.Item
+              label="Aufgabenbeschreibung"
+              name="requestText"
+              rules={[{ required: true, message: 'Bitte geben Sie einen Hinweis ein.' }]}
+            >
+              <Input.TextArea />
+            </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Speichern
-          </Button>
-        </Form.Item>
-      </Form>
+            <Form.Item
+              label="Straße:"
+              name="street"
+              rules={[
+                {
+                  type: 'string',
+                  message: 'Bitte geben Sie Ihre Straße an.',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Hausnummer:"
+              name="streetNo"
+              rules={[
+                {
+                  type: 'string',
+                  pattern: '^[0-9]+$',
+                  message:
+                    'Bitte geben Sie nur Ihre Hausnummer ohne Zusatz an.',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Postleitzahl:"
+              name="zipCode"
+              rules={[
+                {
+                  type: 'string',
+                  pattern: '^[0-9]+$',
+                  message: 'Bitte geben Sie Ihre Postleitzahl an.',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Stadt:"
+              name="city"
+              rules={[
+                {
+                  type: 'string',
+                  message: 'Bitte geben Sie Ihre Stadt an.',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Speichern
+              </Button>
+            </Form.Item>
+          </Form>
+        )
+      }
     </Space>
   );
 }
