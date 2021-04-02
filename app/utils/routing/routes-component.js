@@ -109,6 +109,7 @@ export default function RoutesComponent() {
           <RouteAuthenticated
             render={() => <EditRole {...props} />}
             redirectTo="/login"
+            checkForRole={true}
           />
         )}
       />
@@ -120,8 +121,9 @@ export default function RoutesComponent() {
   );
 }
 
-function RouteAuthenticated({ render, redirectTo, needVerified = false }) {
+function RouteAuthenticated({ render, redirectTo, needVerified = false, checkForRole = false }) {
   const authenticationContext = React.useContext(AuthenticationContext);
+  const isAdmin = authenticationContext.authenticationState.role === 'ADMIN';
 
   if (authenticationContext.isAuthenticated()) {
     if (
@@ -130,6 +132,10 @@ function RouteAuthenticated({ render, redirectTo, needVerified = false }) {
         !authenticationContext.isPhoneVerified())
     ) {
       return <Redirect to={redirectTo} />;
+    }
+
+    if (checkForRole && !isAdmin) {
+      return <Redirect to={'/dashboard'} />;
     }
 
     return render();
@@ -141,4 +147,5 @@ RouteAuthenticated.propTypes = {
   render: PropTypes.func.isRequired,
   redirectTo: PropTypes.string.isRequired,
   needVerified: PropTypes.bool,
+  checkForRole: PropTypes.bool,
 };
