@@ -4,7 +4,7 @@ steps:
          '--build-arg',
          'FIREBASE_API_KEY=${_FIREBASE_API_KEY}',
          '--build-arg',
-         ',MAPS_API_KEY=${_MAPS_API_KEY}',
+         'MAPS_API_KEY=${_MAPS_API_KEY}',
          '--build-arg',
          'API_URL_SUB=${_API_URL_SUB}',
          '--build-arg',
