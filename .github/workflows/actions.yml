@@ -7,8 +7,6 @@ on:
       - '!master'
 
 jobs:
-
-
   main:
     name: Test & Build
     runs-on: ubuntu-latest
@@ -42,6 +40,7 @@ jobs:
 
   release:
     name: Release
+    if: ${{ github.ref == 'refs/heads/master' }}
     needs: main
     runs-on: ubuntu-latest
     steps:
@@ -49,8 +48,7 @@ jobs:
 
       - run: npm ci
 
-      - if: github.ref == 'refs/heads/master'
-        run: npx -p @semantic-release/changelog -p @semantic-release/git -p semantic-release semantic-release
+      - run: npx -p @semantic-release/changelog -p @semantic-release/git -p semantic-release semantic-release
 
 
   deploy:
@@ -73,25 +71,34 @@ jobs:
             --config=cloudbuild.yaml \
             --substitutions ^--^_FIREBASE_API_KEY=${FIREBASE_API_KEY}--_MAPS_API_KEY=${MAPS_API_KEY}--_API_URL_SUB=${API_URL_SUB}
 
-          gcloud run deploy machbarschaft-webapp-sta \
+          gcloud run deploy ${{ github.ref == 'refs/heads/master' && 'machbarschaft-webapp-prd' || 'machbarschaft-webapp-sta' }} \
             --image gcr.io/${PROJECT_ID}/machbarschaft-webapp:latest \
             --region europe-west1 \
             --platform managed
         env:
-          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY_STA }}
-          MAPS_API_KEY: ${{ secrets.MAPS_API_KEY_STA }}
-          PROJECT_ID: ${{ secrets.PROJECT_ID_STA }}
-          API_URL_SUB: "api-sta"
+          FIREBASE_API_KEY: ${{ github.ref == 'refs/heads/master' && secrets.FIREBASE_API_KEY_PRD || secrets.FIREBASE_API_KEY_STA }}
+          MAPS_API_KEY: ${{ github.ref == 'refs/heads/master' && secrets.MAPS_API_KEY_PRD || secrets.MAPS_API_KEY_STA }}
+          PROJECT_ID: ${{ github.ref == 'refs/heads/master' && secrets.PROJECT_ID_PRD || secrets.PROJECT_ID_STA }}
+          API_URL_SUB: ${{ github.ref == 'refs/heads/master' && 'api' || 'api-sta' }}
 
 
-  main-pr:
+  create-pr:
     name: Create PR
+    if: ${{ github.ref != 'refs/heads/master' }}
     needs: deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - name: pull-request
+      - if: ${{ github.ref != 'refs/heads/develop' }}
+        name: pull-request develop
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "dev"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ github.ref == 'refs/heads/develop' }}
+        name: pull-request master
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: "master"
