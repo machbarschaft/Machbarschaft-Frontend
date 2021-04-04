@@ -90,14 +90,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - if: ${{ github.ref != 'refs/heads/develop' }}
-        name: pull-request develop
+      - if: ${{ github.ref != 'refs/heads/dev' }}
+        name: pull-request dev
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: "dev"
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: ${{ github.ref == 'refs/heads/develop' }}
+      - if: ${{ github.ref == 'refs/heads/dev' }}
         name: pull-request master
         uses: repo-sync/pull-request@v2
         with:

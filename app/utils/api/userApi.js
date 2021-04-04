@@ -11,7 +11,7 @@ export const updateUser = async (formValues) => {
   return apiCall({
     url: `user`,
     method: 'PUT',
-    data: {...formValues}
+    data: { ...formValues },
   });
 };
 
@@ -104,8 +104,8 @@ export const getUserPreferences = async () => {
 
 export const updateUserRole = async (email) => {
   return apiCall({
-    url: `admin/users/${email}`,
+    url: `admin/users/setadmin/${email}`,
     method: 'PUT',
-    data: {}
+    data: {},
   });
 };
