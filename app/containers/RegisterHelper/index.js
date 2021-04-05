@@ -94,7 +94,7 @@ function RegisterHelperComponent() {
       <div className="content-container-default">
         <div style={{ textAlign: 'center' }}>
           <Title level={1}>
-            Mach mit uns deine Nachbarschaft zur MACHBARSCHAFT.
+            Mach mit uns deine Nachbarschaft zur Machbarschaft.
           </Title>
           <Title level={3}>
             Cool, dass <b>Du</b> dabei bist!

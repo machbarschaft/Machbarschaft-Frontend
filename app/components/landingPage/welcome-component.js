@@ -46,8 +46,8 @@ export default function WelcomeComponent() {
       <Row type="flex" style={{ alignItems: 'center' }}>
         <Col xs={{ span: 24 }} xxl={{ span: 12 }}>
           <div>
-            <h1>MACHBARSCHAFT</h1>
-            MACHBARSCHAFT ist eine Nachbarschaftshilfe für Menschen ohne
+            <h1>Machbarschaft</h1>
+            Machbarschaft ist eine Nachbarschaftshilfe für Menschen ohne
             Internetzugang oder Internetkompetenz.
             <br />
             <br />

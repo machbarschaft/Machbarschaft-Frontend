@@ -11,11 +11,11 @@ export default function FAQ() {
         <br />
         <br />
         <Title level={3}>
-          Wie funktioniert MACHBARSCHAFT für MACHBAR:INNEN genau?
+          Wie funktioniert Machbarschaft für MACHBAR:INNEN genau?
         </Title>
         <div>
           Auf der Karte unserer kostenfreien Webapp und mobilen App
-          “MACHBARSCHAFT” kannst du dich orientieren, wer in deiner Umgebung
+          “Machbarschaft” kannst du dich orientieren, wer in deiner Umgebung
           Hilfe braucht.
           <br />
           Klicke auf den Auftrag und du kannst Details über die Art der Anfrage
@@ -72,12 +72,12 @@ export default function FAQ() {
         <br />
         <Title level={3}>Zielgruppe/Persona:</Title>
         <div>
-          "MACHBARSCHAFT" wurde aus gegebenem Anlass – der Corona Krise – ins
+          "Machbarschaft" wurde aus gegebenem Anlass – der Corona Krise – ins
           Leben gerufen. Wir möchten Menschen miteinander verbinden, Solidarität
           groß schreiben und vor allem da Hilfe leisten, wo sie dringend
           benötigt wird.
           <br />
-          Das MACHBARSCHAFTsangebot richtet sich an Menschen, welche aufgrund
+          Das Machbarschaftsangebot richtet sich an Menschen, welche aufgrund
           von COVID-19 stärkeren Einschränkungen unterliegen als die
           Allgemeinheit und nicht auf weitreichende soziale Kontakte
           zurückgreifen können, die Einkäufe sowie Apothekengänge o.Ä. moment

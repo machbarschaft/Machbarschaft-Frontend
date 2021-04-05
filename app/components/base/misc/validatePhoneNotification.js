@@ -10,7 +10,7 @@ export default function ValidatePhoneNotification() {
         message="Bitte bestätige deine Telefonnummer"
         description={
           <>
-            Bevor du alle Funktionen von MACHBARSCHAFT nutzen kannst, musst du
+            Bevor du alle Funktionen von Machbarschaft nutzen kannst, musst du
             deine Telefonnummer bestätigen.
             <br />
             <br />

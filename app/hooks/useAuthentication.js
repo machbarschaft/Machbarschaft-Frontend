@@ -75,7 +75,7 @@ export default function useAuthentication() {
               type: REGISTER_FAILURE,
               data: {
                 errors: [
-                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf MACHBARSCHAFT registriert?',
+                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
                 ],
               },
             });
@@ -86,7 +86,7 @@ export default function useAuthentication() {
               type: REGISTER_FAILURE,
               data: {
                 errors: [
-                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf MACHBARSCHAFT registriert?',
+                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
                 ],
               },
             });
@@ -110,7 +110,7 @@ export default function useAuthentication() {
         type: REGISTER_FAILURE,
         data: {
           errors: [
-            'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf MACHBARSCHAFT registriert? Oder hat das Passwort weniger als sechs Zeichen?',
+            'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert? Oder hat das Passwort weniger als sechs Zeichen?',
           ],
         },
       });

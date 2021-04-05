@@ -30,7 +30,7 @@ export default function LandingPage() {
           level={2}
           className="landingpage-element landingpage-text text-align-center"
         >
-          Mach mit uns deine Nachbarschaften zu MACHBARSCHAFTen.
+          Mach mit uns deine Nachbarschaften zu Machbarschaften.
         </Title>
         <div className="landingpage-two-section landingpage-element landingpage-text">
           <img
@@ -56,7 +56,7 @@ export default function LandingPage() {
           haben oft jedoch keinen Zugang zu digitalen Nachbarschaftshilfen.
         </Title>
         <div className="landingpage-text landingpage-element text-align-center">
-          Ein Anruf bei MACHBARSCHAFT hilft bereits.
+          Ein Anruf bei Machbarschaft hilft bereits.
         </div>
         <div className="landingpage-two-section landingpage-element landingpage-text">
           <div className="landingpage-two-section-text">

@@ -1,14 +1,15 @@
 import React from 'react';
 import { Typography } from 'antd';
+
 const { Title } = Typography;
 
 export default function ImprintWindow() {
   return (
-    <div className={'overflow-scroll content-container-default'}>
-      <div className={'imprint-text'}>
+    <div className="overflow-scroll content-container-default">
+      <div className="imprint-text">
         <Title level={2}>Impressum</Title>
         <div>
-          MACHBARSCHAFT ist ein gemeinnütziges Projekt aus dem Hackathon der
+          Machbarschaft ist ein gemeinnütziges Projekt aus dem Hackathon der
           Bundesregierung #WirvsVirus vom 20.03.- 22.03.2020
         </div>
         <br />
@@ -28,8 +29,10 @@ export default function ImprintWindow() {
           Herkulesstraße 95
           <br />
           34119 Kassel
-          <br /><br />
-          Vertretungsberechtigter Vorstand: Manuela Greipel, Alexander Hodes, Niklas Schöllhorn
+          <br />
+          <br />
+          Vertretungsberechtigter Vorstand: Manuela Greipel, Alexander Hodes,
+          Niklas Schöllhorn
         </div>
         <br />
         <br />

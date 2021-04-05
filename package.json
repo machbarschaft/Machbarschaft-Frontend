@@ -1,7 +1,7 @@
 {
   "name": "machbarschaft-frontend",
   "version": "0.0.1",
-  "description": "ReactJS Frontend for MACHBARSCHAFT",
+  "description": "ReactJS Frontend for Machbarschaft",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
@@ -19,11 +19,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Leenert/Machbarschaft-Frontend.git"
+    "url": "git+https://github.com/machbarschaft/Machbarschaft-Frontend.git"
   },
-  "author": "Marc Sommer, Janik Müller, Andreas Reinecke, Leenert Specht",
+  "author": "Marc Sommer, Janik Müller, Andreas Reinecke, Leenert Specht, Dmytro Tolbatov, Harald T. Wirths",
   "license": "GPL-3.0",
-  "homepage": "https://github.com/Leenert/Machbarschaft-Frontend#readme",
+  "homepage": "https://github.com/machbarschaft/Machbarschaft-Frontend#readme",
   "proxy": "http://localhost:8080",
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
