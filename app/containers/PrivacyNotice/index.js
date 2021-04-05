@@ -33,7 +33,7 @@ export default function PrivacyNotice() {
           sonstiger datenschutzrechtlicher Bestimmungen für Machbarschaft ist.
           <br />
           Hast Du Fragen oder Anliegen hierzu, steht Dir unserer Hilfeteam gerne
-          zur Verfügung:{' '}
+          zur Verfügung:` `
           <a href="mailto:hello@machbarschaft.jetzt">
             hello[at]machbarschaft.jetzt
           </a>
@@ -107,7 +107,7 @@ export default function PrivacyNotice() {
           Selbstverständlich kannst Du der Verarbeitung Deiner personenbezogenen
           Daten für Zwecke der Werbung und Datenanalyse jederzeit widersprechen.
           Über Deinen Werbewiderspruch kannst Du uns unter folgenden
-          Kontaktdaten informieren:{' '}
+          Kontaktdaten informieren:` `
           <a href="mailto:hello@machbarschaft.jetzt">
             hello[at]machbarschaft.jetzt
           </a>
@@ -359,7 +359,7 @@ export default function PrivacyNotice() {
           besonderen Situation von uns umgesetzt wird.
           <br />
           Möchtest Du von Deinem Widerrufs- oder Widerspruchsrecht Gebrauch
-          machen, genügt eine E-Mail an:{' '}
+          machen, genügt eine E-Mail an:` `
           <a href="mailto:hello@machbarschaft.jetzt">
             hello[at]machbarschaft.jetzt
           </a>

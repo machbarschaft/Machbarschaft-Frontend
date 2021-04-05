@@ -1,7 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
-import WelcomeComponent from '../../components/landingPage/welcome-component.js';
-import AuthenticationContext from '../../contexts/authentication';
+import WelcomeComponent from '../../components/landingPage/welcome-component';
 import WirVsVirus from '../../assets/img/landingpage/wirvsvirus_logo.jpg';
 import GrafikFive from '../../assets/img/landingpage/Grafik_5.png';
 import VerhaltensEmpfehlungenPdf from '../../assets/documents/Verhaltensempfehlungen_für_MACHBAR_EINKAUF.pdf';
@@ -10,8 +9,6 @@ import FlyerPdf from '../../assets/documents/Flyer_für_Hilfesuchende.pdf';
 const { Title } = Typography;
 
 export default function LandingPage() {
-  const authProps = React.useContext(AuthenticationContext);
-
   return (
     <div className="overflow-scroll">
       <WelcomeComponent />
@@ -63,6 +60,7 @@ export default function LandingPage() {
             <a
               href={VerhaltensEmpfehlungenPdf}
               target="_blank"
+              rel="noreferrer"
               className="landingpage-download-button"
             >
               Empfehlung herunterladen
@@ -79,6 +77,7 @@ export default function LandingPage() {
             <a
               href={FlyerPdf}
               target="_blank"
+              rel="noreferrer"
               className="landingpage-download-button"
             >
               Flyer herunterladen
