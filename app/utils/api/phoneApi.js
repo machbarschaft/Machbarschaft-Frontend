@@ -59,12 +59,12 @@ export const postRequestTan = async (formValues) => {
         return;
       }
       throw Error(
-        'Der Validierungsprozess konnte nicht gestartet werden. Bitte wende dich an den Support von MACHBARSCHAFT.'
+        'Der Validierungsprozess konnte nicht gestartet werden. Bitte wende dich an den Support von Machbarschaft.'
       );
     })
     .catch((error) => {
       throw Error(
-        'Der Validierungsprozess konnte nicht gestartet werden. Bitte wende dich an den Support von MACHBARSCHAFT.'
+        'Der Validierungsprozess konnte nicht gestartet werden. Bitte wende dich an den Support von Machbarschaft.'
       );
     });
 };

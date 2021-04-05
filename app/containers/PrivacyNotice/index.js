@@ -9,10 +9,10 @@ export default function PrivacyNotice() {
       <div className="imprint-text">
         <Title level={2}>Datenschutz</Title>
         <div>
-          Datenschutz bei MACHBARSCHAFT ist uns ein wichtiges Anliegen. In
+          Datenschutz bei Machbarschaft ist uns ein wichtiges Anliegen. In
           unserer Datenschutzerklärung erhältst Du Informationen, welche Daten
           wie verwendet werden, wenn Du dich dazu entschließt, Teil von
-          MACHBARSCHAFT zu werden.
+          Machbarschaft zu werden.
           <br />
           In unserer Datenschutzerklärung erläutern wir Dir, wie wir den Schutz
           deiner personenbezogenen Daten sicherstellen.
@@ -30,10 +30,13 @@ export default function PrivacyNotice() {
         <div>
           Dein Ansprechpartner und Verantwortlicher im Sinne der DSGVO und
           anderer nationaler Datenschutzgesetze der Mitgliedsstaaten sowie
-          sonstiger datenschutzrechtlicher Bestimmungen für MACHBARSCHAFT ist.
+          sonstiger datenschutzrechtlicher Bestimmungen für Machbarschaft ist.
           <br />
           Hast Du Fragen oder Anliegen hierzu, steht Dir unserer Hilfeteam gerne
-          zur Verfügung: mail[at]machbarschaft.jetzt
+          zur Verfügung:` `
+          <a href="mailto:hello@machbarschaft.jetzt">
+            hello[at]machbarschaft.jetzt
+          </a>
         </div>
         <br />
         <br />
@@ -104,7 +107,10 @@ export default function PrivacyNotice() {
           Selbstverständlich kannst Du der Verarbeitung Deiner personenbezogenen
           Daten für Zwecke der Werbung und Datenanalyse jederzeit widersprechen.
           Über Deinen Werbewiderspruch kannst Du uns unter folgenden
-          Kontaktdaten informieren: mail[at]machbarschaft.jetzt
+          Kontaktdaten informieren:` `
+          <a href="mailto:hello@machbarschaft.jetzt">
+            hello[at]machbarschaft.jetzt
+          </a>
         </div>
         <br />
         <br />
@@ -353,7 +359,10 @@ export default function PrivacyNotice() {
           besonderen Situation von uns umgesetzt wird.
           <br />
           Möchtest Du von Deinem Widerrufs- oder Widerspruchsrecht Gebrauch
-          machen, genügt eine E-Mail an: mail[at]machbarschaft.jetzt
+          machen, genügt eine E-Mail an:` `
+          <a href="mailto:hello@machbarschaft.jetzt">
+            hello[at]machbarschaft.jetzt
+          </a>
         </div>
         <br />
         <br />
