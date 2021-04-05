@@ -39,7 +39,7 @@ export default function ValidateMailNotification() {
         message="Bitte bestätige deine E-Mail Adresse"
         description={
           <>
-            Bevor du alle Funktionen von Machbarschaft nutzen kannst, musst du
+            Bevor du alle Funktionen von MACHBARSCHAFT nutzen kannst, musst du
             deine E-Mail Adresse bestätigen. Du hast eine E-Mail von uns
             erhalten.
             <br />

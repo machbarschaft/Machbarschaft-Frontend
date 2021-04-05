@@ -30,10 +30,14 @@ export default function LandingPage() {
           level={2}
           className="landingpage-element landingpage-text text-align-center"
         >
-          Mach mit uns deine Nachbarschaften zu Machbarschaften.
+          Mach mit uns deine Nachbarschaften zu MACHBARSCHAFTen.
         </Title>
         <div className="landingpage-two-section landingpage-element landingpage-text">
-          <img src={GrafikFive} className="landingpage-two-section-image" alt="" />
+          <img
+            src={GrafikFive}
+            className="landingpage-two-section-image"
+            alt=""
+          />
           <div className="landingpage-two-section-text">
             Deine Daten werden an unsere Datenbank übertragen und dein Auftrag
             kommt bereits real in unserer App an. Wird dein Auftrag nicht
@@ -52,7 +56,7 @@ export default function LandingPage() {
           haben oft jedoch keinen Zugang zu digitalen Nachbarschaftshilfen.
         </Title>
         <div className="landingpage-text landingpage-element text-align-center">
-          Ein Anruf bei Machbarschaft hilft bereits.
+          Ein Anruf bei MACHBARSCHAFT hilft bereits.
         </div>
         <div className="landingpage-two-section landingpage-element landingpage-text">
           <div className="landingpage-two-section-text">

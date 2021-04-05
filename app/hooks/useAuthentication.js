@@ -1,10 +1,9 @@
 import React from 'react';
-import {
-  getAuthenticate,
-  putLogin,
-} from '../utils/api/authenticationApi';
+import { getAuthenticate, putLogin } from '../utils/api/authenticationApi';
 import postRegisterRequest from '../utils/api/registerApi';
-import authenticationReducer, { initialAuthenticationState } from '../contexts/authentication/authenticationReducer';
+import authenticationReducer, {
+  initialAuthenticationState,
+} from '../contexts/authentication/authenticationReducer';
 import {
   AUTHENTICATION_FAILURE,
   AUTHENTICATION_SUCCESS,
@@ -45,7 +44,7 @@ export default function useAuthentication() {
   const performRegister = async (values) => {
     const formValues = {
       ...values,
-      phone: values.phone.replace(/\D/g, '')
+      phone: values.phone.replace(/\D/g, ''),
     };
 
     dispatch({
@@ -53,7 +52,7 @@ export default function useAuthentication() {
     });
 
     try {
-      let registerResult = await postRegisterRequest(formValues);
+      const registerResult = await postRegisterRequest(formValues);
       // TODO: requires a backend change to return a normal 201 for create a new object
       if (registerResult.status !== 200) {
         // Register: Failure
@@ -76,7 +75,7 @@ export default function useAuthentication() {
               type: REGISTER_FAILURE,
               data: {
                 errors: [
-                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
+                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf MACHBARSCHAFT registriert?',
                 ],
               },
             });
@@ -87,7 +86,7 @@ export default function useAuthentication() {
               type: REGISTER_FAILURE,
               data: {
                 errors: [
-                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert?',
+                  'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf MACHBARSCHAFT registriert?',
                 ],
               },
             });
@@ -111,7 +110,7 @@ export default function useAuthentication() {
         type: REGISTER_FAILURE,
         data: {
           errors: [
-            'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf Machbarschaft registriert? Oder hat das Passwort weniger als sechs Zeichen?',
+            'Registrierung fehlgeschlagen. Ist die Email oder Telefonnummer bei einem anderen Konto auf MACHBARSCHAFT registriert? Oder hat das Passwort weniger als sechs Zeichen?',
           ],
         },
       });
@@ -165,15 +164,18 @@ export default function useAuthentication() {
 
     if (refreshToken) {
       try {
-        const res = await apiCall({
-          baseURL: 'https://securetoken.googleapis.com/v1/',
-          url: `token?key=${firebaseConfig.apiKey}`,
-          method: 'POST',
-          data: {
-            grant_type: 'refresh_token',
-            refresh_token: localStorage.getItem('refreshToken')
-          }
-        }, false);
+        const res = await apiCall(
+          {
+            baseURL: 'https://securetoken.googleapis.com/v1/',
+            url: `token?key=${firebaseConfig.apiKey}`,
+            method: 'POST',
+            data: {
+              grant_type: 'refresh_token',
+              refresh_token: localStorage.getItem('refreshToken'),
+            },
+          },
+          false
+        );
 
         if (res?.data) {
           localStorage.setItem('token', res.data.id_token);
@@ -185,7 +187,7 @@ export default function useAuthentication() {
     }
 
     await checkAuthentication();
-  }
+  };
 
   /**
    * Makes a request to the backend in order to get information about the authenticated user (if any) and modifies state accordingly

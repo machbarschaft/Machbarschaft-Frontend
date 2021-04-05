@@ -1,7 +1,7 @@
 {
   "name": "machbarschaft-frontend",
   "version": "0.0.1",
-  "description": "ReactJS Frontend for Machbarschaft",
+  "description": "ReactJS Frontend for MACHBARSCHAFT",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
