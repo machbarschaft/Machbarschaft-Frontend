@@ -260,6 +260,22 @@ export default function useAuthentication() {
     }
   };
 
+  const updatePassword = async (email, currentPassword, newPassword) => {
+    await putLogin(email, currentPassword);
+    await firebase.auth().currentUser.updatePassword(newPassword);
+    const loginResult = await putLogin(email, newPassword);
+    localStorage.setItem('token', loginResult.user.ya);
+    localStorage.setItem('refreshToken', loginResult.user.refreshToken);
+  };
+
+  const updateEmail = async (email, newEmail, password) => {
+    await putLogin(email, password);
+    await firebase.auth().currentUser.updateEmail(newEmail);
+    const loginResult = await putLogin(newEmail, password);
+    localStorage.setItem('token', loginResult.user.ya);
+    localStorage.setItem('refreshToken', loginResult.user.refreshToken);
+  };
+
   return [
     authenticationState,
     {
@@ -270,6 +286,8 @@ export default function useAuthentication() {
       isMailVerified,
       isPhoneVerified,
       performRegister,
+      updatePassword,
+      updateEmail,
     },
   ];
 }
