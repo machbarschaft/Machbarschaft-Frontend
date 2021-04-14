@@ -27,6 +27,8 @@ function App() {
       isMailVerified,
       isPhoneVerified,
       performRegister,
+      updatePassword,
+      updateEmail,
     },
   ] = useAuthentication();
   const authProps = {
@@ -38,6 +40,8 @@ function App() {
     isMailVerified,
     isPhoneVerified,
     performRegister,
+    updatePassword,
+    updateEmail,
   };
   const [fontSize, fontSizerAttrs] = useFontSizer();
 
