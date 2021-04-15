@@ -51,7 +51,7 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
             {...layout}
             form={form}
             name="login"
-            style={{ width: '100%' }}
+            style={{ width: '80%' }}
             onFinish={handleForm}
             hideRequiredMark
           >
@@ -82,7 +82,7 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
               <Input.Password size="large" />
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item className="justify-center">
               <Button
                 type="primary"
                 htmlType="submit"
@@ -91,6 +91,21 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
                 }
               >
                 Login
+              </Button>
+              <Link className="left-margin" to="/passwort-zuruecksetzen">
+                <Button className="login-description-card-button">
+                  Passwort zurücksetzen
+                </Button>
+              </Link>
+            </Form.Item>
+            <Form.Item className="justify-center">
+              <div className="bottom-margin">Oder</div>
+              <Button
+                className="login-description-card-button"
+                type="primary"
+                onClick={() => history.push('/registrieren')}
+              >
+                Registrieren
               </Button>
             </Form.Item>
           </Form>
@@ -103,35 +118,6 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
               type="error"
             />
           )}
-        </Card>
-        <Card className="login-card login-description-card">
-          <Timeline>
-            <Timeline.Item>
-              Bitte geben Sie Ihre E-Mail-Adresse und Ihr Passwort ein.
-            </Timeline.Item>
-            <Timeline.Item>
-              Passwort vergessen? Dann klicken Sie bitte hier:
-              <br />
-              <Link to="/passwort-zuruecksetzen">
-                <Button className="login-description-card-button">
-                  Passwort zurücksetzen
-                </Button>
-              </Link>
-            </Timeline.Item>
-            {showRegister && (
-              <Timeline.Item>
-                Wenn Sie noch kein Konto erstellt haben:
-                <br />
-                <Button
-                  className="login-description-card-button"
-                  type="primary"
-                  onClick={() => history.push('/registrieren')}
-                >
-                  Registrieren
-                </Button>
-              </Timeline.Item>
-            )}
-          </Timeline>
         </Card>
       </div>
     </div>
