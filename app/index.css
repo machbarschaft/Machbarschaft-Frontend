@@ -1062,3 +1062,15 @@ h4 {
   width: calc(100vw - 45%);
   margin: auto;
 }
+
+.justify-center {
+  justify-content: center;
+}
+
+.left-margin {
+  margin-left: 20px;
+}
+
+.bottom-margin {
+  margin-bottom: 20px;
+}
