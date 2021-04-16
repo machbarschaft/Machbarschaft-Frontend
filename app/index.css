@@ -92,6 +92,7 @@ h4 {
     display: flex;
     margin-right: 3em;
     margin-left: 3em;
+    align-items: center;
   }
 }
 @media (max-width: 1450px) {
@@ -113,6 +114,7 @@ h4 {
     margin-left: 1em;
     margin-right: 1em;
     justify-items: center;
+    align-items: center;
   }
 }
 .nav-menu-mobile-content {
@@ -953,6 +955,7 @@ h4 {
   }
   .landingpage-two-section-text {
     max-width: 40vw;
+    min-width: 25vw;
   }
 }
 @media (max-width: 1000px) {
@@ -984,6 +987,8 @@ h4 {
   color: #e64b40 !important;
 }
 .landingpage-download-button {
+  width: 310px;
+  display: block;
   color: white;
   background: black;
   text-decoration: none;
