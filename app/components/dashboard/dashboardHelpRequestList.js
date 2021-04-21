@@ -1,13 +1,17 @@
 import React from 'react';
-import StatusSwitcher from '../StatusSwitcher';
+import StatusSwitcher, { STATUS_OPEN } from '../StatusSwitcher';
 import AuthenticationContext from '../../contexts/authentication';
 
 export default function DashboardHelpRequestList({helpRequests, updateHelpRequestStatus}) {
   const authenticationContext = React.useContext(AuthenticationContext);
   const isAdmin = authenticationContext.authenticationState.role === 'ADMIN';
+  const userId = authenticationContext.authenticationState.uid;
   const dateTransform = (date) => {
     return new Date(date).toLocaleString();
   };
+  const filteredRequests = helpRequests.filter((request) => {
+    return isAdmin || request.adminUser.id === userId || request.requestStatus === STATUS_OPEN;
+  });
 
   const changeStatus = async (helpRequest, status) => {
     updateHelpRequestStatus(helpRequest, status);
@@ -26,7 +30,7 @@ export default function DashboardHelpRequestList({helpRequests, updateHelpReques
         </thead>
         <tbody>
         {
-          helpRequests.map((helpRequest) => (
+          filteredRequests.map((helpRequest) => (
             <tr key={helpRequest.id}>
               <td>{dateTransform(helpRequest.updatedAt)}</td>
               <td>{helpRequest.helpSeeker.fullName}</td>

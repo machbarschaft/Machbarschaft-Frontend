@@ -66,6 +66,11 @@ function NavigationMenu({ mode, menuClicked }) {
           AUFTRAG ANNEHMEN
         </NavLink>
       </Menu.Item>
+      <Menu.Item key="/auftrage">
+        <NavLink to="/auftrage" exact>
+          AUFTRÄGE
+        </NavLink>
+      </Menu.Item>
       {
         isAdmin && (
           <Menu.Item key="/role">
