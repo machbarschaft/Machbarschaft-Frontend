@@ -100,7 +100,6 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
             </Form.Item>
             <Form.Item className="justify-center">
               <div className="bottom-margin">Oder</div>
-              {/*<div className="bottom-margin">Wenn Du noch kein Konto hast, dann registriere Dich</div>*/}
               <div>
                 <Button
                   className="login-description-card-button"
