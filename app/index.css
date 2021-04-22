@@ -1079,3 +1079,21 @@ h4 {
 .bottom-margin {
   margin-bottom: 20px;
 }
+
+.ant-btn.ant-btn-primary:hover, .ant-btn.ant-btn-primary:focus {
+  color: #424554;
+  background-color: white;
+  border-color: #424554;
+}
+
+.custom-link {
+  border-radius: 2px;
+  color: rgba(0, 0, 0, 0.65);
+  border: 1px solid #d9d9d9;
+  padding: 7px;
+}
+
+.custom-link:hover, .custom-link:focus {
+  color: black;
+  border-color: black;
+}

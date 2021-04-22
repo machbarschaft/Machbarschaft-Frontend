@@ -92,10 +92,8 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
               >
                 Login
               </Button>
-              <Link className="left-margin" to="/passwort-zuruecksetzen">
-                <Button className="login-description-card-button">
-                  Passwort zurücksetzen
-                </Button>
+              <Link className="left-margin custom-link" to="/passwort-zuruecksetzen">
+                Passwort zurücksetzen
               </Link>
             </Form.Item>
             <Form.Item className="justify-center">
