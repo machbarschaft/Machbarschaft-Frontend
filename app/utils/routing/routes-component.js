@@ -9,6 +9,9 @@ const LandingPage = React.lazy(() =>
 const Dashboard = React.lazy(() =>
   import('../../containers/Dashboard')
 );
+const Requests = React.lazy(() =>
+  import('../../containers/Requests')
+);
 const Login = React.lazy(() =>
   import('../../containers/Login')
 );
@@ -69,6 +72,15 @@ export default function RoutesComponent() {
         render={(props) => (
           <RouteAuthenticated
             render={() => <Dashboard {...props} />}
+            redirectTo="/login"
+          />
+        )}
+      />
+      <Route
+        path="/auftrage"
+        render={(props) => (
+          <RouteAuthenticated
+            render={() => <Requests {...props} />}
             redirectTo="/login"
           />
         )}
