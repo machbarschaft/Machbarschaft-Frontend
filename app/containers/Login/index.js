@@ -100,13 +100,16 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
             </Form.Item>
             <Form.Item className="justify-center">
               <div className="bottom-margin">Oder</div>
-              <Button
-                className="login-description-card-button"
-                type="primary"
-                onClick={() => history.push('/registrieren')}
-              >
-                Registrieren
-              </Button>
+              <div>
+                <Button
+                  className="login-description-card-button"
+                  type="primary"
+                  onClick={() => history.push('/registrieren')}
+                >
+                  Registrieren
+                </Button>
+                <span className="left-margin">Wenn Du noch kein Konto hast, dann registriere Dich</span>
+              </div>
             </Form.Item>
           </Form>
           {authenticationContext.authenticationState.authenticationErrors && (
