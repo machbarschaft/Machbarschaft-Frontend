@@ -55,7 +55,9 @@ export default function PlaceRequestWindow(props) {
       source: 'ADMIN'
     };
 
+    authenticationContext.startLoading();
     await createHelpRequest(helpSeeker, values.requestText);
+    authenticationContext.finishLoading();
 
     const cityValue = values.city || authState.address.city;
     const streetValue = values.street || authState.address.street;
@@ -84,9 +86,11 @@ export default function PlaceRequestWindow(props) {
         zipCode: zipCodeValue
       };
 
+      authenticationContext.startLoading();
       updateUser(userRequest)
         .then(() => {
           const { checkAuthentication } = authenticationContext;
+          authenticationContext.finishLoading();
           checkAuthentication();
           notification.success({
             message: 'Fertig',
@@ -94,6 +98,7 @@ export default function PlaceRequestWindow(props) {
           });
         })
         .catch((error) => {
+          authenticationContext.finishLoading();
           notification.error({ message: 'Fehler', description: error });
         });
     }

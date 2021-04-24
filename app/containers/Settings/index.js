@@ -73,16 +73,19 @@ export default function SettingsComponent() {
       zipCode: formValues.zipCode || authState.address.zipCode
     };
 
+    authenticationContext.startLoading();
     updateUser(userRequest)
       .then(() => {
         const { checkAuthentication } = authenticationContext;
         checkAuthentication();
+        authenticationContext.finishLoading();
         notification.success({
           message: 'Fertig',
           description: 'Profil erfolgreich gespeichert.',
         });
       })
       .catch((error) => {
+        authenticationContext.finishLoading();
         notification.error({ message: 'Fehler', description: error });
       });
   }
@@ -105,7 +108,9 @@ export default function SettingsComponent() {
         streetNo: authState.address.streetNo,
         zipCode: authState.address.zipCode
       };
+      authenticationContext.startLoading()
       await updateUser(userRequest);
+      authenticationContext.finishLoading();
       const { checkAuthentication } = authenticationContext;
       await checkAuthentication();
       formEmail.resetFields();
@@ -114,6 +119,7 @@ export default function SettingsComponent() {
         description: 'Email erfolgreich gespeichert.',
       });
     } catch (error) {
+      authenticationContext.finishLoading();
       notification.error({ message: 'Fehler', description: error.message });
     }
   };
