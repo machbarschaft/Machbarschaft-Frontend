@@ -101,6 +101,7 @@ export default function WelcomeComponent() {
               <Button type="primary" size="large" htmlType="submit">
                 Los!
               </Button>
+              <span style={{marginLeft: '15px'}}>Hier klicken und automatisch Rückruf erhalten</span>
             </Form.Item>
           </Form>
         </Col>
