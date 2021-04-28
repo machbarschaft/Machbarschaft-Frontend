@@ -1097,3 +1097,15 @@ h4 {
   color: black;
   border-color: black;
 }
+
+.validation-alert .ant-alert-message {
+  font-size: 20px;
+}
+
+.validation-alert .ant-alert-description{
+  font-size: 18px;
+}
+
+.plain-text {
+  font-size: 18px;
+}

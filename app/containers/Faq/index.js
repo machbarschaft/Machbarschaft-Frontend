@@ -13,7 +13,7 @@ export default function FAQ() {
         <Title level={3}>
           Wie funktioniert Machbarschaft für MACHBAR:INNEN genau?
         </Title>
-        <div>
+        <div className="plain-text">
           Auf der Karte unserer kostenfreien Webapp und mobilen App
           “Machbarschaft” kannst du dich orientieren, wer in deiner Umgebung
           Hilfe braucht.
@@ -32,7 +32,7 @@ export default function FAQ() {
         <Title level={3}>
           Wie funktioniert die Warenübergabe und die Bezahlung?
         </Title>
-        <div>
+        <div className="plain-text">
           Generell handelt es sich um eine kostenfreie Dienstleistung, die auf
           deinem ehrenamtlichen Engagement basiert. Die Einkaufsliste solltest
           du vorher telefonisch mit den Hilfesuchenden absprechen. Darüberhinaus
@@ -52,7 +52,7 @@ export default function FAQ() {
         <br />
         <br />
         <Title level={3}>Wann sind die Besorgungen zu tätigen?</Title>
-        <div>
+        <div className="plain-text">
           Den genauen zeitlichen Rahmen legst du telefonisch mit der zu
           unterstützenden Person fest.
         </div>
@@ -61,7 +61,7 @@ export default function FAQ() {
         <Title level={3}>
           Was mache ich, wenn ich die Person telefonisch nicht erreiche?
         </Title>
-        <div>
+        <div className="plain-text">
           Es kann durchaus vorkommen, dass die Person kurzfristig telefonisch
           nicht erreichbar ist. Wir bitten dich hier, es noch ein weiteres Mal
           zu versuchen. Falls es wieder nicht klappt, kannst du die Anfrage
@@ -71,7 +71,7 @@ export default function FAQ() {
         <br />
         <br />
         <Title level={3}>Zielgruppe/Persona:</Title>
-        <div>
+        <div className="plain-text">
           "Machbarschaft" wurde aus gegebenem Anlass – der Corona Krise – ins
           Leben gerufen. Wir möchten Menschen miteinander verbinden, Solidarität
           groß schreiben und vor allem da Hilfe leisten, wo sie dringend
@@ -94,7 +94,7 @@ export default function FAQ() {
         <Title level={3}>
           Unsere Richtlinien basieren auf folgenden Werten:
         </Title>
-        <div>
+        <div className="plain-text">
           Schutz – Es ist unser oberstes Ziel, die Ausbreitung des
           COVID-19-Virus zu verlangsamen und Risikogruppen zu schützen. Bei
           Übergabe der Besorgungen solltest du mindestens 1 - 2 m Abstand
