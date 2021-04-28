@@ -29,6 +29,8 @@ function App() {
       performRegister,
       updatePassword,
       updateEmail,
+      startLoading,
+      finishLoading,
     },
   ] = useAuthentication();
   const authProps = {
@@ -42,6 +44,8 @@ function App() {
     performRegister,
     updatePassword,
     updateEmail,
+    startLoading,
+    finishLoading,
   };
   const [fontSize, fontSizerAttrs] = useFontSizer();
 
