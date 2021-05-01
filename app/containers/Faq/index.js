@@ -106,8 +106,7 @@ export default function FAQ() {
           Gewissen sowie im abgesprochenen zeitlichen Rahmen erledigt.
           <br />
           Vertrauen – Um die Hilfesuchenden bestmöglich zu schützen, führen wir
-          eine individuelle Identitätsprüfung durch. Bewahre zudem den
-          Rechnungsbeleg der getätigten Einkäufe für Transparanezerhaltung auf.
+          eine individuelle Identitätsprüfung durch. Bewahre bitte für die Transparenz die Rechnungsbelege der getätigten Einkäufe auf.
           <br />
           Diskretion – Mit Ihren persönlichen Daten gehen wir verantwortungsvoll
           um und schützen die Privatsphäre der Helfenden und Hilfesuchenden.
