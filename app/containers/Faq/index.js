@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography } from 'antd';
+import VerhaltensEmpfehlungenPdf from '../../assets/documents/Verhaltensempfehlungen_für_MACHBAR_EINKAUF.pdf';
 
 const { Title } = Typography;
 
@@ -46,8 +47,14 @@ export default function FAQ() {
           o.Ä. ebenfalls vor die Wohnungstür gelegt werden. So werden beide
           Seiten bestmöglich geschützt.
           <br />
-          Hier kannst du unsere Verhaltensempfehlungen Schritt für Schritt
-          nachlesen
+          Hier kannst du unsere <a
+            href={VerhaltensEmpfehlungenPdf}
+            target="_blank"
+            rel="noreferrer"
+            className="standard-link"
+          >
+          Verhaltensempfehlungen
+        </a> Schritt für Schritt nachlesen.
         </div>
         <br />
         <br />

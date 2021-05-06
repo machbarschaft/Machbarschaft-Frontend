@@ -1109,3 +1109,12 @@ h4 {
 .plain-text {
   font-size: 18px;
 }
+
+.standard-link {
+  color: #32a5ea;
+  text-decoration: underline;
+}
+
+.standard-link:hover {
+  color: #f3b3a3;
+}
