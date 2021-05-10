@@ -1,8 +1,8 @@
 import React from 'react';
 
-const STATUS_OPEN = 'OPEN';
-const STATUS_WIP = 'WIP';
-const STATUS_CLOSED = 'CLOSED';
+export const STATUS_OPEN = 'OPEN';
+export const STATUS_WIP = 'WIP';
+export const STATUS_CLOSED = 'CLOSED';
 
 export default function StatusSwitcher({helpRequest, onStatusChange, isAdmin}) {
   const status = helpRequest.requestStatus;

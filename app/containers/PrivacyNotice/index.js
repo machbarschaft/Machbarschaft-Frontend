@@ -8,7 +8,7 @@ export default function PrivacyNotice() {
     <div className="overflow-scroll content-container-default">
       <div className="imprint-text">
         <Title level={2}>Datenschutz</Title>
-        <div>
+        <div className="plain-text">
           Datenschutz bei Machbarschaft ist uns ein wichtiges Anliegen. In
           unserer Datenschutzerklärung erhältst Du Informationen, welche Daten
           wie verwendet werden, wenn Du dich dazu entschließt, Teil von
@@ -27,7 +27,7 @@ export default function PrivacyNotice() {
         <br />
         <Title level={4}>Ansprechpartner und Datenschutzbeauftrage</Title>
         <br />
-        <div>
+        <div className="plain-text">
           Dein Ansprechpartner und Verantwortlicher im Sinne der DSGVO und
           anderer nationaler Datenschutzgesetze der Mitgliedsstaaten sowie
           sonstiger datenschutzrechtlicher Bestimmungen für Machbarschaft ist.
@@ -45,7 +45,7 @@ export default function PrivacyNotice() {
           von deren Verwendung
         </Title>
         <br />
-        <div>
+        <div className="plain-text">
           Du kannst unsere Webseite grundsätzlich ohne Offenlegung Deiner
           Identität nutzen. Bei der informatorischen Nutzung unserer Website,
           also wenn Du dich nicht registrierst oder uns anderweitig
@@ -85,7 +85,7 @@ export default function PrivacyNotice() {
           Widerspruch oder Widerruf gegen die Verarbeitung Deiner Daten
         </Title>
         <br />
-        <div>
+        <div className="plain-text">
           Falls Du eine Einwilligung zur Verarbeitung Deiner Daten erteilt hast,
           kannst Du diese jederzeit widerrufen. Ein solcher Widerruf beeinflusst
           die Zulässigkeit der Verarbeitung Deiner personenbezogenen Daten,
@@ -116,7 +116,7 @@ export default function PrivacyNotice() {
         <br />
         <Title level={4}>Kontaktaufnahme</Title>
         <br />
-        <div>
+        <div className="plain-text">
           Du kannst über unsere Website via der angegebenen Mailadresse unter
           Kontakt mit uns in den Kontakt treten. Im Rahmen der Kontaktaufnahme
           werden, sofern dies zur Bearbeitung Deines Anliegens erforderlich ist,
@@ -140,7 +140,7 @@ export default function PrivacyNotice() {
         <br />
         <Title level={4}>Weitergabe deiner Daten</Title>
         <br />
-        <div>
+        <div className="plain-text">
           Eine Weitergabe der von uns erhobenen Daten erfolgt grundsätzlich nur,
           wenn:
           <ul>
@@ -186,7 +186,7 @@ export default function PrivacyNotice() {
         <br />
         <Title level={4}>Links auf Websites Dritter</Title>
         <br />
-        <div>
+        <div className="plain-text">
           Mit größter Sorgfalt recherchieren und stellen wir die auf unserer
           Website veröffentlichen Links zusammen. Wir haben jedoch keinen
           Einfluss auf die aktuelle und zukünftige Gestaltung und Inhalte der
@@ -206,7 +206,7 @@ export default function PrivacyNotice() {
         <br />
         <Title level={4}>Verwendung von Sozialen Medien</Title>
         <br />
-        <div>
+        <div className="plain-text">
           Videos
           <br />
           Wir haben Videos in unserer Website eingebunden, die bei YouTube
@@ -285,7 +285,7 @@ export default function PrivacyNotice() {
         <br />
         <Title level={4}>Deine Rechte</Title>
         <br />
-        <div>
+        <div className="plain-text">
           Du hast das Recht:
           <ul>
             <li>
@@ -348,7 +348,7 @@ export default function PrivacyNotice() {
         <br />
         <Title level={4}>Widerspruchsrecht</Title>
         <br />
-        <div>
+        <div className="plain-text">
           Sofern Deine personenbezogenen Daten auf Grundlage von berechtigten
           Interessen gemäß Art. 6 Abs. 1 S. 1 lit. f DSGVO verarbeitet werden,
           hast Du das Recht, gemäß Art. 21 DSGVO Widerspruch gegen die
@@ -370,7 +370,7 @@ export default function PrivacyNotice() {
           Aktualität und Änderung dieser Datenschutzerklärung
         </Title>
         <br />
-        <div>
+        <div className="plain-text">
           Diese Datenschutzerklärung ist aktuell gültig und hat den Stand März
           2020.
           <br />

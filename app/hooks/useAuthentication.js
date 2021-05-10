@@ -8,6 +8,8 @@ import {
   AUTHENTICATION_FAILURE,
   AUTHENTICATION_SUCCESS,
   INVALIDATE_SUCCESS,
+  LOADING_FINISH,
+  LOADING_START,
   LOGIN_FAILURE,
   LOGIN_INIT,
   REGISTER_FAILURE,
@@ -52,7 +54,9 @@ export default function useAuthentication() {
     });
 
     try {
+      startLoading();
       const registerResult = await postRegisterRequest(formValues);
+      finishLoading();
       // TODO: requires a backend change to return a normal 201 for create a new object
       if (registerResult.status !== 200) {
         // Register: Failure
@@ -106,6 +110,7 @@ export default function useAuthentication() {
       }
       return await performAuthentication(values.email, values.password);
     } catch (error) {
+      finishLoading();
       dispatch({
         type: REGISTER_FAILURE,
         data: {
@@ -164,6 +169,7 @@ export default function useAuthentication() {
 
     if (refreshToken) {
       try {
+        startLoading();
         const res = await apiCall(
           {
             baseURL: 'https://securetoken.googleapis.com/v1/',
@@ -176,6 +182,7 @@ export default function useAuthentication() {
           },
           false
         );
+        finishLoading();
 
         if (res?.data) {
           localStorage.setItem('token', res.data.id_token);
@@ -183,6 +190,7 @@ export default function useAuthentication() {
         }
       } catch (err) {
         console.log(err);
+        finishLoading();
       }
     }
 
@@ -194,7 +202,9 @@ export default function useAuthentication() {
    */
   const checkAuthentication = async () => {
     try {
+      startLoading();
       const authResult = await getAuthenticate();
+      finishLoading();
       if (authResult) {
         dispatch({
           type: AUTHENTICATION_SUCCESS,
@@ -237,6 +247,7 @@ export default function useAuthentication() {
       dispatch({
         type: AUTHENTICATION_FAILURE,
       });
+      finishLoading();
       return false;
     }
   };
@@ -260,6 +271,34 @@ export default function useAuthentication() {
     }
   };
 
+  const updatePassword = async (email, currentPassword, newPassword) => {
+    await putLogin(email, currentPassword);
+    await firebase.auth().currentUser.updatePassword(newPassword);
+    const loginResult = await putLogin(email, newPassword);
+    localStorage.setItem('token', loginResult.user.ya);
+    localStorage.setItem('refreshToken', loginResult.user.refreshToken);
+  };
+
+  const updateEmail = async (email, newEmail, password) => {
+    await putLogin(email, password);
+    await firebase.auth().currentUser.updateEmail(newEmail);
+    const loginResult = await putLogin(newEmail, password);
+    localStorage.setItem('token', loginResult.user.ya);
+    localStorage.setItem('refreshToken', loginResult.user.refreshToken);
+  };
+
+  const startLoading = () => {
+    dispatch({
+      type: LOADING_START,
+    });
+  };
+
+  const finishLoading = () => {
+    dispatch({
+      type: LOADING_FINISH,
+    });
+  };
+
   return [
     authenticationState,
     {
@@ -270,6 +309,10 @@ export default function useAuthentication() {
       isMailVerified,
       isPhoneVerified,
       performRegister,
+      updatePassword,
+      updateEmail,
+      startLoading,
+      finishLoading,
     },
   ];
 }

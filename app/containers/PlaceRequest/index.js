@@ -14,6 +14,7 @@ Geocode.setApiKey(googleMapsApiKey);
 export default function PlaceRequestWindow(props) {
   const history = useHistory();
   const [address, setAddress] = React.useState(null);
+  const [profile, setProfile] = React.useState(null);
   const authenticationContext = React.useContext(AuthenticationContext);
 
   const [wizardState, dispatch] = React.useReducer(placeRequestReducer, {
@@ -27,6 +28,10 @@ export default function PlaceRequestWindow(props) {
 
   React.useEffect(() => {
     if (authenticationContext?.authenticationState) {
+      setProfile({
+        fullName: `${authenticationContext.authenticationState.profile.forename} ${authenticationContext.authenticationState.profile.surname}`,
+        phone: authenticationContext.authenticationState.phoneNumber
+      });
       setAddress(authenticationContext.authenticationState.address);
     } else {
       setAddress({
@@ -34,6 +39,10 @@ export default function PlaceRequestWindow(props) {
         street: '',
         streetNo: '',
         zipCode: ''
+      });
+      setProfile({
+        fullName: '',
+        phone: ''
       });
     }
   }, []);
@@ -46,7 +55,9 @@ export default function PlaceRequestWindow(props) {
       source: 'ADMIN'
     };
 
+    authenticationContext.startLoading();
     await createHelpRequest(helpSeeker, values.requestText);
+    authenticationContext.finishLoading();
 
     const cityValue = values.city || authState.address.city;
     const streetValue = values.street || authState.address.street;
@@ -75,9 +86,11 @@ export default function PlaceRequestWindow(props) {
         zipCode: zipCodeValue
       };
 
+      authenticationContext.startLoading();
       updateUser(userRequest)
         .then(() => {
           const { checkAuthentication } = authenticationContext;
+          authenticationContext.finishLoading();
           checkAuthentication();
           notification.success({
             message: 'Fertig',
@@ -85,6 +98,7 @@ export default function PlaceRequestWindow(props) {
           });
         })
         .catch((error) => {
+          authenticationContext.finishLoading();
           notification.error({ message: 'Fehler', description: error });
         });
     }
@@ -113,7 +127,7 @@ export default function PlaceRequestWindow(props) {
         address && (
           <Form
             name="basic"
-            initialValues={{...address, remember: true }}
+            initialValues={{...address, ...profile, remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
           >
@@ -136,7 +150,7 @@ export default function PlaceRequestWindow(props) {
             <Form.Item
               label="Aufgabenbeschreibung"
               name="requestText"
-              rules={[{ required: true, message: 'Bitte geben Sie einen Hinweis ein.' }]}
+              rules={[{ required: true, message: 'Bitte geben Sie einen Aufgabenbeschreibung ein.' }]}
             >
               <Input.TextArea />
             </Form.Item>
@@ -146,6 +160,7 @@ export default function PlaceRequestWindow(props) {
               name="street"
               rules={[
                 {
+                  required: true,
                   type: 'string',
                   message: 'Bitte geben Sie Ihre Straße an.',
                 },
@@ -158,6 +173,7 @@ export default function PlaceRequestWindow(props) {
               name="streetNo"
               rules={[
                 {
+                  required: true,
                   type: 'string',
                   pattern: '^[0-9]+$',
                   message:
@@ -172,6 +188,7 @@ export default function PlaceRequestWindow(props) {
               name="zipCode"
               rules={[
                 {
+                  required: true,
                   type: 'string',
                   pattern: '^[0-9]+$',
                   message: 'Bitte geben Sie Ihre Postleitzahl an.',
@@ -185,6 +202,7 @@ export default function PlaceRequestWindow(props) {
               name="city"
               rules={[
                 {
+                  required: true,
                   type: 'string',
                   message: 'Bitte geben Sie Ihre Stadt an.',
                 },

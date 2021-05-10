@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Input, Button, notification, Timeline, Form } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 import { postContactRequest } from '../../utils/api/contactApi';
+import AuthenticationContext from '../../contexts/authentication';
 
 function ContactWindow() {
   const layout = {
@@ -13,13 +14,16 @@ function ContactWindow() {
 
   const [loadingState, setLoadingState] = React.useState(false);
   const [messageState, setMessageState] = React.useState(false);
+  const authProps = React.useContext(AuthenticationContext);
 
   const handleForm = async (values) => {
     setLoadingState(true);
+    authProps.startLoading();
     await postContactRequest({ email: values.email, text: values.text })
       .then((request) => {
         setMessageState(true);
         setLoadingState(false);
+        authProps.finishLoading();
         notification.success({
           message: 'Anfrage abgesendet',
           description:
@@ -28,6 +32,7 @@ function ContactWindow() {
       })
       .catch((error) => {
         setLoadingState(false);
+        authProps.finishLoading();
         notification.error({
           message: 'Fehler',
           description: error.message,

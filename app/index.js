@@ -27,6 +27,10 @@ function App() {
       isMailVerified,
       isPhoneVerified,
       performRegister,
+      updatePassword,
+      updateEmail,
+      startLoading,
+      finishLoading,
     },
   ] = useAuthentication();
   const authProps = {
@@ -38,6 +42,10 @@ function App() {
     isMailVerified,
     isPhoneVerified,
     performRegister,
+    updatePassword,
+    updateEmail,
+    startLoading,
+    finishLoading,
   };
   const [fontSize, fontSizerAttrs] = useFontSizer();
 
@@ -49,42 +57,65 @@ function App() {
     <Router>
       <FirebaseContext.Provider value={firebase}>
         <AuthenticationProvider value={authProps}>
-          <Layout>
-            <Navigation
-              increaseFontSize={fontSizerAttrs.increaseFontSize}
-              decreaseFontSize={fontSizerAttrs.decreaseFontSize}
-            />
-            <div className="site-layout">
-              <div className="main-content">
-                <div
-                  ref={(node) => {
-                    if (node) {
-                      node.style.setProperty(
+          <div
+            ref={(node) => {
+              if (node) {
+                setTimeout(() => {
+                  const landingImage = node.getElementsByClassName('landingpage-two-section-image')[0];
+                  if (landingImage) {
+                    landingImage.style.setProperty(
+                      'width',
+                      `${10 * fontSize}vw`,
+                    );
+                  }
+
+                  const nodeElements = node.querySelectorAll('input.ant-input, label, a, button');
+                  if (nodeElements?.length) {
+                    nodeElements.forEach(el => {
+                      el.style.setProperty(
                         'font-size',
                         `${fontSize}em`,
                         'important'
                       );
-                    }
-                  }}
-                >
-                  {isAuthenticated() && !isMailVerified() && (
-                    <ValidateMailNotification />
-                  )}
-                  {isAuthenticated() && !isPhoneVerified() && (
-                    <ValidatePhoneNotification />
-                  )}
+                    });
+                  }
+                }, 100)
+                node.style.setProperty(
+                  'font-size',
+                  `${fontSize}em`,
+                  'important'
+                );
+              }
+            }}
+          >
+            <Layout>
+              <Navigation
+                increaseFontSize={fontSizerAttrs.increaseFontSize}
+                decreaseFontSize={fontSizerAttrs.decreaseFontSize}
+              />
+              <div className="site-layout">
+                <div className="main-content">
+                  <div>
+                    {isAuthenticated() && !isMailVerified() && (
+                      <ValidateMailNotification />
+                    )}
+                    {isAuthenticated() && !isPhoneVerified() && (
+                      <ValidatePhoneNotification />
+                    )}
 
-                  <React.Suspense
-                    fallback={<Result icon={<Spin size="large" />} />}
-                  >
-                    <RoutesComponent />
-                  </React.Suspense>
+                    <React.Suspense
+                      fallback={<Result icon={<Spin size="large" />} />}
+                    >
+                      <RoutesComponent />
+                    </React.Suspense>
+                  </div>
                 </div>
-              </div>
 
-              <Footer />
-            </div>
-          </Layout>
+                <Footer />
+              </div>
+            </Layout>
+          </div>
+
         </AuthenticationProvider>
       </FirebaseContext.Provider>
     </Router>
