@@ -1,5 +1,6 @@
 import React from 'react';
 
+export const STATUS_ALL = 'ALL';
 export const STATUS_OPEN = 'OPEN';
 export const STATUS_WIP = 'WIP';
 export const STATUS_CLOSED = 'CLOSED';
