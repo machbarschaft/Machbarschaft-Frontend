@@ -2,7 +2,9 @@ import {
   AUTHENTICATION_FAILURE,
   AUTHENTICATION_SUCCESS,
   INVALIDATE_FAILURE,
-  INVALIDATE_SUCCESS, LOADING_FINISH, LOADING_START,
+  INVALIDATE_SUCCESS,
+  LOADING_FINISH,
+  LOADING_START,
   LOGIN_FAILURE,
   LOGIN_INIT,
   REGISTER_FAILURE,
@@ -123,12 +125,12 @@ export default function authenticationReducer(state, action) {
       };
     case LOADING_START:
       return {
-        ...initialAuthenticationState,
+        ...state,
         isLoading: true,
       };
     case LOADING_FINISH:
       return {
-        ...initialAuthenticationState,
+        ...state,
         isLoading: false,
       };
     default:

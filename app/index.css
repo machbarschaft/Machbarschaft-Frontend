@@ -1036,6 +1036,14 @@ h4 {
   background-color: #dddddd;
 }
 
+.full-width-table .table-actions {
+  width: 70px;
+}
+.full-width-table .table-actions span {
+  margin: 0 3px;
+  cursor: pointer;
+}
+
 .status-switcher {
 }
 

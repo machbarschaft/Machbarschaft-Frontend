@@ -3,6 +3,7 @@ import { Button, Form, Input } from 'antd';
 import { updateUserRole } from '../../utils/api/userApi';
 import { useHistory } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
+import roles from '../../utils/constants/roles';
 
 export default function EditRole() {
   const history = useHistory();
@@ -11,7 +12,7 @@ export default function EditRole() {
   const onSubmit = async (values) => {
     try {
       authProps.startLoading();
-      await updateUserRole(values.email);
+      await updateUserRole(values.email, roles.ADMIN);
       authProps.finishLoading();
       history.push('dashboard');
     } catch (e) {

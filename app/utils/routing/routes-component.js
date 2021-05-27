@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import AuthenticationContext from '../../contexts/authentication';
 import { Result, Spin } from 'antd';
 import useDashboard from '../../hooks/useDashboard';
+import AdminDashboard from '../../containers/AdminDashboard';
+import AdminEdit from '../../containers/AdminDashboard/AdminEdit';
 
 const LandingPage = React.lazy(() =>
   import('../../containers/LandingPage')
@@ -126,6 +128,26 @@ export default function RoutesComponent() {
             render={(props) => (
               <RouteAuthenticated
                 render={() => <EditRole {...props} />}
+                redirectTo="/login"
+                checkForRole={true}
+              />
+            )}
+          />
+          <Route
+            path="/admins"
+            render={(props) => (
+              <RouteAuthenticated
+                render={() => <AdminDashboard {...props} />}
+                redirectTo="/login"
+                checkForRole={true}
+              />
+            )}
+          />
+          <Route
+            path="/admin/:id"
+            render={(props) => (
+              <RouteAuthenticated
+                render={() => <AdminEdit {...props} />}
                 redirectTo="/login"
                 checkForRole={true}
               />

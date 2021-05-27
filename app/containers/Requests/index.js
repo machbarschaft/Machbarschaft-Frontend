@@ -7,7 +7,7 @@ const DashboardHelper = React.lazy(() => import('../../components/dashboard/dash
 const DashboardHelpSeeker = React.lazy(() => import('../../components/dashboard/dashboardHelpSeeker'));
 
 function Requests() {
-  const [requestsState, fetchRequests, updateHelpRequestStatus] = useDashboard('helper');
+  const [requestsState, {fetchRequests, updateHelpRequestStatus}] = useDashboard('helper');
   const [localRequestsState, setLocalRequestsState] = React.useState(
     requestsState
   );

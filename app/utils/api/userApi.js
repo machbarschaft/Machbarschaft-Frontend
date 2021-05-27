@@ -102,10 +102,10 @@ export const getUserPreferences = async () => {
     });
 };
 
-export const updateUserRole = async (email) => {
+export const updateUserRole = async (email, role) => {
   return apiCall({
     url: `admin/users/setadmin/${email}`,
     method: 'PUT',
-    data: {},
+    data: {role},
   });
 };
