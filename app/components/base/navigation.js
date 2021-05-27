@@ -80,6 +80,15 @@ function NavigationMenu({ mode, menuClicked }) {
           </Menu.Item>
         )
       }
+      {
+        isAdmin && (
+          <Menu.Item key="/admins">
+            <NavLink to="/admins" exact>
+              ADMIN DASHBOARD
+            </NavLink>
+          </Menu.Item>
+        )
+      }
       {/*<Menu.Item key="/kontakt">*/}
       {/*  <NavLink to="/kontakt" exact>*/}
       {/*    BRAUCHEN SIE HILFE?*/}
