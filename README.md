@@ -9,8 +9,20 @@ The application requires NodeJS and npm as package manager
 * [npm](https://www.npmjs.com/) (node package manager)
 
 **IMPORTANT** Get a local API (backend) up and running as described here: [Machbarschaft API Project](https://github.com/machbarschaft/service-api-ng)
+Also activate Geocoding and Maps JavaScript API as well as the billing in the google cloud account
 
 ## Setup
+### Enviroment File
+Create a `.env` file and fill it as shown in the `.env.example` file and below
+```
+# 'local' utilizes a local database, 'api-sta' points to our staging environment
+API_URL_SUB=local
+# The next two keys could be the same
+FIREBASE_API_KEY=
+MAPS_API_KEY=
+PROJECT_ID=
+```
+
 ### Dependencies
 Install the required dependencies with npm
 ```
