@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, notification } from 'antd';
 import { updateUserRole } from '../../utils/api/userApi';
 import { useHistory } from 'react-router-dom';
 import AuthenticationContext from '../../contexts/authentication';
@@ -17,7 +17,12 @@ export default function EditRole() {
       history.push('dashboard');
     } catch (e) {
       authProps.finishLoading();
-      console.warn(e);
+
+      notification['error']({
+        message: 'Error',
+        description:
+          'Für diese Email Adresse ist kein Account hinterlegt. Es muss zuerst ein Account registriert werden, bevor man es zum Admin ernennen kann.'
+      });
     }
   }
 
