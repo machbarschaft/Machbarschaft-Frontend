@@ -1,5 +1,4 @@
-import apiUrl from './apiUrl';
-import { objectToFormUrlEncoded } from './formUrlEncoder';
+import apiCall from './apiCall';
 
 /**
  * Get open requests in specified radius of user's location.
@@ -9,49 +8,57 @@ import { objectToFormUrlEncoded } from './formUrlEncoder';
  * @returns open requests
  */
 export const getOpenRequests = async ({ longitude, latitude, radius }) => {
-  const params = objectToFormUrlEncoded({
-    longitude: longitude,
-    latitude: latitude,
-    radius: radius,
-  });
-  const endpoint = `${apiUrl()}/request/open-requests?${params}`;
+  try {
+    const response = await apiCall({
+      url: 'help-request'
+    });
 
-  return fetch(endpoint, {
-    method: 'GET',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    credentials: 'include',
-  }).then(async (res) => {
-    if (res.status === 200) {
-      res = await res.json();
-      return res;
+    if (response.status === 200) {
+      return response.data;
     }
-    res = await res.json();
-    throw Error(res.errors[0]);
-  });
+  } catch (e) {
+    throw Error(e.data.message);
+  }
 };
 
 /**
  * Accept open request
  * @param requestId
+ * @param helpRequest
  */
-export const acceptOpenRequest = async ({ requestId }) => {
-  const endpoint = `${apiUrl()}/process/${requestId}/response`;
+export const acceptOpenRequest = async ({ requestId, helpRequest }) => {
+  try {
+    const response = await apiCall({
+      url: `help-request/${requestId}`,
+      method: 'PUT',
+      data: helpRequest
+    });
 
-  return fetch(endpoint, {
-    method: 'POST',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    credentials: 'include',
-  }).then(async (res) => {
-    if (res.status === 201) {
-      return;
+    if (response.status === 200) {
+      return response.data;
     }
-    res = await res.json();
-    throw Error(res.errors[0]);
-  });
+  } catch (e) {
+    throw Error(e.data.message);
+  }
+};
+
+/**
+ * Change request status
+ * @param requestId
+ * @param status
+ */
+export const changeRequestStatus = async ({ requestId, status }) => {
+  try {
+    const response = await apiCall({
+      url: `help-request/${requestId}/status`,
+      method: 'PUT',
+      data: status
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (e) {
+    throw Error(e.data.message);
+  }
 };
