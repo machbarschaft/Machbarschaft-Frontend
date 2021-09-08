@@ -4,7 +4,6 @@ import PlacePin from '../../assets/img/maps/place-pin.svg';
 import MapTooltip from './mapTooltip';
 
 export default function MapMarker({
-  requestType,
   distance,
   hover,
   selected,
@@ -28,13 +27,12 @@ export default function MapMarker({
         alt=""
       />
       {($hover || hover || selected) && (
-        <MapTooltip categories={requestType} distance={distance} />
+        <MapTooltip distance={distance} />
       )}
     </div>
   );
 }
 MapMarker.propTypes = {
-  requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
   distance: PropTypes.number.isRequired,
   hover: PropTypes.bool.isRequired,
   selected: PropTypes.bool.isRequired,

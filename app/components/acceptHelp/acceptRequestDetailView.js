@@ -3,51 +3,47 @@ import { Button, Typography, message } from 'antd';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ArrowLeft from '../../assets/img/navigation/arrow-left.svg';
-import RequestTypeOther from '../../assets/img/request-category/request-category-other.svg';
-import RequestTypeGroceries from '../../assets/img/request-category/request-category-groceries.svg';
-import RequestTypeMedication from '../../assets/img/request-category/request-category-medication.svg';
-import CarRequired from '../../assets/img/request-requirements/car-required.svg';
-import CarNotRequired from '../../assets/img/request-requirements/car-not-required.svg';
-import PrescriptionRequired from '../../assets/img/request-requirements/prescription-required.svg';
-import PrescriptionNotRequired from '../../assets/img/request-requirements/prescription-not-required.svg';
-import { acceptOpenRequest } from '../../utils/api/acceptHelpApi';
+import { acceptOpenRequest, changeRequestStatus } from '../../utils/api/acceptHelpApi';
+import AuthenticationContext from '../../contexts/authentication';
+import { STATUS_WIP } from '../StatusSwitcher';
 
 const { Text } = Typography;
 
 export default function AcceptRequestDetailView({
-  process,
-  requestType,
+  id,
   address,
-  urgency,
   distance,
-  extras,
   closeDetailView,
+  helpSeeker,
+  requestText
 }) {
-  let categoryTitle = '';
-  const urgencyMapping = {
-    now: 'dringend',
-    today: 'heute',
-    tomorrow: 'morgen',
-    'this-week': 'diese Woche',
-  };
-  if (requestType.length === 0) categoryTitle = 'Keine Kategorie angegeben';
-  else categoryTitle = 'Kategorie: ';
-
   const [loadingState, setLoadingState] = React.useState(false);
   const history = useHistory();
+  const authenticationContext = React.useContext(AuthenticationContext);
 
-  const acceptRequest = () => {
+  const acceptRequest = async () => {
     setLoadingState(true);
-    acceptOpenRequest({ requestId: process })
-      .then(() => {
-        message.success('Auftrag erfolgreich angenommen!');
-        setLoadingState(false);
-        history.push('/dashboard');
-      })
-      .catch(() => {
-        message.error('Es ist ein Fehler aufgetreten!');
-        setLoadingState(false);
-      });
+    const helpRequest = {
+      helpSeeker: {
+        fullName: helpSeeker.fullName,
+        phone: helpSeeker.phone
+      },
+      helper: authenticationContext.authenticationState.uid,
+      requestStatus: STATUS_WIP,
+      requestText
+    };
+
+    try {
+      await acceptOpenRequest({ requestId: id, helpRequest });
+      await changeRequestStatus({ requestId: id, status: { status: STATUS_WIP } })
+
+      message.success('Auftrag erfolgreich angenommen!');
+      setLoadingState(false);
+      history.push('/dashboard');
+    } catch (err) {
+      message.error('Es ist ein Fehler aufgetreten!');
+      setLoadingState(false);
+    }
   };
 
   return (
@@ -62,55 +58,11 @@ export default function AcceptRequestDetailView({
       </div>
       <div className="accept-help-request-detail-main">
         <div className="accept-help-request-detail-info">
-          <Text strong>{categoryTitle}</Text>
-          <div className="display-flex">
-            {requestType === 'groceries' && (
-              <img
-                className="accept-help-request-detail-icon"
-                src={RequestTypeGroceries}
-                alt=""
-              />
-            )}
-            {requestType === 'medication' && (
-              <img
-                className="accept-help-request-detail-icon"
-                src={RequestTypeMedication}
-                alt=""
-              />
-            )}
-            {requestType === 'other' && (
-              <img
-                className="accept-help-request-detail-icon"
-                src={RequestTypeOther}
-                alt=""
-              />
-            )}
-          </div>
           <Text strong>Distanz:</Text>
           <div>
             {(distance / 1000).toFixed(1).replace('.', ',')}
             km
           </div>
-          <Text strong>Dringlichkeit:</Text>
-          <div>
-            {urgency in urgencyMapping ? urgencyMapping[urgency] : 'unbekannt'}
-          </div>
-          <Text strong>Auto benötigt:</Text>
-          <img
-            className="accept-help-request-detail-icon"
-            src={extras.carNecessary ? CarRequired : CarNotRequired}
-            alt=""
-          />
-          <Text strong>Rezept benötigt:</Text>
-          <img
-            className="accept-help-request-detail-icon"
-            src={
-              extras.prescriptionRequired
-                ? PrescriptionRequired
-                : PrescriptionNotRequired
-            }
-            alt=""
-          />
         </div>
       </div>
       <div className="horizontal-center">
@@ -127,12 +79,10 @@ export default function AcceptRequestDetailView({
   );
 }
 AcceptRequestDetailView.propTypes = {
-  process: PropTypes.string,
-  requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
+  id: PropTypes.string,
+  requestText: PropTypes.string,
   address: PropTypes.object.isRequired,
-  urgency: PropTypes.oneOf(['now', 'today', 'tomorrow', 'this-week'])
-    .isRequired,
+  helpSeeker: PropTypes.object.isRequired,
   distance: PropTypes.number.isRequired,
-  extras: PropTypes.object.isRequired,
   closeDetailView: PropTypes.func.isRequired,
 };

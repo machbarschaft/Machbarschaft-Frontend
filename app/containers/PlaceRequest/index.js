@@ -49,15 +49,6 @@ export default function PlaceRequestWindow(props) {
 
   const onFinish = async (values) => {
     const authState = authenticationContext.authenticationState;
-    const helpSeeker = {
-      fullName: values.fullName,
-      phone: values.phone,
-      source: 'ADMIN'
-    };
-
-    authenticationContext.startLoading();
-    await createHelpRequest(helpSeeker, values.requestText);
-    authenticationContext.finishLoading();
 
     const cityValue = values.city || authState.address.city;
     const streetValue = values.street || authState.address.street;
@@ -85,6 +76,17 @@ export default function PlaceRequestWindow(props) {
         streetNo: streetNoValue,
         zipCode: zipCodeValue
       };
+
+    const helpSeeker = {
+      fullName: values.fullName,
+      phone: values.phone,
+      source: 'ADMIN',
+      user: userRequest
+    };
+
+    authenticationContext.startLoading();
+    await createHelpRequest(helpSeeker, values.requestText);
+    authenticationContext.finishLoading();
 
       authenticationContext.startLoading();
       updateUser(userRequest)
