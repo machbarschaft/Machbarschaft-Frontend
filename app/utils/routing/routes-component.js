@@ -90,6 +90,7 @@ export default function RoutesComponent() {
               <RouteAuthenticated
                 render={() => <Requests {...props} />}
                 redirectTo="/login"
+                checkForRole={true}
               />
             )}
           />
