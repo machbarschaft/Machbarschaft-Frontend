@@ -3,9 +3,6 @@ import { Result, Spin, Button } from 'antd';
 import useDashboard from '../../hooks/useDashboard';
 import DashboardHelpRequestList from '../../components/dashboard/dashboardHelpRequestList';
 
-const DashboardHelper = React.lazy(() => import('../../components/dashboard/dashboardHelper'));
-const DashboardHelpSeeker = React.lazy(() => import('../../components/dashboard/dashboardHelpSeeker'));
-
 function Requests() {
   const [requestsState, {fetchRequests, updateHelpRequestStatus}] = useDashboard('helper');
   const [localRequestsState, setLocalRequestsState] = React.useState(
@@ -59,39 +56,6 @@ function Requests() {
           <DashboardHelpRequestList updateHelpRequestStatus={updateHelpRequestStatus} helpRequests={localRequestsState.helpRequestsResult} />
         )
       }
-      {!localRequestsState.loading &&
-      localRequestsState.error === null &&
-      (localRequestsState.activeRequests.helpSeeker.length > 0 ||
-        localRequestsState.activeRequests.helper.length != null ||
-        localRequestsState.finishedRequests.helpSeeker.length > 0 ||
-        localRequestsState.finishedRequests.helper.length > 0) && (
-        <>
-          {localRequestsState.isHelpSeeker && (
-            <DashboardHelpSeeker
-              activeRequestsHelpSeeker={
-                localRequestsState.activeRequests.helpSeeker
-              }
-              activeRequestsHelper={localRequestsState.activeRequests.helper}
-              finishedRequestsHelpSeeker={
-                localRequestsState.finishedRequests.helpSeeker
-              }
-              finishedRequestsHelper={
-                localRequestsState.finishedRequests.helper
-              }
-              refreshRequests={() => foregroundFetch()}
-              refreshRequestsBackground={() => backgroundFetch()}
-            />
-          )}
-          {!localRequestsState.isHelpSeeker && (
-            <DashboardHelper
-              activeRequests={localRequestsState.activeRequests.helper}
-              finishedRequests={localRequestsState.finishedRequests.helper}
-              refreshRequests={() => foregroundFetch()}
-              refreshRequestsBackground={() => backgroundFetch()}
-            />
-          )}
-        </>
-      )}
     </div>
   );
 }
