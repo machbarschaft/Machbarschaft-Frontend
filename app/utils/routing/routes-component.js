@@ -13,6 +13,9 @@ const LandingPage = React.lazy(() =>
 const Dashboard = React.lazy(() =>
   import('../../containers/Dashboard')
 );
+const HelpRequestDetail = React.lazy(() =>
+  import('../../containers/Dashboard/HelpRequestDetail')
+);
 const Requests = React.lazy(() =>
   import('../../containers/Requests')
 );
@@ -80,6 +83,15 @@ export default function RoutesComponent() {
             render={(props) => (
               <RouteAuthenticated
                 render={() => <Dashboard {...props} />}
+                redirectTo="/login"
+              />
+            )}
+          />
+          <Route
+            path="/help-request/:id"
+            render={(props) => (
+              <RouteAuthenticated
+                render={() => <HelpRequestDetail {...props} />}
                 redirectTo="/login"
               />
             )}
