@@ -53,7 +53,7 @@ function NavigationMenu({ mode, menuClicked }) {
     >
       <Menu.Item key="/dashboard">
         <NavLink to="/dashboard" exact>
-          DASHBOARD
+          ÜBERSICHT
         </NavLink>
       </Menu.Item>
       <Menu.Item key="/auftrag-aufgeben">

@@ -1126,3 +1126,16 @@ h4 {
 .standard-link:hover {
   color: #f3b3a3;
 }
+
+.request-cards-container {
+  display: flex;
+  margin: 10px 50px;
+}
+
+.request-cards-container.button-group button {
+  margin: 0 10px;
+}
+
+.request-cards-container .request-card {
+  margin: 10px;
+}
