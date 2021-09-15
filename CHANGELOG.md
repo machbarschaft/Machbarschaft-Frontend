@@ -1,3 +1,25 @@
+# [1.1.0](https://github.com/machbarschaft/Machbarschaft-Frontend/compare/v1.0.0...v1.1.0) (2021-09-15)
+
+
+### Bug Fixes
+
+* add information text to register button ([4a753ac](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/4a753ac80a25a3cf35ff8019cf67194a4cb950c1))
+* amend to scale properly ([0db6791](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/0db6791524e92e4fc2768f08c2c9877232c62aa1))
+* change div styles to bigger font size ([455ec13](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/455ec13f0e53db0c57613ab106227aea9b09c88d))
+* change focus style for header buttons ([8c7f63b](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/8c7f63b1fddc9b6670ac9d54533153f6260522e9))
+* reload doesn´t work ([38a2ce3](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/38a2ce31d8347c4772b2ccfcb8afdb6c33e6a6af))
+
+
+### Features
+
+* add change option for email and password ([39746d9](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/39746d900f50cf139c89985c09785d4fbe4eba13))
+* add cookie banner and change some styles ([ecc5026](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/ecc50264350fe863107b82e87be7256eacc66dc8))
+* add FAQ link ([1e5db18](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/1e5db18391af38f74882f93f3bf10c4d1e11bc5b))
+* add global spinner when fetching data ([99e92f4](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/99e92f47818edac5bef6917ec2e2da61bf1db842))
+* change login page - two into one ([5983083](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/5983083c3808017f85cdd8200b223e0578cc213c))
+* made request address mandatory ([c8bfc1f](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/c8bfc1fe43002f7cc09d68e7e79e7dee04ff9d3c))
+* move content from dashboard to new request page ([c52568d](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/c52568deffd223fdeb3b25793b8986079c2ed24d))
+
 # 1.0.0 (2021-04-05)
 
 
