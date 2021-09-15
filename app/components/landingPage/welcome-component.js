@@ -45,7 +45,7 @@ export default function WelcomeComponent() {
     <div className="welcome-section-container content-container-default">
       <Row type="flex" style={{ alignItems: 'center' }}>
         <Col xs={{ span: 24 }} xxl={{ span: 12 }}>
-          <div>
+          <div style={{ fontSize: '18px' }}>
             <h1>Machbarschaft</h1>
             Machbarschaft ist eine Nachbarschaftshilfe für Menschen ohne
             Internetzugang oder Internetkompetenz.
@@ -101,6 +101,7 @@ export default function WelcomeComponent() {
               <Button type="primary" size="large" htmlType="submit">
                 Los!
               </Button>
+              <span style={{ marginLeft: '15px', fontSize: '18px' }}>Hier klicken und automatisch Rückruf erhalten</span>
             </Form.Item>
           </Form>
         </Col>

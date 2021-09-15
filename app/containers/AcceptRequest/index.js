@@ -1,8 +1,11 @@
-import React from 'react';
-import { Menu } from 'antd';
+import React, { useEffect } from 'react';
+import { Menu, message } from 'antd';
+import { getDistance } from 'geolib';
 import { getOpenRequests } from '../../utils/api/acceptHelpApi';
-import { ERROR, HOVER_INDEX, LOADING, MENU_KEY, SELECTED_INDEX, SUCCESS } from '../../contexts/acceptRequest/types';
+import { HOVER_INDEX, MENU_KEY, SELECTED_INDEX, SUCCESS } from '../../contexts/acceptRequest/types';
 import acceptRequestStateReducer from '../../contexts/acceptRequest/acceptRequestStateReducer';
+import AuthenticationContext from '../../contexts/authentication';
+import { STATUS_OPEN } from '../../components/StatusSwitcher';
 
 const AcceptHelpSearchBar = React.lazy(() => import('../../components/acceptHelp/acceptHelpSearchBar'));
 const AcceptHelpListAndDetail = React.lazy(() =>
@@ -31,22 +34,34 @@ export default function AcceptRequestWindow() {
     }
   );
 
-  React.useEffect(() => {
-    if (currentLocation.lat !== 0 || currentLocation.lng !== 0) {
-      dispatchAcceptRequestState({ type: LOADING });
-      getOpenRequests({
+  const authenticationContext = React.useContext(AuthenticationContext);
+
+  useEffect(() => {
+    const userLocation = authenticationContext.authenticationState.location;
+    setCurrentLocation({
+      lat: userLocation.latitude,
+      lng: userLocation.longitude,
+    });
+
+    try {
+      getInitialOpenRequests();
+    } catch (err) {
+      message.error('Etwas ist schief gelaufen');
+    }
+  }, []);
+
+  const getInitialOpenRequests = async () => {
+    try {
+      const openRequests = await getOpenRequests({
         latitude: currentLocation.lat,
         longitude: currentLocation.lng,
         radius: currentRadius,
-      })
-        .then((res) =>
-          dispatchAcceptRequestState({ type: SUCCESS, requestList: res })
-        )
-        .catch((err) =>
-          dispatchAcceptRequestState({ type: ERROR, error: err })
-        );
+      });
+      dispatchAcceptRequestState({ type: SUCCESS, requestList: openRequests.filter((request) => request.requestStatus === STATUS_OPEN) })
+    } catch (err) {
+
     }
-  }, [currentLocation]);
+  };
 
   const requestListRender = acceptRequestState.requestList.map(
     (entry, index) => (
@@ -54,6 +69,13 @@ export default function AcceptRequestWindow() {
         <AcceptRequestListEntry
           number={index + 1}
           {...entry}
+          distance={
+            getDistance(
+              { latitude: currentLocation.lat, longitude: currentLocation.lng },
+              { latitude: entry.helpSeeker.enteredBy.location.latitude, longitude: entry.helpSeeker.enteredBy.location.longitude },
+            )
+          }
+          requestText={entry.requestText}
           onClick={() =>
             dispatchAcceptRequestState({
               type: SELECTED_INDEX,
@@ -114,6 +136,7 @@ export default function AcceptRequestWindow() {
   );
   const acceptHelpListAndDetail = (
     <AcceptHelpListAndDetail
+      currentLocation={currentLocation}
       selectedMarkerIndex={acceptRequestState.selectedMarkerIndex}
       setSelectedMarkerIndex={(index) =>
         dispatchAcceptRequestState({

@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RequestTypeOther from '../../assets/img/request-category/request-category-other.svg';
-import RequestTypeGroceries from '../../assets/img/request-category/request-category-groceries.svg';
-import RequestTypeMedication from '../../assets/img/request-category/request-category-medication.svg';
 
 export default function AcceptRequestListEntry({
   number,
-  address,
-  requestType,
+  requestText,
   distance,
   hover,
   onClick,
@@ -25,29 +21,8 @@ export default function AcceptRequestListEntry({
     >
       <div className="accept-help-request-list-entry-number">{number}</div>
       <div className="accept-help-request-list-entry-address">
-        {address.street}, {address.zipCode} {address.city}
+        {requestText}
       </div>
-      {requestType === 'groceries' && (
-        <img
-          src={RequestTypeGroceries}
-          className="accept-help-request-list-entry-category"
-          alt=""
-        />
-      )}
-      {requestType === 'medication' && (
-        <img
-          src={RequestTypeMedication}
-          className="accept-help-request-list-entry-category"
-          alt=""
-        />
-      )}
-      {requestType === 'other' && (
-        <img
-          src={RequestTypeOther}
-          className="accept-help-request-list-entry-category"
-          alt=""
-        />
-      )}
       <div className="accept-help-request-list-entry-distance">
         {(distance / 1000).toFixed(1).replace('.', ',')}
         km
@@ -57,8 +32,7 @@ export default function AcceptRequestListEntry({
 }
 AcceptRequestListEntry.propTypes = {
   number: PropTypes.number.isRequired,
-  address: PropTypes.object.isRequired,
-  requestType: PropTypes.oneOf(['groceries', 'medication', 'other']).isRequired,
+  requestText: PropTypes.string.isRequired,
   distance: PropTypes.number.isRequired,
   hover: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,

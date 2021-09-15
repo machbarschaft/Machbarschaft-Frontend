@@ -53,7 +53,7 @@ function NavigationMenu({ mode, menuClicked }) {
     >
       <Menu.Item key="/dashboard">
         <NavLink to="/dashboard" exact>
-          DASHBOARD
+          ÜBERSICHT
         </NavLink>
       </Menu.Item>
       <Menu.Item key="/auftrag-aufgeben">
@@ -66,11 +66,25 @@ function NavigationMenu({ mode, menuClicked }) {
           AUFTRAG ANNEHMEN
         </NavLink>
       </Menu.Item>
+      <Menu.Item key="/auftrage">
+        <NavLink to="/auftrage" exact>
+          AUFTRÄGE
+        </NavLink>
+      </Menu.Item>
       {
         isAdmin && (
           <Menu.Item key="/role">
             <NavLink to="/role" exact>
               ROLLEN BEARBEITEN
+            </NavLink>
+          </Menu.Item>
+        )
+      }
+      {
+        isAdmin && (
+          <Menu.Item key="/admins">
+            <NavLink to="/admins" exact>
+              ADMIN DASHBOARD
             </NavLink>
           </Menu.Item>
         )

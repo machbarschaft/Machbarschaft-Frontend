@@ -1,9 +1,12 @@
 import React from 'react';
-import { getHelpRequests } from '../utils/api/dashboardApi';
+import { getAdmins, getHelpRequests } from '../utils/api/dashboardApi';
 import dashboardStateReducer from '../contexts/dashboard/dashboardStateReducer';
 import {
+  ERROR_GET_ADMINS,
   ERROR_HELP_REQUEST,
+  LOADING_GET_ADMINS,
   LOADING_HELP_REQUEST,
+  SUCCESS_GET_ADMINS,
   SUCCESS_HELP_REQUEST,
   SUCCESS_HELP_REQUEST_STATUS,
 } from '../contexts/dashboard/types';
@@ -35,6 +38,16 @@ export default function useDashboard() {
         dispatchRequestsState({ type: ERROR_HELP_REQUEST, error: err })
       );
   };
+  const fetchAdmins = () => {
+    dispatchRequestsState({ type: LOADING_GET_ADMINS });
+    getAdmins()
+      .then((res) => {
+        dispatchRequestsState({ type: SUCCESS_GET_ADMINS, admins: res });
+      })
+      .catch((err) =>
+        dispatchRequestsState({ type: ERROR_GET_ADMINS, error: err })
+      );
+  };
   const updateHelpRequestStatus = async (helpRequest, status) => {
     dispatchRequestsState({ type: LOADING_HELP_REQUEST });
     const updatedHelpRequest = await updateRequestStatus(helpRequest, status);
@@ -45,5 +58,9 @@ export default function useDashboard() {
   };
   React.useEffect(() => fetchRequests(), []);
 
-  return [requestsState, fetchRequests, updateHelpRequestStatus];
+  return [requestsState, {
+    fetchRequests,
+    updateHelpRequestStatus,
+    fetchAdmins
+  }];
 }

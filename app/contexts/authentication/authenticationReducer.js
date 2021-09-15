@@ -3,6 +3,8 @@ import {
   AUTHENTICATION_SUCCESS,
   INVALIDATE_FAILURE,
   INVALIDATE_SUCCESS,
+  LOADING_FINISH,
+  LOADING_START,
   LOGIN_FAILURE,
   LOGIN_INIT,
   REGISTER_FAILURE,
@@ -41,6 +43,7 @@ export const initialAuthenticationState = {
 
   // Process Information
   isInitialLoading: true,
+  isLoading: false,
   isAuthenticating: false,
   isRegistering: false,
   authenticationErrors: null,
@@ -119,6 +122,16 @@ export default function authenticationReducer(state, action) {
         ...initialAuthenticationState,
         isInitialLoading: false,
         authenticationErrors: action.data.errors,
+      };
+    case LOADING_START:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case LOADING_FINISH:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       throw new Error('Unsupported Type');

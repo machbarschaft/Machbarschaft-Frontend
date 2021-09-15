@@ -1,6 +1,7 @@
 import GoogleMapReact from 'google-map-react';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { getDistance } from 'geolib';
 import { googleMapsApiKey } from '../../assets/config/google-maps-api';
 import CurrentLocationMarker from './currentLocationMarker';
 import MapMarker from './mapMarker';
@@ -37,8 +38,14 @@ export default function MapContainer({
         {markers.map((entry, index) => (
           <MapMarker
             {...entry}
-            lat={entry.address.geoLocation.latitude}
-            lng={entry.address.geoLocation.longitude}
+            distance={
+              getDistance(
+                { latitude: currentLocation.lat, longitude: currentLocation.lng },
+                { latitude: entry.helpSeeker.enteredBy.location.latitude, longitude: entry.helpSeeker.enteredBy.location.longitude },
+              )
+            }
+            lat={entry.helpSeeker.enteredBy.location.latitude}
+            lng={entry.helpSeeker.enteredBy.location.longitude}
             onMarkerSelect={() => onMarkerSelect(index)}
             selected={selectedMarkerIndex === index}
             hover={hoverMarkerIndex === index}

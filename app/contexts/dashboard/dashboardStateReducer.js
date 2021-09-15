@@ -1,10 +1,12 @@
 import {
   ERROR_ACTIVE,
-  ERROR_FINISHED, ERROR_HELP_REQUEST,
+  ERROR_FINISHED, ERROR_GET_ADMINS,
+  ERROR_HELP_REQUEST,
   LOADING_ACTIVE,
-  LOADING_FINISHED, LOADING_HELP_REQUEST,
+  LOADING_FINISHED, LOADING_GET_ADMINS,
+  LOADING_HELP_REQUEST,
   SUCCESS_ACTIVE,
-  SUCCESS_FINISHED,
+  SUCCESS_FINISHED, SUCCESS_GET_ADMINS,
   SUCCESS_HELP_REQUEST,
   SUCCESS_HELP_REQUEST_STATUS,
 } from './types';
@@ -149,6 +151,27 @@ export default function dashboardStateReducer(state, action) {
     };
     newState.loading = isLoading(newState);
     return newState;
+  }
+  if (action.type === LOADING_GET_ADMINS) {
+    return {
+      ...state,
+      loadingAdmins: true,
+      error: null,
+    };
+  }
+  if (action.type === SUCCESS_GET_ADMINS) {
+    return {
+      ...state,
+      loadingAdmins: false,
+      adminsResult: action.admins
+    };
+  }
+  if (action.type === ERROR_GET_ADMINS) {
+    return {
+      ...state,
+      loadingHelpRequests: false,
+      error: action.error,
+    };
   }
   if (action.type === SUCCESS_HELP_REQUEST_STATUS) {
     newState = {

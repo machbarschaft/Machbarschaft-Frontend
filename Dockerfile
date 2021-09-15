@@ -25,6 +25,9 @@ RUN npm run build
 # production stage
 FROM nginx:stable-alpine as production-stage
 
+# copy nginx conf
+COPY nginx.conf /etc/nginx/conf.d/configfile.template
+
 RUN apk add --no-cache bash
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
