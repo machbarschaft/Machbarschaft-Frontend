@@ -96,12 +96,12 @@ function App() {
               <div className="site-layout">
                 <div className="main-content">
                   <div>
-                    {isAuthenticated() && !isMailVerified() && (
-                      <ValidateMailNotification />
-                    )}
-                    {isAuthenticated() && !isPhoneVerified() && (
-                      <ValidatePhoneNotification />
-                    )}
+                    {/*{isAuthenticated() && !isMailVerified() && (*/} {/*TODO: return after implementation on backend*/}
+                    {/*  <ValidateMailNotification />*/}
+                    {/*)}*/}
+                    {/*{isAuthenticated() && !isPhoneVerified() && (*/}
+                    {/*  <ValidatePhoneNotification />*/}
+                    {/*)}*/}
 
                     <React.Suspense
                       fallback={<Result icon={<Spin size="large" />} />}
