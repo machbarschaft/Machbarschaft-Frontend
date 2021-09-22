@@ -96,7 +96,7 @@ export default function PlaceRequestWindow(props) {
           checkAuthentication();
           notification.success({
             message: 'Fertig',
-            description: 'Profil erfolgreich gespeichert.',
+            description: 'Hilfegesuch erfolgreich gespeichert.',
           });
         })
         .catch((error) => {
