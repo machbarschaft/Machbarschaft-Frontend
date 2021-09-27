@@ -44,15 +44,15 @@ export default function AcceptHelpListAndDetail({
             getDistance(
               { latitude: currentLocation.lat, longitude: currentLocation.lng },
               {
-                latitude: listEntries[selectedMarkerIndex].helpSeeker.enteredBy.location.latitude,
-                longitude: listEntries[selectedMarkerIndex].helpSeeker.enteredBy.location.longitude
+                latitude: listEntries[selectedMarkerIndex].location?.latitude,
+                longitude: listEntries[selectedMarkerIndex].location?.longitude
               },
             )
           }
           address={{
-            street: listEntries[selectedMarkerIndex].helpSeeker.enteredBy.street,
-            zipCode: listEntries[selectedMarkerIndex].helpSeeker.enteredBy.zipCode,
-            city: listEntries[selectedMarkerIndex].helpSeeker.enteredBy.city
+            street: listEntries[selectedMarkerIndex].helpSeeker.street,
+            zipCode: listEntries[selectedMarkerIndex].helpSeeker.zipCode,
+            city: listEntries[selectedMarkerIndex].helpSeeker.city
           }}
           closeDetailView={() => setSelectedMarkerIndex(-1)}
         />
