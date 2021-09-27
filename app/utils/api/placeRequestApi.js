@@ -32,7 +32,7 @@ export const postPlaceRequest = async ({ formValues, isAuthenticated }) => {
   });
 };
 
-export const createHelpRequest = async (helpSeeker, requestText) => {
+export const createHelpRequest = async (helpSeeker, requestText, location) => {
   try {
     const helpSeekerResponse = await apiCall({
       url: 'help-seeker',
@@ -46,7 +46,8 @@ export const createHelpRequest = async (helpSeeker, requestText) => {
       data: {
         requestText: requestText,
         requestStatus: 'OPEN',
-        helpSeeker: helpSeekerResponse.data.id
+        helpSeeker: helpSeekerResponse.data.id,
+        location
       }
     });
 

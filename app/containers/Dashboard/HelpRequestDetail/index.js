@@ -90,11 +90,11 @@ export default function HelpRequestDetail() {
                     </tr>
                     <tr>
                       <td>Adresse:</td>
-                      <td>{`${helpRequest.helpSeeker.enteredBy.street} ${helpRequest.helpSeeker.enteredBy.streetNo}`}</td>
+                      <td>{`${helpRequest.helpSeeker.street} ${helpRequest.helpSeeker.streetNo}`}</td>
                     </tr>
                     <tr>
                       <td>Ort:</td>
-                      <td>{`${helpRequest.helpSeeker.enteredBy.zipCode} ${helpRequest.helpSeeker.enteredBy.city}`}</td>
+                      <td>{`${helpRequest.helpSeeker.zipCode} ${helpRequest.helpSeeker.city}`}</td>
                     </tr>
                   </tbody>
                 </table>
