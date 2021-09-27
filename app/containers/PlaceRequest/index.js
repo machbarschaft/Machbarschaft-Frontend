@@ -81,11 +81,15 @@ export default function PlaceRequestWindow(props) {
       fullName: values.fullName,
       phone: values.phone,
       source: 'ADMIN',
+      city: cityValue,
+      street: streetValue,
+      streetNo: streetNoValue,
+      zipCode: zipCodeValue,
       user: userRequest
     };
 
     authenticationContext.startLoading();
-    await createHelpRequest(helpSeeker, values.requestText);
+    await createHelpRequest(helpSeeker, values.requestText, locationValue);
     authenticationContext.finishLoading();
 
       authenticationContext.startLoading();
@@ -96,7 +100,7 @@ export default function PlaceRequestWindow(props) {
           checkAuthentication();
           notification.success({
             message: 'Fertig',
-            description: 'Profil erfolgreich gespeichert.',
+            description: 'Hilfegesuch erfolgreich gespeichert.',
           });
         })
         .catch((error) => {

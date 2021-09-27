@@ -16,7 +16,7 @@ function DashboardWindow() {
 
   useEffect(() => {
     if (requestsState?.helpRequestsResult?.length) {
-      const userRequests = requestsState.helpRequestsResult.filter((request) => request.helpSeeker.enteredBy.id === userId);
+      const userRequests = requestsState.helpRequestsResult.filter((request) => request.helper?.id === userId);
       setLocalRequestsState(userRequests);
     }
   }, [requestsState]);

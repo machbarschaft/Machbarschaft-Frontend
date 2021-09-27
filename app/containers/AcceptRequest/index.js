@@ -55,7 +55,7 @@ export default function AcceptRequestWindow() {
       const openRequests = await getOpenRequests({
         latitude: currentLocation.lat,
         longitude: currentLocation.lng,
-        radius: currentRadius,
+        radius: currentRadius
       });
       dispatchAcceptRequestState({ type: SUCCESS, requestList: openRequests.filter((request) => request.requestStatus === STATUS_OPEN) })
     } catch (err) {
@@ -72,7 +72,7 @@ export default function AcceptRequestWindow() {
           distance={
             getDistance(
               { latitude: currentLocation.lat, longitude: currentLocation.lng },
-              { latitude: entry.helpSeeker.enteredBy.location.latitude, longitude: entry.helpSeeker.enteredBy.location.longitude },
+              { latitude: entry.location?.latitude, longitude: entry.location?.longitude },
             )
           }
           requestText={entry.requestText}

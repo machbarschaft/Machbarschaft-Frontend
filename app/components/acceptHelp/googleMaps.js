@@ -41,11 +41,11 @@ export default function MapContainer({
             distance={
               getDistance(
                 { latitude: currentLocation.lat, longitude: currentLocation.lng },
-                { latitude: entry.helpSeeker.enteredBy.location.latitude, longitude: entry.helpSeeker.enteredBy.location.longitude },
+                { latitude: entry.location.latitude, longitude: entry.location.longitude },
               )
             }
-            lat={entry.helpSeeker.enteredBy.location.latitude}
-            lng={entry.helpSeeker.enteredBy.location.longitude}
+            lat={entry.location.latitude}
+            lng={entry.location.longitude}
             onMarkerSelect={() => onMarkerSelect(index)}
             selected={selectedMarkerIndex === index}
             hover={hoverMarkerIndex === index}
