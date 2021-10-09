@@ -78,7 +78,6 @@ function DashboardWindow() {
                 <th>Datum</th>
                 <th>Name</th>
                 <th>Übersicht</th>
-                <th/>
               </tr>
               </thead>
               <tbody>
@@ -90,14 +89,6 @@ function DashboardWindow() {
                         <td>{dateTransform(localRequest.updatedAt)}</td>
                         <td>{localRequest.helpSeeker.fullName}</td>
                         <td>{localRequest.requestText}</td>
-                        <td>
-                          <Button
-                            type="primary"
-                            onClick={() => startHelpRequest(localRequest.id)}
-                          >
-                            Auftrag starten
-                          </Button>
-                        </td>
                       </tr>
                     )
                   }

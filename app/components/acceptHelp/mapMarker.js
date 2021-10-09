@@ -20,7 +20,10 @@ export default function MapMarker({
     >
       <img
         className="map-marker"
-        onClick={() => onMarkerSelect()}
+        onClick={(event) => {
+          event.stopPropagation();
+          onMarkerSelect()
+        }}
         onMouseEnter={() => onMarkerEnter()}
         onMouseLeave={() => onMarkerLeave()}
         src={PlacePin}
