@@ -63,6 +63,20 @@ export default function AcceptRequestWindow() {
     }
   };
 
+  const onGoogleMarkerSelect = (index) => {
+    dispatchAcceptRequestState({
+      type: SELECTED_INDEX,
+      selectedMarkerIndex: index,
+    });
+
+    if (window.innerWidth < 1150) {
+      dispatchAcceptRequestState({
+        type: MENU_KEY,
+        mobileMenuKey: 'list-and-detail',
+      });
+    }
+  }
+
   const requestListRender = acceptRequestState.requestList.map(
     (entry, index) => (
       <React.Fragment key={index}>
@@ -106,12 +120,7 @@ export default function AcceptRequestWindow() {
     <MapContainer
       markers={acceptRequestState.requestList}
       selectedMarkerIndex={acceptRequestState.selectedMarkerIndex}
-      onMarkerSelect={(index) =>
-        dispatchAcceptRequestState({
-          type: SELECTED_INDEX,
-          selectedMarkerIndex: index,
-        })
-      }
+      onMarkerSelect={onGoogleMarkerSelect}
       onMapClick={() =>
         dispatchAcceptRequestState({
           type: SELECTED_INDEX,
