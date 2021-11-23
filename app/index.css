@@ -60,6 +60,7 @@ h4 {
 .nav-logo {
   height: 5em;
   width: auto;
+  cursor: pointer;
 }
 .nav-menu-mobile-icon-container {
   height: 100%;
@@ -1138,4 +1139,18 @@ h4 {
 
 .request-cards-container .request-card {
   margin: 10px;
+}
+
+.register-button {
+  background-color: #2d3047;
+  color: white;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  width: 130px;
+}
+
+.visibility-hidden {
+  visibility: hidden;
 }
