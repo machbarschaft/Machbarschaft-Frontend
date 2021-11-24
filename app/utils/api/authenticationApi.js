@@ -31,3 +31,9 @@ export const getAuthenticate = async() => {
   }
   return response.data;
 };
+
+export const sendPasswordReset = (email) => {
+  return firebase
+    .auth()
+    .sendPasswordResetEmail(email);
+};
