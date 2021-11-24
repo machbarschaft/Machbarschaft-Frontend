@@ -60,6 +60,7 @@ h4 {
 .nav-logo {
   height: 5em;
   width: auto;
+  cursor: pointer;
 }
 .nav-menu-mobile-icon-container {
   height: 100%;
@@ -1148,4 +1149,8 @@ h4 {
   justify-content: center;
   margin: 20px auto;
   width: 130px;
+}
+
+.visibility-hidden {
+  visibility: hidden;
 }
