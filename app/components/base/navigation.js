@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Menu, Popover, Space, Typography } from 'antd';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MachbarschaftLogo from '../../assets/img/logo/machbarschaft-logo.png';
 import AuthenticationContext from '../../contexts/authentication';
@@ -20,23 +20,7 @@ function NavigationMenu({ mode, menuClicked }) {
   if (authenticationState.uid == null) {
     // No User
     return (
-      <Menu mode={mode} selectedKeys={[selectedKey]} onClick={menuClicked}>
-        <Menu.Item key="/">
-          <NavLink to="/" exact>
-            STARTSEITE
-          </NavLink>
-        </Menu.Item>
-        {/*<Menu.Item key="/kontakt">*/}
-        {/*  <NavLink to="/kontakt" exact>*/}
-        {/*    KONTAKT*/}
-        {/*  </NavLink>*/}
-        {/*</Menu.Item>*/}
-        <Menu.Item key="/registrieren">
-          <NavLink to="/registrieren" exact>
-            REGISTRIEREN
-          </NavLink>
-        </Menu.Item>
-      </Menu>
+      <></>
     );
   }
   // User
@@ -164,18 +148,21 @@ function NavigationProfileIndicator() {
 }
 
 export default function Navigation({ increaseFontSize, decreaseFontSize }) {
+  const authProps = React.useContext(AuthenticationContext);
+  const { authenticationState } = authProps;
   const [mobileNavState, setState] = React.useState(false);
+  const history = useHistory();
 
   return (
     <>
       <div className="nav-bar">
-        <div className="nav-menu-mobile-icon-container">
+        <div className={`nav-menu-mobile-icon-container ${authenticationState.uid === null ? 'visibility-hidden' : ''}`}>
           <MenuOutlined
             className="nav-menu-mobile-icon"
             onClick={() => setState(!mobileNavState)}
           />
         </div>
-        <img className="nav-logo" src={MachbarschaftLogo} alt="" />
+        <img className="nav-logo" src={MachbarschaftLogo} alt="" onClick={() => history.push('/')}/>
         <div className="nav-menu-desktop">
           <NavigationMenu
             mode="horizontal"
