@@ -3,12 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { Space, Steps } from 'antd';
 import ResetPasswordUsernameLeftCard from '../../components/resetPassword/resetPasswordUsernameLeftCard';
 import ResetPasswordUsernameRightCard from '../../components/resetPassword/resetPasswordUsernameRightCard';
-import ResetPasswordSecurityCodeLeftCard from '../../components/resetPassword/resetPasswordSecurityCodeLeftCard';
-import ResetPasswordSecurityCodeRightCard from '../../components/resetPassword/resetPasswordSecurityCodeRightCard';
-import ResetPasswordNewPwdLeftCard from '../../components/resetPassword/resetPasswordNewPwdLeftCard';
-import ResetPasswordNewPwdRightCard from '../../components/resetPassword/resetPasswordNewPwdRightCard';
-import ResetPasswordDoneLeftCard from '../../components/resetPassword/resetPasswordDoneLeftCard';
 import ResetPasswordCardsComponent from '../../components/resetPassword/resetPasswordCardsComponent';
+import ResetPasswordFinalStep from '../../components/resetPassword/resetPasswordFinalStep';
 
 const queryString = require('query-string');
 
@@ -45,46 +41,16 @@ export default function ResetPasswordWindow() {
       ),
     },
     {
-      title: 'Sicherheitscode',
-      content: (
-        <ResetPasswordCardsComponent
-          title="Sicherheitscode eingeben"
-          contentLeft={
-            <ResetPasswordSecurityCodeLeftCard
-              proceed={() => setCurrentStep(2)}
-              user={user}
-              setToken={setToken}
-            />
-          }
-          contentRight={<ResetPasswordSecurityCodeRightCard user={user} />}
-        />
-      ),
-    },
-    {
-      title: 'Neues Passwort setzen',
-      content: (
-        <ResetPasswordCardsComponent
-          title="Neues Passwort eingeben"
-          contentLeft={
-            <ResetPasswordNewPwdLeftCard
-              proceed={() => setCurrentStep(3)}
-              user={user}
-              token={token}
-            />
-          }
-          contentRight={<ResetPasswordNewPwdRightCard />}
-        />
-      ),
-    },
-    {
       title: 'Abgeschlossen',
       content: (
         <ResetPasswordCardsComponent
-          title="Erfolgreich abgeschlossen"
-          contentLeft={<ResetPasswordDoneLeftCard />}
+          title="Abgeschlossen"
+          contentLeft={
+            <ResetPasswordFinalStep />
+          }
         />
       ),
-    },
+    }
   ];
   return (
     <Space
