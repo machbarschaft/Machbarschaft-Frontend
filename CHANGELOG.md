@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/machbarschaft/Machbarschaft-Frontend/compare/v1.1.0...v1.1.1) (2021-12-12)
+
+
+### Bug Fixes
+
+* fixed nginx config ([3788b3e](https://github.com/machbarschaft/Machbarschaft-Frontend/commit/3788b3e134f5d96b797e2d167d488e287da1e7b5))
+
 # [1.1.0](https://github.com/machbarschaft/Machbarschaft-Frontend/compare/v1.0.0...v1.1.0) (2021-09-15)
 
 
