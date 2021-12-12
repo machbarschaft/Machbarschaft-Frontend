@@ -1,10 +1,17 @@
-import { INVALID_TOKEN, OFFLINE, SUBMIT, SUCCESS } from './types';
+import { INVALID_TOKEN, OFFLINE, SUBMIT, SUCCESS, ERROR } from './types';
 
 export default function resetPasswordSubmissionStateReducer(state, action) {
   if (action.type === SUCCESS) {
     return {
       ...state,
       error: null,
+      loading: false,
+    };
+  }
+  if (action.type === ERROR) {
+    return {
+      ...state,
+      error: 'Überprüfen Sie Ihre E-Mail-Adresse',
       loading: false,
     };
   }

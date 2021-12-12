@@ -1,13 +1,15 @@
-import React from 'react';
-import { Button, Input, Form } from 'antd';
+import React, { useState } from 'react';
+import { Button, Input, Form, Alert } from 'antd';
 import PropTypes from 'prop-types';
 import { MailOutlined } from '@ant-design/icons';
 
 import resetPasswordSubmissionStateReducer from '../../contexts/resetPassword/resetPasswordSubmissionStateReducer';
-import { SUBMIT, SUCCESS } from '../../contexts/resetPassword/types';
+import { SUBMIT, SUCCESS, ERROR } from '../../contexts/resetPassword/types';
+import { sendPasswordReset } from '../../utils/api/authenticationApi';
 
 function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
   const [form] = Form.useForm();
+  const [err, setErr] = useState(null);
 
   const layout = {
     labelCol: { span: 10 },
@@ -24,12 +26,16 @@ function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
 
   const handleForm = async (values) => {
     dispatchSubmissionState({ type: SUBMIT });
-    setUser(data.user);
-    console.log(`ToDo: send reset request for user '${data.user}' to backend`);
-    setTimeout(() => {
+    try {
+      await sendPasswordReset(values.user)
+      setUser(values.user);
+      setErr(null)
       dispatchSubmissionState({ type: SUCCESS });
       proceed();
-    }, 1000);
+    } catch (e) {
+      dispatchSubmissionState({ type: ERROR });
+      setErr(e);
+    }
   };
 
   return (
@@ -42,6 +48,14 @@ function ResetPasswordUsernameLeftCard({ setUser, proceed }) {
         onFinish={handleForm}
         hideRequiredMark
       >
+        {
+          err && (
+            <Alert
+              message="Überprüfen Sie Ihre E-Mail-Adresse"
+              type="error"
+            />
+          )
+        }
         <Form.Item
           name="user"
           label="E-Mail Adresse"

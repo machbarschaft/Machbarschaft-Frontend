@@ -1,46 +1,8 @@
 import React from 'react';
-import { Button, Col, Form, Input, Row, Select, Typography } from 'antd';
-import { PhoneOutlined } from '@ant-design/icons';
-import { useHistory } from 'react-router-dom';
-import AuthenticationContext from '../../contexts/authentication';
-
-const { Text } = Typography;
-const { Option } = Select;
+import { Col, Row } from 'antd';
+import { NavLink } from 'react-router-dom';
 
 export default function WelcomeComponent() {
-  const authenticationContext = React.useContext(AuthenticationContext);
-  const [form] = Form.useForm();
-
-  const history = useHistory();
-
-  const formLayout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-  };
-
-  const phonePrefixSelector = (
-    <Form.Item name="countryCode" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="49">+49</Option>
-      </Select>
-    </Form.Item>
-  );
-
-  const handleStartHelpRequest = async (formValues) => {
-    const parsedPhoneNumber =
-      typeof formValues.phoneNumber !== 'undefined'
-        ? formValues.phoneNumber.replace(/\D/g, '').replace(/^0+/, '')
-        : 0;
-
-    const redirectURL =
-      typeof formValues.phoneNumber !== 'undefined' &&
-      typeof formValues.countryCode !== 'undefined'
-        ? `/auftrag-aufgeben?phoneNumber=${parsedPhoneNumber}&countryCode=${formValues.countryCode}`
-        : '/auftrag-aufgeben';
-
-    history.push(redirectURL);
-  };
-
   return (
     <div className="welcome-section-container content-container-default">
       <Row type="flex" style={{ alignItems: 'center' }}>
@@ -67,43 +29,9 @@ export default function WelcomeComponent() {
           </div>
         </Col>
         <Col xs={{ span: 24 }} xxl={{ span: 12 }}>
-          <Form
-            form={form}
-            name="landing-page-phone"
-            hideRequiredMark
-            initialValues={{
-              countryCode: '49',
-            }}
-            onFinish={handleStartHelpRequest}
-          >
-            {!authenticationContext.isAuthenticated() && (
-              <Form.Item
-                label="Ihre Telefonnummer"
-                name="phoneNumber"
-                rules={[
-                  {
-                    required: true,
-                    pattern:
-                      '(\\(?([\\d \\-\\)\\–\\+\\/\\(]+){6,}\\)?([ .\\-–\\/]?)([\\d]+))',
-                    message: 'Gib eine gültige Telefonnummer ein.',
-                  },
-                ]}
-              >
-                <Input
-                  addonBefore={phonePrefixSelector}
-                  suffix={<PhoneOutlined />}
-                  size="large"
-                />
-              </Form.Item>
-            )}
-
-            <Form.Item style={{ textAlign: 'center' }}>
-              <Button type="primary" size="large" htmlType="submit">
-                Los!
-              </Button>
-              <span style={{ marginLeft: '15px', fontSize: '18px' }}>Hier klicken und automatisch Rückruf erhalten</span>
-            </Form.Item>
-          </Form>
+          <NavLink className="register-button" to="/registrieren" exact>
+            Registrieren
+          </NavLink>
         </Col>
       </Row>
     </div>

@@ -26,7 +26,7 @@ RUN npm run build
 FROM nginx:stable-alpine as production-stage
 
 # copy nginx conf
-COPY nginx.conf /etc/nginx/conf.d/configfile.template
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN apk add --no-cache bash
 COPY --from=build-stage /app/dist /usr/share/nginx/html
@@ -38,6 +38,7 @@ WORKDIR /usr/share/nginx/html
 
 # Cloud Run requires port 8080. Let's change nginx...
 RUN sed -i 's/80/8080/g' /etc/nginx/conf.d/default.conf
+RUN sed -i 's/$PORT/8080/g' /etc/nginx/conf.d/default.conf
 EXPOSE 8080
 
 #CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
