@@ -8,6 +8,7 @@ import { ERROR, LOADED } from '../../contexts/placeRequest/types';
 import AuthenticationContext from '../../contexts/authentication';
 import { googleMapsApiKey } from '../../assets/config/google-maps-api';
 import { updateUser } from '../../utils/api/userApi';
+import { RequestForm } from '../../components/requestForm/requestForm';
 
 Geocode.setApiKey(googleMapsApiKey);
 
@@ -131,98 +132,11 @@ export default function PlaceRequestWindow(props) {
     >
       {
         address && (
-          <Form
-            name="basic"
+          <RequestForm
             initialValues={{...address, ...profile, remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
-          >
-            <Form.Item
-              label="Vor- und Nachname"
-              name="fullName"
-              rules={[{ required: true, message: 'Bitte geben Sie einen Hilfesuchenden ein.' }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Telefonnummer"
-              name="phone"
-              rules={[{ required: true, message: 'Bitte geben Sie eine Telefonnummer ein.' }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Aufgabenbeschreibung"
-              name="requestText"
-              rules={[{ required: true, message: 'Bitte geben Sie einen Aufgabenbeschreibung ein.' }]}
-            >
-              <Input.TextArea />
-            </Form.Item>
-
-            <Form.Item
-              label="Straße:"
-              name="street"
-              rules={[
-                {
-                  required: true,
-                  type: 'string',
-                  message: 'Bitte geben Sie Ihre Straße an.',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Hausnummer:"
-              name="streetNo"
-              rules={[
-                {
-                  required: true,
-                  type: 'string',
-                  pattern: '^[0-9]+$',
-                  message:
-                    'Bitte geben Sie nur Ihre Hausnummer ohne Zusatz an.',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Postleitzahl:"
-              name="zipCode"
-              rules={[
-                {
-                  required: true,
-                  type: 'string',
-                  pattern: '^[0-9]+$',
-                  message: 'Bitte geben Sie Ihre Postleitzahl an.',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              label="Stadt:"
-              name="city"
-              rules={[
-                {
-                  required: true,
-                  type: 'string',
-                  message: 'Bitte geben Sie Ihre Stadt an.',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Speichern
-              </Button>
-            </Form.Item>
-          </Form>
+          />
         )
       }
     </Space>

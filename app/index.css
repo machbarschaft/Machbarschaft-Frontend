@@ -1154,3 +1154,13 @@ h4 {
 .visibility-hidden {
   visibility: hidden;
 }
+
+td.image-cell {
+  text-align: center;
+  cursor: pointer;
+}
+
+.image-cell img {
+  width: 20px;
+  height: 20px;
+}

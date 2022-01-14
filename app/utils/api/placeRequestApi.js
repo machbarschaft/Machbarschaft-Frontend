@@ -57,6 +57,19 @@ export const createHelpRequest = async (helpSeeker, requestText, location) => {
   }
 }
 
+export const editHelpRequest = async (helpRequest, id) => {
+  try {
+    const helpRequestResponse = await apiCall({
+      url: `help-request/${id}/full`,
+      method: 'PUT',
+      data: helpRequest
+    });
+
+    return helpRequestResponse.data;
+  } catch (e) {
+    throw Error(e.data.message);
+  }
+}
 
 /**
  * Updates data in an existing help request.
