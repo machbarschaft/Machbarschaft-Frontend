@@ -40,7 +40,7 @@ export default function DashboardHelpRequestList({helpRequests, updateHelpReques
 
   const editRequest = (request) => {
     const requestValue = {
-      id: request.helpSeeker.id,
+      id: request.id,
       city: request.helpSeeker.city,
       street: request.helpSeeker.street,
       streetNo: request.helpSeeker.streetNo,
