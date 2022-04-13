@@ -13,12 +13,19 @@ import {
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Geocode from 'react-geocode';
+import VerifyButton from '@passbase/button/react';
 import AuthenticationContext from '../../contexts/authentication';
 import { printErrors } from '../../utils/misc/printErrors';
 import { googleMapsApiKey } from '../../assets/config/google-maps-api';
+import { checkPassbaseId } from '../../utils/api/authenticationApi';
 
 const { Option } = Select;
 const { Title } = Typography;
+const PassbaseStatus = {
+  PROCESSING: 'PROCESSING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED'
+};
 
 Geocode.setApiKey(googleMapsApiKey);
 
@@ -27,12 +34,43 @@ function RegisterHelperComponent() {
 
   const [form] = Form.useForm();
   const history = useHistory();
-  const [step, setStep] = useState(1);
+  const [passbaseId, setPassbaseId] = useState('');
+  const [invitationCode, setInvitationCode] = useState('');
+  const [passbaseError, setPassbaseError] = useState(null);
+  const [step, setStep] = useState(0);
+  const [initialStep, setInitialStep] = useState();
   const [firstStep, setFirstStep] = useState();
 
   const layout = {
     labelCol: { span: 10 },
     wrapperCol: { span: 14 },
+  };
+
+  const handleInvCodeSubmit = async () => {
+    setInitialStep({invitationCode});
+
+    setStep(1);
+  };
+
+  const handleCheckPassbaseId = async () => {
+    const checkResult = await checkPassbaseId(passbaseId);
+
+    switch (checkResult) {
+      case PassbaseStatus.PROCESSING:
+        alert('Versuchen Sie es nochmal bitte');
+        break;
+      case PassbaseStatus.SUCCESS:
+        await handleInitialStep();
+        break;
+      default:
+        setPassbaseError(true);
+    }
+  };
+
+  const handleInitialStep = async () => {
+    setInitialStep({passbaseId});
+
+    setStep(1);
   };
 
   const handleFirstStep = async (values) => {
@@ -55,6 +93,7 @@ function RegisterHelperComponent() {
         const registerResult = await authenticationContext.performRegister({
           ...values,
           ...firstStep,
+          ...initialStep,
           location,
         });
 
@@ -64,6 +103,7 @@ function RegisterHelperComponent() {
       } else {
         const registerResult = await authenticationContext.performRegister({
           ...firstStep,
+          ...initialStep
         });
 
         if (registerResult) {
@@ -73,6 +113,7 @@ function RegisterHelperComponent() {
     } else {
       const registerResult = await authenticationContext.performRegister({
         ...firstStep,
+        ...initialStep
       });
 
       if (registerResult) {
@@ -110,6 +151,14 @@ function RegisterHelperComponent() {
                 bordered={false}
                 className="login-card"
               >
+                {
+                  passbaseError && (
+                    <Alert
+                      message="Fehler bei der Verifikation"
+                      type="error"
+                    />
+                  )
+                }
                 {authenticationContext.authenticationState.registerErrors && (
                   <Alert
                     message="Es ist ein Fehler aufgetreten"
@@ -118,6 +167,34 @@ function RegisterHelperComponent() {
                     )}
                     type="error"
                   />
+                )}
+                {step === 0 && (
+                  <div className="verifying-container">
+                    <div className="verify-button-container">
+                      <VerifyButton
+                        apiKey={
+                          "OPvePu8mhtYSVcmGaMWUMs9d9dfPzz2y5r9LvEwFxY9rc8SNZ6yG5ESONLLjmqwa"
+                        }
+                        onFinish={(identityAccessKey) => {
+                          setPassbaseId(identityAccessKey)
+                        }}
+                        onError={(errorCode) => {
+                          setPassbaseError(errorCode)
+                        }}
+                        onStart={() => {}}
+                      />
+                      {
+                        passbaseId && (
+                          <Button onClick={handleCheckPassbaseId} type="primary">OK</Button>
+                        )
+                      }
+                    </div>
+                    <div className="or-separator">OR</div>
+                    <Input.Group compact>
+                      <Input value={invitationCode} onChange={(e) => setInvitationCode(e.target.value)} style={{ width: 'calc(100% - 200px)'}} placeholder="Einladungscode" />
+                      <Button onClick={handleInvCodeSubmit} type="primary">Send</Button>
+                    </Input.Group>
+                  </div>
                 )}
                 {step === 1 && (
                   <Form
