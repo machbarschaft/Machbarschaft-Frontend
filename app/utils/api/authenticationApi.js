@@ -43,3 +43,9 @@ export const checkPassbaseId = (uid) => {
       url: `passbase/${uid}`
     });
 };
+
+export const checkInvitationCode = (code) => {
+  return apiCall({
+    url: `invitation-code/check?code=${code}`
+  });
+};

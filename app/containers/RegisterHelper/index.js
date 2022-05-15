@@ -17,7 +17,7 @@ import VerifyButton from '@passbase/button/react';
 import AuthenticationContext from '../../contexts/authentication';
 import { printErrors } from '../../utils/misc/printErrors';
 import { googleMapsApiKey } from '../../assets/config/google-maps-api';
-import { checkPassbaseId } from '../../utils/api/authenticationApi';
+import { checkInvitationCode, checkPassbaseId } from '../../utils/api/authenticationApi';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -37,6 +37,7 @@ function RegisterHelperComponent() {
   const [passbaseId, setPassbaseId] = useState('');
   const [invitationCode, setInvitationCode] = useState('');
   const [passbaseError, setPassbaseError] = useState(null);
+  const [invitationCodeError, setInvitationCodeError] = useState(null);
   const [step, setStep] = useState(0);
   const [initialStep, setInitialStep] = useState();
   const [firstStep, setFirstStep] = useState();
@@ -47,15 +48,26 @@ function RegisterHelperComponent() {
   };
 
   const handleInvCodeSubmit = async () => {
-    setInitialStep({invitationCode});
+    try {
+      const invCodeResult = await checkInvitationCode(invitationCode);
 
-    setStep(1);
+      if (invCodeResult?.data) {
+        setInitialStep({invitationCode});
+        setInvitationCodeError(null);
+
+        setStep(1);
+      } else {
+        setInvitationCodeError('Einladungscode ist nicht gültig oder abgelaufen');
+      }
+    } catch (e) {
+      setInvitationCodeError('Fehler bei der Verifikation');
+    }
   };
 
   const handleCheckPassbaseId = async () => {
     const checkResult = await checkPassbaseId(passbaseId);
 
-    switch (checkResult) {
+    switch (checkResult.data) {
       case PassbaseStatus.PROCESSING:
         alert('Versuchen Sie es nochmal bitte');
         break;
@@ -69,6 +81,7 @@ function RegisterHelperComponent() {
 
   const handleInitialStep = async () => {
     setInitialStep({passbaseId});
+    setInvitationCodeError(null);
 
     setStep(1);
   };
@@ -155,6 +168,14 @@ function RegisterHelperComponent() {
                   passbaseError && (
                     <Alert
                       message="Fehler bei der Verifikation"
+                      type="error"
+                    />
+                  )
+                }
+                {
+                  invitationCodeError && (
+                    <Alert
+                      message={invitationCodeError}
                       type="error"
                     />
                   )
