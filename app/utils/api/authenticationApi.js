@@ -37,3 +37,15 @@ export const sendPasswordReset = (email) => {
     .auth()
     .sendPasswordResetEmail(email);
 };
+
+export const checkPassbaseId = (uid) => {
+    return apiCall({
+      url: `passbase/${uid}`
+    });
+};
+
+export const checkInvitationCode = (code) => {
+  return apiCall({
+    url: `invitation-code/check?code=${code}`
+  });
+};
