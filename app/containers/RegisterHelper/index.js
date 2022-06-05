@@ -194,7 +194,7 @@ function RegisterHelperComponent() {
                     <div className="verify-button-container">
                       <VerifyButton
                         apiKey={
-                          "OPvePu8mhtYSVcmGaMWUMs9d9dfPzz2y5r9LvEwFxY9rc8SNZ6yG5ESONLLjmqwa"
+                          "WtcnfkKboH9DzmVr21rlYdr8ODJUP7j2r54IaleJ6pgmJWsg4Ikc6Fv667qlUWsP"
                         }
                         onFinish={(identityAccessKey) => {
                           setPassbaseId(identityAccessKey)
