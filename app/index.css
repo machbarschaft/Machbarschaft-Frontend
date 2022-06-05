@@ -1164,3 +1164,21 @@ td.image-cell {
   width: 20px;
   height: 20px;
 }
+
+.verifying-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.verifying-container .or-separator {
+  margin: 10px;
+}
+
+.verifying-container .verify-button-container {
+  display: flex;
+}
+
+.verifying-container .verify-button-container button {
+  height: 50px;
+}
