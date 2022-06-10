@@ -18,6 +18,7 @@ import AuthenticationContext from '../../contexts/authentication';
 import { printErrors } from '../../utils/misc/printErrors';
 import { googleMapsApiKey } from '../../assets/config/google-maps-api';
 import { checkInvitationCode, checkPassbaseId } from '../../utils/api/authenticationApi';
+import { FullLoader } from '../../components/FullLoader';
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -41,6 +42,7 @@ function RegisterHelperComponent() {
   const [step, setStep] = useState(0);
   const [initialStep, setInitialStep] = useState();
   const [firstStep, setFirstStep] = useState();
+  const [loading, setLoading] = useState(false);
 
   const layout = {
     labelCol: { span: 10 },
@@ -64,18 +66,27 @@ function RegisterHelperComponent() {
     }
   };
 
-  const handleCheckPassbaseId = async () => {
-    const checkResult = await checkPassbaseId(passbaseId);
+  const handleCheckPassbaseId = async (identityAccessKey) => {
+    try {
+      const checkResult = await checkPassbaseId(identityAccessKey);
 
-    switch (checkResult.data) {
-      case PassbaseStatus.PROCESSING:
-        alert('Versuchen Sie es nochmal bitte');
-        break;
-      case PassbaseStatus.SUCCESS:
-        await handleInitialStep();
-        break;
-      default:
-        setPassbaseError(true);
+      switch (checkResult.data) {
+        case PassbaseStatus.PROCESSING:
+          setTimeout(() => {
+            handleCheckPassbaseId(identityAccessKey);
+          }, 2000);
+          break;
+        case PassbaseStatus.SUCCESS:
+          setLoading(false);
+          await handleInitialStep();
+          break;
+        default:
+          setLoading(false);
+          setPassbaseError(true);
+      }
+    } catch (e) {
+      setLoading(false);
+      setPassbaseError(true);
     }
   };
 
@@ -90,6 +101,13 @@ function RegisterHelperComponent() {
     setFirstStep(values);
 
     setStep(2);
+  };
+
+  const onPassbaseFinish = (identityAccessKey) => {
+    setPassbaseId(identityAccessKey)
+    setLoading(true);
+
+    handleCheckPassbaseId(identityAccessKey)
   };
 
   const handleForm = async (values) => {
@@ -167,7 +185,7 @@ function RegisterHelperComponent() {
                 {
                   passbaseError && (
                     <Alert
-                      message="Fehler bei der Verifikation"
+                      message="Es ist ein Fehler während der Verifizierung aufgetreten bitte wende dich an hallo@machbarschaft.jetzt"
                       type="error"
                     />
                   )
@@ -197,18 +215,13 @@ function RegisterHelperComponent() {
                           "OPvePu8mhtYSVcmGaMWUMs9d9dfPzz2y5r9LvEwFxY9rc8SNZ6yG5ESONLLjmqwa"
                         }
                         onFinish={(identityAccessKey) => {
-                          setPassbaseId(identityAccessKey)
+                          onPassbaseFinish(identityAccessKey);
                         }}
                         onError={(errorCode) => {
                           setPassbaseError(errorCode)
                         }}
                         onStart={() => {}}
                       />
-                      {
-                        passbaseId && (
-                          <Button onClick={handleCheckPassbaseId} type="primary">OK</Button>
-                        )
-                      }
                     </div>
                     <div className="or-separator">OR</div>
                     <Input.Group compact>
@@ -388,6 +401,9 @@ function RegisterHelperComponent() {
             </Col>
           </Row>
         </div>
+        {
+          loading && <FullLoader text="Bitte warten Sie. Dieser Prozess kann mehrere Minuten dauern." />
+        }
       </div>
     </>
   );
