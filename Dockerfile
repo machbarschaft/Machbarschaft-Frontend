@@ -16,6 +16,7 @@ ENV API_URL_SUB=${API_URL_SUB}
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+RUN npm install
 RUN npm ci
 
 COPY . ./
