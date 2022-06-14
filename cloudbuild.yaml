@@ -17,3 +17,4 @@ substitutions:
     _MAPS_API_KEY: ''
     _API_URL_SUB: ''
 images: [ 'gcr.io/${PROJECT_ID}/machbarschaft-webapp']
+timeout: 1800s
