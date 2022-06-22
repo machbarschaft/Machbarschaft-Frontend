@@ -35,7 +35,6 @@ function RegisterHelperComponent() {
 
   const [form] = Form.useForm();
   const history = useHistory();
-  const [passbaseId, setPassbaseId] = useState('');
   const [invitationCode, setInvitationCode] = useState('');
   const [passbaseError, setPassbaseError] = useState(null);
   const [invitationCodeError, setInvitationCodeError] = useState(null);
@@ -78,7 +77,7 @@ function RegisterHelperComponent() {
           break;
         case PassbaseStatus.SUCCESS:
           setLoading(false);
-          await handleInitialStep();
+          await handleInitialStep(identityAccessKey);
           break;
         default:
           setLoading(false);
@@ -90,8 +89,8 @@ function RegisterHelperComponent() {
     }
   };
 
-  const handleInitialStep = async () => {
-    setInitialStep({passbaseId});
+  const handleInitialStep = async (identityAccessKey) => {
+    setInitialStep({passbaseId: identityAccessKey});
     setInvitationCodeError(null);
 
     setStep(1);
@@ -104,7 +103,6 @@ function RegisterHelperComponent() {
   };
 
   const onPassbaseFinish = (identityAccessKey) => {
-    setPassbaseId(identityAccessKey)
     setLoading(true);
 
     handleCheckPassbaseId(identityAccessKey)
