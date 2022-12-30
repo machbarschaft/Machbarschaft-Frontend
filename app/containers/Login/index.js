@@ -26,7 +26,7 @@ function LoginWindow({ location: { username } = '', showRegister = true }) {
 
   const handleForm = async (values) => {
     await authenticationContext.performAuthentication(
-      values.user,
+      values.user.toLowerCase(),
       values.password
     );
   };

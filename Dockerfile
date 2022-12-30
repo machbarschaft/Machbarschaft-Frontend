@@ -1,5 +1,5 @@
 # build stage
-FROM node:lts-alpine as build-stage
+FROM node:16-alpine3.17 as build-stage
 
 ARG FIREBASE_API_KEY
 ENV FIREBASE_API_KEY=${FIREBASE_API_KEY}
