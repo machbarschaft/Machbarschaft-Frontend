@@ -4,8 +4,8 @@
   "description": "ReactJS Frontend for Machbarschaft",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "NODE_ENV='production' webpack"
+    "start": "export NODE_OPTIONS=--openssl-legacy-provider && webpack-dev-server",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && NODE_ENV='production' webpack"
   },
   "babel": {
     "presets": [
