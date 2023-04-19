@@ -8,7 +8,7 @@ on:
 jobs:
   main:
     name: Test & Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
 
@@ -43,7 +43,7 @@ jobs:
     name: Release
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: main
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
 
@@ -55,7 +55,7 @@ jobs:
   deploy:
     name: Deploy
     needs: main
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
 
@@ -87,7 +87,7 @@ jobs:
     name: Create PR
     if: ${{ github.ref != 'refs/heads/master' }}
     needs: deploy
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
 
