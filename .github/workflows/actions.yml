@@ -12,6 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -47,6 +51,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
       - run: npm ci
 
       - run: npx -p @semantic-release/changelog -p @semantic-release/git -p semantic-release semantic-release
@@ -58,6 +66,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Prepare Cloud Build
         uses: google-github-actions/setup-gcloud@v0
@@ -90,6 +102,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - if: ${{ github.ref != 'refs/heads/dev' }}
         name: pull-request dev
