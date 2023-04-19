@@ -207,21 +207,6 @@ function RegisterHelperComponent() {
                 )}
                 {step === 0 && (
                   <div className="verifying-container">
-                    <div className="verify-button-container">
-                      <VerifyButton
-                        apiKey={
-                          "OPvePu8mhtYSVcmGaMWUMs9d9dfPzz2y5r9LvEwFxY9rc8SNZ6yG5ESONLLjmqwa"
-                        }
-                        onFinish={(identityAccessKey) => {
-                          onPassbaseFinish(identityAccessKey);
-                        }}
-                        onError={(errorCode) => {
-                          setPassbaseError(errorCode)
-                        }}
-                        onStart={() => {}}
-                      />
-                    </div>
-                    <div className="or-separator">OR</div>
                     <Input.Group compact>
                       <Input value={invitationCode} onChange={(e) => setInvitationCode(e.target.value)} style={{ width: 'calc(100% - 200px)'}} placeholder="Einladungscode" />
                       <Button onClick={handleInvCodeSubmit} type="primary">Send</Button>
