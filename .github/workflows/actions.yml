@@ -8,9 +8,13 @@ on:
 jobs:
   main:
     name: Test & Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
@@ -43,9 +47,13 @@ jobs:
     name: Release
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: main
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - run: npm ci
 
@@ -55,9 +63,13 @@ jobs:
   deploy:
     name: Deploy
     needs: main
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Prepare Cloud Build
         uses: google-github-actions/setup-gcloud@v0
@@ -87,9 +99,13 @@ jobs:
     name: Create PR
     if: ${{ github.ref != 'refs/heads/master' }}
     needs: deploy
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - if: ${{ github.ref != 'refs/heads/dev' }}
         name: pull-request dev
